@@ -62,7 +62,7 @@
     "instagram": "chita.automotores",
     "facebook": "https://www.facebook.com/Chitaautomotores",
     "status": "telefono fijo 03442 44-2782 verificado en directorios; perfil público de Instagram publica Gestoría 3442-547671; WhatsApp no confirmado",
-    "emailCandidate": "chitaautomotores@gmail.com (solo Cylex; sin confirmar)",
+    "emailCandidate": "NO USAR: Cylex tiene un correo protegido; no se reconstruye ni se adivina (dossier 3). Pedir el email oficial a Chita.",
     "gestoriaPhone": "03442 54-7671",
     "gestoriaPhoneTel": "+543442547671",
     "phoneAlternativeUnverified": {
@@ -76,9 +76,16 @@
     "note": "Tres versiones públicas sin convergencia (ver versions). El sitio muestra \"a confirmar\" hasta que Chita confirme.",
     "versions": [
       {
+        "source": "Cylex (horario cargado 27/12/2022, actualizado 18/07/2024)",
+        "lv": "08:30–12:00 y 16:00–20:00",
+        "sab": "09:00–12:00",
+        "dom": "Cerrado"
+      },
+      {
         "source": "Google Business",
         "lv": "09:00–17:00",
-        "sab": "08:30–12:00"
+        "sab": "08:30–12:00",
+        "dom": "cerrado"
       },
       {
         "source": "GTM",
@@ -219,5 +226,34 @@
       "published": true,
       "note": "Solo con fecha y atribución. No mezclar con GTM (9,2/10, 58 reseñas, cifras propias). No se publican testimonios textuales."
     }
+  },
+  "history": {
+    "checkedAt": "2026-10-02",
+    "published": [
+      "constitución 1991 (solo el año; hay conflicto 31/03 vs 01/04)",
+      "misma dirección en 10 fuentes",
+      "material histórico de fachada descrito en texto, sin reproducir fotos",
+      "publicaciones de Instagram dic 2025–sep 2026"
+    ],
+    "archiveImages": [
+      {
+        "url": "https://media.cylex.com.ar/companies/1139/7671/images/-724730783-img4_795355_large.jpg",
+        "shows": "Fachada con «0KM Y USADOS», «MULTIMARCAS», «FINANCIACION», «COTIZACIONES», «GESTORIA»"
+      },
+      {
+        "url": "https://media.cylex.com.ar/companies/1139/7671/images/-1419698627-img1_451925_large.jpg",
+        "shows": "Fachada con «Multimarcas» y logos de marcas"
+      },
+      {
+        "url": "https://media.cylex.com.ar/companies/1139/7671/images/-259448841-img3_389063_large.jpg",
+        "shows": "SUV Ford (histórico)"
+      },
+      {
+        "url": "https://media.cylex.com.ar/companies/1139/7671/images/-167789681-img2_791122_large.jpg",
+        "shows": "Interior con volante Ford (histórico)"
+      }
+    ],
+    "useOnSite": false,
+    "reason": "Fotos de terceros sin autorización de uso; no se enlazan ni se copian. Pedirle a Chita sus propias fotos históricas."
   }
 }

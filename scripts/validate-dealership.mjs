@@ -61,6 +61,13 @@ if (/-32\.4828|-32\.4882114/.test(html)) errors.push('index.html: coordenadas an
 const g = d.reputation.google; if (!html.includes(`${g.rating} de ${g.outOf} con ${g.count} reseñas`)) errors.push('Reseñas de Google del sitio no coinciden con dealership.json');
 const visible = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '');
 for (const re of [/concesionario oficial/i, /\b(35|39) años/i, /desde 1991/i, /tasa fija/i, /compramos tu/i, /parte de pago/i, /\(\)|, ,/]) if (re.test(visible)) errors.push(`index.html: afirmación o texto no permitido ${re}`);
+
+// Dossier 3: sin fotos de terceros, sin email reconstruido, sección histórica presente
+if (/media\.cylex\.com\.ar|cylex\.com\.ar\/companies/.test(html)) errors.push('index.html: usa imágenes de Cylex sin autorización');
+if (/chitaautomotores@gmail/i.test(visible)) errors.push('index.html: email reconstruido de Cylex');
+if (!html.includes('id="trayectoria"')) errors.push('index.html: falta la sección Trayectoria verificable');
+if (/Elvio|Orcellet/i.test(visible)) errors.push('index.html: nombre de titular no permitido (CLAUDE.md regla 4)');
+if (/\+54 9 03442/.test(html)) errors.push('index.html: número con formato de WhatsApp sin confirmar');
 if ((html.match(/<h1[\s>]/g) || []).length !== 1) errors.push('index.html debe tener un único h1');
 for (const m of html.matchAll(/<img\b[^>]*>/g)) if (!/\balt=/.test(m[0])) errors.push(`img sin alt: ${m[0].slice(0, 60)}`);
 if (!html.includes('href="privacidad.html')) errors.push('index.html: falta enlace a privacidad.html');

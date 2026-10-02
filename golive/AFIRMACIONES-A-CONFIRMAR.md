@@ -1,3 +1,15 @@
+## Dossier 3 · 2026-10-02
+**Agregado:** sección «Trayectoria verificable» (1991 solo como año; misma dirección en diez fuentes; archivo de fachada descrito en texto como material histórico; Instagram 2025–26), dos preguntas frecuentes (marca oficial, desde cuándo) y la descripción prudente «nuevos y usados» según fuentes públicas.
+**Corregido:** el número de contacto directo se mostraba como «+54 9 03442 44-2782» (formato de WhatsApp sin confirmar); ahora «03442 44-2782».
+**No usado a propósito:** las 4 fotos históricas de Cylex (sin autorización), el email protegido de Cylex, el horario de Cylex (cuarta versión en conflicto), el nombre «Elvio Orcellet».
+
+| Pendiente con Chita | Detalle |
+|---|---|
+| Fotos históricas propias | Para reemplazar los placeholders «FOTO A CARGAR» y ilustrar la sección Trayectoria, con autorización |
+| Gestoría actual | Aparece en la fachada histórica y en la bio de Instagram; condiciones sin confirmar |
+| Marcas hoy | «Multimarca» solo como historia hasta confirmar |
+| Email oficial | No se reconstruye el de Cylex |
+
 ## Dossiers 1 y 2 · 2026-10-02 (implementados en el sitio)
 Detalle por dato en `data/sources.json` y `data/vehicles.json`.
 

@@ -210,6 +210,116 @@
       "confidence": "ninguna",
       "status": "descartado",
       "notes": ""
+    },
+    {
+      "fact": "Horario Cylex",
+      "value": "L-V 08:30–12:00 y 16:00–20:00; sáb 09:00–12:00; dom cerrado (cargado 27/12/2022, actualizado 18/07/2024)",
+      "source": "Cylex",
+      "url": "https://www.cylex.com.ar/concepcion-del-uruguay/chita-automotores-de-elvio-11397671.html",
+      "checkedAt": "2026-10-02",
+      "confidence": "baja",
+      "status": "conflicto",
+      "notes": "Cuarta versión de horarios; el sitio sigue diciendo «a confirmar»."
+    },
+    {
+      "fact": "Descripción «Venta de automotores usados y nuevos»",
+      "value": "Texto de ficha",
+      "source": "Cylex",
+      "url": "https://www.cylex.com.ar/concepcion-del-uruguay/chita-automotores-de-elvio-11397671.html",
+      "checkedAt": "2026-10-02",
+      "confidence": "media",
+      "status": "publicado como «las fuentes públicas describen…»",
+      "notes": "Descripción de directorio, no clasificación oficial; no se fusiona con la actividad registral (usados N.C.P.)."
+    },
+    {
+      "fact": "Email de Cylex",
+      "value": "Existe pero está protegido",
+      "source": "Cylex",
+      "url": "https://www.cylex.com.ar/concepcion-del-uruguay/chita-automotores-de-elvio-11397671.html",
+      "checkedAt": "2026-10-02",
+      "confidence": "ninguna",
+      "status": "descartado",
+      "notes": "No se reconstruye ni se adivina."
+    },
+    {
+      "fact": "Fotos históricas de fachada, Ford e interior (4 imágenes)",
+      "value": "Fachada: «0KM Y USADOS», «MULTIMARCAS», «FINANCIACION», «COTIZACIONES», «GESTORIA»",
+      "source": "Cylex",
+      "url": "https://www.cylex.com.ar/concepcion-del-uruguay/chita-automotores-de-elvio-11397671.html",
+      "checkedAt": "2026-10-02",
+      "confidence": "media",
+      "status": "publicado solo como texto histórico",
+      "notes": "No se usan las imágenes (sin autorización) ni como stock, representación o servicios actuales. La gestoría histórica no confirma el servicio actual."
+    },
+    {
+      "fact": "Multimarca",
+      "value": "Rotulación histórica de fachada",
+      "source": "Cylex (fotos)",
+      "url": "https://www.cylex.com.ar/concepcion-del-uruguay/chita-automotores-de-elvio-11397671.html",
+      "checkedAt": "2026-10-02",
+      "confidence": "media",
+      "status": "publicado como historia",
+      "notes": "No es lista de marcas actuales ni concesión oficial."
+    },
+    {
+      "fact": "Cylex sin reseñas propias",
+      "value": "0 opiniones",
+      "source": "Cylex",
+      "url": "https://www.cylex.com.ar/concepcion-del-uruguay/chita-automotores-de-elvio-11397671.html",
+      "checkedAt": "2026-10-02",
+      "confidence": "alta",
+      "status": "no publicado",
+      "notes": "No atribuir reputación a Cylex."
+    },
+    {
+      "fact": "GTM: 4,6/5 en texto y 58 reseñas en la plataforma",
+      "value": "Cifras propias de GTM",
+      "source": "GTM",
+      "url": "https://gtm.com.ar/concesionario/chita-automotores/",
+      "checkedAt": "2026-10-02",
+      "confidence": "baja",
+      "status": "descartado",
+      "notes": "No se mezclan con Google; «perfecto estado» no se usa como promesa."
+    },
+    {
+      "fact": "Guía Urbana",
+      "value": "Chita Automotores de Elvio Orcellet, Galarza 1712",
+      "source": "Guía Urbana",
+      "url": "https://www.guiaurbana.com.ar/me/automotores/concepcion-del-uruguay-entre-rios?page=2",
+      "checkedAt": "2026-10-02",
+      "confidence": "media",
+      "status": "solo dirección",
+      "notes": "Suma a las diez fuentes con la misma dirección."
+    },
+    {
+      "fact": "Boletín Oficial / socios / gerentes / reformas",
+      "value": "Sin resultados atribuibles",
+      "source": "Búsquedas dossier 3",
+      "url": "https://indicadores.ar/empresa/30650697096-chita-automotores-s-r-l",
+      "checkedAt": "2026-10-02",
+      "confidence": "ninguna",
+      "status": "descartado",
+      "notes": "El vacío no se rellena con datos de terceros."
+    },
+    {
+      "fact": "«Chita Automotores de Elvio Orcellet»",
+      "value": "Denominación de directorios",
+      "source": "Cylex, Páginas Amarillas, Licuo, Guía Clarín",
+      "url": "https://www.paginasamarillas.com.ar/fichas/chita-automotores-de-elvio-orcellet_15260280",
+      "checkedAt": "2026-10-02",
+      "confidence": "media",
+      "status": "descartado",
+      "notes": "No se publica el nombre ni «fundada por» (CLAUDE.md regla 4)."
+    },
+    {
+      "fact": "Antigüedad",
+      "value": "Constitución 1991 (año); sin prueba de atención continua",
+      "source": "Fichas empresariales",
+      "url": "https://indicadores.ar/empresa/30650697096-chita-automotores-s-r-l",
+      "checkedAt": "2026-10-02",
+      "confidence": "media",
+      "status": "publicado con aclaración",
+      "notes": "Línea de tiempo y FAQ explican el límite; sin «años de experiencia»."
     }
   ]
 }
