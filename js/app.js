@@ -29,3 +29,25 @@ $('[data-focus]').addEventListener('click',openDialog);$('[data-close]').addEven
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&dialog.open)dialog.close();if(dialog.open)return;if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1);if(e.key==='Enter')openDialog()});
 const wa=`https://wa.me/5493442647442?text=${encodeURIComponent('Hola, quiero consultar por el Chevrolet Tracker 2021.')}`;$('[data-whatsapp]').href=wa;
 updateUnit(0);state.progress=0;state.target=0;render();if(window.gsap){gsap.ticker.add(ticker)}else{const loop=()=>{ticker();requestAnimationFrame(loop)};loop()}
+
+/* ELEGÍ UNA RUTA — un único sistema de motion para cinco estados del mismo escenario */
+const routeSection=$('.route-experience');
+if(routeSection){
+ const routeVehicle=routeSection.querySelector('[data-route-vehicle]'),routeImg=routeVehicle.querySelector('img'),routeSky=routeSection.querySelector('.route-sky'),routeCity=routeSection.querySelector('.route-cityline'),routeRoad=routeSection.querySelector('.route-road'),routeMark=routeSection.querySelector('.route-mark');
+ const worlds=[
+  {name:'CIUDAD',line:'Para moverte todos los días.',data:'FIAT PALIO / 2017 · 128.000 KM',model:'Fiat Palio',year:'2017',img:'palio-01',alt:'Fiat Palio blanco dentro del salón de Chita',x:'0vw',y:'0vh',scale:1,opacity:.96},
+  {name:'RUTA',line:'Para abrir distancia.',data:'CHEVROLET TRACKER / 2021 · 100.000 KM',model:'Chevrolet Tracker',year:'2021',img:'tracker-02',alt:'Chevrolet Tracker gris plata, vista trasera',x:'0vw',y:'0vh',scale:1,opacity:.96},
+  {name:'FAMILIA',line:'Para todo lo que viene.',data:'CHEVROLET TRACKER / 2021 · 100.000 KM',model:'Chevrolet Tracker',year:'2021',img:'tracker-05',alt:'Tablero y pantalla central de Chevrolet Tracker',x:'-2vw',y:'-2vh',scale:1.05,opacity:.96},
+  {name:'TRABAJO',line:'Para que el día rinda.',data:'FIAT PALIO / 2017 · 128.000 KM',model:'Fiat Palio',year:'2017',img:'palio-02',alt:'Fiat Palio blanco, vista delantera',x:'2vw',y:'0vh',scale:1.02,opacity:.96},
+  {name:'AVENTURA',line:'Para salir de la línea.',data:'CHEVROLET TRACKER / 2021 · 100.000 KM',model:'Chevrolet Tracker',year:'2021',img:'tracker-03',alt:'Chevrolet Tracker gris plata, vista lateral',x:'4vw',y:'-3vh',scale:1.08,opacity:.96}
+ ];
+ const routeState={index:0,target:0,startX:0,drag:false};
+ const routeX=window.gsap?.quickTo(routeVehicle,'x',{duration:.55,ease:'power3.out'}),routeY=window.gsap?.quickTo(routeVehicle,'y',{duration:.55,ease:'power3.out'}),routeScale=window.gsap?.quickTo(routeVehicle,'scale',{duration:.55,ease:'power3.out'}),routeOpacity=window.gsap?.quickTo(routeVehicle,'opacity',{duration:.35,ease:'power2.out'});
+ function setRoute(index,instant=false){const i=(index+worlds.length)%worlds.length,w=worlds[i];routeState.index=i;routeSection.dataset.routeWorld=i;routeSection.querySelector('[data-route-count]').textContent=`0${i+1}—05`;routeSection.querySelector('[data-route-title]').innerHTML=`¿QUÉ VIDA<br><i>NECESITÁS?</i>`;routeSection.querySelector('[data-route-line]').textContent=w.line;routeSection.querySelector('[data-route-data]').textContent=w.data;routeImg.alt=w.alt;routeImg.src=`images/showroom/${w.img}.webp`;routeSection.querySelector('[data-route-cta]').href=`https://wa.me/5493442647442?text=${encodeURIComponent(`Hola, quiero consultar por el ${w.model} ${w.year}.`)}`;routeSection.querySelectorAll('[data-route-index]').forEach((b,n)=>b.setAttribute('aria-pressed',String(n===i)));if(routeX&&!instant){routeX(w.x);routeY(w.y);routeScale(w.scale);routeOpacity(w.opacity)}else{routeVehicle.style.transform=`translate3d(${w.x},${w.y},0) scale(${w.scale})`;routeVehicle.style.opacity=w.opacity}}
+ function moveRoute(dir){setRoute(routeState.index+dir)}
+ routeSection.querySelectorAll('[data-route-index]').forEach(b=>b.addEventListener('click',()=>setRoute(Number(b.dataset.routeIndex))));
+ routeSection.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();moveRoute(1)}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();moveRoute(-1)} });
+ routeSection.addEventListener('pointerdown',e=>{routeState.drag=true;routeState.startX=e.clientX;routeSection.setPointerCapture?.(e.pointerId)});routeSection.addEventListener('pointerup',e=>{if(!routeState.drag)return;routeState.drag=false;const dx=e.clientX-routeState.startX;if(Math.abs(dx)>35)moveRoute(dx<0?1:-1)});routeSection.addEventListener('pointercancel',()=>routeState.drag=false);
+ if(window.gsap&&window.ScrollTrigger&&!routeState.reduced){gsap.registerPlugin(ScrollTrigger);gsap.matchMedia().add('(prefers-reduced-motion: no-preference)',()=>{const tl=gsap.timeline({scrollTrigger:{trigger:routeSection,start:'top 88%',end:'top 28%',scrub:.7}});tl.fromTo([routeSky,routeCity,routeRoad,routeMark],{y:'18%',opacity:0},{y:'0%',opacity:'+=.8',stagger:.04,ease:'none'},0).fromTo(routeVehicle,{x:'18vw',scale:.7,opacity:0},{x:'0vw',scale:1,opacity:1,ease:'none'},.12).fromTo(routeSection.querySelectorAll('[data-route-index]'),{x:40,opacity:0},{x:0,opacity:1,stagger:.05,ease:'none'},.18);return()=>tl.kill()})}
+ setRoute(0,true);
+}
