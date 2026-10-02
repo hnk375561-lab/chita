@@ -1,4 +1,4 @@
-import { reduceMotion } from "./motion/core.js";
+import { clamp, pointerState, reduceMotion } from "./motion/core.js";
 import { initReveals } from "./motion/reveal.js";
 import { initScrollMotion } from "./motion/scroll.js";
 import { initInteractions } from "./motion/interactions.js";
@@ -14,7 +14,27 @@ const syncMotionMode = () => {
 syncMotionMode();
 
 function init() {
-  const cleanups = [initViewTransitions(), initReveals(), initScrollMotion(), initInteractions(), initWebGL(), initCursor()];
+  let previousX = pointerState.x;
+  let previousY = pointerState.y;
+  let previousTime = performance.now();
+  const trackPointer = (event) => {
+    const now = performance.now();
+    const dt = Math.max(16, now - previousTime);
+    pointerState.x = event.clientX;
+    pointerState.y = event.clientY;
+    pointerState.normalizedX = clamp(event.clientX / Math.max(1, innerWidth) * 2 - 1, -1, 1);
+    pointerState.normalizedY = clamp(1 - event.clientY / Math.max(1, innerHeight) * 2, -1, 1);
+    pointerState.velocityX += ((event.clientX - previousX) / dt * 16 - pointerState.velocityX) * .22;
+    pointerState.velocityY += ((event.clientY - previousY) / dt * 16 - pointerState.velocityY) * .22;
+    pointerState.speed = Math.hypot(pointerState.velocityX, pointerState.velocityY);
+    pointerState.direction = Math.abs(pointerState.velocityX) + Math.abs(pointerState.velocityY) > .01 ? Math.atan2(pointerState.velocityY, pointerState.velocityX) : pointerState.direction;
+    pointerState.active = true;
+    previousX = event.clientX;
+    previousY = event.clientY;
+    previousTime = now;
+  };
+  document.addEventListener("pointermove", trackPointer, { passive: true });
+  const cleanups = [initViewTransitions(), initReveals(), initScrollMotion(), initInteractions(), initWebGL(), initCursor(), () => document.removeEventListener("pointermove", trackPointer)];
   window.addEventListener("pagehide", () => cleanups.forEach((cleanup) => typeof cleanup === "function" && cleanup()), { once: true });
 }
 

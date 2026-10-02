@@ -1,4 +1,4 @@
-import { finePointer, reduceMotion, clamp } from "./core.js";
+import { finePointer, pointerState, reduceMotion, clamp } from "./core.js";
 
 const interactiveSelector = "a, button, summary, select, input, textarea, [role='button'], [data-gal]";
 
@@ -24,8 +24,8 @@ export function initCursor() {
     if (Math.abs(tx - x) > .2 || Math.abs(ty - y) > .2) raf = requestAnimationFrame(render);
   };
   const move = (event) => {
-    tx = clamp(event.clientX, 0, innerWidth);
-    ty = clamp(event.clientY, 0, innerHeight);
+    tx = clamp(pointerState.x || event.clientX, 0, innerWidth);
+    ty = clamp(pointerState.y || event.clientY, 0, innerHeight);
     if (!active) { active = true; cursor.classList.add("is-visible"); }
     if (!raf) raf = requestAnimationFrame(render);
   };

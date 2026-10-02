@@ -1,5 +1,5 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
-import { clamp, reduceMotion } from "./core.js";
+import { pointerState, reduceMotion } from "./core.js";
 
 export function initWebGL() {
   const host = document.querySelector(".hero .tx");
@@ -56,20 +56,16 @@ export function initWebGL() {
     last = now;
     const progressValue = parseFloat(getComputedStyle(root).getPropertyValue("--scroll-progress")) || 0;
     uniforms.uScroll.value += (progressValue - uniforms.uScroll.value) * .025;
+    uniforms.uPointer.value.x += ((pointerState.normalizedX * .5 + .5) - uniforms.uPointer.value.x) * .12;
+    uniforms.uPointer.value.y += ((pointerState.normalizedY * .5 + .5) - uniforms.uPointer.value.y) * .12;
     uniforms.uVelocity.value += ((parseFloat(getComputedStyle(root).getPropertyValue("--scroll-velocity")) || 0) - uniforms.uVelocity.value) * .14;
     uniforms.uAcceleration.value += ((parseFloat(getComputedStyle(root).getPropertyValue("--scroll-acceleration")) || 0) - uniforms.uAcceleration.value) * .14;
     renderer.render(scene, camera);
     frame = requestAnimationFrame(render);
   };
   const start = () => { if (!frame) { last = performance.now(); frame = requestAnimationFrame(render); } };
-  const move = (event) => {
-    const rect = host.getBoundingClientRect();
-    uniforms.uPointer.value.x = clamp((event.clientX - rect.left) / rect.width, 0, 1);
-    uniforms.uPointer.value.y = clamp(1 - (event.clientY - rect.top) / rect.height, 0, 1);
-  };
   const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) start(); }, { threshold: 0 });
   observer.observe(host);
-  host.addEventListener("pointermove", move, { passive: true });
   window.addEventListener("resize", resize, { passive: true });
   document.addEventListener("visibilitychange", start, { passive: true });
   resize(); start();
@@ -77,7 +73,7 @@ export function initWebGL() {
   return () => {
     active = false;
     if (frame) cancelAnimationFrame(frame);
-    observer.disconnect(); host.removeEventListener("pointermove", move);
+    observer.disconnect();
     window.removeEventListener("resize", resize); document.removeEventListener("visibilitychange", start);
     material.dispose(); scene.children[0]?.geometry.dispose(); renderer.dispose(); canvas.remove();
   };

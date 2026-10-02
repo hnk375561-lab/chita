@@ -20,6 +20,7 @@ export const qs = (selector, root = document) => root.querySelector(selector);
 export const qsa = (selector, root = document) => [...root.querySelectorAll(selector)];
 export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 export const canAnimate = () => !reduceMotion.matches && !document.hidden;
+export const pointerState = { x: innerWidth / 2, y: innerHeight / 2, normalizedX: 0, normalizedY: 0, velocityX: 0, velocityY: 0, speed: 0, direction: 0, active: false };
 
 export function play(target, keyframes, options = {}) {
   if (!target || reduceMotion.matches) return { stop() {} };
@@ -59,4 +60,4 @@ export function stopAnimation(target) {
 
 export { animate, inView, scroll, animateView, stagger };
 
-window.chitaMotion = { animate, inView, scroll, animateView, stagger, motion, reduceMotion, transition, stopAnimation, clamp };
+window.chitaMotion = { animate, inView, scroll, animateView, stagger, motion, reduceMotion, pointerState, transition, stopAnimation, clamp };
