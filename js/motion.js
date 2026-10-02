@@ -37,7 +37,7 @@ g.from(".dy",{y:-80,rotate:function(){return g.utils.random(-12,12)},opacity:0,d
 /* Redes: cada fila entra con máscara lateral */
 $$(".sc").forEach(function(r){g.from(r,{clipPath:"inset(0 100% 0 0)",duration:1.3,ease:"expo.inOut",scrollTrigger:{trigger:r,start:"top 90%"},clearProps:"clipPath"})});
 /* Playa: cada tarjeta se hunde y se apaga cuando la siguiente la tapa */
-$$("#stockGrid .car").forEach(function(c){var n=c.nextElementSibling;if(!n)return;g.fromTo(c,{scale:1,filter:"brightness(1)"},{scale:.93,filter:"brightness(.6)",ease:"none",scrollTrigger:{trigger:n,start:"top bottom",end:"top 120px",scrub:true}})});
+$$("#stockGrid .car").forEach(function(c){var n=c.nextElementSibling;if(!n)return;g.fromTo(c,{scale:1,opacity:1},{scale:.93,opacity:.6,ease:"none",scrollTrigger:{trigger:n,start:"top bottom",end:"top 120px",scrub:true}})});
 g.from("#unidades h2",{yPercent:40,opacity:0,duration:1.2,ease:"expo.out",scrollTrigger:{trigger:"#unidades h2",start:"top 85%"}});
 /* Chat: el mensaje se escribe a medida que se baja */
 if(chat)ST.create({trigger:"#operaciones",start:"top 70%",end:"center 40%",scrub:true,onUpdate:function(s){chat.textContent=TXT.slice(0,Math.round(TXT.length*s.progress))}});
