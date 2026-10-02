@@ -3,7 +3,7 @@
    Reparto de tareas (no se pisan):
    · recorrido.js  → estado, tiempos, reproducción de video, gestos y teclado. Solo alterna clases y atributos.
    · motion.js     → toda la coreografía visual (deslizamiento de escenas, máscara, texto por palabra, número). Se entera de cada
-                     cambio por el evento dealer:local ({from, to, dir}), igual que antes.
+                     cambio por el evento poerio:local ({from, to, dir}), igual que antes.
 
    Principios de esta versión:
    · Un único reloj por paso, con pausa y reanudación reales: salir de la sección, cambiar de pestaña o tocar el escenario
@@ -73,7 +73,7 @@
   })();
 
   /* ================= Recorrido: cuatro pasos en bucle continuo =================
-     La escena y el texto cambian juntos. Cada cambio avisa con dealer:local (motion.js lo anima). */
+     La escena y el texto cambian juntos. Cada cambio avisa con poerio:local (motion.js lo anima). */
   (function () {
     var st = $('#vj');
     if (!st) return;
@@ -139,7 +139,7 @@
       if (v && i === 2 && !rm) { try { if (v.currentTime > .05) v.currentTime = 0; } catch (e) {} }
       if (prev !== i) {
         if (!dir) dir = ((prev === n - 1 && i === 0) || i > prev) ? 1 : -1;
-        d.dispatchEvent(new CustomEvent('dealer:local', { detail: { from: prev, to: i, dir: dir } }));
+        d.dispatchEvent(new CustomEvent('poerio:local', { detail: { from: prev, to: i, dir: dir } }));
       }
       sync();
     }

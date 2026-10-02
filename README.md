@@ -1,8 +1,28 @@
-# Chita Automotores · demo
+# Chita Automotores · sitio demo
 
-Sitio estático (sin build). **Demo independiente, no oficial.** Una escena fija por unidad: el scroll mueve la cámara (detalle → auto → número → interior). GSAP + ScrollTrigger + ScrollToPlugin en `vendor/`.
+Sitio estático (HTML/CSS/JS; el movimiento usa GSAP + ScrollTrigger incluidos en `vendor/`, sin CDN ni build) de propuesta para Chita Automotores, Concepción del Uruguay. **No es el sitio oficial ni está aprobado por el negocio.**
 
-- `index.html` · `css/main.css` · `js/app.js`: todo el sitio. Los datos de las unidades están al inicio de `js/app.js` (`D`).
-- Fotos reales en `images/showroom/` (800×1000). Sin datos inventados: ver `CLAUDE.md` y `golive/`.
-- `npm run dev` → http://localhost:8080 · `npm test`.
-- Pendiente: WhatsApp real, horarios (las fuentes se contradicen), confirmar año del Palio (2017 en datos; `palio-04.webp` trae un cartel "2013" y no se usa), fotos de mayor resolución.
+## Archivos
+- `js/motion.js`: sistema de movimiento (hero, stock, ficha, bloques, navegación, barra móvil). Reglas: fotos con máscara `clip-path` (siempre `inset()` de 4 valores en `%`), texto por palabra o subida corta, curva `expo.out`, solo `transform`/`opacity`/`clip-path` (excepción: altura del acordeón de Preguntas), sin smooth-scroll ni scroll-jacking. Capas: anclas con ScrollTo (la rueda las interrumpe), filtros de unidades con Flip, paralaje/botones magnéticos/tilt solo con mouse, mapa con máscara. Se desactiva con `prefers-reduced-motion` y si GSAP no carga (el contenido queda visible y la vista previa se dibuja estática); `vendor/` trae GSAP 3.15.0, ScrollTrigger, Flip y ScrollToPlugin. El movimiento automático (hero y las tres rotaciones de fotos) se detiene con hover, foco de teclado o el botón de pausa (un solo estado compartido, WCAG 2.2.2).
+- **Galería de fotos** (tarjetas y ficha): pista con `transform` manejada por `index.html` (`gGo`, `gStep`), sin scroll nativo. Flechas, arrastre táctil y de mouse, teclado (← →), contador, segmentos y, en la ficha, miniaturas. Los botones de flecha se deshabilitan en los extremos.
+- **Ficha** (`<dialog id="dlg">`): escritorio en dos columnas (galería + datos con pie fijo de consulta); en móvil ocupa toda la pantalla y el botón «Consultar esta unidad» queda fijo abajo. Clases con prefijo `fc`.
+- **Vender o permutar**: el formulario «Contanos tu auto» solo arma el mensaje de WhatsApp (`msgText()`); a su lado, un carrusel de una unidad por vez (`window.chitaVr`, animado por `motion.js`).
+- `index.html`: sitio completo. Datos del negocio (`NEGOCIO`) y unidades (`STOCK`) en el bloque `<script>` al final. Cada unidad tiene enlace directo (`#unidad-kwid-2019`) y botón para copiarlo o enviarlo por WhatsApp. `STOCK` admite `estado` (`disponible`, `reservado`, `vendido`; sin dato dice "Consultar disponibilidad") y `transmision` (sin dato, la ficha dice "a confirmar"). Los horarios aparecen "a confirmar" hasta que se cargue `NEGOCIO.horarios`. Hay formularios de consulta («Coordiná tu visita» y «Contanos qué auto buscás») que, como el de permuta, solo arman un mensaje de WhatsApp. La guía «Antes de comprar o permutar un usado» es contenido general que hay que revisar cada tanto. Hay secciones reservadas y marcadas «Pendiente de confirmación» (próximos ingresos, historia, local, equipo, precios y financiación, opiniones): no llevan datos hasta que el negocio los confirme. Detalle y pasos en `golive/SECCIONES-PENDIENTES.md`.
+- **Nuestros modelos** (`#modelos`): lista y panel de vista previa generados desde `STOCK` (sin datos propios; al sumar una unidad aparece sola). Con mouse, el panel grande cambia al pasar sobre cada modelo y tiene miniaturas de hasta 5 fotos; en celular/tablet cada fila muestra su miniatura y abre la ficha. Clases con prefijo `md`.
+- **Comparador** (`#versus`): ficha comparativa de hasta 3 unidades (2 en celular) con barras de año y kilómetros y filas de equipamiento según el texto de cada publicación («No informado» no significa que falte). Clases con prefijo `vs`/`vb`/`vck`.
+- **Local** (`#local`): panel «Llegá en un toque» (Google Maps, Waze, copiar dirección, compartir por WhatsApp); usa solo la dirección y coordenadas ya confirmadas. Clases con prefijo `rq`.
+- `privacidad.html`: política de privacidad preliminar, aviso sobre la información de las unidades y aviso de demo.
+- `fonts/`: tipografías autoalojadas (`.woff2`, subconjunto latino: Bricolage Grotesque y Instrument Sans variables, Instrument Serif regular; licencia SIL OFL). Se declaran con `@font-face` en `index.html`, `privacidad.html` y `404.html`; no hay pedidos a Google Fonts. `site.webmanifest`: nombre e ícono del sitio.
+- `404.html`: página de error (usa `<base href>` absoluto porque GitHub Pages la sirve desde cualquier ruta).
+- `robots.txt`, `preview.png` (imagen para compartir), `images/<unidad>-N.webp` (la primera foto es la portada). Cada foto de unidad tiene dos variantes para `srcset`: `<unidad>-N-480.webp` y `<unidad>-N-800.webp` (mismo nombre, ancho 480 y 800 px); al sumar una foto hay que generar las dos.
+- `scripts/prerender.mjs` (`npm run prerender`): escribe en `index.html` el HTML de las tarjetas de unidades (entre `<!--PRE:cards-->` y `<!--/PRE:cards-->`) con la misma función que usa el navegador, para que el stock se vea sin JavaScript. Correrlo cada vez que cambie `STOCK`; `npm test` avisa si quedó desactualizado.
+- `data/dealership.json`: datos confirmados y su fuente. `golive/`: pendientes y pasos a producción; incluye `sitemap.xml` y `json-ld-autodealer.html` preparados y **sin activar**.
+
+## Comprobar
+`npm test` valida que no haya `href="#"`, que los datos coincidan con `index.html`, que no haya precios sin confirmar, que existan todas las imágenes (y no sobren), un solo `h1`, `alt` en imágenes, `noindex` en las tres páginas y `Disallow: /` en `robots.txt`.
+
+## Publicar
+GitHub > Settings > Pages > Deploy from a branch > main / (root). URL esperada: https://hnk375561-lab.github.io/chita.automotores/
+
+## Estado
+Demo: `noindex`, aviso visible y `robots.txt` con `Disallow: /`. Para pasar a producción seguir `golive/PRODUCCION.md`.

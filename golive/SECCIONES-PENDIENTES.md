@@ -5,8 +5,8 @@ Estas secciones existen en `index.html` como estructura, marcadas con la etiquet
 | Sección (id) | Qué hay que pedirle al dueño | Al completarla |
 |---|---|---|
 | Próximos ingresos (`#ingresos`) | Unidades nuevas con año, km, combustible y fotos propias | Cargar en `STOCK`, correr `npm run prerender` y quitar la sección |
-| Nuestra historia (`#historia`) | Texto de origen y trayectoria (año de fundación solo con confirmación) | Reemplazar las tarjetas por el texto confirmado |
-| Conocé el local (`#local`) | Fotos del frente y del local, con autorización | Reemplazar los marcos por `<img>` con `alt` y `srcset` |
+| Nuestra historia (`#historia`) | Texto de origen y trayectoria; confirmar o no «39 años» | Reemplazar las tarjetas por el texto confirmado |
+| Conocé el local (`#local`) | Fotos del frente y del cartel, con autorización | Reemplazar los marcos por `<img>` con `alt` y `srcset` |
 | Conocé al equipo (`#equipo`) | Foto del equipo y autorización de las personas que aparezcan | Reemplazar el marco; no cargar datos personales del dueño ni su familia |
 | Precios y financiación (`#financiacion`) | Precios por unidad, planes de financiación, medios de pago | Precios en `STOCK` (el test solo admite «Consultar» hasta entonces); texto de financiación y pagos en la sección |
 | Opiniones de clientes (`#opiniones`) | Por ahora la sección solo enlaza a la ficha de Google, sin nombres ni puntuación. Si el dueño quiere reseñas propias en el sitio: textos reales con autorización de cada cliente | Agregar tarjetas con texto autorizado; no mostrar puntuación ni cantidad hasta tener reseñas reales |

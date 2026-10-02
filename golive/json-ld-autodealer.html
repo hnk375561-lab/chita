@@ -4,7 +4,7 @@
     1. Reemplazar DOMINIO-FINAL por el dominio real.
     2. Pegar el bloque <script> de abajo dentro de <head> en index.html.
     3. Comprobar que cada dato coincide con data/dealership.json y con NEGOCIO (npm test).
-  Sin "geo": no hay coordenadas verificadas; agregarlas cuando se confirme la ficha de Maps. Solo lleva datos que ya están confirmados en el sitio (nombre, dirección, teléfono, redes, ubicación).
+  Solo lleva datos que ya están confirmados en el sitio (nombre, dirección, teléfono, redes, ubicación).
   A propósito NO incluye: horarios (openingHoursSpecification), rango de precios, puntuación ni cantidad
   de opiniones (aggregateRating), ni imagen (el preview.png y el logo todavía llevan frases sin confirmar).
   Sumarlos solo cuando el dueño lo confirme por escrito y quede registrado en AFIRMACIONES-A-CONFIRMAR.md.
@@ -23,10 +23,15 @@
     "addressRegion": "Entre Ríos",
     "addressCountry": "AR"
   },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -32.4882114,
+    "longitude": -58.2425324
+  },
   "hasMap": "https://www.google.com/maps/place/Chita+Automotores,+Gral.+Galarza+1712,+Concepci%C3%B3n+del+Uruguay,+Entre+R%C3%ADos",
   "sameAs": [
     "https://www.instagram.com/chita.automotores/",
-    "https://www.facebook.com/Chitaautomotores"
+    "https://www.facebook.com/profile.php?id=100011380620292"
   ]
 }
 </script>

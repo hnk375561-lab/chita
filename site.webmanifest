@@ -1,7 +1,7 @@
 {
   "name": "Chita Automotores (demo)",
-  "short_name": "Chita Automotores",
-  "description": "Propuesta de sitio web independiente: autos en Concepción del Uruguay.",
+  "short_name": "Poerio Automotores",
+  "description": "Propuesta de sitio web independiente: autos usados en Concepción del Uruguay.",
   "lang": "es-AR",
   "start_url": "./",
   "scope": "./",

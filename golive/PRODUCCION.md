@@ -1,27 +1,40 @@
-# De demo a producción · Chita Automotores
+# De demo a producción
 
-## Datos que tiene que dar el dueño
-1. **WhatsApp oficial** (hoy `WHATSAPP-A-CONFIRMAR`) y confirmar el teléfono 03442 44-2782.
-2. **Horarios** (las fuentes públicas se contradicen).
-3. Razón social, CUIT, domicilio legal y correo, para `privacidad.html` (sección "Responsable").
-4. Servicios reales: ¿permuta?, ¿consignación?, ¿0 km (qué marcas)?, ¿financiación?
-5. Logo oficial y autorización para usar fotos y videos; decidir si se tapan patentes.
-6. Qué unidades siguen disponibles y si quiere publicar precios.
-7. Si quiere mostrar opiniones de Google (revisar la ficha actual antes).
-8. Año de fundación / trayectoria, solo si lo confirma.
+## Ahora (demo)
+- `noindex, nofollow` en `index.html`, `404.html` y `privacidad.html`; `robots.txt` con `Disallow: /`.
+- Aviso de demo arriba de todo, en el pie y en `privacidad.html#demo`.
+- Precios, horarios y datos sin confirmar figuran como "Consultar" o "a confirmar".
+- Sin JSON-LD ni sitemap a propósito: no se publican datos estructurados de un negocio sin aprobación.
 
-## Checklist al aprobar
-1. Cargar los datos con `node scripts/rebrand.mjs mapa.json` (ver `docs/REUTILIZAR.md`) y editar `data/dealership.json`.
-2. Reemplazar los placeholders: `images/` (logo, fotos, `preview.png`), `video/` (o borrar las secciones que no se usen), unidades en `STOCK` (`npm run images` + `npm run prerender`).
-3. `demo.official: true` y `demo.publicIndexing: true` en `data/dealership.json`.
-4. Quitar `noindex, nofollow` de `index.html`, `404.html`, `privacidad.html`, y `X-Robots-Tag` de `netlify.toml` si se usa Netlify.
-5. `robots.txt`: `User-agent: *`, `Allow: /`, `Sitemap: https://DOMINIO/sitemap.xml`. Copiar `golive/sitemap.xml` a la raíz con el dominio real.
-6. Dominio en `canonical`, `og:url`, `og:image`, `twitter:image` y en `<base href>` de `404.html`. Sacar "DEMO ·" de `<title>` y de los `og:`/`twitter:`.
-7. Quitar el aviso demo (arriba, pie, `privacidad.html#demo`) y completar el responsable en `privacidad.html` (revisión profesional).
-8. Pegar `golive/json-ld-autodealer.html` en el `<head>` solo con datos confirmados.
-9. Cada sección con "Pendiente de confirmación" o "a cargar": completarla o borrarla (ver `golive/SECCIONES-PENDIENTES.md`).
-10. **`npm run test:prod` sin errores** y revisión en celular real.
+## Datos que faltan (los tiene que dar el dueño)
+1. Horarios de atención (`NEGOCIO.horarios` y `hours.display`).
+2. Razón social, CUIT, domicilio legal y correo, para completar `privacidad.html` (sección "Responsable") y un canal formal para ejercer derechos.
+3. Confirmar que el teléfono/WhatsApp 03442 44-2782 es el oficial de atención.
+4. Cuenta oficial de Facebook (hoy es un perfil llamado "Chita Automotores") y que `@chita.automotores` sea su Instagram (no se pudo verificar).
+5. Qué unidades siguen disponibles, y sus precios si quiere publicarlos.
+6. Autorización para usar las fotos; decidir si se tapan las patentes visibles.
+6b. Autorización para usar el logo (imagen del negocio con "39 años de confianza"; hoy figura en el pie, la ficha, el 404 y la página de privacidad) y confirmar que la cifra sigue vigente.
+7. Confirmar "Comprar", 0 km (marcas), consignación (condiciones) y el lema "39 años de confianza". Hoy sí se ve: está dentro de la imagen del logo (hero, pie, ficha, 404 y privacidad) y en el `alt` del logo. Si el dueño no lo confirma, hay que usar una versión del logo sin la leyenda. La imagen para compartir (`preview.png`) ya no lo lleva ni menciona consignaciones.
+8. Si quiere mostrar el enlace de opiniones de Google (la ficha tiene 3 opiniones, una de 1 estrella hace más de 5 años).
 
-## Después
-- Reclamar la ficha de Google Maps y reemplazar `mapsPlace` / `mapsReviews`; agregar coordenadas.
-- Un responsable de actualizar `STOCK` (retirar lo vendido).
+## Al aprobar (checklist)
+1. `data/dealership.json` y `NEGOCIO` en `index.html`: cargar los datos confirmados, `demo.official: true`, `demo.publicIndexing: true`. Ajustar `scripts/validate-dealership.mjs` (hoy exige `noindex`, `Disallow: /` y `official === false`).
+2. Quitar `noindex, nofollow` de `index.html`, `404.html` y `privacidad.html`.
+3. `robots.txt`:
+   ```
+   User-agent: *
+   Allow: /
+   Sitemap: https://DOMINIO-DEFINITIVO/sitemap.xml
+   ```
+4. Crear `sitemap.xml` con `/` y `/privacidad.html`.
+5. `index.html`: reemplazar el dominio en `canonical`, `og:url`, `og:image` y `twitter:image`; quitar "DEMO ·" de `<title>`, `og:title`, `twitter:title` y `og:site_name`; ajustar `description` con datos confirmados.
+6. `404.html`: cambiar `<base href>` al dominio definitivo.
+7. Quitar el aviso `.demo` de arriba, la frase "Sitio demo…" del pie, la sección "Sobre esta demo" y la nota preliminar de `privacidad.html`; completar el responsable con datos reales y hacer revisar el texto por un profesional.
+8. Agregar JSON-LD `AutoDealer` solo con datos confirmados (nombre, dirección, teléfono, coordenadas de `data/dealership.json`, `sameAs` con redes oficiales, `openingHoursSpecification` cuando haya horarios). No agregar precios ni `Vehicle` sin datos confirmados.
+9. Si hay dominio propio: configurarlo en GitHub Pages (Settings > Pages > Custom domain, HTTPS) y actualizar los puntos 3 a 6.
+10. `npm test` y revisar en celular.
+
+## Mejoras futuras (opcionales)
+- Fotos originales de todas las unidades y retiro de las vendidas.
+- Fuentes propias en vez de Google Fonts (evita la conexión a Google).
+- Página propia por unidad, si el stock crece.
