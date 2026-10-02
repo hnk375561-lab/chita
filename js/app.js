@@ -33,6 +33,18 @@ $('[data-zoom-in]').addEventListener('click',()=>setZoom(state.zoom+.35));$('[da
 window.addEventListener('resize',()=>renderTransform(false));
 renderHotspots();renderStrip();setUnit('tracker');
 
+/* SIGNATURE SCENE / scroll = transformación: objeto → señal → detalle */
+const signature=document.querySelector('.signature-scene');
+if(signature&&window.gsap&&window.ScrollTrigger&&!state.reduced){
+ const media=signature.querySelector('[data-signature-media]'), detail=signature.querySelector('.signature-detail'), words=signature.querySelectorAll('[data-signature-word]'), stateLabel=signature.querySelector('[data-signature-state]');
+ const tl=gsap.timeline({scrollTrigger:{trigger:signature,start:'top top',end:'bottom bottom',scrub:.8}});
+ tl.to(media,{xPercent:13,yPercent:-7,scale:1.22,rotation:2,clipPath:'polygon(0% 18%,82% 0%,100% 78%,20% 100%)',ease:'none'},0);
+ tl.to(words[0],{xPercent:-28,yPercent:-42,scale:.68,opacity:.16,ease:'none'},0);
+ tl.to(detail,{scale:1,opacity:1,xPercent:-8,yPercent:-12,ease:'power2.out'},.38);
+ tl.to(words[1],{xPercent:-22,opacity:1,scale:1.08,ease:'none'},.54);
+ tl.call(()=>{stateLabel.textContent='02 / SEÑAL'},[],.46);
+ tl.call(()=>{stateLabel.textContent='03 / DETALLE'},[],.78);
+}
 /* SHOWROOM / el gesto de arrastre mueve las capas, no una tarjeta */
 const infiniteStage=$('.infinite-stage');
 if(infiniteStage){

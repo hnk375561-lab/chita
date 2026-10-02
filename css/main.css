@@ -39,3 +39,34 @@
  .hero-index{right:20px;bottom:23px}
 }
 @media(prefers-reduced-motion:reduce){.hero-image{transform:none}.read-progress{display:none}}
+
+/* SECOND PASS / SIGNATURE SCENE — una sola gramática: el auto cambia de objeto a señal */
+.signature-scene{position:relative;height:235svh;background:#c6c3bc;color:var(--ink);overflow:clip}
+.signature-pin{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate;background:#c6c3bc}
+.signature-grid{position:absolute;inset:0;opacity:.3;background-image:linear-gradient(rgba(23,23,21,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(23,23,21,.14) 1px,transparent 1px);background-size:clamp(44px,6vw,90px) clamp(44px,6vw,90px);mask-image:linear-gradient(90deg,black,transparent 80%)}
+.signature-code{position:absolute;z-index:3;top:clamp(90px,13vh,150px);right:var(--pad);font-size:9px;letter-spacing:.16em;writing-mode:vertical-rl;transform:rotate(180deg);color:rgba(23,23,21,.7)}
+.signature-axis{position:absolute;z-index:4;left:var(--pad);top:50%;display:flex;align-items:center;gap:12px;transform:rotate(-90deg) translateX(-50%);transform-origin:left center;font:700 11px var(--display);letter-spacing:.08em}
+.signature-axis i{display:block;width:96px;height:1px;background:var(--accent)}
+.signature-axis small{font:9px var(--body);letter-spacing:.12em;color:var(--muted);margin-left:14px}
+.signature-copy{position:absolute;z-index:5;left:var(--pad);bottom:clamp(58px,11vh,130px);max-width:480px}
+.signature-copy h2{font:700 clamp(84px,13vw,205px)/.7 var(--display);letter-spacing:-.13em;margin:24px 0 30px}
+.signature-copy h2 em{color:var(--accent)}
+.signature-copy>p:not(.eyebrow){max-width:25ch;font-size:16px;color:#4c4943}
+.signature-media{position:absolute;z-index:2;left:27%;top:12%;width:62%;height:80%;overflow:visible;transform:rotate(-4deg);transform-origin:58% 50%;will-change:transform,clip-path}
+.signature-media>img{position:absolute;width:100%;height:100%;object-fit:cover;object-position:center;clip-path:polygon(8% 0,100% 5%,94% 100%,0 94%,0 8%);will-change:transform}
+.signature-detail{position:absolute;z-index:2;right:-8%;bottom:-8%;width:43%;height:42%;overflow:hidden;clip-path:polygon(0 8%,92% 0,100% 90%,9% 100%);transform:scale(.7);opacity:0;will-change:transform,opacity}
+.signature-detail img{width:100%;height:100%;object-fit:cover}
+.signature-word{position:absolute;z-index:4;right:-.04em;font:700 clamp(100px,19vw,300px)/.72 var(--display);letter-spacing:-.15em;color:rgba(23,23,21,.12);pointer-events:none;will-change:transform,opacity}
+.signature-word--one{top:12%;}.signature-word--two{bottom:8%;color:var(--accent);opacity:0;transform:translateX(30%)}
+.signature-caption{position:absolute;z-index:6;right:var(--pad);bottom:clamp(58px,11vh,130px);display:flex;gap:28px;font-size:9px;letter-spacing:.14em;color:rgba(23,23,21,.68)}
+@media(max-width:800px){
+ .signature-scene{height:205svh}
+ .signature-code{top:84px;right:20px;font-size:8px}
+ .signature-axis{left:20px;top:40%;font-size:9px}.signature-axis i{width:50px}.signature-axis small{display:none}
+ .signature-copy{left:20px;right:20px;bottom:86px}.signature-copy h2{font-size:22vw;margin:20px 0 26px}.signature-copy>p:not(.eyebrow){font-size:14px}
+ .signature-media{left:8%;top:18%;width:112%;height:56%;transform:rotate(-4deg)}
+ .signature-detail{right:4%;bottom:-7%;width:48%;height:38%}
+ .signature-word{font-size:29vw;top:31%;right:-.08em}.signature-word--two{bottom:25%;top:auto}
+ .signature-caption{left:20px;right:20px;bottom:26px;justify-content:space-between;font-size:8px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){.signature-media,.signature-detail,.signature-word{transform:none!important;opacity:1!important}}
