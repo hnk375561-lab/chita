@@ -1,9 +1,13 @@
 import { animate, inView, scroll, animateView, stagger } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
 
 export const motion = {
-  duration: { fast: 0.2, base: 0.55, slow: 0.9 },
+  duration: { instant: 0.12, fast: 0.2, base: 0.55, slow: 0.9 },
   ease: { standard: "easeOut", emphasis: "easeInOut", enter: "circOut", exit: "easeIn" },
-  spring: { soft: { type: "spring", stiffness: 260, damping: 28 }, responsive: { type: "spring", stiffness: 420, damping: 34 } },
+  spring: {
+    soft: { type: "spring", stiffness: 260, damping: 28 },
+    responsive: { type: "spring", stiffness: 420, damping: 34 },
+    tactile: { type: "spring", stiffness: 520, damping: 32, mass: 0.55 }
+  },
   distance: { short: 12, base: 28, long: 56 },
   stagger: { base: 0.06, tight: 0.035 },
   opacity: { hidden: 0, soft: 0.35, visible: 1 },
@@ -14,6 +18,7 @@ export const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)"
 export const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
 export const qs = (selector, root = document) => root.querySelector(selector);
 export const qsa = (selector, root = document) => [...root.querySelectorAll(selector)];
+export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 export const canAnimate = () => !reduceMotion.matches && !document.hidden;
 
 export function play(target, keyframes, options = {}) {
@@ -54,4 +59,4 @@ export function stopAnimation(target) {
 
 export { animate, inView, scroll, animateView, stagger };
 
-window.chitaMotion = { animate, inView, scroll, animateView, stagger, motion, reduceMotion, transition, stopAnimation };
+window.chitaMotion = { animate, inView, scroll, animateView, stagger, motion, reduceMotion, transition, stopAnimation, clamp };
