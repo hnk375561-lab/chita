@@ -1,10 +1,4 @@
-import {CONFIG} from './config.js';
-import {initUI} from './ui.js';
-import {createTimeline} from './timeline.js';
-
-const ui=initUI();
-document.querySelector('[data-vehicle-label]').textContent=`${CONFIG.vehicle.brand} ${CONFIG.vehicle.model} ${CONFIG.vehicle.version}`;
-const preload=()=>{CONFIG.zones.slice(1).forEach(z=>{if(z.image){const im=new Image();im.src=z.image}if(z.detailImage){const im=new Image();im.src=z.detailImage}})};
-if('requestIdleCallback' in window) requestIdleCallback(preload,{timeout:1800}); else setTimeout(preload,800);
-createTimeline(ui.els,ui.setZone);
-document.addEventListener('visibilitychange',()=>{if(document.hidden) window.gsap?.ticker?.sleep(); else window.gsap?.ticker?.wake()});
+import {CONFIG} from './config.js';import {setLayer,preloadLayers} from './layers.js';import {renderHotspots} from './hotspots.js';import {initLens} from './lens.js';
+const q=s=>document.querySelector(s);const state={instrument:q('[data-instrument]'),lens:q('[data-lens]'),image:q('[data-lens-image] img'),cut:q('[data-lens] .lens__cut'),word:q('[data-layer-word]'),name:q('[data-layer-name]'),depth:q('[data-depth]'),live:q('[data-layer-live]'),coords:q('[data-coords]'),copy:q('[data-layer-copy]'),buttons:[...document.querySelectorAll('[data-layer]')],a11yButtons:[...document.querySelectorAll('[data-a11y-layer]')],layer:0};
+const announceHotspot=h=>{state.copy.textContent=`${h.title}: ${h.text}`;state.live.textContent=`DETALLE / ${h.title}`};
+setLayer(state,0);state.buttons.forEach(b=>b.addEventListener('click',()=>setLayer(state,+b.dataset.layer)));state.a11yButtons.forEach(b=>b.addEventListener('click',()=>setLayer(state,+b.dataset.a11yLayer)));renderHotspots(q('[data-hotspot-list]'),announceHotspot);initLens(state);state.a11yButtons.forEach(b=>b.setAttribute('aria-pressed',b.dataset.a11yLayer==='0'));if('requestIdleCallback'in window)requestIdleCallback(preloadLayers,{timeout:1600});else preloadLayers();
