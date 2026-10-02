@@ -51,3 +51,29 @@ html.has-view-transitions::view-transition-old(root),html.has-view-transitions::
 .m :is(.car,.oc,.pdc,.rvc){will-change:transform}
 @media(max-width:899px){.m :is(.car,.oc,.pdc,.rvc){transform:none!important}.m :is(.car,.oc) :is(.ctk,.oi img){transform:none}.m .hero figure{transform:none}.hero-atmosphere{opacity:.42}}
 @media(prefers-reduced-motion:reduce){.hero-atmosphere{display:none}.m :is(.car,.oc,.pdc,.rvc),.m .hero figure,.m .hero figure img,.m .btn{transform:none!important;translate:none!important}.m .hero .tx::before{background-position:50% 50%;transition:none}}
+
+/* Escenografía fotográfica: interiores reales del stock como atmósfera continua de cada sección. */
+main>.hero,main>section{--interior-bg:url('../assets/3.jpg');background-size:cover!important;background-position:center 48%!important;background-repeat:no-repeat!important;background-attachment:scroll!important;background-image:linear-gradient(rgba(243,245,246,.88),rgba(243,245,246,.9)),var(--interior-bg)!important}
+main>.hero{--interior-bg:url('../assets/19.jpg');background-image:linear-gradient(90deg,rgba(6,17,26,.9),rgba(6,17,26,.62)),var(--interior-bg)!important}
+#unidades{--interior-bg:url('../assets/3.jpg')}
+#modelos{--interior-bg:url('../assets/6.jpg')}
+#versus{--interior-bg:url('../assets/20.jpg');background-image:linear-gradient(rgba(6,17,26,.9),rgba(6,17,26,.82)),var(--interior-bg)!important}
+#nosotros{--interior-bg:url('../assets/26.jpg')}
+#trayectoria{--interior-bg:url('../assets/32.jpg')}
+#contacto{--interior-bg:url('../assets/40.jpg');background-image:linear-gradient(rgba(6,17,26,.91),rgba(6,17,26,.84)),var(--interior-bg)!important}
+#local{--interior-bg:url('../assets/45.jpg')}
+#opiniones{--interior-bg:url('../assets/16.jpg')}
+#bd{--interior-bg:url('../assets/51.jpg');background-image:linear-gradient(rgba(6,17,26,.86),rgba(6,17,26,.76)),var(--interior-bg)!important}
+#como-comprar{--interior-bg:url('../assets/52.jpg')}
+#financiacion{--interior-bg:url('../assets/19.jpg');background-image:linear-gradient(rgba(6,17,26,.88),rgba(6,17,26,.78)),var(--interior-bg)!important}
+#operaciones{--interior-bg:url('../assets/6.jpg')}
+#guia{--interior-bg:url('../assets/33.jpg');background-image:linear-gradient(rgba(6,17,26,.9),rgba(6,17,26,.82)),var(--interior-bg)!important}
+#equipo{--interior-bg:url('../assets/39.jpg')}
+#visita{--interior-bg:url('../assets/46.jpg');background-image:linear-gradient(rgba(6,17,26,.88),rgba(6,17,26,.8)),var(--interior-bg)!important}
+#preguntas{--interior-bg:url('../assets/21.jpg')}
+/* Replace legacy scene pseudo-backgrounds so the requested interior photographs remain the actual source. */
+#financiacion.pp::before,#visita.pd::before,#guia.pd::before{background-image:var(--interior-bg)!important;background-size:cover;background-position:center!important}
+#bd .bdm{opacity:.18}
+main>section>.w,main>section>.ops,main>section>.fm,main>section>.bqp{position:relative;z-index:1}
+@media(min-width:900px){main>.hero,main>section{background-attachment:fixed!important}}
+@media(prefers-reduced-motion:reduce){main>.hero,main>section{background-attachment:scroll!important}}
