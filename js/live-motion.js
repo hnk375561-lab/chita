@@ -13,6 +13,7 @@
     g.registerPlugin(ST);
     var reduce = !!options.reduceMotion;
     var mm = g.matchMedia();
+    var ctx = g.context(function () {}, document.body);
     var cleanups = [];
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
 
@@ -110,6 +111,46 @@
       return function () { mobileParallax.scrollTrigger && mobileParallax.scrollTrigger.kill(); mobileParallax.kill(); };
     });
 
+    // Catalog scene: editorial bands enter with controlled, non-repeating offsets.
+    document.querySelectorAll('#list li').forEach(function (row, index) {
+      var button = row.querySelector('button');
+      g.fromTo(row,
+        { xPercent: index % 3 === 0 ? -12 : index % 3 === 1 ? 8 : -4, rotate: index % 2 ? 0.8 : -0.5, clipPath: 'inset(0 100% 0 0)' },
+        { xPercent: 0, rotate: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.9, ease: index % 2 ? 'power3.out' : 'expo.out', scrollTrigger: { trigger: row, start: 'top 92%', once: true } }
+      );
+      if (button && fine.matches) {
+        var lift = g.quickTo(button, 'x', { duration: 0.35, ease: 'power3.out' });
+        on(button, 'pointerenter', function () { lift(index % 2 ? 5 : -5); });
+        on(button, 'pointerleave', function () { lift(0); });
+      }
+    });
+
+    // The selected vehicle gains internal depth while the catalog moves underneath.
+    var catalog = document.querySelector('#col');
+    var stageImage = document.querySelector('#si');
+    if (catalog && stageImage) {
+      g.fromTo(stageImage, { scale: 1.12, yPercent: -4 }, {
+        scale: 1.02, yPercent: 4, ease: 'none',
+        scrollTrigger: { trigger: catalog, start: 'top bottom', end: 'bottom top', scrub: 0.8 }
+      });
+      g.fromTo('.dat', { yPercent: 12 }, {
+        yPercent: 0, ease: 'none',
+        scrollTrigger: { trigger: catalog, start: 'top 75%', end: 'center center', scrub: 0.65 }
+      });
+    }
+
+    // Footer scene: service lines land diagonally and the address accent tracks the scroll.
+    document.querySelectorAll('.sv li').forEach(function (item, index) {
+      g.fromTo(item, { xPercent: index % 2 ? 10 : -10, opacity: 0.2 }, {
+        xPercent: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: item, start: 'top 90%', once: true }
+      });
+    });
+    g.fromTo('#end h2 em', { xPercent: -18, color: '#ecebe7' }, {
+      xPercent: 0, color: '#b3122b', ease: 'none',
+      scrollTrigger: { trigger: '#end h2', start: 'top 85%', end: 'top 35%', scrub: 0.7 }
+    });
+
     // Section transitions: the diagonal identity continues through the tape and footer.
     g.fromTo('#tp', { xPercent: 0 }, {
       xPercent: -35,
@@ -131,7 +172,7 @@
     bindStageDepth();
 
     window.addEventListener('resize', function () { ST.refresh(); }, { passive: true });
-    cleanups.push(function () { mm.revert(); });
+    cleanups.push(function () { mm.revert(); ctx.revert(); });
     window.addEventListener('beforeunload', function () {
       cleanups.forEach(function (cleanup) { cleanup(); });
     }, { once: true });
