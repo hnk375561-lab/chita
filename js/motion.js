@@ -4,6 +4,7 @@ import { initScrollMotion } from "./motion/scroll.js";
 import { initInteractions } from "./motion/interactions.js";
 import { initViewTransitions } from "./motion/transitions.js";
 import { initWebGL } from "./motion/webgl.js";
+import { initCursor } from "./motion/cursor.js";
 
 const root = document.documentElement;
 const syncMotionMode = () => {
@@ -13,7 +14,7 @@ const syncMotionMode = () => {
 syncMotionMode();
 
 function init() {
-  const cleanups = [initViewTransitions(), initReveals(), initScrollMotion(), initInteractions(), initWebGL()];
+  const cleanups = [initViewTransitions(), initReveals(), initScrollMotion(), initInteractions(), initWebGL(), initCursor()];
   window.addEventListener("pagehide", () => cleanups.forEach((cleanup) => typeof cleanup === "function" && cleanup()), { once: true });
 }
 

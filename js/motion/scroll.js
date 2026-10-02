@@ -29,17 +29,21 @@ export function initScrollMotion() {
   let lastY = window.scrollY;
   let lastTime = performance.now();
   let velocity = 0;
+  let acceleration = 0;
   const update = (time) => {
     raf = 0;
     if (document.hidden) return;
     const y = window.scrollY;
     const dt = Math.max(16, time - lastTime);
     const rawVelocity = (y - lastY) / dt * 16;
-    velocity += (rawVelocity - velocity) * .16;
+    const nextVelocity = velocity + (rawVelocity - velocity) * .16;
+    acceleration += (nextVelocity - velocity - acceleration) * .2;
+    velocity = nextVelocity;
     const doc = document.documentElement;
     const max = Math.max(1, doc.scrollHeight - window.innerHeight);
     doc.style.setProperty("--scroll-progress", String(clamp(y / max, 0, 1)));
     doc.style.setProperty("--scroll-velocity", String(clamp(velocity, -3, 3)));
+    doc.style.setProperty("--scroll-acceleration", String(clamp(acceleration, -1.5, 1.5)));
     doc.style.setProperty("--scroll-direction", y >= lastY ? "1" : "-1");
     lastY = y;
     lastTime = time;
