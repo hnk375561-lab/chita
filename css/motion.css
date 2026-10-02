@@ -38,3 +38,16 @@ html.has-view-transitions::view-transition-old(root),html.has-view-transitions::
   .hero-atmosphere,.motion-cursor { display:none; }
   .hero figure,.hero .tx::before { transform:none; transition:none; }
 }
+
+/* Sistema sensorial: la interfaz conserva su identidad; la materia responde a la presencia. */
+:root{--sensor-proximity:0;--sensor-interaction-intensity:0;--sensor-pointer-velocity:0;--sensor-scroll-velocity:0;--sensor-scroll-direction:1;--hero-pointer-x:.5;--hero-pointer-y:.5}
+.m .hero .tx::before{background-position:calc(50% + var(--hero-depth-x,0px)) calc(50% + var(--hero-depth-y,0px));transition:background-position .1s linear}
+.m .hero figure{transform:perspective(1100px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translate3d(var(--pointer-depth,0px),calc(var(--sensor-scroll-velocity) * -1.5px),0);transform-style:preserve-3d;transition:transform .18s cubic-bezier(.22,1,.36,1)}
+.m .hero figure img{transform:scale(calc(1.02 + var(--depth-proximity,0) * .035)) translate3d(calc((var(--hero-pointer-x) - .5) * -14px),calc((var(--hero-pointer-y) - .5) * -10px),0);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.m :is(.car,.oc,.pdc,.rvc){transform:perspective(900px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translate3d(0,calc(var(--depth-proximity,0) * -3px),0);transform-style:preserve-3d}
+.m :is(.car,.oc,.pdc,.rvc) :is(.im,.oi,.pdi,.rvi){overflow:hidden}
+.m :is(.car,.oc) :is(.ctk,.oi img){transform:translate3d(calc(var(--depth-proximity,0) * -7px),calc(var(--depth-proximity,0) * -4px),0) scale(calc(1 + var(--depth-proximity,0) * .025));transition:transform .2s linear}
+.m .btn{translate:var(--mx,0px) var(--my,0px)}
+.m :is(.car,.oc,.pdc,.rvc){will-change:transform}
+@media(max-width:899px){.m :is(.car,.oc,.pdc,.rvc){transform:none!important}.m :is(.car,.oc) :is(.ctk,.oi img){transform:none}.m .hero figure{transform:none}.hero-atmosphere{opacity:.42}}
+@media(prefers-reduced-motion:reduce){.hero-atmosphere{display:none}.m :is(.car,.oc,.pdc,.rvc),.m .hero figure,.m .hero figure img,.m .btn{transform:none!important;translate:none!important}.m .hero .tx::before{background-position:50% 50%;transition:none}}

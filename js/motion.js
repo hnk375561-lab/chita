@@ -1,4 +1,5 @@
 import { clamp, pointerState, reduceMotion } from "./motion/core.js";
+import { initSensoryState } from "./motion/sensor.js";
 import { initReveals } from "./motion/reveal.js";
 import { initScrollMotion } from "./motion/scroll.js";
 import { initInteractions } from "./motion/interactions.js";
@@ -10,6 +11,7 @@ const root = document.documentElement;
 const syncMotionMode = () => {
   root.classList.toggle("m", !reduceMotion.matches);
   root.classList.toggle("cm-reduce", reduceMotion.matches);
+  root.dataset.motion = reduceMotion.matches ? "reduced" : "full";
 };
 syncMotionMode();
 
@@ -34,13 +36,12 @@ function init() {
     previousTime = now;
   };
   document.addEventListener("pointermove", trackPointer, { passive: true });
-  const cleanups = [initViewTransitions(), initReveals(), initScrollMotion(), initInteractions(), initWebGL(), initCursor(), () => document.removeEventListener("pointermove", trackPointer)];
+  const cleanups = [initSensoryState(), initViewTransitions(), initReveals(), initScrollMotion(), initInteractions(), initWebGL(), initCursor(), () => document.removeEventListener("pointermove", trackPointer)];
   window.addEventListener("pagehide", () => cleanups.forEach((cleanup) => typeof cleanup === "function" && cleanup()), { once: true });
 }
 
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
 else init();
-
 reduceMotion.addEventListener?.("change", () => {
   syncMotionMode();
   window.dispatchEvent(new CustomEvent("chita:motion-mode", { detail: { reduced: reduceMotion.matches } }));
