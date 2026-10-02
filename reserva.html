@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Reservá tu momento en Chita Automotores. Elegí un día y un horario para armar tu consulta de visita por WhatsApp.">
+  <title>Reservá tu momento · Chita Automotores</title>
+  <link rel="stylesheet" href="css/reserva.css">
+</head>
+<body>
+  <main id="booking" data-step="month">
+    <header class="booking-nav">
+      <a class="brand" href="index.html" aria-label="Volver a Chita Automotores">CHITA</a>
+      <p class="eyebrow">Reservá tu momento <span aria-hidden="true">/</span> consulta de visita</p>
+      <button class="back" id="back" type="button" aria-label="Volver un paso" hidden>← Atrás</button>
+    </header>
+
+    <section class="scene scene--month" aria-labelledby="month-title">
+      <div class="scene__meta"><span>01 / MES</span><span id="month-status" aria-live="polite"></span></div>
+      <div class="month-copy"><p class="kicker">Chita Automotores</p><h1 id="month-title">Elegí<br><em>tu momento.</em></h1><p class="intro">Recorré el calendario y armá una consulta de visita. No es un turno confirmado.</p></div>
+      <div class="calendar-shell">
+        <div class="calendar-head"><button id="prev-month" type="button" aria-label="Mes anterior">←</button><h2 id="month-label"></h2><button id="next-month" type="button" aria-label="Mes siguiente">→</button></div>
+        <div class="weekday" aria-hidden="true"><span>LU</span><span>MA</span><span>MI</span><span>JU</span><span>VI</span><span>SA</span><span>DO</span></div>
+        <div id="calendar" class="calendar" role="grid" aria-label="Calendario de consulta"></div>
+      </div>
+      <div class="scene__hint" aria-hidden="true"><span class="line"></span><span>scroll para recorrer</span></div>
+    </section>
+
+    <section class="scene scene--day" aria-labelledby="day-title" hidden>
+      <div class="scene__meta"><span>02 / DÍA</span><span id="day-status" aria-live="polite"></span></div>
+      <div class="giant-day" aria-hidden="true"><span id="day-number">—</span><small id="day-month">—</small></div>
+      <div class="day-copy"><p class="kicker">Una visita a tu ritmo</p><h2 id="day-title">El día<br><em>es tuyo.</em></h2><p>Elegí una fecha habilitada para preparar el mensaje de consulta.</p></div>
+      <button class="next-step" id="to-time" type="button" disabled>Elegir horario <span>→</span></button>
+    </section>
+
+    <section class="scene scene--time" aria-labelledby="time-title" hidden>
+      <div class="scene__meta"><span>03 / HORA</span><span id="time-status" aria-live="polite"></span></div>
+      <div class="time-copy"><p class="kicker">Horarios configurables</p><h2 id="time-title">¿Cuándo<br><em>te queda bien?</em></h2><p>Seleccioná una franja para enviar una consulta de visita.</p></div>
+      <div id="slots" class="slots" role="listbox" aria-label="Horarios configurables"></div>
+      <button class="next-step" id="to-confirm" type="button" disabled>Ver resumen <span>→</span></button>
+    </section>
+
+    <section class="scene scene--confirm" aria-labelledby="confirm-title" hidden>
+      <div class="diagonal-wipe" aria-hidden="true"></div>
+      <div class="scene__meta"><span>04 / CONFIRMAR</span><span>consulta de visita</span></div>
+      <div class="confirm-copy"><p class="kicker">Tu momento</p><h2 id="confirm-title"><span id="summary-day">DÍA</span><br><em id="summary-time">HORA</em></h2><p>Gral. Galarza 1712<br>Concepción del Uruguay</p></div>
+      <div class="confirm-actions"><a id="whatsapp" class="primary" target="_blank" rel="noopener noreferrer">Abrir WhatsApp <span>↗</span></a><a class="secondary" href="https://www.google.com/maps/dir/?api=1&destination=Chita+Automotores%2C+Gral.+Galarza+1712%2C+Concepci%C3%B3n+del+Uruguay%2C+Entre+R%C3%ADos" target="_blank" rel="noopener noreferrer">Abrir Maps</a><button id="restart" class="secondary" type="button">Elegir otro momento</button></div>
+      <p class="disclaimer">El mensaje solicita una consulta de visita. La disponibilidad queda sujeta a confirmación por WhatsApp.</p>
+    </section>
+    <div id="live" class="sr-only" aria-live="polite"></div>
+  </main>
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="js/reserva.js"></script>
+</body>
+</html>
