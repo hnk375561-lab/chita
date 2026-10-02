@@ -1,2 +1,0 @@
-import {CONFIG} from './config.js';
-export function renderHotspots(root,open){root.innerHTML=CONFIG.hotspots.map((h,i)=>`<button type="button" data-hotspot="${i}" aria-label="${h.title}: ${h.text}"><strong>${String(i+1).padStart(2,'0')} / ${h.title}</strong><span>${h.text}</span></button>`).join('');root.querySelectorAll('[data-hotspot]').forEach(b=>b.addEventListener('click',()=>open(CONFIG.hotspots[+b.dataset.hotspot])))}
