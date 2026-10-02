@@ -3,130 +3,79 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#101114">
-  <meta name="description" content="El Showroom Infinito de Chita Automotores: unidades reales, fotos reales, consulta directa.">
-  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#f2efe9">
+  <meta name="description" content="Chita Automotores: unidades reales, fotos reales y contacto directo en Concepción del Uruguay.">
   <link rel="canonical" href="https://hnk375561-lab.github.io/chita/">
   <link rel="preload" as="image" href="images/showroom/tracker-01.webp" fetchpriority="high">
-  <link rel="preload" as="font" href="fonts/bricolage-grotesque-latin.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="fonts/instrument-sans-latin.woff2" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/main.css">
-  <title>El Showroom Infinito — Chita Automotores</title>
+  <title>Chita Automotores — Detalle a detalle</title>
 </head>
 <body>
-  <a class="skip" href="#showroom">Saltar al showroom</a>
-  <header class="site-head">
-    <a class="wordmark" href="#showroom" aria-label="Chita Automotores, inicio">CHITA<span>/</span></a>
-    <p class="head-location">GRAL. GALARZA 1712<br>CONCEPCIÓN DEL URUGUAY</p>
-    <button class="head-list" type="button" data-list-toggle>VER COMO LISTA</button>
+  <a class="skip" href="#explorar">Saltar a explorar</a>
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Chita Automotores, inicio"><span>CHITA</span><small>AUTOMOTORES</small></a>
+    <p class="location">GRAL. GALARZA 1712<br>CONCEPCIÓN DEL URUGUAY</p>
+    <a class="header-link" href="#contacto">CONTACTO <span>↗</span></a>
   </header>
 
   <main>
-    <section class="intro" aria-labelledby="intro-title">
-      <div class="intro__copy">
-        <p class="kicker">CHITA AUTOMOTORES · STOCK FOTOGRAFIADO</p>
-        <h1 id="intro-title">EL<br><i>SHOWROOM</i><br>INFINITO</h1>
-        <p class="intro__lede">No es una grilla. Es un salón en profundidad para atravesar autos reales y preguntar por el que te hace frenar.</p>
-        <p class="intro__proof"><b>02</b> unidades con foto · sin precios · sin promesas</p>
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">STOCK REAL · CONCEPCIÓN DEL URUGUAY</p>
+        <h1 id="hero-title">DETALLE<br><em>A DETALLE</em></h1>
+        <p class="hero-lede">Hay cosas que solo se ven cuando te acercás. Explorá nuestras unidades, mirá sus detalles y consultá directo.</p>
+        <a class="text-link" href="#explorar">EMPEZAR A EXPLORAR <span>↓</span></a>
       </div>
-      <div class="intro__mark" aria-hidden="true">CHITA<br><span>/</span></div>
-      <div class="intro__beam" aria-hidden="true"></div>
-      <p class="intro__cue"><span>01</span> ARRASTRÁ / GIRÁ LA RUEDA / USÁ ← →</p>
-    </section>
-
-    <section class="showroom" id="showroom" aria-labelledby="showroom-title">
-      <div class="showroom__topline"><span id="showroom-title">02—UNIDADES REALES</span><span data-position>01 / 02</span></div>
-      <div class="showroom__scene" data-scene>
-        <div class="scene-word scene-word--back" aria-hidden="true">STOCK</div>
-        <div class="scene-beam" aria-hidden="true"></div>
-        <div class="scene-floor" aria-hidden="true"></div>
-        <div class="vehicle-layer vehicle-layer--back" data-vehicle-layer="0"><div class="vehicle-cut"><img src="images/showroom/palio-01.webp" alt="Fiat Palio blanco dentro del salón de Chita" loading="lazy" decoding="async"></div></div>
-        <div class="vehicle-layer vehicle-layer--front" data-vehicle-layer="1"><div class="vehicle-cut vehicle-cut--angled"><img src="images/showroom/tracker-01.webp" alt="Chevrolet Tracker gris plata, foto real de stock" decoding="async"></div></div>
-        <div class="scene-info" data-info>
-          <p class="kicker" data-unit-kicker>01 / ADELANTE</p>
-          <h2 data-unit-name>CHEVROLET<br><i>TRACKER</i></h2>
-          <p data-unit-meta>2021 <span>/</span> 100.000 KM</p>
-          <p class="scene-visible">VISIBLE EN FOTO: GRIS PLATA · TECHO SOLAR · LLANTAS DE ALEACIÓN</p>
-          <button class="focus-cta" type="button" data-focus>ABRIR UNIDAD <span>↗</span></button>
-        </div>
-        <div class="scene-counter" aria-hidden="true"><strong data-counter>01</strong><span>/ 02</span></div>
-      </div>
-      <div class="showroom__controls">
-        <div class="rail" role="slider" tabindex="0" aria-label="Recorrido por unidades" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Chevrolet Tracker, 2021" data-slider><i data-rail-fill></i><b data-rail-cursor></b></div>
-        <div class="controls-row"><button type="button" data-prev>← ANTERIOR</button><span>DRAG PARA AVANZAR</span><button type="button" data-next>SIGUIENTE →</button></div>
-      </div>
-      <ol class="unit-list" aria-label="Lista de unidades disponibles" data-unit-list>
-        <li><button type="button" data-unit-index="0"><strong>01</strong><span>CHEVROLET TRACKER</span><small>2021 / 100.000 KM</small></button></li>
-        <li><button type="button" data-unit-index="1"><strong>02</strong><span>FIAT PALIO</span><small>2017 / 128.000 KM</small></button></li>
-      </ol>
-    </section>
-
-    <section class="route-experience" id="rutas" aria-labelledby="route-title">
-      <div class="route-pin" data-route-pin>
-        <div class="route-topline"><span>03 / ELEGÍ UNA RUTA</span><span data-route-count>01—05</span></div>
-        <div class="route-sky" aria-hidden="true"></div>
-        <div class="route-cityline" aria-hidden="true"></div>
-        <div class="route-road" aria-hidden="true"><i></i><b></b></div>
-        <div class="route-mark" aria-hidden="true">RUTA<br><i>/</i></div>
-        <div class="route-vehicle" data-route-vehicle><img src="images/showroom/tracker-01.webp" alt="Chevrolet Tracker gris plata, foto real de stock" loading="lazy" decoding="async"></div>
-        <div class="route-copy">
-          <p class="kicker">NO TE PREGUNTAMOS QUÉ AUTO QUERÉS</p>
-          <h2 id="route-title" data-route-title>¿QUÉ VIDA<br><i>NECESITÁS?</i></h2>
-          <p class="route-line" data-route-line>Para moverte todos los días.</p>
-          <p class="route-vehicle-data" data-route-data>CHEVROLET TRACKER <span>/</span> 2021 · 100.000 KM</p>
-        </div>
-        <nav class="route-nav" aria-label="Elegí una ruta" data-route-nav>
-          <button type="button" aria-pressed="true" data-route-index="0"><b>01</b><span>CIUDAD</span></button>
-          <button type="button" aria-pressed="false" data-route-index="1"><b>02</b><span>RUTA</span></button>
-          <button type="button" aria-pressed="false" data-route-index="2"><b>03</b><span>FAMILIA</span></button>
-          <button type="button" aria-pressed="false" data-route-index="3"><b>04</b><span>TRABAJO</span></button>
-          <button type="button" aria-pressed="false" data-route-index="4"><b>05</b><span>AVENTURA</span></button>
-        </nav>
-        <a class="route-cta" data-route-cta href="https://wa.me/5493442647442" target="_blank" rel="noopener">SEGUIR ESTA RUTA <span>↗</span></a>
-        <p class="route-hint">SWIPE / ← → / TOCÁ UNA RUTA</p>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-image"><img src="images/showroom/tracker-01.webp" alt=""></div>
+        <div class="hero-index"><span>01</span><i></i><span>02</span></div>
+        <p class="hero-note">UNIDADES FOTOGRAFIADAS<br>SIN STOCK DE BANCO</p>
       </div>
     </section>
 
-    <section class="briefing" id="briefing" aria-labelledby="briefing-title">
-      <div class="briefing-pin" data-briefing tabindex="0">
-        <div class="briefing-topline"><span>04 / EL AUTO EN 30 SEGUNDOS</span><span data-brief-stage>01 / 07</span></div>
-        <div class="briefing-select" aria-label="Elegí una unidad para la presentación">
-          <button type="button" aria-pressed="true" data-brief-unit="0">01 TRACKER</button>
-          <button type="button" aria-pressed="false" data-brief-unit="1">02 PALIO</button>
+    <section class="explore" id="explorar" aria-labelledby="explore-title">
+      <div class="section-head">
+        <div><p class="eyebrow">01 / INSPECCIÓN VISUAL</p><h2 id="explore-title">ENTRÁ EN<br><em>EL AUTO</em></h2></div>
+        <p class="section-intro">Acercate a los puntos marcados. La información aparece sobre la foto, sin inventar nada que no esté ahí.</p>
+      </div>
+
+      <div class="explore-layout">
+        <div class="viewer" data-viewer tabindex="0" aria-label="Visor exploratorio de fotografías. Usá más, menos o cero para controlar el zoom.">
+          <div class="viewer-stage" data-stage>
+            <img data-main-image src="images/showroom/tracker-01.webp" alt="Chevrolet Tracker gris plata, vista delantera derecha">
+            <div class="hotspot-layer" data-hotspots></div>
+          </div>
+          <div class="viewer-top"><span data-view-label>01 / EXTERIOR</span><span data-zoom-label>100%</span></div>
+          <div class="viewer-hint">ARRASTRÁ PARA MOVER · RUEDA PARA ACERCAR</div>
+          <div class="viewer-controls" aria-label="Controles de exploración">
+            <button type="button" data-zoom-out aria-label="Alejar">−</button><button type="button" data-reset aria-label="Volver a vista general">VISTA GENERAL</button><button type="button" data-zoom-in aria-label="Acercar">+</button>
+          </div>
         </div>
-        <div class="briefing-scene">
-          <div class="briefing-word" aria-hidden="true">30<span>″</span></div>
-          <div class="briefing-rule briefing-rule--one" aria-hidden="true"></div>
-          <div class="briefing-rule briefing-rule--two" aria-hidden="true"></div>
-          <div class="briefing-photo"><img data-brief-image src="images/showroom/tracker-01.webp" alt="Chevrolet Tracker gris plata, vista delantera derecha" decoding="async"></div>
-          <div class="briefing-data-mark" aria-hidden="true"><span data-brief-marker>EXTERIOR</span><b data-brief-time>00:00</b></div>
-          <div class="briefing-copy"><p class="kicker" data-brief-kicker>01 / EXTERIOR</p><h2 id="briefing-title" data-brief-title>EL PRIMER<br><i>ENCUENTRO</i></h2><p data-brief-copy>El vehículo, sin intermediarios. Una mirada real al stock de Chita.</p><p class="briefing-spec" data-brief-spec>CHEVROLET TRACKER <span>/</span> 2021 · 100.000 KM</p></div>
-          <div class="briefing-final" aria-hidden="true"><span>¿LO VEMOS?</span><b>CONSULTAR ESTA UNIDAD ↗</b></div>
-        </div>
-        <div class="briefing-stages" role="tablist" aria-label="Momentos de la presentación">
-          <button role="tab" aria-selected="true" data-brief-stage-index="0">01 <span>EXTERIOR</span></button><button role="tab" aria-selected="false" data-brief-stage-index="1">02 <span>INTERIOR</span></button><button role="tab" aria-selected="false" data-brief-stage-index="2">03 <span>MOTOR</span></button><button role="tab" aria-selected="false" data-brief-stage-index="3">04 <span>EQUIPAMIENTO</span></button><button role="tab" aria-selected="false" data-brief-stage-index="4">05 <span>ESTADO</span></button><button role="tab" aria-selected="false" data-brief-stage-index="5">06 <span>DATOS</span></button><button role="tab" aria-selected="false" data-brief-stage-index="6">07 <span>CONTACTO</span></button>
-        </div>
-        <div class="briefing-controls"><button type="button" class="briefing-play" data-brief-play aria-label="Reproducir presentación">PLAY <span>▶</span></button><div class="briefing-track"><span>00:00</span><input type="range" min="0" max="1000" value="0" step="1" data-brief-scrub aria-label="Recorrer presentación de 30 segundos"><i data-brief-fill></i><b data-brief-dot></b><span>00:30</span></div><span class="briefing-live" aria-live="polite" data-brief-live>SCROLL / SCRUB</span></div>
+        <aside class="detail-panel" aria-live="polite">
+          <p class="eyebrow" data-detail-kicker>CHEVROLET TRACKER · 2021</p>
+          <h3 data-detail-title>Vista<br><em>exterior</em></h3>
+          <p class="detail-copy" data-detail-copy>Una vista real de la unidad publicada. Tocá un punto para mirar más de cerca.</p>
+          <div class="detail-rule"></div>
+          <p class="detail-question" data-detail-question>Elegí un detalle sobre la imagen.</p>
+          <button class="detail-clear" type="button" data-clear>× CERRAR DETALLE</button>
+        </aside>
+      </div>
+
+      <div class="photo-strip" data-photo-strip aria-label="Otras vistas de la unidad"></div>
+      <div class="unit-switcher" role="tablist" aria-label="Unidades disponibles">
+        <button class="is-active" type="button" role="tab" aria-selected="true" data-unit="tracker"><b>01</b><span>CHEVROLET TRACKER</span><small>2021 · 100.000 KM</small></button>
+        <button type="button" role="tab" aria-selected="false" data-unit="palio"><b>02</b><span>FIAT PALIO</span><small>2017 · 128.000 KM</small></button>
       </div>
     </section>
 
     <section class="contact" id="contacto" aria-labelledby="contact-title">
-      <div class="contact__ghost" aria-hidden="true">VENÍ</div>
-      <p class="kicker">03 / EL PRÓXIMO MOVIMIENTO</p>
-      <h2 id="contact-title">¿CUÁL<br><i>TE FRENA?</i></h2>
-      <p class="contact__copy">Consultá por una unidad con el dato exacto de la foto. Sin horarios publicados. Sin vueltas.</p>
-      <a class="whatsapp" data-whatsapp href="https://wa.me/5493442647442" target="_blank" rel="noopener">HABLAR POR WHATSAPP <span>↗</span><small>MENSAJE DIRECTO · PENDIENTE DE CONFIRMAR</small></a>
-      <a class="address" href="https://www.google.com/maps/dir/?api=1&destination=Chita+Automotores%2C+Gral.+Galarza+1712%2C+Concepci%C3%B3n+del+Uruguay%2C+Entre+R%C3%ADos" target="_blank" rel="noopener">GRAL. GALARZA 1712<br><small>CONCEPCIÓN DEL URUGUAY · VER MAPA ↗</small></a>
-      <a class="privacy-link" href="privacidad.html">PRIVACIDAD ↗</a>
+      <div><p class="eyebrow">02 / EL PRÓXIMO PASO</p><h2 id="contact-title">¿LO<br><em>VEMOS?</em></h2></div>
+      <div class="contact-side"><p>Consultá por la unidad que te hizo frenar. Te respondemos directo desde Chita.</p><a class="button" data-whatsapp href="https://wa.me/5493442647442" target="_blank" rel="noopener">HABLAR POR WHATSAPP <span>↗</span></a><a class="address" href="https://www.google.com/maps/dir/?api=1&destination=Chita+Automotores%2C+Gral.+Galarza+1712%2C+Concepci%C3%B3n+del+Uruguay%2C+Entre+R%C3%ADos" target="_blank" rel="noopener">GRAL. GALARZA 1712<br><small>CONCEPCIÓN DEL URUGUAY · VER MAPA ↗</small></a></div>
     </section>
   </main>
-
-  <dialog class="unit-dialog" data-dialog aria-labelledby="dialog-name">
-    <button class="dialog-close" type="button" data-close aria-label="Cerrar ficha">ESC <span>×</span></button>
-    <div class="dialog-media"><img data-dialog-image src="images/showroom/tracker-01.webp" alt="" decoding="async"><span data-dialog-index>01 / 05</span></div>
-    <div class="dialog-copy"><p class="kicker" data-dialog-kicker>UNIDAD 01 · FOTO REAL</p><h2 id="dialog-name" data-dialog-name>CHEVROLET<br><i>TRACKER</i></h2><p class="dialog-meta" data-dialog-meta>2021 <span>/</span> 100.000 KM</p><p data-dialog-visible>Visible en foto: gris plata · techo solar · llantas de aleación · pantalla central.</p><a class="whatsapp whatsapp--dialog" data-dialog-whatsapp href="https://wa.me/5493442647442" target="_blank" rel="noopener">CONSULTAR ESTA UNIDAD <span>↗</span></a></div>
-  </dialog>
+  <footer><span>CHITA / AUTOMOTORES</span><span>STOCK FOTOGRAFIADO · 2026</span><a href="privacidad.html">PRIVACIDAD ↗</a></footer>
   <script src="vendor/gsap.min.js"></script>
-  <script src="vendor/ScrollTrigger.min.js"></script>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
