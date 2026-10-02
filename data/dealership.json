@@ -29,13 +29,15 @@
     "website": null,
     "instagram": "chita.automotores",
     "facebook": "https://www.facebook.com/Chitaautomotores",
-    "status": "telefono-fijo-en-4-directorios; hay un 2.o numero (+54 3442 54-7671, zonaauto, antiguo) SIN usar; WhatsApp no verificado",
-    "emailCandidate": "chitaautomotores@gmail.com (solo Cylex; sin confirmar)"
+    "status": "telefono fijo 03442 44-2782 verificado en directorios; perfil público de Instagram publica Gestoría 3442-547671; WhatsApp no confirmado",
+    "emailCandidate": "chitaautomotores@gmail.com (solo Cylex; sin confirmar)",
+    "gestoriaPhone": "03442 54-7671",
+    "gestoriaPhoneTel": "+543442547671"
   },
   "hours": {
     "display": null,
     "status": "conflicting-sources",
-    "note": "Cylex/infoisinfo: L-V 8:30-12 y 16-20, Sab 9-12. zonaauto: L-V 8:30-12 y 15:30-19:30, Sab 9-12:30. latinoplaces: L-V 9-17. Se contradicen: preguntar al dueño."
+    "note": "GTM publica L-V 08:30–12:00 y 16:00–20:00, sábado 08:30–12:00, domingo cerrado (consultado 2026-10-02); otras fichas discrepan, por eso el sitio pide confirmar antes de venir."
   },
   "foundation": {
     "claim": null,
@@ -43,8 +45,8 @@
     "note": "Una reseña de Google (2020) dice 'mas de 35 años'. No es dato del negocio: NO usar sin confirmacion."
   },
   "services": {
-    "status": "partial",
-    "note": "Directorios: 'venta de automotores usados y nuevos' (Cylex, infoisinfo) y '0KM y usados' (zonaauto). Permuta/consignacion/financiacion: sin verificar."
+    "status": "publicly-mentioned",
+    "note": "El perfil público de Instagram @chita.automotores dice “Usados y 0km | Cuotas fijas” y publica “Gestoría: 3442-547671”; sus destacados incluyen Consignación y Financiación. Condiciones, entidades y requisitos: consultar."
   },
   "social": {
     "facebookFollowers": "15.000 (dato del solicitante, sin verificar)",
@@ -99,6 +101,18 @@
       "url": "https://www.instagram.com/chita.automotores/",
       "checkedAt": "2026-10-02",
       "finding": "Enlace del solicitante. NO abierto (robots.txt lo bloquea)."
+    },
+    {
+      "label": "Instagram @chita.automotores (perfil público)",
+      "url": "https://www.instagram.com/chita.automotores/?hl=en",
+      "checkedAt": "2026-10-02",
+      "finding": "Biografía visible: “Usados y 0km | Cuotas fijas”; “Gestoría: 3442-547671”. Destacados visibles: Consignación, Financiación, 0km y usados. También muestra el perfil oficial con 7.947 seguidores y 51 seguidos al momento de la consulta."
+    },
+    {
+      "label": "gtm.com.ar: Chita Automotores",
+      "url": "https://gtm.com.ar/concesionario/chita-automotores/",
+      "checkedAt": "2026-10-02",
+      "finding": "Dirección E3260, teléfono 03442 44-2782, horario publicado L-V 08:30–12:00 y 16:00–20:00, sábado 08:30–12:00, domingo cerrado; el sitio advierte que otras fichas tienen horarios distintos."
     }
   ]
 }

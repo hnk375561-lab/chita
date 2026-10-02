@@ -142,7 +142,7 @@
   function rotator(box, names, o) {
     if (!box) return;
     names.forEach(function (n) {
-      var src = 'images/' + n + '.webp', i = new Image();
+      var src = /^(?:assets\/|https?:)/.test(n) ? n : 'images/' + n + '.webp', i = new Image();
       i.src = src; if (window.SSET) { i.srcset = window.SSET(src); i.sizes = o.sizes; }
       i.alt = ''; i.width = 1280; i.height = 960; i.loading = 'lazy'; i.decoding = 'async';
       box.insertBefore(i, o.before ? $(o.before, box) : null);
@@ -164,8 +164,8 @@
   }
   function onLoad(fn) { if (document.readyState === 'complete') fn(); else window.addEventListener('load', fn); }
   onLoad(function () {
-    rotator($('#fqs2'), ['ka-s-1', 'clio-2', 'punto-2', 'ecosport-2', 'up-4'], { sizes: '(min-width:900px) 40vw,100vw', sc: 1.06, du: 1.2, ms: 4600 });
-    rotator($('#fqs'), ['clio-3', 'up-3', 'punto-3', 'ecosport-3', 'ka-s-2'], { sizes: '(min-width:900px) 40vw,100vw', sc: 1.06, du: 1.2, ms: 3800 });
+    rotator($('#fqs2'), ['assets/22.jpg', 'assets/2.jpg', 'assets/28.jpg', 'assets/42.jpg', 'assets/54.jpg'], { sizes: '(min-width:900px) 40vw,100vw', sc: 1.06, du: 1.2, ms: 4600 });
+    rotator($('#fqs'), ['assets/3.jpg', 'assets/29.jpg', 'assets/31.jpg', 'assets/43.jpg', 'assets/25.jpg'], { sizes: '(min-width:900px) 40vw,100vw', sc: 1.06, du: 1.2, ms: 3800 });
   });
 
   /* ---------- Anclas: viaje con expo.inOut; la rueda/toque lo interrumpe ---------- */
