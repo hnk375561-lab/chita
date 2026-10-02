@@ -1,63 +1,23 @@
-import { animate, inView, scroll, animateView, stagger } from "https://cdn.jsdelivr.net/npm/motion@14.0.0/+esm";
-
-export const motion = {
-  duration: { instant: 0.12, fast: 0.2, base: 0.55, slow: 0.9 },
-  ease: { standard: "easeOut", emphasis: "easeInOut", enter: "circOut", exit: "easeIn" },
-  spring: {
-    soft: { type: "spring", stiffness: 260, damping: 28 },
-    responsive: { type: "spring", stiffness: 420, damping: 34 },
-    tactile: { type: "spring", stiffness: 520, damping: 32, mass: 0.55 }
-  },
-  distance: { short: 12, base: 28, long: 56 },
-  stagger: { base: 0.06, tight: 0.035 },
-  opacity: { hidden: 0, soft: 0.35, visible: 1 },
-  scale: { enter: 0.96, photo: 1.06, visible: 1 }
-};
-
+/* Utilidades y tokens compartidos. Sin lógica de animación. */
 export const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 export const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
 export const qs = (selector, root = document) => root.querySelector(selector);
 export const qsa = (selector, root = document) => [...root.querySelectorAll(selector)];
 export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-export const canAnimate = () => !reduceMotion.matches && !document.hidden;
-export const pointerState = { x: innerWidth / 2, y: innerHeight / 2, normalizedX: 0, normalizedY: 0, velocityX: 0, velocityY: 0, speed: 0, direction: 0, active: false };
 
-export function play(target, keyframes, options = {}) {
-  if (!target || reduceMotion.matches) return { stop() {} };
-  const controls = animate(target, keyframes, { duration: motion.duration.base, ease: motion.ease.standard, ...options });
-  return controls;
-}
+/* Condiciones de gsap.matchMedia(): cada contexto se revierte solo al cambiar la condición. */
+export const MQ = {
+  motion: "(prefers-reduced-motion: no-preference)",
+  desktop: "(min-width: 900px)",
+  fine: "(hover: hover) and (pointer: fine)"
+};
 
-export function reveal(target, options = {}) {
-  if (!target) return () => {};
-  const element = typeof target === "string" ? qs(target) : target;
-  if (!element) return () => {};
-  if (reduceMotion.matches) {
-    element.removeAttribute("data-motion-pending");
-    return () => {};
-  }
-  element.setAttribute("data-motion-pending", "true");
-  return inView(element, () => {
-    element.removeAttribute("data-motion-pending");
-    const controls = play(element, { opacity: [0, 1], y: [options.y ?? motion.distance.base, 0] }, { duration: options.duration ?? motion.duration.base, delay: options.delay ?? 0 });
-    return () => controls.stop();
-  }, { amount: options.amount ?? 0.18, once: options.once ?? true });
-}
-
-export function transition(update, selectors = []) {
-  if (typeof update !== "function") return;
-  if (typeof animateView === "function" && document.startViewTransition) {
-    const view = animateView(update);
-    selectors.forEach((selector) => view.add(selector));
-    return view;
-  }
-  update();
-}
-
-export function stopAnimation(target) {
-  if (target && typeof target.getAnimations === "function") target.getAnimations().forEach((animation) => animation.cancel());
-}
-
-export { animate, inView, scroll, animateView, stagger };
-
-window.chitaMotion = { animate, inView, scroll, animateView, stagger, motion, reduceMotion, pointerState, transition, stopAnimation, clamp };
+/* Un puñado de easings con intención; cada parte del sitio elige el suyo. */
+export const EASE = {
+  expo: "expo.out",          // entradas editoriales (títulos, hero)
+  mask: "expo.inOut",        // máscaras y cortinas
+  soft: "power3.out",        // contenido secundario
+  settle: "power2.out",      // microinteracciones
+  spring: "back.out(1.7)",   // iconos / feedback táctil
+  linear: "none"             // scrub
+};

@@ -1,77 +1,90 @@
-import { animate, motion, reduceMotion, finePointer, pointerState, qsa, clamp } from "./core.js";
-import { sensoryState } from "./sensor.js";
+/* Microinteracciones. Delegación de eventos (las tarjetas se repintan con los filtros) y quickTo por elemento.
+   Mouse: magnetismo en CTAs, inclinación en tarjetas, rebote en iconos. Touch: solo feedback de presión. */
+import { gsap } from "./vendor.js";
+import { qsa, clamp, EASE } from "./core.js";
 
-const magneticSelector = "[data-magnetic], .hero .btn.p, .fin .btn.p, header .btn.p";
-const depthSelector = ".car, .oc, .pdc, .rvc, .hero figure";
+const MAGNETIC = "[data-magnetic], .hero .btn.p, .bd .btn.p, .pdr .btn.p, header .btn.p, #visita button.btn.p";
+const LIFT = ".car";
+const TILT = ".oc, .pdc, .rvc";
+const ICON = "header .ic";
 
-export function initInteractions() {
-  const cleanups = [];
-  const press = (event) => {
-    const target = event.target.closest("button, .btn, [data-fx~='press']");
-    if (!target || target.disabled || reduceMotion.matches) return;
-    const controls = animate(target, { scale: 0.965 }, { duration: motion.duration.instant, ease: "easeOut" });
-    const release = () => {
-      controls.stop();
-      animate(target, { scale: 1 }, { ...motion.spring.tactile });
-      ["pointerup", "pointercancel", "blur"].forEach((type) => target.removeEventListener(type, release));
-    };
-    ["pointerup", "pointercancel", "blur"].forEach((type) => target.addEventListener(type, release, { once: true }));
-  };
-  document.addEventListener("pointerdown", press, true);
-  cleanups.push(() => document.removeEventListener("pointerdown", press, true));
+export function initInteractions({ fine }) {
+  const off = [];
+  const on = (target, type, fn, options) => { target.addEventListener(type, fn, options); off.push(() => target.removeEventListener(type, fn, options)); };
+  const ctx = gsap.context(() => {
+    /* Presión: todos los botones, también en touch. */
+    on(document, "pointerdown", (event) => {
+      const button = event.target.closest?.("button:not(:disabled), .btn");
+      if (!button) return;
+      gsap.to(button, { scale: 0.965, duration: 0.12, ease: "power2.out", overwrite: "auto" });
+      const release = () => gsap.to(button, { scale: 1, duration: 0.7, ease: "elastic.out(1, 0.5)", overwrite: "auto" });
+      ["pointerup", "pointercancel", "pointerleave"].forEach((type) => button.addEventListener(type, release, { once: true }));
+    }, true);
 
-  if (finePointer.matches && !reduceMotion.matches) {
-    const magnetic = qsa(magneticSelector);
-    const depthElements = qsa(depthSelector);
-    let raf = 0;
-    const fieldRadius = 190;
-    const renderField = () => {
-      raf = 0;
-      const x = pointerState.x;
-      const y = pointerState.y;
-      magnetic.forEach((element) => {
-        const rect = element.getBoundingClientRect();
-        const dx = x - (rect.left + rect.width / 2);
-        const dy = y - (rect.top + rect.height / 2);
-        const falloff = clamp(1 - Math.hypot(dx, dy) / fieldRadius, 0, 1);
-        const strength = element.matches(".hero .btn.p") ? .15 : .09;
-        element.style.setProperty("--mx", `${(dx * strength * falloff).toFixed(2)}px`);
-        element.style.setProperty("--my", `${(dy * strength * falloff).toFixed(2)}px`);
-      });
-      depthElements.forEach((element) => {
-        const rect = element.getBoundingClientRect();
-        const distanceX = x - (rect.left + rect.width / 2);
-        const distanceY = y - (rect.top + rect.height / 2);
-        const local = clamp(1 - Math.hypot(distanceX, distanceY) / 360, 0, 1);
-        const tilt = element.matches(".hero figure") ? 2.4 : 1.7;
-        element.style.setProperty("--tilt-x", `${(distanceY * -tilt * local / 100).toFixed(2)}deg`);
-        element.style.setProperty("--tilt-y", `${(distanceX * tilt * local / 100).toFixed(2)}deg`);
-        element.style.setProperty("--depth-proximity", local.toFixed(3));
-      });
-    };
-    const move = () => { if (!raf) raf = requestAnimationFrame(renderField); };
-    const leave = () => {
-      magnetic.forEach((element) => { element.style.setProperty("--mx", "0px"); element.style.setProperty("--my", "0px"); });
-      depthElements.forEach((element) => { element.style.setProperty("--tilt-x", "0deg"); element.style.setProperty("--tilt-y", "0deg"); element.style.setProperty("--depth-proximity", "0"); });
-    };
-    document.addEventListener("pointermove", move, { passive: true });
-    document.documentElement.addEventListener("mouseleave", leave, { passive: true });
-    cleanups.push(() => { if (raf) cancelAnimationFrame(raf); document.removeEventListener("pointermove", move); document.documentElement.removeEventListener("mouseleave", leave); });
-  }
+    if (!fine) return;
 
-  const hero = document.querySelector(".hero");
-  if (hero && !reduceMotion.matches) {
-    const move = (event) => {
-      const rect = hero.getBoundingClientRect();
-      hero.style.setProperty("--hero-pointer-x", clamp((event.clientX - rect.left) / rect.width, 0, 1).toFixed(3));
-      hero.style.setProperty("--hero-pointer-y", clamp((event.clientY - rect.top) / rect.height, 0, 1).toFixed(3));
-      hero.style.setProperty("--hero-depth-x", `${((event.clientX - rect.left) / rect.width - .5) * 28}px`);
-      hero.style.setProperty("--hero-depth-y", `${((event.clientY - rect.top) / rect.height - .5) * 18}px`);
+    /* Magnético: el botón sigue al puntero dentro de un radio corto, con tope y retorno elástico. */
+    const magnets = new WeakMap();
+    const magnet = (el) => {
+      if (!magnets.has(el)) magnets.set(el, { x: gsap.quickTo(el, "x", { duration: 0.6, ease: "power3.out" }), y: gsap.quickTo(el, "y", { duration: 0.6, ease: "power3.out" }), rect: null });
+      return magnets.get(el);
     };
-    hero.addEventListener("pointermove", move, { passive: true });
-    hero.addEventListener("pointerleave", () => { hero.style.setProperty("--hero-pointer-x", ".5"); hero.style.setProperty("--hero-pointer-y", ".5"); hero.style.setProperty("--hero-depth-x", "0px"); hero.style.setProperty("--hero-depth-y", "0px"); }, { passive: true });
-    cleanups.push(() => hero.removeEventListener("pointermove", move));
-  }
-  window.chitaMotionInteractions = { sensoryState };
-  return () => cleanups.forEach((cleanup) => typeof cleanup === "function" && cleanup());
+    on(document, "pointerover", (event) => {
+      const el = event.target.closest?.(MAGNETIC);
+      if (el) magnet(el).rect = el.getBoundingClientRect();     // se mide una vez al entrar, no por frame
+    }, { passive: true });
+    on(document, "pointermove", (event) => {
+      const el = event.target.closest?.(MAGNETIC);
+      if (!el) return;
+      const m = magnet(el); if (!m.rect) m.rect = el.getBoundingClientRect();
+      const dx = event.clientX - (m.rect.left + m.rect.width / 2), dy = event.clientY - (m.rect.top + m.rect.height / 2);
+      m.x(clamp(dx * 0.28, -14, 14)); m.y(clamp(dy * 0.34, -10, 10));
+    }, { passive: true });
+    on(document, "pointerout", (event) => {
+      const el = event.target.closest?.(MAGNETIC);
+      if (!el || el.contains(event.relatedTarget)) return;
+      const m = magnet(el); m.rect = null; gsap.to(el, { x: 0, y: 0, duration: 0.9, ease: "elastic.out(1, 0.45)", overwrite: "auto" });
+    }, { passive: true });
+
+    /* Botones no magnéticos: elevación corta (reemplaza el translateY del CSS). */
+    const plain = (event) => { const b = event.target.closest?.(".btn"); return b && !b.matches(MAGNETIC) ? b : null; };
+    on(document, "pointerover", (event) => { const b = plain(event); if (b && !b.contains(event.relatedTarget)) gsap.to(b, { y: -2, duration: 0.4, ease: EASE.soft, overwrite: "auto" }); }, { passive: true });
+    on(document, "pointerout", (event) => { const b = plain(event); if (b && !b.contains(event.relatedTarget)) gsap.to(b, { y: 0, duration: 0.6, ease: EASE.settle, overwrite: "auto" }); }, { passive: true });
+
+    /* Tarjetas de stock: elevación sobria. */
+    on(document, "pointerover", (event) => {
+      const card = event.target.closest?.(LIFT);
+      if (card && !card.contains(event.relatedTarget)) gsap.to(card, { y: -8, duration: 0.6, ease: EASE.soft, overwrite: "auto" });
+    }, { passive: true });
+    on(document, "pointerout", (event) => {
+      const card = event.target.closest?.(LIFT);
+      if (card && !card.contains(event.relatedTarget)) gsap.to(card, { y: 0, duration: 0.8, ease: EASE.settle, overwrite: "auto" });
+    }, { passive: true });
+
+    /* Operaciones / precio / reseñas: plano que se inclina hacia el puntero. */
+    const tilts = new WeakMap();
+    const tilt = (el) => {
+      if (!tilts.has(el)) { gsap.set(el, { transformPerspective: 900 }); tilts.set(el, { rx: gsap.quickTo(el, "rotationX", { duration: 0.7, ease: "power3.out" }), ry: gsap.quickTo(el, "rotationY", { duration: 0.7, ease: "power3.out" }) }); }
+      return tilts.get(el);
+    };
+    on(document, "pointermove", (event) => {
+      const el = event.target.closest?.(TILT);
+      if (!el) return;
+      const r = el.getBoundingClientRect(), t = tilt(el);       // un solo rect: el elemento bajo el puntero
+      t.ry(((event.clientX - r.left) / r.width - 0.5) * 6); t.rx(((event.clientY - r.top) / r.height - 0.5) * -5);
+    }, { passive: true });
+    on(document, "pointerout", (event) => {
+      const el = event.target.closest?.(TILT);
+      if (!el || el.contains(event.relatedTarget)) return;
+      gsap.to(el, { rotationX: 0, rotationY: 0, duration: 1, ease: "elastic.out(1, 0.55)", overwrite: "auto" });
+    }, { passive: true });
+
+    /* Iconos del header: giro corto con rebote. */
+    qsa(ICON).forEach((icon) => {
+      const svg = icon.querySelector("svg"); if (!svg) return;
+      icon.addEventListener("pointerenter", () => gsap.to(svg, { scale: 1.16, rotate: -8, duration: 0.5, ease: EASE.spring, overwrite: "auto" }));
+      icon.addEventListener("pointerleave", () => gsap.to(svg, { scale: 1, rotate: 0, duration: 0.6, ease: EASE.settle, overwrite: "auto" }));
+    });
+  });
+  return () => { off.forEach((fn) => fn()); ctx.revert(); };
 }

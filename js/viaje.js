@@ -1,4 +1,5 @@
-import { animate, reduceMotion } from "./motion/core.js";
+import { gsap } from "./motion/vendor.js";
+import { reduceMotion } from "./motion/core.js";
 
 const CONFIG = {
   contact: { whatsapp: "5493442647442" },
@@ -46,18 +47,19 @@ if (route) {
   }
 
   function setTarget(value) {
-    state.target = clamp(value); state.control?.stop();
+    state.target = clamp(value); state.control?.kill();
     if (reduceMotion.matches) { state.p = state.target; render(); return; }
-    state.control = animate(state, { p: state.target }, { type: "spring", stiffness: 260, damping: 34, onUpdate: render });
+    state.control = gsap.to(state, { p: state.target, duration: 0.95, ease: "power3.out", overwrite: true, onUpdate: render });
   }
 
   CONFIG.units.forEach((unit) => { const element = document.createElement("article"); element.className = "linear-item"; element.innerHTML = `<strong>${unit.name}</strong><small>${unit.year} · ${unit.km} · ${unit.criterion} · consultar por contacto</small>`; $("#linear-list")?.appendChild(element); });
+  route.setAttribute("data-lenis-prevent-wheel", "");
   route.addEventListener("wheel", (event) => { event.preventDefault(); setTarget(state.target + event.deltaY * .0008); }, { passive: false });
   token.addEventListener("pointerdown", (event) => { state.drag = true; token.setPointerCapture(event.pointerId); });
   token.addEventListener("pointermove", (event) => { if (state.drag) setTarget(state.target + event.movementX / Math.max(1, route.clientWidth - 96)); });
   ["pointerup", "pointercancel", "lostpointercapture"].forEach((type) => token.addEventListener(type, () => { state.drag = false; }));
   token.addEventListener("keydown", (event) => { const step = event.shiftKey ? .25 : .04; if (event.key === "ArrowRight") setTarget(state.target + step); if (event.key === "ArrowLeft") setTarget(state.target - step); if (event.key === "Home") setTarget(0); if (event.key === "End") setTarget(1); });
   document.querySelectorAll(".milestone").forEach((milestone) => milestone.addEventListener("click", () => setTarget(+milestone.dataset.progress)));
-  $("#back-route")?.addEventListener("click", () => { setTarget(.9); window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" }); });
+  $("#back-route")?.addEventListener("click", () => { setTarget(.9); (window.chitaScroll ? window.chitaScroll.to(0) : window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" })); });
   render();
 }

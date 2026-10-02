@@ -1,4 +1,5 @@
-import { animate, reduceMotion, transition } from "./motion/core.js";
+import { gsap } from "./motion/vendor.js";
+import { reduceMotion } from "./motion/core.js";
 
 const CONFIG = { diasHabilitados: [1, 2, 3, 4, 5, 6], slots: ["10:00", "11:30", "16:00", "17:30"], slotsNote: "Horarios configurables: consultar disponibilidad." };
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -26,11 +27,13 @@ function animateScene(show) {
   const current = $(".scene:not([hidden])"), next = $(`.scene--${show}`); if (!next || current === next) return;
   state.step = show; $("#booking").dataset.step = show; $("#back").hidden = show === "month"; next.hidden = false;
   if (reduceMotion.matches) { if (current) current.hidden = true; return; }
-  state.control?.stop();
-  transition(() => {}, [`.scene--${show}`]);
-  const controls = animate(next, { opacity: [0, 1], y: ["5%", "0%"] }, { duration: .5, ease: "easeOut" });
-  state.control = controls; if (current) animate(current, { opacity: [1, 0], y: ["0%", "-3%"] }, { duration: .22, ease: "easeIn", onComplete: () => { current.hidden = true; } });
-  if (show === "confirm") animate($(".diagonal-wipe"), { x: ["-100%", "100%"] }, { duration: .7, ease: "easeInOut" });
+  state.control?.kill();
+  const tl = gsap.timeline();
+  tl.fromTo(next, { opacity: 0, yPercent: 5 }, { opacity: 1, yPercent: 0, duration: 0.6, ease: "power3.out", clearProps: "opacity,transform" }, 0);
+  if (current) tl.to(current, { opacity: 0, yPercent: -3, duration: 0.25, ease: "power2.in", onComplete: () => { current.hidden = true; gsap.set(current, { clearProps: "opacity,transform" }); } }, 0);
+  const wipe = $(".diagonal-wipe");
+  if (show === "confirm" && wipe) tl.fromTo(wipe, { xPercent: -100 }, { xPercent: 100, duration: 0.8, ease: "expo.inOut" }, 0);
+  state.control = tl;
 }
 function selectDay(day) { const date = new Date(state.month.getFullYear(), state.month.getMonth(), day); if (!CONFIG.diasHabilitados.includes(date.getDay())) return; state.day = date; state.slot = null; $("#day-number").textContent = String(day).padStart(2, "0"); $("#day-month").textContent = months[date.getMonth()].slice(0, 3).toUpperCase(); $("#day-status").textContent = formatDate(date); $("#to-time").disabled = false; renderCalendar(); announce(`Día seleccionado: ${formatDate(date)}`); animateScene("day"); }
 function renderSlots() { const box = $("#slots"); box.textContent = ""; CONFIG.slots.forEach((slot) => { const button = document.createElement("button"); button.type = "button"; button.className = "slot"; button.dataset.slot = slot; button.setAttribute("role", "option"); button.setAttribute("aria-selected", String(state.slot === slot)); button.innerHTML = `<b>${slot}</b><small>consultar disponibilidad</small>`; box.appendChild(button); }); }

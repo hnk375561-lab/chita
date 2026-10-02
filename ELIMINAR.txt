@@ -1,0 +1,8 @@
+Borrar estos archivos del repo (ya no se usan; el nuevo sistema es GSAP + ScrollTrigger + Lenis):
+
+js/motion/engine.js
+js/motion/materials.js
+js/motion/reveal.js
+js/motion/sensor.js
+js/motion/transitions.js
+js/motion/webgl.js

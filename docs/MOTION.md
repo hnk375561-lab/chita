@@ -1,26 +1,39 @@
-# Sistema de experiencia
+# Sistema de movimiento
 
-El sitio conserva su HTML, identidad visual, contenido y arquitectura semántica, pero ahora se comporta como un objeto digital: el puntero, la velocidad, la dirección, el scroll y la proximidad alimentan al DOM y a WebGL desde un mismo estado.
+**GSAP = motor · ScrollTrigger = narrativa · Lenis = scroll.** Sin Motion, Three.js, WebGL ni shaders. El HTML, la identidad visual, el copy y la estructura no cambian: solo el movimiento.
 
-## Núcleo
+## Arquitectura (`js/motion/`)
 
-- `js/motion/sensor.js`: estado sensorial global (`pointerX`, `pointerY`, velocidades, dirección, progreso, sección activa, target, proximidad, intensidad y capacidad del dispositivo). Publica `window.chitaSensory` y variables CSS `--sensor-*`.
-- `js/motion/interactions.js`: campos de fuerza continuos. Los CTA responden con magnetismo; cards, operaciones y superficies adquieren profundidad contextual; el efecto disminuye con la distancia y vuelve por resorte.
-- `js/motion/webgl.js`: superficie Three.js procedural en el hero. La energía del scroll, el movimiento del puntero, la proximidad y el tiempo deforman el campo de luz; no es una textura ornamental independiente.
-- `js/motion/scroll.js`: energía de scroll suavizada, dirección, aceleración y progreso expuestos al resto del sistema.
-- `js/motion.js`: lifecycle único, cleanup en `pagehide`, pausa con `document.hidden` y sincronización de reduced motion.
+| Archivo | Responsabilidad |
+|---|---|
+| `vendor.js` | Única puerta al stack. Importa `js/vendor/gsap-stack.js` (gsap 3.13.0 + ScrollTrigger + Lenis 1.3.11, mismo origen). |
+| `index.js` | Punto de entrada. `gsap.matchMedia()` decide qué corre: reduced-motion, mobile, desktop + mouse. Revierte todo al cambiar la condición. |
+| `scroll.js` | Lenis → `gsap.ticker` → `ScrollTrigger.update`. Anclas (`#sección`) con offset del header, bloqueo con la ficha abierta. Touch queda nativo. |
+| `navigation.js` | Sombra del header, ocultamiento por dirección (mobile) y scrollspy del menú. |
+| `hero.js` | Entrada cinematográfica, salida por capas, profundidad por puntero y cambio de unidad. |
+| `typography.js` | Palabras enmascaradas en títulos; declaraciones (`.xl`) que se "leen" con el scroll. |
+| `reveals.js` | Revelados por familia (stock, operaciones, reseñas, precio, textos, pie). |
+| `parallax.js` | Capas con velocidad propia (foto de Nosotros, mapa, fachada, columnas de precio) y skew por velocidad de scroll. |
+| `sections.js` | Banner con pin, Comparar, wipes de Nosotros, ventana del recorrido, pasos de compra, cierre. |
+| `slides.js` | Cortina de máscara compartida por el hero (`chita:hero`) y Vender/permutar (`chita:vr`). |
+| `interactions.js` | Presión en botones, CTAs magnéticos (`quickTo`), elevación de tarjetas, inclinación, iconos. |
+| `cursor.js` | Cursor del sitio con estados por contexto y estiramiento por velocidad. Solo mouse. |
+| `core.js` | Utilidades, condiciones `MQ` y easings. |
 
-## Momentos de interacción
+`js/motion.js` solo sincroniza las clases `m` / `cm-reduce` y arranca `initMotion()`.
 
-1. **Hero despierto**: el movimiento cercano modifica atmósfera, profundidad de fotografía y copy simultáneamente.
-2. **Campo magnético**: los llamados a la acción empiezan a responder antes del hover y con intensidad proporcional a la proximidad.
-3. **Cards con peso**: las tarjetas de unidades y operaciones inclinan su plano, desplazan internamente la imagen y recuperan su posición sin saltos.
-4. **Scroll como energía**: velocidad y dirección cambian el pulso del campo WebGL y la tensión de las superficies.
+## Momentos firma
 
-## Rendimiento y accesibilidad
+1. **Hero**: marco de la foto que se abre con cortina, título por palabras, CTAs y header en secuencia; al scrollear, cada capa sale a distinta velocidad.
+2. **Banner pineado** (`#bd`, único pin): el scroll arma la escena letra por letra.
+3. **Recorrido del local**: el video llega como ventana chica y se abre hasta llenar su marco.
+4. **Declaraciones tipográficas** (`.xl`): las palabras se encienden con el avance.
+5. **CTAs magnéticos + cursor**: respuesta precisa al puntero, sin "huir".
 
-- Un solo RAF para el estado sensorial; se escriben variables CSS y no se crean animaciones Motion por cada `pointermove`.
-- WebGL usa un plano, pixel ratio adaptativo, `IntersectionObserver`, pausa fuera de viewport y liberación explícita de geometría, material, renderer y listeners.
-- Mobile conserva la narrativa a través de touch y scroll, sin cursor artificial ni tilt permanente.
-- `prefers-reduced-motion: reduce` mantiene contenido, enlaces, formularios y navegación; elimina WebGL, fuerzas y movimiento automático.
-- No se instala ni importa GSAP.
+## Reglas
+
+- Solo `transform`, `opacity` y `clip-path` (wrappers, no `<img>` salvo dentro de su máscara).
+- Nada de `getBoundingClientRect()` por frame: los rects se miden al entrar al elemento.
+- `prefers-reduced-motion`: no se oculta ni se mueve nada; el contenido y la navegación quedan intactos.
+- Mobile: sin pin, sin mouse effects, distancias de parallax al 45 %, scroll del dedo nativo.
+- Red de seguridad: si el JS no carga, `index.html` libera el estado inicial del hero a los 4 s (`.mh`).

@@ -1,61 +1,76 @@
-import { animate, scroll, reduceMotion, qs, clamp } from "./core.js";
+/* LENIS → GSAP ticker → SCROLLTRIGGER. Un solo reloj, un solo loop.
+   Touch queda nativo (syncTouch desactivado): el scroll del dedo nunca se toca. */
+import { gsap, ScrollTrigger, Lenis } from "./vendor.js";
+import { qs } from "./core.js";
 
-const supportsScrollTimeline = CSS.supports("animation-timeline: scroll(root block)");
-const supportsViewTimeline = CSS.supports("animation-timeline: view()");
+export const scrollState = { velocity: 0, direction: 1 };
 
-export function initScrollMotion() {
-  if (reduceMotion.matches) return () => {};
-  const cleanups = [];
-  const progress = qs(".pgb");
-  if (progress && !supportsScrollTimeline) {
-    const animation = animate(progress, { scaleX: [0, 1] }, { ease: "linear" });
-    cleanups.push(scroll(animation));
-  }
+const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
-  const hero = qs(".hero");
-  const heroMedia = qs("#hzs");
-  if (hero && heroMedia && !supportsViewTimeline) {
-    const animation = animate(heroMedia, { scale: [1, 1.08], y: [0, 5], opacity: [1, 0.55] }, { ease: "linear" });
-    cleanups.push(scroll(animation, { target: hero, offset: ["start start", "end start"] }));
-  }
-
-  const parallax = qs("#nph img");
-  if (parallax && !supportsViewTimeline) {
-    const animation = animate(parallax, { scale: [1.12, 1.12], y: ["-4%", "4%"] }, { ease: "linear" });
-    cleanups.push(scroll(animation, { target: qs("#nph") || parallax, offset: ["start end", "end start"] }));
-  }
-
-  let raf = 0;
-  let lastY = window.scrollY;
-  let lastTime = performance.now();
-  let velocity = 0;
-  let acceleration = 0;
-  const update = (time) => {
-    raf = 0;
-    if (document.hidden) return;
-    const y = window.scrollY;
-    const dt = Math.max(16, time - lastTime);
-    const rawVelocity = (y - lastY) / dt * 16;
-    const nextVelocity = velocity + (rawVelocity - velocity) * .16;
-    acceleration += (nextVelocity - velocity - acceleration) * .2;
-    velocity = nextVelocity;
-    const doc = document.documentElement;
-    const max = Math.max(1, doc.scrollHeight - window.innerHeight);
-    doc.style.setProperty("--scroll-progress", String(clamp(y / max, 0, 1)));
-    doc.style.setProperty("--scroll-velocity", String(clamp(velocity, -3, 3)));
-    doc.style.setProperty("--scroll-acceleration", String(clamp(acceleration, -1.5, 1.5)));
-    doc.style.setProperty("--scroll-direction", y >= lastY ? "1" : "-1");
-    lastY = y;
-    lastTime = time;
-  };
-  const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
-  cleanups.push(() => {
-    window.removeEventListener("scroll", onScroll);
-    window.removeEventListener("resize", onScroll);
-    if (raf) cancelAnimationFrame(raf);
+export function initScroll({ desktop }) {
+  const lenis = new Lenis({
+    lerp: desktop ? 0.1 : 0.14,     // inercia corta: sigue al input sin sensación de flotar
+    wheelMultiplier: 0.95,
+    smoothWheel: true,
+    syncTouch: false,
+    autoRaf: false
   });
-  onScroll();
-  return () => cleanups.forEach((cleanup) => typeof cleanup === "function" && cleanup());
+
+  lenis.on("scroll", ScrollTrigger.update);
+  const tick = (time) => lenis.raf(time * 1000);
+  gsap.ticker.add(tick);
+  gsap.ticker.lagSmoothing(0);
+
+  const tracker = ScrollTrigger.create({
+    start: 0,
+    end: "max",
+    onUpdate: (self) => { scrollState.velocity = self.getVelocity(); scrollState.direction = self.direction; }
+  });
+
+  const headerOffset = () => -(qs("header")?.offsetHeight || 0);
+  const to = (target, options = {}) => lenis.scrollTo(target, { duration: 1.5, easing: easeOutExpo, ...options });
+
+  const onClick = (event) => {
+    if (event.defaultPrevented || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest?.('a[href^="#"]');
+    if (!link) return;
+    const hash = link.getAttribute("href");
+    if (hash === "#" || hash === "#top") { event.preventDefault(); to(0); history.pushState(null, "", location.pathname + location.search); return; }
+    let target = null;
+    try { target = document.getElementById(decodeURIComponent(hash.slice(1))); } catch (e) { /* hash inválido */ }
+    if (!target) return;                      // #unidad-… y similares los resuelve el sitio
+    event.preventDefault();
+    to(target, { offset: headerOffset() });
+    history.pushState(null, "", hash);
+  };
+  document.addEventListener("click", onClick);
+
+  /* La ficha (<dialog>) bloquea el scroll de fondo y conserva el suyo. */
+  const dialog = qs("dialog");
+  let observer = null;
+  if (dialog) {
+    dialog.setAttribute("data-lenis-prevent", "");
+    observer = new MutationObserver(() => (dialog.open ? lenis.stop() : lenis.start()));
+    observer.observe(dialog, { attributes: true, attributeFilter: ["open"] });
+  }
+
+  /* Hash inicial (enlace compartido a una sección). */
+  if (location.hash.length > 1) {
+    requestAnimationFrame(() => {
+      let target = null;
+      try { target = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (e) { /* noop */ }
+      if (target) lenis.scrollTo(target, { offset: headerOffset(), immediate: true });
+    });
+  }
+
+  window.chitaScroll = { to, lenis };
+
+  return () => {
+    document.removeEventListener("click", onClick);
+    observer?.disconnect();
+    tracker.kill();
+    gsap.ticker.remove(tick);
+    lenis.destroy();
+    if (window.chitaScroll?.lenis === lenis) delete window.chitaScroll;
+  };
 }
