@@ -15,7 +15,7 @@ if(/href="http:\/\//.test(html)) errors.push('index.html: enlace http:// sin cif
 for(const m of html.matchAll(/(?:src|href)="(images\/[^"#?]+\.(?:webp|png|jpe?g))"/g)) if(!fs.existsSync(path.join(root,m[1]))) errors.push(`Falta ${m[1]}`);
 for(const m of html.matchAll(/<img\b[^>]*>/g)) if(!/\balt=/.test(m[0])) errors.push(`img sin alt: ${m[0].slice(0,80)}`);
 for(const name of ['tracker-01','tracker-02','tracker-03','tracker-04','tracker-05','palio-01','palio-02','palio-03','palio-04']) if(!fs.existsSync(path.join(root,'images/showroom',`${name}.webp`))) errors.push(`Falta images/showroom/${name}.webp`);
-if(!js.includes('pinch')&&!js.includes('pointers')) errors.push('js/app.js: falta soporte de interacción táctil');
+if(!js.includes('ScrollTrigger')) errors.push('js/app.js: falta el sistema de cámara');
 if(prod){
   if(/noindex|Disallow:\s*\/\s*$/m.test(html+fs.readFileSync(path.join(root,'robots.txt'),'utf8'))) errors.push('PRODUCCION: quedan bloqueos de indexación');
   for(const t of ['WHATSAPP-A-CONFIRMAR','EJEMPLO','a cargar','a confirmar']) if((html+js).includes(t)) errors.push(`PRODUCCION: queda "${t}"`);
