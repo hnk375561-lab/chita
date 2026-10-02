@@ -2,9 +2,11 @@
 @supports (animation-timeline: view()) {
   .motion-reveal,
   [data-motion-reveal] { animation: motion-reveal linear both; animation-timeline: view(); animation-range: entry 10% cover 30%; }
-  .pgb { transform-origin: left center; animation: motion-progress linear both; animation-timeline: scroll(root block); }
   .hero #hzs { animation: motion-hero linear both; animation-timeline: view(); animation-range: cover 0% exit 100%; }
   #nph img { animation: motion-parallax linear both; animation-timeline: view(); animation-range: cover 0% exit 100%; }
+}
+@supports (animation-timeline: scroll(root block)) {
+  .pgb { transform-origin: left center; animation: motion-progress linear both; animation-timeline: scroll(root block); }
 }
 @keyframes motion-reveal { from { opacity: .35; transform: translate3d(0, 28px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 @keyframes motion-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -13,6 +15,9 @@
 
 html.has-view-transitions::view-transition-old(root),
 html.has-view-transitions::view-transition-new(root) { animation-duration: .48s; animation-timing-function: cubic-bezier(.22,1,.36,1); }
+@supports (view-transition-name: none) {
+  @view-transition { navigation: auto; }
+}
 ::view-transition-group(.fcg), ::view-transition-group(.fch) { animation-duration: .55s; }
 
 [data-motion-pending] { opacity: 1; }

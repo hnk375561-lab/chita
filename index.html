@@ -1916,9 +1916,8 @@ waForm($("buscoForm"),function(f){var a=f.anio.value.trim(),p=f.presu.value.trim
 <script>(function(){var m=document.querySelector(".mp");if(!m)return;var f=m.querySelector("iframe");
 function ld(){if(!f||!f.getAttribute("data-src"))return;f.addEventListener("load",function(){m.classList.add("rd")},{once:true});f.src=f.getAttribute("data-src");f.removeAttribute("data-src")}
 /* El mapa se carga solo, un poco antes de llegar a la sección (sin clic) y aparece con un fundido */
-if("IntersectionObserver" in window){var o=new IntersectionObserver(function(es){if(es[0].isIntersecting){o.disconnect();ld()}},{rootMargin:"1400px 0px"});o.observe(m)}else{addEventListener("load",function(){setTimeout(ld,800)})}
-m.addEventListener("click",function(){ld();m.classList.add("on")});m.addEventListener("mouseleave",function(){m.classList.remove("on")});document.addEventListener("touchstart",function(e){if(!m.contains(e.target))m.classList.remove("on")},{passive:true})})();</script>
-<script src="js/motion.js" defer onerror="document.documentElement.classList.remove('m')"></script>
+	if("IntersectionObserver" in window){var o=new IntersectionObserver(function(es){if(es[0].isIntersecting){o.disconnect();ld()}},{rootMargin:"1400px 0px"});o.observe(m)}else{addEventListener("load",function(){setTimeout(ld,800)})}
+	m.addEventListener("click",function(){ld();m.classList.add("on")});m.addEventListener("mouseleave",function(){m.classList.remove("on")});document.addEventListener("touchstart",function(e){if(!m.contains(e.target))m.classList.remove("on")},{passive:true)})();</script>
 <script>
 (function(){
 var S=window.STOCK||[],g,RM=matchMedia("(prefers-reduced-motion:reduce)").matches;

@@ -1,22 +1,14 @@
-import { transition, animate, reduceMotion, qsa } from "./core.js";
+import { transition, reduceMotion } from "./core.js";
 
 export function initViewTransitions() {
-  if ("viewTransition" in document.documentElement.style) {
+  if (document.startViewTransition) {
     document.documentElement.classList.add("has-view-transitions");
   }
-  qsa("a[href$='.html'], a[href='./'], a[href='index.html']").forEach((link) => {
-    if (link.target || link.origin !== location.origin || reduceMotion.matches) return;
-    link.addEventListener("click", (event) => {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      if (!document.startViewTransition) return;
-      event.preventDefault();
-      const destination = link.href;
-      transition(() => { location.href = destination; }, []);
-    });
-  });
+  // Las navegaciones entre documentos quedan nativas: Chromium aplica
+  // `@view-transition { navigation: auto }` sin secuestrar teclado, touch ni historial.
 
   const dialog = document.querySelector("dialog");
-  if (dialog) {
+  if (dialog && !reduceMotion.matches) {
     window.chitaOpenDialog = (update) => transition(update, [".fcg", ".fch"]);
   }
 }

@@ -1,6 +1,7 @@
 import { animate, scroll, reduceMotion, qs } from "./core.js";
 
-const supportsScrollTimeline = CSS.supports("animation-timeline: scroll()") || CSS.supports("animation-timeline: view()");
+const supportsScrollTimeline = CSS.supports("animation-timeline: scroll(root block)");
+const supportsViewTimeline = CSS.supports("animation-timeline: view()");
 
 export function initScrollMotion() {
   if (reduceMotion.matches) return () => {};
@@ -13,13 +14,13 @@ export function initScrollMotion() {
 
   const hero = qs(".hero");
   const heroMedia = qs("#hzs");
-  if (hero && heroMedia && !supportsScrollTimeline) {
+  if (hero && heroMedia && !supportsViewTimeline) {
     const animation = animate(heroMedia, { scale: [1, 1.08], y: [0, 5], opacity: [1, 0.55] }, { ease: "linear" });
     cleanups.push(scroll(animation, { target: hero, offset: ["start start", "end start"] }));
   }
 
   const parallax = qs("#nph img");
-  if (parallax && !supportsScrollTimeline) {
+  if (parallax && !supportsViewTimeline) {
     const animation = animate(parallax, { scale: [1.12, 1.12], y: ["-4%", "4%"] }, { ease: "linear" });
     cleanups.push(scroll(animation, { target: qs("#nph") || parallax, offset: ["start end", "end start"] }));
   }
