@@ -1,82 +1,125 @@
-/* Chita — scroll = cámara. Una escena fija por unidad: detalle → auto → número → interior. Solo transform/opacity/clip-path. */
-const D=[
- {n:'01',brand:'Chevrolet',name:'Tracker',year:'2021',km:'100.000',tag:'Gris plata · Automática',
-  s:[['tracker-04','Chevrolet Tracker, óptica y frente','68% 36%',3.1],['tracker-01','Chevrolet Tracker gris plata, vista delantera derecha','80% 72%',2.5],['tracker-05','Interior: tablero, volante y pantalla central','50% 50%',1.35]],
-  r:[['tracker-01','Delantera derecha'],['tracker-02','Trasera'],['tracker-03','Lateral'],['tracker-04','Frente'],['tracker-05','Interior']]},
- {n:'02',brand:'Fiat',name:'Palio',year:'2017',km:'128.000',tag:'Blanco · Cinco puertas',
-  s:[['palio-01','Fiat Palio blanco dentro del salón de Chita','72% 62%',3],['palio-03','Fiat Palio blanco, vista delantera','65% 62%',2.4],['palio-interior','Interior del Fiat Palio, butacas de tela gris','60% 60%',1.35]],
-  r:[['palio-01','Delantera'],['palio-02','Trasera'],['palio-03','Frente'],['palio-interior','Interior']]}];
-const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
-const main=$('#main'),RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-main.innerHTML=D.map((u,i)=>`<section class="unit" id="u${i}" aria-label="${u.brand} ${u.name} ${u.year}"><div class="stage">
-${u.s.map(s=>`<div class="ph"><img src="images/showroom/${s[0]}.webp" alt="${s[1]}" ${i||s===u.s[0]?'':'loading="lazy"'} decoding="async"></div>`).join('')}
-<div class="word" aria-hidden="true">CHITA</div>
-<p class="m m-n">${u.n}</p><p class="m m-b">${u.brand}</p><p class="m m-y">${u.year}<br>${u.tag}</p>
-<h2 class="name">${u.name}</h2><div class="km"><b>${u.km}</b><i>km</i></div>
-<div class="act"><button type="button" data-open="${i}">Entrar</button><button type="button" data-book="${u.name}">Agendar</button></div></div></section>`).join('');
-const idx=$('.idx');idx.innerHTML=D.map((u,i)=>`<button type="button" data-go="${i}">${u.n}<span>${u.name}</span></button>`).join('')+'<button type="button" data-go="v">—<span>Visita</span></button>';
-const sts=[];
-if(!RM){
- gsap.registerPlugin(ScrollTrigger,ScrollToPlugin);
- const mob=matchMedia('(max-width:700px)').matches;
- D.forEach((u,i)=>{
-  const sec=$('#u'+i),ph=$$('.ph',sec),im=ph.map(p=>p.firstElementChild),w=$('.word',sec),km=$('.km',sec),nm=$('.name',sec),act=$('.act',sec),ms=$$('.m',sec);
-  gsap.set(ph[1],{clipPath:'inset(100% 0% 0% 0%)'});gsap.set(ph[2],{clipPath:'inset(50% 50% 50% 50%)'});
-  im.forEach((e,k)=>gsap.set(e,{transformOrigin:u.s[k][2],scale:u.s[k][3]}));
-  const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:sec,start:'top top',end:'+='+(mob?650:900)+'%',pin:$('.stage',sec),scrub:1,anticipatePin:1}});
-  tl.to(im[0],{scale:u.s[0][3]*.55,duration:2},0)
-    .to(ms,{opacity:1,duration:1,stagger:.25},.5)
-    .to(ph[1],{clipPath:'inset(0% 0% 0% 0%)',ease:'power3.inOut',duration:1.8},2)
-    .fromTo(im[1],{scale:u.s[1][3]},{scale:1.5,duration:1.8},2)
-    .to(im[0],{scale:u.s[0][3]*.8,duration:1.8},2)
-    .to(w,{yPercent:-9,duration:4},2)
-    .to(im[1],{scale:1.02,ease:'power1.inOut',duration:2.4},3.8)
-    .to(nm,{opacity:1,duration:1},4)
-    .to(km,{opacity:1,duration:1.2},4.4)
-    .to([km,nm],{opacity:0,duration:.8},6.2)
-    .to(ph[2],{clipPath:'inset(0% 0% 0% 0%)',ease:'power3.inOut',duration:1.8},6.4)
-    .to(im[1],{scale:2.3,ease:'power2.in',duration:1.8},6.4)
-    .fromTo(im[2],{scale:u.s[2][3]*1.35},{scale:1,duration:2.4},6.4)
-    .to(w,{yPercent:0,duration:2},8)
-    .to(act,{opacity:1,duration:.8},8.4).set(act,{pointerEvents:'auto'},8.4)
-    .to({},{duration:1.2});
-  sts.push(tl.scrollTrigger);
- });
- gsap.fromTo('.visit h2,.visit .row',{yPercent:6,opacity:0},{yPercent:0,opacity:1,duration:1.6,ease:'expo.out',stagger:.15,scrollTrigger:{trigger:'.visit',start:'top 55%'}});
- gsap.fromTo('.end',{yPercent:30},{yPercent:0,ease:'none',scrollTrigger:{trigger:'.visit',start:'top 40%',end:'bottom bottom',scrub:1}});
+const DATA={
+ tracker:{brand:'CHEVROLET',model:'TRACKER',year:'2021',km:'100.000 KM',visible:'GRIS PLATA · TECHO SOLAR · LLANTAS DE ALEACIÓN · PANTALLA CENTRAL',photos:[
+  ['tracker-01','EXTERIOR','Chevrolet Tracker gris plata, vista delantera derecha',[['ÓPTICA',68,52,'La óptica delantera visible en la foto.','Diseño frontal','La forma y el conjunto de iluminación son parte de lo que se puede verificar a simple vista.'],['LLANTA',82,72,'La llanta delantera derecha.','Detalle de rueda','Un punto de contacto real con el suelo, sin salir de la foto.']]],
+  ['tracker-02','TRASERA','Chevrolet Tracker gris plata, vista trasera',[]],
+  ['tracker-03','LATERAL','Chevrolet Tracker gris plata, vista lateral',[]],
+  ['tracker-04','FRENTE','Chevrolet Tracker gris plata, vista delantera',[]],
+  ['tracker-05','INTERIOR','Tablero, volante y pantalla central de Chevrolet Tracker',[['VOLANTE',21,64,'El volante y sus comandos visibles.','Puesto de conducción','La foto permite mirar la disposición del puesto delantero.'],['PANTALLA',50,45,'La pantalla central del tablero.','Centro del tablero','Un detalle de tecnología que sí aparece en esta toma.']]]
+ ]},
+ palio:{brand:'FIAT',model:'PALIO',year:'2017',km:'128.000 KM',visible:'BLANCO · CINCO PUERTAS · TAPIZADO DE TELA GRIS · CAJA MANUAL',photos:[
+  ['palio-01','EXTERIOR','Fiat Palio blanco dentro del salón de Chita',[['ÓPTICA',69,58,'La óptica delantera derecha.','Frente del Palio','La toma permite reconocer el frente y su diseño de iluminación.']]],
+  ['palio-02','FRENTE','Fiat Palio blanco, vista delantera',[]],
+  ['palio-03','TRASERA','Fiat Palio blanco, vista trasera',[]],
+  ['palio-04','INTERIOR','Interior de Fiat Palio',[]]
+ ]}
+};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const viewer=$('[data-viewer]'),stage=$('[data-stage]'),image=$('[data-main-image]'),hotspots=$('[data-hotspots]');
+const state={unit:'tracker',photo:0,zoom:1,x:0,y:0,drag:false,startX:0,startY:0,originX:0,originY:0,pointers:new Map(),pinchStart:0,pinchZoom:1,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};
+const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+function current(){return DATA[state.unit].photos[state.photo]}
+function renderTransform(animated=true){const maxX=viewer.clientWidth*(state.zoom-1)*.55,maxY=viewer.clientHeight*(state.zoom-1)*.55;state.x=clamp(state.x,-maxX,maxX);state.y=clamp(state.y,-maxY,maxY);const value=`translate3d(${state.x}px,${state.y}px,0) scale(${state.zoom})`;if(window.gsap&&!state.reduced&&animated)gsap.to(stage,{duration:.55,x:state.x,y:state.y,scale:state.zoom,ease:'power3.out',overwrite:true});else stage.style.transform=value;$('[data-zoom-label]').textContent=`${Math.round(state.zoom*100)}%`;}
+function setZoom(next,focusX=viewer.clientWidth/2,focusY=viewer.clientHeight/2){const old=state.zoom;state.zoom=clamp(next,1,3.2);if(state.zoom!==old){const ratio=state.zoom/old;state.x=focusX-(focusX-state.x)*ratio;state.y=focusY-(focusY-state.y)*ratio;}renderTransform(true);}
+function resetView(){state.zoom=1;state.x=0;state.y=0;renderTransform(true);}
+function setDetail(h){const panel=$('.detail-panel');if(!h){panel.classList.remove('has-detail');$('[data-detail-title]').innerHTML='Vista<br><em>general</em>';$('[data-detail-copy]').textContent='Una vista real de la unidad publicada. Tocá un punto para mirar más de cerca.';$('[data-detail-question]').textContent='Elegí un detalle sobre la imagen.';$$('.hotspot').forEach(x=>x.classList.remove('is-active'));return}panel.classList.add('has-detail');$('[data-detail-title]').innerHTML=`${h[0].toLowerCase()}<br><em>${h[4]}</em>`;$('[data-detail-copy]').textContent=h[3];$('[data-detail-question]').textContent=h[5];$$('.hotspot').forEach(x=>x.classList.toggle('is-active',x.dataset.name===h[0]));const rect=viewer.getBoundingClientRect();const hx=rect.width*h[1]/100,hy=rect.height*h[2]/100;setZoom(Math.max(state.zoom,1.75),hx,hy);}
+function renderHotspots(){hotspots.innerHTML='';const hs=current()[3];hs.forEach(h=>{const b=document.createElement('button');b.type='button';b.className='hotspot';b.style.left=`${h[1]}%`;b.style.top=`${h[2]}%`;b.dataset.name=h[0];b.setAttribute('aria-label',`Ver detalle: ${h[0].toLowerCase()}`);b.innerHTML=`<span>${h[0]}</span>`;b.addEventListener('click',e=>{e.stopPropagation();setDetail(h)});hotspots.append(b)});}
+function renderStrip(){const strip=$('[data-photo-strip]');strip.innerHTML='';DATA[state.unit].photos.forEach((p,i)=>{const b=document.createElement('button');b.type='button';b.className=`photo-thumb ${i===state.photo?'is-active':''}`;b.setAttribute('aria-label',`Ver foto ${i+1}: ${p[1].toLowerCase()}`);b.innerHTML=`<img src="images/showroom/${p[0]}.webp" alt="${p[2]}" loading="lazy">`;b.addEventListener('click',()=>setPhoto(i));strip.append(b)});}
+function setPhoto(i){state.photo=i;const p=current();setDetail();if(window.gsap&&!state.reduced)gsap.to(image,{opacity:0,duration:.18,onComplete:()=>{image.src=`images/showroom/${p[0]}.webp`;image.alt=p[2];renderHotspots();renderStrip();resetView();gsap.to(image,{opacity:1,duration:.35})}});else{image.src=`images/showroom/${p[0]}.webp`;image.alt=p[2];renderHotspots();renderStrip();resetView();}}
+function setUnit(id){state.unit=id;state.photo=0;const u=DATA[id];$$('[data-unit]').forEach(b=>{const active=b.dataset.unit===id;b.classList.toggle('is-active',active);b.setAttribute('aria-selected',String(active));});$('[data-detail-kicker]').textContent=`${u.brand} ${u.model} · ${u.year}`;const contact=$('[data-contact-phone]'); if(contact) contact.href='tel:+543442442782';setPhoto(0);}
+viewer.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;state.pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(state.pointers.size===1){state.drag=true;state.startX=e.clientX;state.startY=e.clientY;state.originX=state.x;state.originY=state.y;viewer.classList.add('is-dragging');}else if(state.pointers.size===2){const [a,b]=[...state.pointers.values()];state.pinchStart=Math.hypot(a.x-b.x,a.y-b.y);state.pinchZoom=state.zoom;state.drag=false;}viewer.setPointerCapture?.(e.pointerId);});
+viewer.addEventListener('pointermove',e=>{if(!state.pointers.has(e.pointerId))return;state.pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(state.pointers.size===2){const [a,b]=[...state.pointers.values()];const distance=Math.hypot(a.x-b.x,a.y-b.y);const rect=viewer.getBoundingClientRect();setZoom(state.pinchZoom*distance/state.pinchStart,(a.x+b.x)/2-rect.left,(a.y+b.y)/2-rect.top);return}if(!state.drag)return;state.x=state.originX+e.clientX-state.startX;state.y=state.originY+e.clientY-state.startY;renderTransform(false);});
+['pointerup','pointercancel'].forEach(type=>viewer.addEventListener(type,e=>{state.pointers.delete(e.pointerId);if(state.pointers.size<2){state.pinchStart=0;state.drag=false;viewer.classList.remove('is-dragging');renderTransform(true);}}));viewer.addEventListener('wheel',e=>{e.preventDefault();const r=viewer.getBoundingClientRect();setZoom(state.zoom+(e.deltaY<0?.18:-.18),e.clientX-r.left,e.clientY-r.top)},{passive:false});viewer.addEventListener('keydown',e=>{if(e.key==='+'||e.key==='='){e.preventDefault();setZoom(state.zoom+.35)}if(e.key==='-'||e.key==='_'){e.preventDefault();setZoom(state.zoom-.35)}if(e.key==='0'){e.preventDefault();resetView()}});
+$('[data-zoom-in]').addEventListener('click',()=>setZoom(state.zoom+.35));$('[data-zoom-out]').addEventListener('click',()=>setZoom(state.zoom-.35));$('[data-reset]').addEventListener('click',resetView);$('[data-clear]').addEventListener('click',()=>{resetView();setDetail()});$$('[data-unit]').forEach(b=>b.addEventListener('click',()=>setUnit(b.dataset.unit)));
+window.addEventListener('resize',()=>renderTransform(false));
+renderHotspots();renderStrip();setUnit('tracker');
+
+/* SIGNATURE SCENE / scroll = transformación: objeto → señal → detalle */
+const signature=document.querySelector('.signature-scene');
+if(signature&&window.gsap&&window.ScrollTrigger&&!state.reduced){
+ const media=signature.querySelector('[data-signature-media]'), detail=signature.querySelector('.signature-detail'), words=signature.querySelectorAll('[data-signature-word]'), stateLabel=signature.querySelector('[data-signature-state]');
+ const tl=gsap.timeline({scrollTrigger:{trigger:signature,start:'top top',end:'bottom bottom',scrub:.8}});
+ tl.to(media,{xPercent:13,yPercent:-7,scale:1.22,rotation:2,clipPath:'polygon(0% 18%,82% 0%,100% 78%,20% 100%)',ease:'none'},0);
+ tl.to(words[0],{xPercent:-28,yPercent:-42,scale:.68,opacity:.16,ease:'none'},0);
+ tl.to(detail,{scale:1,opacity:1,xPercent:-8,yPercent:-12,ease:'power2.out'},.38);
+ tl.to(words[1],{xPercent:-22,opacity:1,scale:1.08,ease:'none'},.54);
+ tl.call(()=>{stateLabel.textContent='02 / SEÑAL'},[],.46);
+ tl.call(()=>{stateLabel.textContent='03 / DETALLE'},[],.78);
 }
-idx.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;const g=b.dataset.go,y=g==='v'?$('#visita').getBoundingClientRect().top+scrollY:(sts[+g]?sts[+g].start:$('#u'+g).offsetTop);
- RM?scrollTo({top:y}):gsap.to(window,{scrollTo:y,duration:2.2,ease:'power3.inOut',overwrite:true})});
-addEventListener('pointermove',e=>idx.classList.toggle('on',e.clientX>innerWidth-150),{passive:true});
-idx.addEventListener('pointerdown',()=>idx.classList.add('on'));
-/* Entrar: se abre la puerta (clip desde el centro) */
-const room=$('.room'),roomTl={};let lastF=null;
-function openRoom(i){const u=D[i];lastF=document.activeElement;
- $('.shots',room).innerHTML=u.r.map(r=>`<div class="shot"><img src="images/showroom/${r[0]}.webp" alt="${u.brand} ${u.name}, ${r[1].toLowerCase()}" loading="lazy"></div>`).join('');
- $('h3',room).textContent=u.brand+' '+u.name;
- $('.mm',room).innerHTML=`${u.year} · ${u.km} km<br>${u.tag}<br><a href="tel:+543442442782" style="text-decoration:underline">Llamar</a> · <button type="button" data-book="${u.name}" style="text-decoration:underline">Agendar</button>`;
- room.scrollTop=0;room.style.visibility='visible';document.body.style.overflow='hidden';
- RM?room.style.clipPath='none':gsap.to(room,{clipPath:'inset(0% 0% 0% 0%)',duration:1.4,ease:'expo.inOut'});$('.close',room).focus()}
-function closeRoom(){const f=()=>{room.style.visibility='hidden';document.body.style.overflow='';lastF&&lastF.focus()};
- RM?(room.style.clipPath='inset(50% 50% 50% 50%)',f()):gsap.to(room,{clipPath:'inset(50% 50% 50% 50%)',duration:1,ease:'expo.inOut',onComplete:f})}
-$('.close',room).onclick=closeRoom;
-/* Agenda: libro de citas. Sin horarios inventados: día + franja; se confirma por teléfono */
-const bk=$('.book'),st={d:null,s:null,u:'Solo visitar'};
-const DN=['dom','lun','mar','mié','jue','vie','sáb'],MN=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const days=[];for(let k=1;days.length<8;k++){const d=new Date();d.setDate(d.getDate()+k);if(d.getDay())days.push(d)}
-$('[data-days]').innerHTML=days.map((d,i)=>`<button type="button" data-d="${i}" aria-pressed="false"><small>${DN[d.getDay()]}</small><b>${d.getDate()}</b>${MN[d.getMonth()]}</button>`).join('');
-$('[data-slots]').innerHTML=['Mañana','Tarde'].map(s=>`<button type="button" data-s="${s}" aria-pressed="false">${s}</button>`).join('');
-$('[data-units]').innerHTML=['Solo visitar',...D.map(u=>u.brand+' '+u.name)].map((s,i)=>`<button type="button" data-u="${s}" aria-pressed="${!i}">${s}</button>`).join('');
-const go=$('.go',bk),ok=$('[data-ok]',bk);
-bk.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
- for(const k of ['d','s','u'])if(b.dataset[k]!==undefined){st[k]=k==='d'?+b.dataset.d:b.dataset[k];$$('[data-'+k+']',bk).forEach(x=>x.setAttribute('aria-pressed',x===b))}
- go.disabled=st.d===null||!st.s;
- if(b===go){const d=days[st.d];ok.innerHTML=`Cita pedida: ${DN[d.getDay()]} ${d.getDate()} de ${MN[d.getMonth()]}, ${st.s.toLowerCase()}. ${st.u}.<br><a href="tel:+543442442782" style="text-decoration:underline;font-size:.6em">Llamá al 03442 44-2782 para confirmarla.</a>`;
-  RM||gsap.fromTo(ok,{opacity:0,yPercent:8},{opacity:1,yPercent:0,duration:1.2,ease:'expo.out'})}});
-function openBook(u){if(u&&u!=='Visitar'){const m=D.find(x=>x.name===u);if(m){st.u=m.brand+' '+m.name;$$('[data-u]',bk).forEach(x=>x.setAttribute('aria-pressed',x.dataset.u===st.u))}}
- bk.style.visibility='visible';document.body.style.overflow='hidden';RM?bk.style.clipPath='none':gsap.to(bk,{clipPath:'inset(0% 0% 0% 0%)',duration:1.2,ease:'expo.inOut'});$('.x',bk).focus()}
-function closeBook(){const f=()=>{bk.style.visibility='hidden';document.body.style.overflow=room.style.visibility==='visible'?'hidden':''};
- RM?(bk.style.clipPath='inset(0 0 100% 0)',f()):gsap.to(bk,{clipPath:'inset(0% 0% 100% 0%)',duration:1,ease:'expo.inOut',onComplete:f})}
-$('.x',bk).onclick=closeBook;
-document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o)return openRoom(+o.dataset.open);const b=e.target.closest('[data-book]');if(b&&!bk.contains(b))openBook(b.dataset.book)});
-addEventListener('keydown',e=>{if(e.key==='Escape')bk.style.visibility==='visible'?closeBook():room.style.visibility==='visible'&&closeRoom()});
+/* SHOWROOM / el gesto de arrastre mueve las capas, no una tarjeta */
+const infiniteStage=$('.infinite-stage');
+if(infiniteStage){
+ let dragStart=null, drift=0;
+ const move=(x)=>{drift=clamp(drift+x,-18,18); const front=infiniteStage.querySelector('.infinite-car--front'), back=infiniteStage.querySelector('.infinite-car--back'); if(window.gsap&&!state.reduced){gsap.to(front,{x:drift*1.8,duration:.65,ease:'power3.out',overwrite:true});gsap.to(back,{x:-drift,duration:.8,ease:'power3.out',overwrite:true});}else{front.style.transform=`translate3d(${drift*1.8}px,0,0)`;back.style.transform=`translate3d(${-drift}px,0,0)`;}}
+ infiniteStage.addEventListener('pointerdown',e=>{dragStart=e.clientX;infiniteStage.setPointerCapture?.(e.pointerId)});
+ infiniteStage.addEventListener('pointermove',e=>{if(dragStart!==null){move((e.clientX-dragStart)*.035);dragStart=e.clientX}});
+ ['pointerup','pointercancel','pointerleave'].forEach(type=>infiniteStage.addEventListener(type,()=>{dragStart=null}));
+}
+/* lectura global: una sola barra, sin listeners pesados */
+const progressBar=$('.read-progress');
+if(progressBar&&window.gsap&&window.ScrollTrigger&&!state.reduced){gsap.to(progressBar,{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.2}})}
+/* LONGFORM SYSTEM — un solo lenguaje de movimiento para todo el recorrido */
+const routeStates=[
+ {copy:'Para moverte todos los días.',unit:'FIAT PALIO / 2017 · 128.000 KM',x:'0vw',y:'0vh',scale:1},
+ {copy:'Para abrir distancia.',unit:'CHEVROLET TRACKER / 2021 · 100.000 KM',x:'-3vw',y:'-1vh',scale:1.06},
+ {copy:'Para todo lo que viene.',unit:'CHEVROLET TRACKER / 2021 · 100.000 KM',x:'2vw',y:'-2vh',scale:1.12},
+ {copy:'Para que el día rinda.',unit:'FIAT PALIO / 2017 · 128.000 KM',x:'4vw',y:'0vh',scale:1.03},
+ {copy:'Para salir de la línea.',unit:'CHEVROLET TRACKER / 2021 · 100.000 KM',x:'-1vw',y:'-4vh',scale:1.16}
+];
+const routeStory=$('.route-story');
+if(routeStory){const routeImg=routeStory.querySelector('.route-art img'),routeCopy=routeStory.querySelector('[data-route-copy]'),routeUnit=routeStory.querySelector('[data-route-unit]');$$('[data-route-tab]').forEach((b,i)=>b.addEventListener('click',()=>{const s=routeStates[i];$$('[data-route-tab]').forEach((x,n)=>x.classList.toggle('is-active',n===i));routeCopy.textContent=s.copy;routeUnit.textContent=s.unit;if(window.gsap&&!state.reduced)gsap.to(routeImg,{duration:.7,x:s.x,y:s.y,scale:s.scale,ease:'power3.out'});else routeImg.style.transform=`translate3d(${s.x},${s.y},0) scale(${s.scale})`;}));}
+const briefingStory=$('.briefing-story');
+if(briefingStory){const scenes=[['EXTERIOR','Una mirada real, sin intermediarios. La unidad como aparece en la calle.','images/showroom/tracker-01.webp'],['INTERIOR','Entrá al habitáculo: volante, tablero y pantalla que sí están en la foto.','images/showroom/tracker-05.webp'],['DATOS','Lo que necesitás recordar: modelo, año y kilómetros publicados.','images/showroom/tracker-03.webp'],['CONTACTO','Si te hizo frenar, el próximo paso es hablar con Chita.','images/showroom/palio-01.webp']];const img=briefingStory.querySelector('[data-briefing-image]'),tag=briefingStory.querySelector('[data-briefing-tag]'),copy=briefingStory.querySelector('[data-briefing-copy]'),progress=briefingStory.querySelector('[data-briefing-progress]');$$('[data-briefing-stage]').forEach((b,i)=>b.addEventListener('click',()=>{const s=scenes[i];$$('[data-briefing-stage]').forEach((x,n)=>x.classList.toggle('is-active',n===i));tag.textContent=s[0];copy.textContent=s[1];progress.style.width=`${(i+1)*25}%`;if(window.gsap&&!state.reduced)gsap.fromTo(img,{opacity:.35,x:'4vw',scale:1.08},{opacity:1,x:0,scale:1,duration:.65,ease:'power3.out'});img.src=s[2];}));}
+const videoToggle=$('[data-video-toggle]'),ambientVideo=$('.passed-media video');if(videoToggle&&ambientVideo)videoToggle.addEventListener('click',()=>{if(ambientVideo.paused){ambientVideo.play();videoToggle.innerHTML='PAUSAR ESCENA <span>Ⅱ</span>';}else{ambientVideo.pause();videoToggle.innerHTML='REPRODUCIR ESCENA <span>▶</span>';}});
+if(window.gsap&&window.ScrollTrigger&&!state.reduced){gsap.registerPlugin(ScrollTrigger);const ctx=gsap.context(()=>{gsap.utils.toArray('.long-intro,.route-story,.briefing-story,.passed-by,.sound-story,.behind-story,.open-auto,.journey-story,.calendar-story').forEach(section=>{const visual=section.querySelector('img,video,.sound-wheel,.calendar-mark');if(visual)gsap.fromTo(visual,{y:34,opacity:.55},{y:0,opacity:1,ease:'none',scrollTrigger:{trigger:section,start:'top 82%',end:'top 30%',scrub:.7}});});gsap.fromTo('.hotspot',{scale:.65,opacity:0},{scale:1,opacity:1,stagger:.12,duration:.7,ease:'power3.out',scrollTrigger:{trigger:'.viewer',start:'top 78%'}});});window.addEventListener('pagehide',()=>ctx.revert(),{once:true});}
+
+/* DISTANCE MAP — coordenadas reales, trazado explícitamente orientativo */
+const distanceSection=$('.distance-experience');
+if(distanceSection){
+ const locations={
+  gualeguaychu:{name:'GUALEGUAYCHÚ',lat:-33.0078908,lon:-58.5109859,km:73,time:'≈ 1 h 04 min',minutes:64},
+  colon:{name:'COLÓN',lat:-32.2182804,lon:-58.1356171,km:47,time:'≈ 37 min',minutes:37},
+  villaguay:{name:'VILLAGUAY',lat:-31.8676271,lon:-59.0270174,km:129,time:'≈ 1 h 35 min',minutes:95},
+  parana:{name:'PARANÁ',lat:-31.7330145,lon:-60.5298511,km:265,time:'≈ 3 h 16 min',minutes:196},
+  concordia:{name:'CONCORDIA',lat:-31.3401914,lon:-58.0263642,km:154,time:'≈ 1 h 50 min',minutes:110},
+  federacion:{name:'FEDERACIÓN',lat:-30.9856574,lon:-57.9194395,km:197,time:'≈ 2 h 17 min',minutes:137},
+  concepcion:{name:'CONCEPCIÓN DEL URUGUAY',lat:-32.4851849,lon:-58.2320232,km:0,time:'≈ 0 min',minutes:0}
+ };
+ const map=distanceSection.querySelector('.distance-map'),nodes=distanceSection.querySelector('[data-map-nodes]'),labels=distanceSection.querySelector('[data-map-labels]'),path=distanceSection.querySelector('[data-route-path]'),glow=distanceSection.querySelector('[data-route-glow]'),select=distanceSection.querySelector('[data-distance-select]'),chita=distanceSection.querySelector('.chita-node'),ring=distanceSection.querySelector('.chita-ring');
+ const minLon=-60.8,maxLon=-57.7,minLat=-33.3,maxLat=-30.7, mapPoint=l=>({x:100+(l.lon-minLon)/(maxLon-minLon)*600,y:70+(maxLat-l.lat)/(maxLat-minLat)*410});
+ const dest=mapPoint(locations.concepcion);chita.setAttribute('cx',dest.x);chita.setAttribute('cy',dest.y);ring.setAttribute('cx',dest.x);ring.setAttribute('cy',dest.y);
+ Object.entries(locations).forEach(([id,loc])=>{if(id==='concepcion')return;const p=mapPoint(loc);const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',p.x);c.setAttribute('cy',p.y);c.setAttribute('r','5');c.classList.add('map-node');c.dataset.location=id;c.setAttribute('tabindex','0');c.setAttribute('role','button');c.setAttribute('aria-label',`Seleccionar ${loc.name}`);c.addEventListener('click',()=>selectLocation(id));c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectLocation(id)}});nodes.append(c);const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',p.x+10);t.setAttribute('y',p.y-10);t.textContent=loc.name;t.classList.add('map-node-label');t.dataset.locationLabel=id;labels.append(t);});
+ function selectLocation(id){const loc=locations[id];select.value=id;distanceSection.dataset.mapSelected='true';distanceSection.querySelector('[data-distance-from]').textContent=loc.name;distanceSection.querySelector('[data-distance-km]').textContent=`${loc.km} km`;distanceSection.querySelector('[data-distance-time]').textContent=loc.time;distanceSection.querySelector('[data-distance-maps]').href=`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(loc.name+', Entre Ríos, Argentina')}&destination=Chita+Automotores%2C+Gral.+Galarza+1712%2C+Concepci%C3%B3n+del+Uruguay`;
+  const start=mapPoint(loc),midX=(start.x+dest.x)/2,midY=Math.min(start.y,dest.y)-90;const d=`M ${start.x} ${start.y} Q ${midX} ${midY} ${dest.x} ${dest.y}`;path.setAttribute('d',d);glow.setAttribute('d',d);const length=path.getTotalLength();path.style.strokeDasharray=length;glow.style.strokeDasharray=length;path.style.strokeDashoffset=length;glow.style.strokeDashoffset=length;nodes.querySelectorAll('.map-node').forEach(n=>n.classList.toggle('is-active',n.dataset.location===id));labels.querySelectorAll('.map-node-label').forEach(n=>n.classList.toggle('is-active',n.dataset.locationLabel===id));
+  if(window.gsap&&!state.reduced){const tl=gsap.timeline();tl.to([path,glow],{strokeDashoffset:0,duration:1.1,ease:'power2.inOut'}).fromTo('[data-distance-km]',{opacity:0,y:10},{opacity:1,y:0,duration:.35},'-=.25').fromTo('[data-distance-time]',{opacity:0,y:10},{opacity:1,y:0,duration:.35},'-=.15');}else{path.style.strokeDashoffset=0;glow.style.strokeDashoffset=0;}
+ }
+ select.addEventListener('change',()=>selectLocation(select.value));selectLocation('gualeguaychu');
+ if(window.gsap&&window.ScrollTrigger&&!state.reduced){gsap.fromTo(distanceSection.querySelector('.distance-map'),{opacity:.15,scale:.92},{opacity:1,scale:1,duration:1,ease:'power3.out',scrollTrigger:{trigger:distanceSection,start:'top 80%',once:true}});}
+}
+
+/* SPATIAL EXPERIENCE / additive mode layer — no existing scene is removed */
+(function(){
+ const root=document.querySelector('[data-space-experience]'); if(!root)return;
+ const canvas=root.querySelector('[data-space-canvas]'), vehicle=root.querySelector('[data-space-vehicle]'), image=root.querySelector('[data-space-image]'), detail=root.querySelector('[data-space-detail]'), title=root.querySelector('[data-space-title]'), desc=root.querySelector('[data-space-description]'), code=root.querySelector('[data-space-code]'), status=root.querySelector('[data-space-status]'), modes=[...root.querySelectorAll('[data-space-mode]')];
+ const states={look:{title:'LOOK',desc:'Mové el espacio. El vehículo aparece antes que la explicación.',code:'Q2 / LOOK / 01',status:'01 / OBJETO EN CAMPO',image:'images/showroom/tracker-01.webp',alt:'Chevrolet Tracker gris plata, vista delantera derecha'},detail:{title:'DETAIL',desc:'Acercate. La imagen se abre y aparece lo que estaba adentro.',code:'T1 / DETAIL / 02',status:'02 / PROFUNDIDAD / TABLERO',image:'images/showroom/tracker-05.webp',alt:'Tablero, volante y pantalla central de Chevrolet Tracker'},stock:{title:'STOCK',desc:'Dos unidades reales. Una toma el campo; la otra espera fuera de cuadro.',code:'S3 / STOCK / 03',status:'03 / CAMBIO DE FOCO',image:'images/showroom/palio-01.webp',alt:'Fiat Palio blanco dentro del salón de Chita'},visit:{title:'VISIT',desc:'La dirección no es una sección: es el punto donde el espacio termina.',code:'V4 / VISIT / 04',status:'04 / GRAL. GALARZA 1712',image:'images/local-frente.webp',alt:'Frente del local de Chita Automotores'},action:{title:'ACTION',desc:'Elegí cómo seguir: llamar, conocer la ubicación o entrar al calendario.',code:'A5 / ACTION / 05',status:'05 / DECISIÓN',image:'images/showroom/tracker-03.webp',alt:'Chevrolet Tracker gris plata, vista lateral'}};
+ let current='look', pointerX=0, pointerY=0, startX=null, startY=null, camera=.42;
+ function setMode(name){const st=states[name]||states.look; current=name; root.dataset.spaceMode=name; modes.forEach(b=>{const on=b.dataset.spaceMode===name;b.classList.toggle('is-active',on);b.setAttribute('aria-current',on?'true':'false')}); title.textContent=st.title;desc.textContent=st.desc;code.textContent=st.code;status.textContent=st.status; if(image.src!==new URL(st.image,location.href).href){image.src=st.image;image.alt=st.alt} if(window.gsap&&!matchMedia('(prefers-reduced-motion: reduce)').matches){gsap.fromTo(vehicle,{opacity:.45,scale:.92},{opacity:1,scale:1,duration:.65,ease:'power3.out',overwrite:true});gsap.fromTo([title,desc],{opacity:.35,y:14},{duration:.45,opacity:1,y:0,ease:'power3.out',stagger:.04,overwrite:true})}}
+ modes.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.spaceMode)));
+ root.querySelector('[data-space-close]').addEventListener('click',()=>{root.classList.add('is-dismissed');document.body.classList.remove('space-open');document.querySelector('#inicio')?.focus?.()});
+ function cameraMove(delta){
+  camera=Math.max(0,Math.min(1,camera+delta));
+  const scale=.78+camera*.72;
+  const y=-camera*7;
+  if(window.gsap&&!matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.to(vehicle,{scale,yPercent:y,duration:.6,ease:'power3.out',overwrite:true});
+  else {vehicle.style.transform=`scale(${scale}) translateY(${y}%)`;}
+  const hint=root.querySelector('[data-space-hint]');
+  if(camera<.28){hint.textContent='LEJOS / IDENTIDAD / SCROLL PARA ACERCAR'; status.textContent='01 / CAMPO ABIERTO';}
+  else if(camera<.68){hint.textContent='MEDIO / MODELO / AÑO / KILOMETRAJE'; status.textContent='02 / ZOOM SEMÁNTICO';}
+  else {hint.textContent='CERCA / DETALLE / HOTSPOTS / INSPECCIÓN'; status.textContent='03 / INSPECCIÓN PROFUNDA';}
+ }
+ canvas.addEventListener('wheel',e=>{if(root.classList.contains('is-dismissed'))return;e.preventDefault();cameraMove(e.deltaY>0?.075:-.075)},{passive:false});
+ canvas.addEventListener('pointerdown',e=>{startX=e.clientX;startY=e.clientY;canvas.setPointerCapture?.(e.pointerId)});
+ canvas.addEventListener('pointermove',e=>{pointerX=(e.clientX/innerWidth-.5)*2;pointerY=(e.clientY/innerHeight-.5)*2;if(window.gsap&&!matchMedia('(prefers-reduced-motion: reduce)').matches)gsap.to(vehicle,{x:pointerX*18,y:pointerY*12,duration:.7,overwrite:true})});
+ canvas.addEventListener('pointerup',e=>{if(startX!==null){const dx=e.clientX-startX,dy=e.clientY-startY;if(Math.abs(dy)>45&&Math.abs(dy)>Math.abs(dx)){cameraMove(dy>0?.12:-.12)}else if(Math.abs(dx)>60){const idx=modes.findIndex(x=>x.dataset.spaceMode===current);setMode(modes[(idx+(dx<0?1:-1)+modes.length)%modes.length].dataset.spaceMode)}startX=null;startY=null}});
+ document.addEventListener('keydown',e=>{if(root.classList.contains('is-dismissed'))return;if(e.key==='Escape'){root.querySelector('[data-space-close]').click();return}if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const idx=modes.findIndex(x=>x.dataset.spaceMode===current);setMode(modes[(idx+(e.key==='ArrowRight'?1:-1)+modes.length)%modes.length].dataset.spaceMode)}if(e.key==='+'||e.key==='='||e.key==='-'||e.key==='_'){cameraMove((e.key==='+'||e.key==='=')?.1:-.1)}});
+ setMode('look');
+})();
