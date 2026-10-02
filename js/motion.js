@@ -622,7 +622,7 @@
     /* ---------- v7 · Quiénes somos, reseñas y vista previa del mensaje ---------- */
     reveal($$('#nosotros .ns > div'), '#nosotros .ns', { s: .1, y: 24, st: 'top 90%', nt: 1 });
     $$('#nosotros .ns b').forEach(function (b) {
-      var t = parseInt(b.textContent, 10); if (!t) return;
+      var t = parseInt(b.textContent, 10); if (!t || b.hasAttribute('data-s')) return;
       g.fromTo(b, { textContent: 0 }, { textContent: t, duration: 1.6, ease: 'power3.out', snap: { textContent: 1 }, scrollTrigger: { trigger: b, start: 'top 92%', once: true } });
     });
     reveal($$('.rvc'), '.rvg', { s: .14, y: 34, st: 'top 88%', nt: 1 });

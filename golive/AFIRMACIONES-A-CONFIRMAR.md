@@ -1,3 +1,24 @@
+## Dossiers 1 y 2 · 2026-10-02 (implementados en el sitio)
+Detalle por dato en `data/sources.json` y `data/vehicles.json`.
+
+**Ahora en el sitio (con respaldo en Instagram de Chita):** «Recibimos tu usado», «Financiación en cuotas fijas» (sin cuotas, tasa, entidad ni simulador), «0 km y usados», Tracker Premier 1.2T 2021 · 100.000 km, valoración de Google 4,7/5 · 45 reseñas con fecha, paradas de colectivo (Moovit, con fecha).
+
+**Retirado por no tener respaldo:** «39 años de confianza» (fila 11), «Dueño» con iniciales en el equipo, «como parte de pago» (mecánica sin confirmar).
+
+**Corregido:** coordenadas del mapa, Waze y compartir (había tres puntos distintos; ahora -32.486865, -58.250318) y paréntesis vacíos en el texto de dirección.
+
+| Pendiente con Chita | Detalle |
+|---|---|
+| Km del Palio 2017 | 128.000 (demo) vs 120.000 (Instagram). Oculto hasta conciliar. Revisar también el Palio 2013, que repite 128.000 |
+| Horarios | Tres versiones (Google, GTM, ZonaAuto) |
+| Teléfono 03442 54-7671 | ¿Gestoría o general? |
+| Estado fiscal y fecha de constitución | Indicadores AR «activa», 31/03/1991 vs Datok «inactivo», 01/04/1991. No se publica |
+| Condiciones de financiación | Cuotas, entidad, tasa, anticipo, requisitos |
+| Qué significa «Recibimos tu usado» | Compra, parte de pago o consignación |
+| Versión Premier 1.2T | Confirmar que las fotos corresponden a esa unidad |
+| «Casi Bv. Montoneras» y número 1337 del pilar | Sin fuente en los dossiers |
+| Disponibilidad y precio de cada unidad | Sin dato actual |
+
 ## Actualización pública · 2026-10-02
 
 - Instagram público: [@chita.automotores](https://www.instagram.com/chita.automotores/?hl=en) muestra “Usados y 0km | Cuotas fijas” y “Gestoría: 3442-547671”; sus destacados incluyen Consignación, Financiación y 0km y usados.

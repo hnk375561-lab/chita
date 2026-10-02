@@ -50,6 +50,17 @@ else {
   }
   for (const f of fs.readdirSync(path.join(root, 'images'))) if (!used.has(f)) console.warn(`Aviso: imagen de reserva sin usar: images/${f}`);
 }
+
+// Dossiers 2026-10-02: fuentes, vehículos, coordenadas, reseñas y afirmaciones prohibidas
+for (const f of ['data/sources.json', 'data/vehicles.json']) { try { JSON.parse(fs.readFileSync(path.join(root, f), 'utf8')); } catch (e) { errors.push(`${f} no es JSON válido`); } }
+const veh = JSON.parse(fs.readFileSync(path.join(root, 'data/vehicles.json'), 'utf8')).vehicles;
+const stockLines = (html.split('var STOCK')[1] || '').split('\n');
+for (const v of veh) if (v.published && v.kmStatus === 'conflict') { const l = stockLines.find((x) => x.includes(`titulo:"${v.stockTitle}"`)); if (!l) errors.push(`vehicles.json: no está en STOCK ${v.stockTitle}`); else if (/km:\s*"/.test(l)) errors.push(`${v.stockTitle}: km publicado pese a conflicto de fuentes`); }
+const co = d.location.coordinates; if (!co || !html.includes(`q=${co.lat},${co.lng}`) || !html.includes(`ll=${co.lat},${co.lng}`)) errors.push('Mapa/Waze no usan las coordenadas de dealership.json');
+if (/-32\.4828|-32\.4882114/.test(html)) errors.push('index.html: coordenadas antiguas');
+const g = d.reputation.google; if (!html.includes(`${g.rating} de ${g.outOf} con ${g.count} reseñas`)) errors.push('Reseñas de Google del sitio no coinciden con dealership.json');
+const visible = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '');
+for (const re of [/concesionario oficial/i, /\b(35|39) años/i, /desde 1991/i, /tasa fija/i, /compramos tu/i, /parte de pago/i, /\(\)|, ,/]) if (re.test(visible)) errors.push(`index.html: afirmación o texto no permitido ${re}`);
 if ((html.match(/<h1[\s>]/g) || []).length !== 1) errors.push('index.html debe tener un único h1');
 for (const m of html.matchAll(/<img\b[^>]*>/g)) if (!/\balt=/.test(m[0])) errors.push(`img sin alt: ${m[0].slice(0, 60)}`);
 if (!html.includes('href="privacidad.html')) errors.push('index.html: falta enlace a privacidad.html');

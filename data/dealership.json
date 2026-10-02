@@ -8,18 +8,50 @@
     "tradeName": "Chita Automotores",
     "legalName": null,
     "cuit": null,
-    "note": "Un directorio lo lista junto al nombre del titular. No se carga ese nombre en el sitio ni en este repo (CLAUDE.md, regla 4)."
+    "note": "Un directorio lo lista junto al nombre del titular. No se carga ese nombre en el sitio ni en este repo (CLAUDE.md, regla 4).",
+    "legalNameCandidate": "Chita Automotores S.R.L.",
+    "cuitCandidate": "30-65069709-6",
+    "registryStatus": "conflicting-sources",
+    "registryNote": "Indicadores AR (11/09/2026): ACTIVA, constitución 31/03/1991. Datok (19/09/2026): \"CUIT inactivo\", constitución 01/04/1991. No se resuelve ni se publica estado fiscal, CUIT ni antigüedad (el sitio ya no usa \"39 años\").",
+    "denominationsInDirectories": [
+      "Chita Automotores de Elvio Orcellet"
+    ],
+    "ownerNote": "Denominación de directorios; no se publica ni se afirma titular, fundador ni representante (sin fuente societaria)."
   },
   "location": {
     "address": "Gral. Galarza 1712",
     "city": "Concepción del Uruguay",
     "province": "Entre Ríos",
     "country": "Argentina",
-    "postalCode": "E3260",
+    "postalCode": "E3260 (CP 3260)",
     "mapsPlaceUrl": "https://www.google.com/maps/place/Chita+Automotores,+Gral.+Galarza+1712,+Concepci%C3%B3n+del+Uruguay,+Entre+R%C3%ADos",
     "mapsReviewsUrl": "https://www.google.com/maps/place/Chita+Automotores,+Gral.+Galarza+1712,+Concepci%C3%B3n+del+Uruguay,+Entre+R%C3%ADos",
     "status": "direccion-en-6-directorios-publicos; URL de Maps construida por direccion (no es la ficha reclamada); sin coordenadas verificadas",
-    "coordinates": null
+    "coordinates": {
+      "lat": -32.486865,
+      "lng": -58.250318,
+      "status": "aprox.; coinciden el enlace de Maps del negocio (-32.486865,-58.2503179) y Cylex (-32.486899,-58.250204). Reemplazan las tres coordenadas anteriores del repo, que apuntaban a otro punto.",
+      "checkedAt": "2026-10-02"
+    },
+    "publicTransit": {
+      "source": "Moovit",
+      "checkedAt": "2026-10-02",
+      "stops": [
+        {
+          "name": "Bv. Díaz Vélez 230",
+          "metersApprox": 110
+        },
+        {
+          "name": "San Martín 1686",
+          "metersApprox": 370
+        },
+        {
+          "name": "Alberdi 1659",
+          "metersApprox": 510
+        }
+      ],
+      "note": "Información externa, no es un servicio de Chita; puede cambiar."
+    }
   },
   "contact": {
     "phone": "03442 44-2782",
@@ -32,12 +64,33 @@
     "status": "telefono fijo 03442 44-2782 verificado en directorios; perfil público de Instagram publica Gestoría 3442-547671; WhatsApp no confirmado",
     "emailCandidate": "chitaautomotores@gmail.com (solo Cylex; sin confirmar)",
     "gestoriaPhone": "03442 54-7671",
-    "gestoriaPhoneTel": "+543442547671"
+    "gestoriaPhoneTel": "+543442547671",
+    "phoneAlternativeUnverified": {
+      "value": "03442 54-7671",
+      "note": "ZonaAuto lo lista como teléfono general; el Instagram lo rotula Gestoría. No se publica como teléfono principal."
+    }
   },
   "hours": {
     "display": null,
     "status": "conflicting-sources",
-    "note": "GTM publica L-V 08:30–12:00 y 16:00–20:00, sábado 08:30–12:00, domingo cerrado (consultado 2026-10-02); otras fichas discrepan, por eso el sitio pide confirmar antes de venir."
+    "note": "Tres versiones públicas sin convergencia (ver versions). El sitio muestra \"a confirmar\" hasta que Chita confirme.",
+    "versions": [
+      {
+        "source": "Google Business",
+        "lv": "09:00–17:00",
+        "sab": "08:30–12:00"
+      },
+      {
+        "source": "GTM",
+        "lv": "08:30–12:00 y 16:00–20:00",
+        "sab": "08:30–12:00"
+      },
+      {
+        "source": "ZonaAuto",
+        "lv": "08:30–12:00 y 15:30–19:30",
+        "sab": "09:00–12:30"
+      }
+    ]
   },
   "foundation": {
     "claim": null,
@@ -45,8 +98,50 @@
     "note": "Una reseña de Google (2020) dice 'mas de 35 años'. No es dato del negocio: NO usar sin confirmacion."
   },
   "services": {
-    "status": "publicly-mentioned",
-    "note": "El perfil público de Instagram @chita.automotores dice “Usados y 0km | Cuotas fijas” y publica “Gestoría: 3442-547671”; sus destacados incluyen Consignación y Financiación. Condiciones, entidades y requisitos: consultar."
+    "status": "social-evidence",
+    "supportedBySocial": [
+      {
+        "claim": "Recibimos tu usado",
+        "sources": [
+          "instagram.com/p/DS3DLQ-jHmu",
+          "instagram.com/reel/DcRySb-hB3x",
+          "instagram.com/reel/DdZ4lD9s7mL"
+        ]
+      },
+      {
+        "claim": "Financiación en cuotas fijas",
+        "sources": [
+          "instagram.com/p/DS3DLQ-jHmu",
+          "instagram.com/reel/DdZ4lD9s7mL"
+        ]
+      },
+      {
+        "claim": "Evalúa los usados que recibe (frase truncada en el índice)",
+        "sources": [
+          "instagram.com/reel/DYhdePJhyz4"
+        ]
+      },
+      {
+        "claim": "0 km y usados",
+        "sources": [
+          "instagram.com/reel/DS2mDaoja_t"
+        ]
+      }
+    ],
+    "notPublished": [
+      "cantidad de cuotas",
+      "tasa",
+      "entidad financiera",
+      "anticipo y requisitos",
+      "simulador",
+      "concesionario oficial",
+      "garantía",
+      "taller o service",
+      "postventa",
+      "compramos tu usado",
+      "usado como parte de pago (mecánica no confirmada)"
+    ],
+    "note": "Condiciones, entidades y requisitos: consultar. Consignación y Gestoría figuran en destacados/bio de Instagram según la consulta previa del repo; condiciones sin confirmar."
   },
   "social": {
     "facebookFollowers": "15.000 (dato del solicitante, sin verificar)",
@@ -114,5 +209,15 @@
       "checkedAt": "2026-10-02",
       "finding": "Dirección E3260, teléfono 03442 44-2782, horario publicado L-V 08:30–12:00 y 16:00–20:00, sábado 08:30–12:00, domingo cerrado; el sitio advierte que otras fichas tienen horarios distintos."
     }
-  ]
+  ],
+  "reputation": {
+    "google": {
+      "rating": "4,7",
+      "outOf": 5,
+      "count": 45,
+      "checkedAt": "2026-10-02",
+      "published": true,
+      "note": "Solo con fecha y atribución. No mezclar con GTM (9,2/10, 58 reseñas, cifras propias). No se publican testimonios textuales."
+    }
+  }
 }

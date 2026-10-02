@@ -1,0 +1,69 @@
+{
+  "verifiedAt": "2026-10-02",
+  "note": "Referencias públicas, no stock garantizado. Estado de disponibilidad: sin dato.",
+  "vehicles": [
+    {
+      "id": "tracker-2021-premier-12t",
+      "stockTitle": "Chevrolet Tracker Premier 1.2T",
+      "brand": "Chevrolet",
+      "model": "Tracker",
+      "version": "Premier 1.2T",
+      "year": 2021,
+      "km": "100.000 km",
+      "kmStatus": "crosschecked",
+      "price": "Consultar",
+      "status": null,
+      "photos": [
+        "assets/tracker-2021-1.webp",
+        "assets/tracker-2021-2.webp",
+        "assets/tracker-2021-3.webp",
+        "assets/tracker-2021-4.webp",
+        "assets/tracker-2021-5.webp"
+      ],
+      "sourceUrls": [
+        "https://www.instagram.com/chita.automotores/"
+      ],
+      "confidence": "alta (año, km y versión coinciden entre demo y Instagram de Chita)",
+      "notRecorded": "potencia, transmisión, combustible, equipamiento: no se infieren de la versión",
+      "published": true
+    },
+    {
+      "id": "palio-2017-14",
+      "stockTitle": "Fiat Palio Attractive 1.4N",
+      "brand": "Fiat",
+      "model": "Palio",
+      "year": 2017,
+      "engine": "1.4",
+      "km": null,
+      "kmStatus": "conflict",
+      "kmCandidates": [
+        {
+          "value": "128.000 km",
+          "source": "demo/repo anterior"
+        },
+        {
+          "value": "120.000 km",
+          "source": "Instagram de Chita (indexado)"
+        }
+      ],
+      "sourceUrls": [
+        "https://www.instagram.com/chita.automotores/"
+      ],
+      "confidence": "media",
+      "published": true,
+      "notes": "El sitio no muestra km hasta conciliar con Chita. Además, \"Palio Attractive · Serie 2\" figura 2013 con 128.000 km: confirmar que no sea un dato duplicado."
+    },
+    {
+      "id": "clio-referencia",
+      "brand": "Renault",
+      "model": "Clio",
+      "kmStatus": null,
+      "sourceUrls": [
+        "https://www.instagram.com/chita.automotores/"
+      ],
+      "confidence": "baja",
+      "published": false,
+      "notes": "Aparece en la publicación \"¿Palio o Clio?\". No equivale a stock actual (el Clio del sitio es otra ficha: Dynamique 2016)."
+    }
+  ]
+}

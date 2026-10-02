@@ -6,3 +6,4 @@
 4. Cambio mínimo: no reescribir secciones enteras. No cargar datos personales del dueño ni su familia.
 5. Mientras sea demo: mantener `noindex`, el aviso de demo y `robots.txt` con `Disallow: /`.
 6. Para salir a producción: seguir `golive/PRODUCCION.md` (dueño confirma todo → actualizar JSON y NEGOCIO → `golive/AFIRMACIONES-A-CONFIRMAR.md` sin pendientes → quitar noindex/robots y el aviso demo).
+7. Conflictos entre fuentes (horarios, teléfonos, km del Palio, estado fiscal) viven en `data/sources.json` y `data/vehicles.json`. No se resuelven por cuenta propia: el sitio muestra "a confirmar" o no muestra el dato. No publicar estado fiscal, titular ni antigüedad.

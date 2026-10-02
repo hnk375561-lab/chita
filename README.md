@@ -16,7 +16,7 @@ Sitio estático (HTML/CSS/JS; el movimiento usa GSAP + ScrollTrigger incluidos e
 - `404.html`: página de error (usa `<base href>` absoluto porque GitHub Pages la sirve desde cualquier ruta).
 - `robots.txt`, `preview.png` (imagen para compartir), `images/<unidad>-N.webp` (la primera foto es la portada). Cada foto de unidad tiene dos variantes para `srcset`: `<unidad>-N-480.webp` y `<unidad>-N-800.webp` (mismo nombre, ancho 480 y 800 px); al sumar una foto hay que generar las dos.
 - `scripts/prerender.mjs` (`npm run prerender`): escribe en `index.html` el HTML de las tarjetas de unidades (entre `<!--PRE:cards-->` y `<!--/PRE:cards-->`) con la misma función que usa el navegador, para que el stock se vea sin JavaScript. Correrlo cada vez que cambie `STOCK`; `npm test` avisa si quedó desactualizado.
-- `data/dealership.json`: datos confirmados y su fuente. `golive/`: pendientes y pasos a producción; incluye `sitemap.xml` y `json-ld-autodealer.html` preparados y **sin activar**.
+- `data/dealership.json`: datos confirmados y su fuente. `data/sources.json` (hechos, conflictos y descartes con fecha) y `data/vehicles.json` (referencias de unidades y su nivel de confianza). `golive/`: pendientes y pasos a producción; incluye `sitemap.xml` y `json-ld-autodealer.html` preparados y **sin activar**.
 
 ## Comprobar
 `npm test` valida que no haya `href="#"`, que los datos coincidan con `index.html`, que no haya precios sin confirmar, que existan todas las imágenes (y no sobren), un solo `h1`, `alt` en imágenes, `noindex` en las tres páginas y `Disallow: /` en `robots.txt`.
