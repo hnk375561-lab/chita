@@ -1,4 +1,6 @@
-import { animate, motion, reduceMotion, finePointer, qsa, stopAnimation, clamp } from "./core.js";
+import { animate, motion, reduceMotion, finePointer, pointerState, qsa, stopAnimation, clamp } from "./core.js";
+
+const magneticSelector = "[data-magnetic], .hero .btn.p, .fin .btn.p, header .btn.p";
 
 export function initInteractions() {
   const cleanups = [];
@@ -36,18 +38,31 @@ export function initInteractions() {
   }
 
   if (finePointer.matches && !reduceMotion.matches) {
-    const magnetic = qsa("[data-magnetic], .hero .btn.p, .fin .btn.p, header .btn.p");
-    magnetic.forEach((element) => {
-      const move = (event) => {
+    const magnetic = qsa(magneticSelector);
+    const fieldRadius = 170;
+    const onPointerMove = () => {
+      magnetic.forEach((element) => {
         const rect = element.getBoundingClientRect();
+        const dx = pointerState.x - (rect.left + rect.width / 2);
+        const dy = pointerState.y - (rect.top + rect.height / 2);
+        const distance = Math.hypot(dx, dy);
+        const falloff = clamp(1 - distance / fieldRadius, 0, 1);
+        if (!falloff) return;
         const strength = element.matches(".hero .btn.p") ? .14 : .1;
-        animate(element, { x: (event.clientX - rect.left - rect.width / 2) * strength, y: (event.clientY - rect.top - rect.height / 2) * strength }, { duration: .28, ease: "easeOut" });
-      };
-      const leave = () => { stopAnimation(element); animate(element, { x: 0, y: 0 }, { ...motion.spring.soft }); };
-      element.addEventListener("pointermove", move, { passive: true });
-      element.addEventListener("pointerleave", leave, { passive: true });
-      cleanups.push(() => { element.removeEventListener("pointermove", move); element.removeEventListener("pointerleave", leave); });
-    });
+        animate(element, { x: dx * strength * falloff, y: dy * strength * falloff }, { duration: .24, ease: "easeOut" });
+      });
+    };
+    const leave = (event) => {
+      magnetic.forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        if (event.clientX >= rect.left - fieldRadius && event.clientX <= rect.right + fieldRadius && event.clientY >= rect.top - fieldRadius && event.clientY <= rect.bottom + fieldRadius) return;
+        stopAnimation(element);
+        animate(element, { x: 0, y: 0 }, { ...motion.spring.soft });
+      });
+    };
+    document.addEventListener("pointermove", onPointerMove, { passive: true });
+    document.addEventListener("pointerleave", leave, { passive: true });
+    cleanups.push(() => { document.removeEventListener("pointermove", onPointerMove); document.removeEventListener("pointerleave", leave); magnetic.forEach(stopAnimation); });
   }
   return () => cleanups.forEach((cleanup) => cleanup());
 }

@@ -39,7 +39,8 @@ export function initWebGL() {
       }`
   });
   scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  const lowPower = innerWidth < 900 || (navigator.hardwareConcurrency || 8) < 4;
+  renderer.setPixelRatio(lowPower ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
 
   let active = true, visible = true, frame = 0, last = performance.now();
   const root = document.documentElement;
