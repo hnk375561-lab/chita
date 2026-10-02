@@ -101,13 +101,25 @@ if(distanceSection){
  const root=document.querySelector('[data-space-experience]'); if(!root)return;
  const canvas=root.querySelector('[data-space-canvas]'), vehicle=root.querySelector('[data-space-vehicle]'), image=root.querySelector('[data-space-image]'), detail=root.querySelector('[data-space-detail]'), title=root.querySelector('[data-space-title]'), desc=root.querySelector('[data-space-description]'), code=root.querySelector('[data-space-code]'), status=root.querySelector('[data-space-status]'), modes=[...root.querySelectorAll('[data-space-mode]')];
  const states={look:{title:'LOOK',desc:'Mové el espacio. El vehículo aparece antes que la explicación.',code:'Q2 / LOOK / 01',status:'01 / OBJETO EN CAMPO',image:'images/showroom/tracker-01.webp',alt:'Chevrolet Tracker gris plata, vista delantera derecha'},detail:{title:'DETAIL',desc:'Acercate. La imagen se abre y aparece lo que estaba adentro.',code:'T1 / DETAIL / 02',status:'02 / PROFUNDIDAD / TABLERO',image:'images/showroom/tracker-05.webp',alt:'Tablero, volante y pantalla central de Chevrolet Tracker'},stock:{title:'STOCK',desc:'Dos unidades reales. Una toma el campo; la otra espera fuera de cuadro.',code:'S3 / STOCK / 03',status:'03 / CAMBIO DE FOCO',image:'images/showroom/palio-01.webp',alt:'Fiat Palio blanco dentro del salón de Chita'},visit:{title:'VISIT',desc:'La dirección no es una sección: es el punto donde el espacio termina.',code:'V4 / VISIT / 04',status:'04 / GRAL. GALARZA 1712',image:'images/local-frente.webp',alt:'Frente del local de Chita Automotores'},action:{title:'ACTION',desc:'Elegí cómo seguir: llamar, conocer la ubicación o entrar al calendario.',code:'A5 / ACTION / 05',status:'05 / DECISIÓN',image:'images/showroom/tracker-03.webp',alt:'Chevrolet Tracker gris plata, vista lateral'}};
- let current='look', pointerX=0, pointerY=0, startX=null;
+ let current='look', pointerX=0, pointerY=0, startX=null, startY=null, camera=.42;
  function setMode(name){const st=states[name]||states.look; current=name; root.dataset.spaceMode=name; modes.forEach(b=>{const on=b.dataset.spaceMode===name;b.classList.toggle('is-active',on);b.setAttribute('aria-current',on?'true':'false')}); title.textContent=st.title;desc.textContent=st.desc;code.textContent=st.code;status.textContent=st.status; if(image.src!==new URL(st.image,location.href).href){image.src=st.image;image.alt=st.alt} if(window.gsap&&!matchMedia('(prefers-reduced-motion: reduce)').matches){gsap.fromTo(vehicle,{opacity:.45,scale:.92},{opacity:1,scale:1,duration:.65,ease:'power3.out',overwrite:true});gsap.fromTo([title,desc],{opacity:.35,y:14},{duration:.45,opacity:1,y:0,ease:'power3.out',stagger:.04,overwrite:true})}}
  modes.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.spaceMode)));
  root.querySelector('[data-space-close]').addEventListener('click',()=>{root.classList.add('is-dismissed');document.body.classList.remove('space-open');document.querySelector('#inicio')?.focus?.()});
- canvas.addEventListener('pointerdown',e=>{startX=e.clientX;canvas.setPointerCapture?.(e.pointerId)});
+ function cameraMove(delta){
+  camera=Math.max(0,Math.min(1,camera+delta));
+  const scale=.78+camera*.72;
+  const y=-camera*7;
+  if(window.gsap&&!matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.to(vehicle,{scale,yPercent:y,duration:.6,ease:'power3.out',overwrite:true});
+  else {vehicle.style.transform=`scale(${scale}) translateY(${y}%)`;}
+  const hint=root.querySelector('[data-space-hint]');
+  if(camera<.28){hint.textContent='LEJOS / IDENTIDAD / SCROLL PARA ACERCAR'; status.textContent='01 / CAMPO ABIERTO';}
+  else if(camera<.68){hint.textContent='MEDIO / MODELO / AÑO / KILOMETRAJE'; status.textContent='02 / ZOOM SEMÁNTICO';}
+  else {hint.textContent='CERCA / DETALLE / HOTSPOTS / INSPECCIÓN'; status.textContent='03 / INSPECCIÓN PROFUNDA';}
+ }
+ canvas.addEventListener('wheel',e=>{if(root.classList.contains('is-dismissed'))return;e.preventDefault();cameraMove(e.deltaY>0?.075:-.075)},{passive:false});
+ canvas.addEventListener('pointerdown',e=>{startX=e.clientX;startY=e.clientY;canvas.setPointerCapture?.(e.pointerId)});
  canvas.addEventListener('pointermove',e=>{pointerX=(e.clientX/innerWidth-.5)*2;pointerY=(e.clientY/innerHeight-.5)*2;if(window.gsap&&!matchMedia('(prefers-reduced-motion: reduce)').matches)gsap.to(vehicle,{x:pointerX*18,y:pointerY*12,duration:.7,overwrite:true})});
- canvas.addEventListener('pointerup',e=>{if(startX!==null){const d=e.clientX-startX;if(Math.abs(d)>60){const idx=modes.findIndex(x=>x.dataset.spaceMode===current);setMode(modes[(idx+(d<0?1:-1)+modes.length)%modes.length].dataset.spaceMode)}startX=null}});
- document.addEventListener('keydown',e=>{if(root.classList.contains('is-dismissed'))return;if(e.key==='Escape'){root.querySelector('[data-space-close]').click();return}if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const idx=modes.findIndex(x=>x.dataset.spaceMode===current);setMode(modes[(idx+(e.key==='ArrowRight'?1:-1)+modes.length)%modes.length].dataset.spaceMode)}});
+ canvas.addEventListener('pointerup',e=>{if(startX!==null){const dx=e.clientX-startX,dy=e.clientY-startY;if(Math.abs(dy)>45&&Math.abs(dy)>Math.abs(dx)){cameraMove(dy>0?.12:-.12)}else if(Math.abs(dx)>60){const idx=modes.findIndex(x=>x.dataset.spaceMode===current);setMode(modes[(idx+(dx<0?1:-1)+modes.length)%modes.length].dataset.spaceMode)}startX=null;startY=null}});
+ document.addEventListener('keydown',e=>{if(root.classList.contains('is-dismissed'))return;if(e.key==='Escape'){root.querySelector('[data-space-close]').click();return}if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const idx=modes.findIndex(x=>x.dataset.spaceMode===current);setMode(modes[(idx+(e.key==='ArrowRight'?1:-1)+modes.length)%modes.length].dataset.spaceMode)}if(e.key==='+'||e.key==='='||e.key==='-'||e.key==='_'){cameraMove((e.key==='+'||e.key==='=')?.1:-.1)}});
  setMode('look');
 })();
