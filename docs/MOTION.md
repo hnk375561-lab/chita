@@ -1,6 +1,6 @@
 # Sistema de movimiento (GSAP) · catálogo
 
-Todo el movimiento vive en `js/motion.js` (~50 KB, sin build, sin CDN) y `js/recorrido.js` (recorrido con video). GSAP 3.15.0 + ScrollTrigger + Flip + ScrollToPlugin están en `vendor/`; cargan con `defer` y, si fallan o el usuario pide menos movimiento, el sitio queda **completo y visible, sin animación**.
+La página activa de `index.html` centraliza su motion en `js/live-motion.js`: GSAP + ScrollTrigger cargan desde `vendor/`, con timelines de entrada, scrub de hero, parallax de transición y microinteracciones de puntero. El stack alternativo de catálogo vive en `js/motion.js` y `js/recorrido.js`. Si GSAP falla o el usuario pide menos movimiento, el sitio queda **completo y visible, sin animación**.
 
 ## Reglas del sistema (no romperlas al agregar cosas)
 1. **Un gesto por tipo de elemento**: fotos → máscara `clip-path` + escala 1.1→1; títulos → por palabra con sesgo; bajadas/bloques → subida corta; todo entra con `expo.out`, las máscaras con `expo.inOut`.
