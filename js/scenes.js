@@ -1,4 +1,4 @@
 import {CONFIG} from './config.js';
-export function renderPhases(root){root.innerHTML=CONFIG.phases.map((p,i)=>`<article class="phase-row"><b>${String(i+1).padStart(2,'0')}</b><strong>${p.name}</strong><p>${p.copy} <span>${p.source}</span></p></article>`).join('')}
-export function renderMarks(root){root.innerHTML=CONFIG.phases.map(p=>`<span style="left:${p.t/CONFIG.duration*100}%">${p.name}</span>`).join('')}
-export function phaseAt(t){let current=CONFIG.phases[0];for(const p of CONFIG.phases){if(t>=p.t)current=p}return current}
+export function renderStages(root){root.innerHTML=CONFIG.stages.map((s,i)=>`<li><time>${s.label}</time><strong>${s.name}</strong><span>${s.available?'FUENTE EN CONFIG':'NO USAR / EVIDENCIA INSUFICIENTE'}</span></li>`).join('')}
+export function renderEvidence(root){root.innerHTML=CONFIG.evidence.map(e=>`<div class="evidence-row"><strong>${e.fact}</strong><span>${e.source}</span><small>${e.date}</small><small class="${e.level==='CONFIRMADO'?'confirmed':'not-use'}">${e.level} · ${e.rights}</small></div>`).join('')}
+export function stageAt(progress){const i=Math.min(CONFIG.stages.length-1,Math.floor(progress*CONFIG.stages.length));return {stage:CONFIG.stages[i],index:i}}
