@@ -1,40 +1,50 @@
-/* RESERVÁ TU MOMENTO · static-first reservation narrative */
-(function(){'use strict';
-  var CONFIG={business:'Chita Automotores',address:'Gral. Galarza 1712',city:'Concepción del Uruguay',whatsapp:'5493442647442',diasHabilitados:[1,2,3,4,5,6],slots:['10:00','11:30','16:00','17:30'],slotsNote:'Horarios configurables: consultar disponibilidad.'};
-  var RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches, g=window.gsap, ST=window.ScrollTrigger;
-  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
-  var state={month:new Date(new Date().getFullYear(),new Date().getMonth(),1),day:null,slot:null,step:'month'}, live=$('#live');
-  var months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  var fmt=function(d){return d.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'});};
-  var announce=function(t){live.textContent=t};
-  var monthTitle=function(d){return months[d.getMonth()]+' '+d.getFullYear()};
-  function daysInMonth(d){return new Date(d.getFullYear(),d.getMonth()+1,0).getDate()}
-  function firstDay(d){return (new Date(d.getFullYear(),d.getMonth(),1).getDay()+6)%7}
-  function renderCalendar(){
-    var cal=$('#calendar'), total=daysInMonth(state.month), offset=firstDay(state.month), frag=document.createDocumentFragment();
-    cal.textContent=''; $('#month-label').textContent=monthTitle(state.month); $('#month-status').textContent=CONFIG.slotsNote;
-    for(var i=0;i<offset;i++){var empty=document.createElement('span');empty.className='day-cell day-cell--empty';empty.setAttribute('aria-hidden','true');frag.appendChild(empty)}
-    for(var n=1;n<=total;n++){var date=new Date(state.month.getFullYear(),state.month.getMonth(),n), b=document.createElement('button'), enabled=CONFIG.diasHabilitados.indexOf(date.getDay())>-1;
-      b.className='day-cell';b.type='button';b.setAttribute('role','gridcell');b.dataset.day=n;b.disabled=!enabled;b.setAttribute('aria-disabled',String(!enabled));b.setAttribute('aria-selected',String(state.day&&state.day.getTime()===date.getTime()));if(state.day&&state.day.getTime()===date.getTime())b.setAttribute('aria-current','true');
-      b.innerHTML='<span>'+String(n).padStart(2,'0')+'</span><small>'+ (enabled?'disponible':'cerrado')+'</small>';frag.appendChild(b)
-    }
-    cal.appendChild(frag);
+import { animate, reduceMotion, transition } from "./motion/core.js";
+
+const CONFIG = { diasHabilitados: [1, 2, 3, 4, 5, 6], slots: ["10:00", "11:30", "16:00", "17:30"], slotsNote: "Horarios configurables: consultar disponibilidad." };
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+const state = { month: new Date(new Date().getFullYear(), new Date().getMonth(), 1), day: null, slot: null, step: "month", control: null };
+const live = $("#live");
+const announce = (text) => { if (live) live.textContent = text; };
+const monthTitle = (date) => `${months[date.getMonth()]} ${date.getFullYear()}`;
+const formatDate = (date) => date.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
+const daysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+const firstDay = (date) => (new Date(date.getFullYear(), date.getMonth(), 1).getDay() + 6) % 7;
+
+function renderCalendar() {
+  const calendar = $("#calendar"); if (!calendar) return; calendar.textContent = ""; $("#month-label").textContent = monthTitle(state.month); $("#month-status").textContent = CONFIG.slotsNote;
+  for (let i = 0; i < firstDay(state.month); i += 1) { const empty = document.createElement("span"); empty.className = "day-cell day-cell--empty"; empty.setAttribute("aria-hidden", "true"); calendar.appendChild(empty); }
+  for (let day = 1; day <= daysInMonth(state.month); day += 1) {
+    const date = new Date(state.month.getFullYear(), state.month.getMonth(), day), enabled = CONFIG.diasHabilitados.includes(date.getDay()), button = document.createElement("button");
+    button.className = "day-cell"; button.type = "button"; button.dataset.day = day; button.disabled = !enabled; button.setAttribute("role", "gridcell"); button.setAttribute("aria-disabled", String(!enabled)); button.setAttribute("aria-selected", String(state.day?.getTime() === date.getTime())); if (state.day?.getTime() === date.getTime()) button.setAttribute("aria-current", "true");
+    button.innerHTML = `<span>${String(day).padStart(2, "0")}</span><small>${enabled ? "disponible" : "cerrado"}</small>`; calendar.appendChild(button);
   }
-  function animateScene(show){var current=$('.scene:not([hidden])'), next=$('.scene--'+show);if(current===next)return;state.step=show;$('#booking').dataset.step=show;$('#back').hidden=show==='month'; if(RM||!g){if(current)current.hidden=true;next.hidden=false;return} next.hidden=false;var tl=g.timeline({defaults:{ease:'expo.out'}});if(current)tl.to(current,{opacity:0,yPercent:-3,duration:.22,onComplete:function(){current.hidden=true} });tl.fromTo(next,{opacity:0,yPercent:5},{opacity:1,yPercent:0,duration:.5},'>');if(show==='confirm')tl.fromTo('.diagonal-wipe',{xPercent:-100},{xPercent:100,duration:.7,ease:'power3.inOut'},0);}
-  function selectDay(day){var d=new Date(state.month.getFullYear(),state.month.getMonth(),day);if(CONFIG.diasHabilitados.indexOf(d.getDay())<0)return;state.day=d;state.slot=null;$('#day-number').textContent=String(day).padStart(2,'0');$('#day-month').textContent=months[d.getMonth()].slice(0,3).toUpperCase();$('#day-status').textContent=fmt(d);$('#to-time').disabled=false;renderCalendar();announce('Día seleccionado: '+fmt(d));animateScene('day');}
-  function renderSlots(){var box=$('#slots');box.textContent='';CONFIG.slots.forEach(function(slot,i){var b=document.createElement('button');b.type='button';b.className='slot';b.setAttribute('role','option');b.setAttribute('aria-selected',String(state.slot===slot));b.dataset.slot=slot;b.innerHTML='<b>'+slot+'</b><small>consultar disponibilidad</small>';box.appendChild(b)});}
-  function selectSlot(slot){state.slot=slot;$$('.slot').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.slot===slot))});$('#time-status').textContent=slot;$('#to-confirm').disabled=false;announce('Horario seleccionado: '+slot);}
-  function showConfirm(){if(!state.day||!state.slot)return;var day=fmt(state.day), msg='Hola, quiero hacer una consulta de visita en Chita Automotores para el '+day+' a las '+state.slot+'. ¿Me confirman disponibilidad?';$('#summary-day').textContent=state.day.getDate()+' '+months[state.day.getMonth()];$('#summary-time').textContent=state.slot;$('#whatsapp').href='tel:+543442442782';$('#whatsapp').innerHTML='Llamar a Chita <span>↗</span>';announce('Resumen listo: '+day+' a las '+state.slot);animateScene('confirm');}
-  function goBack(){if(state.step==='confirm')animateScene('time');else if(state.step==='time')animateScene('day');else if(state.step==='day')animateScene('month');}
-  function reset(){state.day=null;state.slot=null;state.step='month';$('#to-time').disabled=true;$('#to-confirm').disabled=true;renderCalendar();renderSlots();$$('.scene').forEach(function(s){s.hidden=s.classList.contains('scene--month')?false:true});$('#back').hidden=true;$('#booking').dataset.step='month';window.scrollTo(0,0);announce('Calendario reiniciado');}
-  $('#calendar').addEventListener('click',function(e){var b=e.target.closest('button[data-day]');if(b&&!b.disabled)selectDay(+b.dataset.day)});
-  $('#slots').addEventListener('click',function(e){var b=e.target.closest('button[data-slot]');if(b)selectSlot(b.dataset.slot)});
-  $('#prev-month').addEventListener('click',function(){state.month.setMonth(state.month.getMonth()-1);renderCalendar();announce('Mes anterior: '+monthTitle(state.month))});
-  $('#next-month').addEventListener('click',function(){state.month.setMonth(state.month.getMonth()+1);renderCalendar();announce('Mes siguiente: '+monthTitle(state.month))});
-  $('#to-time').addEventListener('click',function(){renderSlots();animateScene('time')});$('#to-confirm').addEventListener('click',showConfirm);$('#back').addEventListener('click',goBack);$('#restart').addEventListener('click',reset);
-  document.addEventListener('keydown',function(e){var active=document.activeElement;if(state.step==='month'&&active&&active.matches('.day-cell')){var cells=$$('#calendar .day-cell:not(:disabled)'),i=cells.indexOf(active),next=i+(e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:e.key==='ArrowDown'?7:e.key==='ArrowUp'?-7:0);if(next!==i&&cells[next]){e.preventDefault();cells[next].focus()}}if(e.key==='Escape')goBack();if(e.key==='Enter'&&active&&active.matches('.day-cell')&&!active.disabled)selectDay(+active.dataset.day)});
-  var drag={active:false,start:0,last:0,velocity:0};$('#slots').addEventListener('pointerdown',function(e){drag.active=true;drag.start=e.clientY;drag.last=e.clientY;drag.velocity=0;this.setPointerCapture(e.pointerId)});$('#slots').addEventListener('pointermove',function(e){if(!drag.active)return;drag.velocity=e.clientY-drag.last;drag.last=e.clientY});$('#slots').addEventListener('pointerup',function(){if(!drag.active)return;drag.active=false;if(Math.abs(drag.last-drag.start)>24){var i=Math.max(0,Math.min(CONFIG.slots.length-1,(CONFIG.slots.indexOf(state.slot)+ (drag.last<drag.start?1:-1))));selectSlot(CONFIG.slots[i])}});$('#slots').style.touchAction='none';
-  if(g&&!RM){g.registerPlugin(ST);ST.config({ignoreMobileResize:true});ST.create({trigger:'#booking',start:'top top',end:'+=1',pin:false,onUpdate:function(){}})}
-  if(document.location.search.indexOf('debug=1')>-1){var meter=document.createElement('output');meter.style='position:fixed;z-index:99;bottom:8px;left:8px;background:#101114;color:#ecebe7;padding:5px 8px;font:10px Jet,monospace';document.body.appendChild(meter);var last=performance.now(),frames=0;function fps(now){frames++;if(now-last>500){meter.textContent='FPS '+Math.round(frames*1000/(now-last));frames=0;last=now}requestAnimationFrame(fps)}requestAnimationFrame(fps)}
-  document.addEventListener('visibilitychange',function(){if(g&&document.hidden)g.ticker.sleep();else if(g)g.ticker.wake()});renderCalendar();renderSlots();
-})();
+}
+
+function animateScene(show) {
+  const current = $(".scene:not([hidden])"), next = $(`.scene--${show}`); if (!next || current === next) return;
+  state.step = show; $("#booking").dataset.step = show; $("#back").hidden = show === "month"; next.hidden = false;
+  if (reduceMotion.matches) { if (current) current.hidden = true; return; }
+  state.control?.stop();
+  transition(() => {}, [`.scene--${show}`]);
+  const controls = animate(next, { opacity: [0, 1], y: ["5%", "0%"] }, { duration: .5, ease: "easeOut" });
+  state.control = controls; if (current) animate(current, { opacity: [1, 0], y: ["0%", "-3%"] }, { duration: .22, ease: "easeIn", onComplete: () => { current.hidden = true; } });
+  if (show === "confirm") animate($(".diagonal-wipe"), { x: ["-100%", "100%"] }, { duration: .7, ease: "easeInOut" });
+}
+function selectDay(day) { const date = new Date(state.month.getFullYear(), state.month.getMonth(), day); if (!CONFIG.diasHabilitados.includes(date.getDay())) return; state.day = date; state.slot = null; $("#day-number").textContent = String(day).padStart(2, "0"); $("#day-month").textContent = months[date.getMonth()].slice(0, 3).toUpperCase(); $("#day-status").textContent = formatDate(date); $("#to-time").disabled = false; renderCalendar(); announce(`Día seleccionado: ${formatDate(date)}`); animateScene("day"); }
+function renderSlots() { const box = $("#slots"); box.textContent = ""; CONFIG.slots.forEach((slot) => { const button = document.createElement("button"); button.type = "button"; button.className = "slot"; button.dataset.slot = slot; button.setAttribute("role", "option"); button.setAttribute("aria-selected", String(state.slot === slot)); button.innerHTML = `<b>${slot}</b><small>consultar disponibilidad</small>`; box.appendChild(button); }); }
+function selectSlot(slot) { state.slot = slot; $$(".slot").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.slot === slot))); $("#time-status").textContent = slot; $("#to-confirm").disabled = false; announce(`Horario seleccionado: ${slot}`); }
+function showConfirm() { if (!state.day || !state.slot) return; $("#summary-day").textContent = `${state.day.getDate()} ${months[state.day.getMonth()]}`; $("#summary-time").textContent = state.slot; announce(`Resumen listo: ${formatDate(state.day)} a las ${state.slot}`); animateScene("confirm"); }
+function goBack() { if (state.step === "confirm") animateScene("time"); else if (state.step === "time") animateScene("day"); else if (state.step === "day") animateScene("month"); }
+function reset() { state.day = null; state.slot = null; state.step = "month"; $("#to-time").disabled = true; $("#to-confirm").disabled = true; renderCalendar(); renderSlots(); $$(".scene").forEach((scene) => { scene.hidden = !scene.classList.contains("scene--month"); scene.style.removeProperty("opacity"); scene.style.removeProperty("transform"); }); $("#back").hidden = true; $("#booking").dataset.step = "month"; window.scrollTo({ top: 0, behavior: "auto" }); announce("Calendario reiniciado"); }
+
+if ($("#booking")) {
+  $("#calendar").addEventListener("click", (event) => { const button = event.target.closest("button[data-day]"); if (button && !button.disabled) selectDay(+button.dataset.day); });
+  $("#slots").addEventListener("click", (event) => { const button = event.target.closest("button[data-slot]"); if (button) selectSlot(button.dataset.slot); });
+  $("#prev-month").addEventListener("click", () => { state.month.setMonth(state.month.getMonth() - 1); renderCalendar(); announce(`Mes anterior: ${monthTitle(state.month)}`); });
+  $("#next-month").addEventListener("click", () => { state.month.setMonth(state.month.getMonth() + 1); renderCalendar(); announce(`Mes siguiente: ${monthTitle(state.month)}`); });
+  $("#to-time").addEventListener("click", () => { renderSlots(); animateScene("time"); }); $("#to-confirm").addEventListener("click", showConfirm); $("#back").addEventListener("click", goBack); $("#restart").addEventListener("click", reset);
+  document.addEventListener("keydown", (event) => { const active = document.activeElement; if (state.step === "month" && active?.matches(".day-cell")) { const cells = $$("#calendar .day-cell:not(:disabled)"), index = cells.indexOf(active), offset = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : event.key === "ArrowDown" ? 7 : event.key === "ArrowUp" ? -7 : 0; if (offset && cells[index + offset]) { event.preventDefault(); cells[index + offset].focus(); } } if (event.key === "Escape") goBack(); });
+  renderCalendar(); renderSlots();
+}

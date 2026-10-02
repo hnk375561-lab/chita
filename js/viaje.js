@@ -1,7 +1,63 @@
-(function(){'use strict';var CONFIG={contact:{phone:'03442 44-2782',address:'Gral. Galarza 1712'},scenes:[{id:'city',title:'CIUDAD',criterion:'compactos y SUV para moverse por la ciudad',photo:'assets/1.jpg',range:[0,.33]},{id:'road',title:'RUTA',criterion:'SUV y crossover para salir a la ruta',photo:'assets/27.jpg',range:[.33,.67]},{id:'destination',title:'DESTINO',criterion:'utilitarios y unidades para llegar más lejos',photo:'assets/41.jpg',range:[.67,1]}],units:[{name:'Renault Clio Dynamique 1.2N',year:'2016',km:'123.000 km',scene:'city',criterion:'compacto'},{name:'Chevrolet Tracker Premier 1.8N',year:'2018',km:'98.000 km',scene:'road',criterion:'SUV'},{name:'Fiat Palio Attractive 1.4N',year:'2017',km:'128.000 km',scene:'city',criterion:'compacto'},{name:'Kia K3 EX Cross 1.6N',year:'2025',km:'11.400 km',scene:'road',criterion:'crossover'},{name:'Renault Kangoo Comfort 1.6N',year:'2022',km:'87.000 km',scene:'destination',criterion:'utilitario'},{name:'Renault Kangoo Authentique 1.6N',year:'2018',km:'108.000 km',scene:'destination',criterion:'utilitario'},{name:'Peugeot 301 Allure 1.6 HDI',year:'2018',km:'119.000 km',scene:'road',criterion:'sedán'},{name:'Peugeot Partner Patagónica 1.4N',year:'2014',km:'112.000 km',scene:'destination',criterion:'utilitario'}]};var RM=matchMedia('(prefers-reduced-motion:reduce)').matches,g=window.gsap,$=function(s){return document.querySelector(s)},route=$('#route'),token=$('#token'),bar=$('#route-progress'),odometer=$('#odometer'),sceneLabel=$('#scene-label'),progressLabel=$('#progress-label'),unitLayer=$('#unit-layer'),arrival=$('#arrival'),linear=$('#linear-list');var state={p:0,target:0,velocity:0,drag:false,lastX:0,lastT:0,scene:0};var sceneEls=[].slice.call(document.querySelectorAll('.scene')),tokenX=g?g.quickTo(token,'x',{duration:.28,ease:'power3.out'}):function(v){token.style.transform='translate3d('+v+'px,0,0)'};
-function renderLinear(){CONFIG.units.forEach(function(u){var el=document.createElement('article');el.className='linear-item';el.innerHTML='<strong>'+u.name+'</strong><small>'+[u.year||'0 km',u.km,u.criterion].join(' · ')+' · consultar por WhatsApp</small>';linear.appendChild(el)})}
-function sceneIndex(p){return p<.33?0:p<.67?1:2}function clamp(v){return Math.max(0,Math.min(1,v))}function update(){var p=state.p, idx=sceneIndex(p), scene=CONFIG.scenes[idx];if(idx!==state.scene){state.scene=idx;sceneLabel.textContent=scene.title;sceneEls.forEach(function(el,i){el.setAttribute('aria-hidden',String(i!==idx))})}var pct=Math.round(p*100), max=route.clientWidth-parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pad'))*2-62;tokenX(Math.round(max*p));bar.style.width=(pct)+'%';progressLabel.textContent=pct+'%';odometer.textContent=String(Math.round(p*999)).padStart(3,'0')+' km';token.setAttribute('aria-valuenow',String(pct));token.setAttribute('aria-valuetext','Escena: '+scene.title+', '+pct+'%');sceneEls.forEach(function(el,i){var d=Math.abs(i-idx),opacity=i===idx?1:Math.max(0,1-d*2);el.style.opacity=opacity;var img=el.querySelector('.scene-photo');if(img)img.style.transform='translate3d('+Math.round((p-i*.5)*-22)+'px,0,0) scale(1.05)';var word=el.querySelector('.scene-word');if(word)word.style.transform='translate3d('+Math.round((p-i*.5)*-80)+'px,0,0)'}) ;renderUnits(p);if(p>=.995&&!RM){arrival.hidden=false;route.setAttribute('aria-hidden','true')}else{arrival.hidden=true;route.removeAttribute('aria-hidden')}}
-function renderUnits(p){var scene=CONFIG.scenes[state.scene],local=CONFIG.units.filter(function(u){return u.scene===scene.id}),within=(p-scene.range[0])/(scene.range[1]-scene.range[0]);unitLayer.innerHTML='';local.forEach(function(u,i){var el=document.createElement('article');el.className='unit';var y=Math.round((i*20-(within*40)));el.style.transform='translate3d(0,'+y+'px,0)';el.style.opacity=String(Math.max(0,1-Math.abs(within-(i+1)/(local.length+1))*2));el.innerHTML='<strong>'+u.name+'</strong><small>'+[u.year||'0 km',u.km,u.criterion].join(' · ')+'</small><a target="_blank" rel="noopener" href="https://wa.me/'+CONFIG.contact.whatsapp+'?text='+encodeURIComponent('Hola, quiero consultar por el '+u.name+(u.year?' '+u.year:'')+'.')+'">Consultar ↗</a>';unitLayer.appendChild(el)})}
-function tick(){state.p+=(state.target-state.p)*.16;state.velocity*=.86;if(Math.abs(state.target-state.p)<.0005)state.p=state.target;update()}
-function setTarget(v){state.target=clamp(v);if(RM){state.p=state.target;update()}}
-route.addEventListener('wheel',function(e){e.preventDefault();setTarget(state.target+e.deltaY*.0008)},{passive:false});token.addEventListener('pointerdown',function(e){if(state.drag)return;state.drag=true;state.lastX=e.clientX;state.lastT=performance.now();token.setPointerCapture(e.pointerId)});token.addEventListener('pointermove',function(e){if(!state.drag)return;var now=performance.now(),dx=e.clientX-state.lastX;state.velocity=dx/Math.max(8,now-state.lastT);state.lastX=e.clientX;state.lastT=now;setTarget(state.target+dx/Math.max(1,route.clientWidth-96))});['pointerup','pointercancel','lostpointercapture'].forEach(function(type){token.addEventListener(type,function(){if(!state.drag)return;state.drag=false;setTarget(state.target+state.velocity*.08);if(Math.abs(state.velocity)<.015){var snap=Math.round(state.target/.5)*.5;setTarget(snap)}})});token.addEventListener('keydown',function(e){var step=e.shiftKey?.25:.04;if(e.key==='ArrowRight')setTarget(state.target+step);if(e.key==='ArrowLeft')setTarget(state.target-step);if(e.key==='Home')setTarget(0);if(e.key==='End')setTarget(1)});document.querySelectorAll('.milestone').forEach(function(m){m.addEventListener('click',function(){setTarget(+m.dataset.progress)})});$('#back-route').addEventListener('click',function(){setTarget(.9);window.scrollTo(0,0)});document.addEventListener('visibilitychange',function(){if(g&&document.hidden)g.ticker.sleep();else if(g)g.ticker.wake()});renderLinear();if(g&&!RM)g.ticker.add(tick);else{var tickFallback=function(){tick();requestAnimationFrame(tickFallback)};requestAnimationFrame(tickFallback)}if(location.search.indexOf('debug=1')>-1){var out=document.createElement('output');out.style='position:fixed;z-index:40;bottom:8px;left:8px;background:#101114;color:#ecebe7;padding:5px;font:10px Jet';document.body.appendChild(out);var frames=0,last=performance.now();function fps(t){frames++;if(t-last>500){out.textContent='FPS '+Math.round(frames*1000/(t-last));frames=0;last=t}requestAnimationFrame(fps)}requestAnimationFrame(fps)}update();})();
+import { animate, reduceMotion } from "./motion/core.js";
+
+const CONFIG = {
+  contact: { whatsapp: "5493442647442" },
+  scenes: [
+    { id: "city", title: "CIUDAD", range: [0, .33] },
+    { id: "road", title: "RUTA", range: [.33, .67] },
+    { id: "destination", title: "DESTINO", range: [.67, 1] }
+  ],
+  units: [
+    ["Renault Clio Dynamique 1.2N", 2016, "123.000 km", "city", "compacto"], ["Chevrolet Tracker Premier 1.8N", 2018, "98.000 km", "road", "SUV"], ["Fiat Palio Attractive 1.4N", 2017, "128.000 km", "city", "compacto"], ["Kia K3 EX Cross 1.6N", 2025, "11.400 km", "road", "crossover"], ["Renault Kangoo Comfort 1.6N", 2022, "87.000 km", "destination", "utilitario"], ["Renault Kangoo Authentique 1.6N", 2018, "108.000 km", "destination", "utilitario"], ["Peugeot 301 Allure 1.6 HDI", 2018, "119.000 km", "road", "sedán"], ["Peugeot Partner Patagónica 1.4N", 2014, "112.000 km", "destination", "utilitario"]
+  ].map(([name, year, km, scene, criterion]) => ({ name, year, km, scene, criterion }))
+};
+
+const $ = (selector) => document.querySelector(selector);
+const route = $("#route");
+if (route) {
+  const token = $("#token"), bar = $("#route-progress"), odometer = $("#odometer"), sceneLabel = $("#scene-label"), progressLabel = $("#progress-label"), unitLayer = $("#unit-layer"), arrival = $("#arrival");
+  const sceneEls = [...document.querySelectorAll(".scene")];
+  const state = { p: 0, target: 0, scene: 0, control: null, drag: false };
+  const clamp = (value) => Math.max(0, Math.min(1, value));
+  const sceneIndex = (value) => value < .33 ? 0 : value < .67 ? 1 : 2;
+
+  function renderUnits(progress) {
+    const scene = CONFIG.scenes[state.scene], local = CONFIG.units.filter((unit) => unit.scene === scene.id);
+    const within = (progress - scene.range[0]) / (scene.range[1] - scene.range[0]);
+    unitLayer.textContent = "";
+    local.forEach((unit, index) => {
+      const element = document.createElement("article"); element.className = "unit";
+      element.style.transform = `translate3d(0, ${Math.round(index * 20 - within * 40)}px, 0)`;
+      element.style.opacity = String(Math.max(0, 1 - Math.abs(within - (index + 1) / (local.length + 1)) * 2));
+      element.innerHTML = `<strong>${unit.name}</strong><small>${unit.year} · ${unit.km} · ${unit.criterion}</small><a target="_blank" rel="noopener" href="https://wa.me/${CONFIG.contact.whatsapp}?text=${encodeURIComponent(`Hola, quiero consultar por el ${unit.name} ${unit.year}.`)}">Consultar ↗</a>`;
+      unitLayer.appendChild(element);
+    });
+  }
+
+  function render() {
+    const progress = state.p, index = sceneIndex(progress), scene = CONFIG.scenes[index]; state.scene = index;
+    const percent = Math.round(progress * 100), max = route.clientWidth - parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pad")) * 2 - 62;
+    sceneLabel.textContent = scene.title; progressLabel.textContent = `${percent}%`; odometer.textContent = `${String(Math.round(progress * 999)).padStart(3, "0")} km`;
+    token.style.transform = `translate3d(${Math.round(max * progress)}px,0,0)`; bar.style.width = `${percent}%`;
+    token.setAttribute("aria-valuenow", String(percent)); token.setAttribute("aria-valuetext", `Escena: ${scene.title}, ${percent}%`);
+    sceneEls.forEach((element, i) => { element.style.opacity = i === index ? "1" : String(Math.max(0, 1 - Math.abs(i - index) * 2)); element.setAttribute("aria-hidden", String(i !== index)); const photo = element.querySelector(".scene-photo"); if (photo) photo.style.setProperty("--scene-offset", `${Math.round((progress - i * .5) * -22)}px`); });
+    renderUnits(progress);
+    const atEnd = progress >= .995 && !reduceMotion.matches; arrival.hidden = !atEnd; route.setAttribute("aria-hidden", String(atEnd));
+  }
+
+  function setTarget(value) {
+    state.target = clamp(value); state.control?.stop();
+    if (reduceMotion.matches) { state.p = state.target; render(); return; }
+    state.control = animate(state, { p: state.target }, { type: "spring", stiffness: 260, damping: 34, onUpdate: render });
+  }
+
+  CONFIG.units.forEach((unit) => { const element = document.createElement("article"); element.className = "linear-item"; element.innerHTML = `<strong>${unit.name}</strong><small>${unit.year} · ${unit.km} · ${unit.criterion} · consultar por contacto</small>`; $("#linear-list")?.appendChild(element); });
+  route.addEventListener("wheel", (event) => { event.preventDefault(); setTarget(state.target + event.deltaY * .0008); }, { passive: false });
+  token.addEventListener("pointerdown", (event) => { state.drag = true; token.setPointerCapture(event.pointerId); });
+  token.addEventListener("pointermove", (event) => { if (state.drag) setTarget(state.target + event.movementX / Math.max(1, route.clientWidth - 96)); });
+  ["pointerup", "pointercancel", "lostpointercapture"].forEach((type) => token.addEventListener(type, () => { state.drag = false; }));
+  token.addEventListener("keydown", (event) => { const step = event.shiftKey ? .25 : .04; if (event.key === "ArrowRight") setTarget(state.target + step); if (event.key === "ArrowLeft") setTarget(state.target - step); if (event.key === "Home") setTarget(0); if (event.key === "End") setTarget(1); });
+  document.querySelectorAll(".milestone").forEach((milestone) => milestone.addEventListener("click", () => setTarget(+milestone.dataset.progress)));
+  $("#back-route")?.addEventListener("click", () => { setTarget(.9); window.scrollTo({ top: 0, behavior: reduceMotion.matches ? "auto" : "smooth" }); });
+  render();
+}

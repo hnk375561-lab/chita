@@ -150,8 +150,8 @@ Precios: todos "Consultar". El validador falla si aparece otro valor sin confirm
 - Ficha de información en "Quiénes somos" y pie con navegación y contacto: repiten dirección, WhatsApp y teléfono de `NEGOCIO`. En "Atención" no hay horario (sigue sin confirmar): dice que se coordina la visita.
 - Franja fotográfica "Encontrá tu próximo vehículo" con fotos ya cargadas. Se restauró el menú completo.
 
-## Pulido de movimiento GSAP (2026-09-30)
-- Solo movimiento, sin datos nuevos: filtros y orden del stock con Flip, títulos de las secciones nuevas por palabra, revelados escalonados, máscara en la foto de "Quiénes somos", botones magnéticos (solo mouse) y `ScrollTrigger.refresh()` tras cargar las imágenes. Todo respeta `prefers-reduced-motion`.
+## Pulido del sistema de movimiento nativo (2026-09-30)
+- Solo movimiento, sin datos nuevos: filtros y orden del stock, revelados escalonados, máscara en la foto de "Quiénes somos", botones magnéticos (solo mouse) y limpieza de ciclo de vida tras cargar las imágenes. Todo respeta `prefers-reduced-motion`.
 
 ## Pulido final de movimiento (2026-09-30)
 - El panel del buscador "¿Qué estás buscando?" anima el cambio de contenido al elegir otra prioridad. Los títulos animados por palabra ya no cortan las tildes. Se verificó sin desborde horizontal en móvil (390 px) y con movimiento reducido. Sin datos nuevos.

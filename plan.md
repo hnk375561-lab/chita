@@ -14,7 +14,7 @@
 
 **Interacción:** `progress` es la única variable. Wheel, drag, touch y teclado modifican el mismo valor; el snap abre la unidad más cercana. Enter enfoca; Escape cierra.
 
-**Animación:** solo transform/opacity; GSAP ticker y `quickTo`; sin filtros, blur, glow, gradientes ni sombras. `prefers-reduced-motion` muestra una lista estática.
+**Animación:** solo transform/opacity; Motion `animate` y controles cancelables; sin filtros, blur, glow, gradientes ni sombras. `prefers-reduced-motion` muestra una lista estática.
 
 **Tipografía:** Archivo Black para impacto y nombres; JetBrains Mono para metadatos y coordenadas.
 

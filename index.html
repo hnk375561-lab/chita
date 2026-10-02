@@ -197,7 +197,7 @@ footer{text-align:center}footer .lg img{margin-inline:auto}footer p{margin-inlin
 html.m{scroll-behavior:auto}
 #stockGrid{position:relative}
 .fm{align-items:stretch}.fr{display:flex;flex-direction:column;gap:20px;min-width:0}
-/* con movimiento activo, GSAP maneja el transform de botones y tarjetas: se quita la transición CSS de transform */
+/* con movimiento activo, el runtime modular maneja transform de botones y tarjetas */
 .m .btn.mg{transition:background .2s,color .3s cubic-bezier(.16,1,.3,1) .06s,border-color .3s,box-shadow .25s}
 .m .oc{transition:box-shadow .5s}
 .m .faq details{overflow:hidden}
@@ -954,7 +954,7 @@ section#financiacion.pp.pp.pp.pp .pdc{background:rgba(10,26,38,.8);border:1px so
 #guia .pdn{color:#b9cad3;text-shadow:0 1px 12px rgba(0,0,0,.6)}
 #guia .pdr .btn.p{background:var(--lux);border-color:var(--lux);color:var(--deep)}#guia .pdr .btn.p:active{background:#fff;border-color:#fff}
 
-/* ===== v6: profundidad (solo con GSAP activo en escritorio) ===== */
+/* ===== v6: profundidad progresiva en escritorio ===== */
 @property --bgy{syntax:"<percentage>";inherits:false;initial-value:0%}
 
 /* ===== v7: hueco del formulario, Quiénes somos, Cómo llegar y reseñas ===== */
@@ -1594,6 +1594,7 @@ a,button,summary,label,select,.chip{touch-action:manipulation}
 @media(max-width:420px){.arl li{grid-template-columns:1fr;gap:6px}}
 </style>
 <noscript><style>#modelos,.ff,.ftg,#qc,#hf,.vs,.car .g-a,.car .g-c,.car .g-s,.vr .g-a,.vr .vrr,.vr .vri,#visitaForm,#buscoForm{display:none}</style></noscript>
+<link rel="stylesheet" href="css/motion.css">
 </head>
 <body>
 <a class="skip" href="#unidades">Saltar al contenido</a>
@@ -1748,7 +1749,7 @@ var STOCK = [
 var N=NEGOCIO,$=function(i){return document.getElementById(i)},RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 /*PRE:start*/
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]})}
-function wa(t){return /^\d{8,}$/.test(N.whatsapp)?"https://wa.me/"+N.whatsapp+"?text="+encodeURIComponent(t||"Hola! Quiero consultar por las unidades disponibles."):"tel:"+N.phoneTel}
+function wa(t){return /^\d{8,}$/.test(N.whatsapp)?"https://wa.me/"+N.whatsapp+"?text="+encodeURIComponent(t||"Hola! Quiero consultar por las unidades disponibles."):"tel:"+N.telefonoTel}
 function ask(c){return "Hola! Vi el "+c.titulo+" "+c.anio+" en la página y quisiera consultar si sigue disponible."}
 var IW={};
 var CSZ="(min-width:900px) 380px,(min-width:640px) 50vw,100vw";
@@ -1917,10 +1918,6 @@ function ld(){if(!f||!f.getAttribute("data-src"))return;f.addEventListener("load
 /* El mapa se carga solo, un poco antes de llegar a la sección (sin clic) y aparece con un fundido */
 if("IntersectionObserver" in window){var o=new IntersectionObserver(function(es){if(es[0].isIntersecting){o.disconnect();ld()}},{rootMargin:"1400px 0px"});o.observe(m)}else{addEventListener("load",function(){setTimeout(ld,800)})}
 m.addEventListener("click",function(){ld();m.classList.add("on")});m.addEventListener("mouseleave",function(){m.classList.remove("on")});document.addEventListener("touchstart",function(e){if(!m.contains(e.target))m.classList.remove("on")},{passive:true})})();</script>
-<script src="vendor/gsap.min.js" defer onerror="document.documentElement.classList.remove('m')"></script>
-<script src="vendor/ScrollTrigger.min.js" defer onerror="document.documentElement.classList.remove('m')"></script>
-<script src="vendor/Flip.min.js" defer onerror="document.documentElement.classList.remove('m')"></script>
-<script src="vendor/ScrollToPlugin.min.js" defer onerror="document.documentElement.classList.remove('m')"></script>
 <script src="js/motion.js" defer onerror="document.documentElement.classList.remove('m')"></script>
 <script>
 (function(){
@@ -1936,11 +1933,11 @@ var ob=new MutationObserver(function(){ap()});
 function num(s){return parseInt(String(s).replace(/\D/g,""),10)||0}
 var mo={};S.forEach(function(c){mo[c.corto||c.titulo]=1});$("fm").innerHTML+=Object.keys(mo).map(function(m){return'<option value="'+esc(m)+'">'+esc(m)+"</option>"}).join("");
 var ys=S.map(function(c){return c.anio}),ks=S.map(km);$("fy1").placeholder="Ej.: "+Math.min.apply(null,ys);$("fy2").placeholder="Ej.: "+Math.max.apply(null,ys);$("fk1").placeholder="Ej.: "+Math.min.apply(null,ks).toLocaleString("es-AR");$("fk2").placeholder="Ej.: "+Math.max.apply(null,ks).toLocaleString("es-AR");
-function ap(an){var F=window.Flip,G=window.gsap,fl=an===true&&F&&G&&!matchMedia("(prefers-reduced-motion:reduce)").matches,st=fl?F.getState(document.querySelectorAll("#stockGrid .car:not([hidden])")):0;var t=nz(q.value.trim()),m=$("fm").value,y1=num($("fy1").value),y2=num($("fy2").value)||9999,k1=num($("fk1").value),k2=num($("fk2").value)||1e12,o=$("fo").value,gr=$("stockGrid"),cs=[].slice.call(gr.querySelectorAll(".car")),n=0;
+function ap(an){var fl=false,st=0;var t=nz(q.value.trim()),m=$("fm").value,y1=num($("fy1").value),y2=num($("fy2").value)||9999,k1=num($("fk1").value),k2=num($("fk2").value)||1e12,o=$("fo").value,gr=$("stockGrid"),cs=[].slice.call(gr.querySelectorAll(".car")),n=0;
  cs.forEach(function(a){var c=S[+a.dataset.i],ok=!c||(nz(c.titulo+" "+c.anio+" "+c.combustible).indexOf(t)>-1&&(!m||(c.corto||c.titulo)===m)&&c.anio>=y1&&c.anio<=y2&&km(c)>=k1&&km(c)<=k2);a.hidden=!ok;if(ok)n++});
  var sr=cs.slice().sort(function(a,b){var A=S[+a.dataset.i]||{},B=S[+b.dataset.i]||{};return o==="km"?(km(A)||1e9)-(km(B)||1e9):o==="nuevo"?B.anio-A.anio:o==="viejo"?A.anio-B.anio:+a.dataset.i-+b.dataset.i});
  ob.disconnect();sr.forEach(function(a){gr.appendChild(a)});ob.observe(gr,{childList:true});
- if(st)F.from(st,{duration:.7,ease:"expo.out",scale:false,onEnter:function(e){return G.fromTo(e,{opacity:0,y:18},{opacity:1,y:0,duration:.6,ease:"expo.out",clearProps:"transform,opacity"})}});$("qe").style.display=n?"none":"block";$("qc").textContent="Mostrando "+n+" de "+S.length+" unidades"}
+$("qe").style.display=n?"none":"block";$("qc").textContent="Mostrando "+n+" de "+S.length+" unidades"}
 ["fm","fy1","fy2","fk1","fk2","fo"].forEach(function(i){$(i).addEventListener("input",function(){ap(true)});$(i).addEventListener("change",function(){ap(true)})});
 $("fc").addEventListener("click",function(){["fm","fy1","fy2","fk1","fk2","fo"].forEach(function(i){$(i).value=""});q.value="";q.dispatchEvent(new Event("input"))});
 q.addEventListener("input",function(){ap()});
@@ -1967,13 +1964,13 @@ function vr(){var u=sel.map(function(i){return S[i]}),m=u.length>1;vpk();
   +'<div class="vdq"><p class="vdt"><span>Equipamiento informado</span><b>'+ue[i]+" de "+EQ.length+'</b></p><ul>'+EQ.map(function(q){var ok=(c.nota||"").toLowerCase().indexOf(q[0])>-1;return'<li class="'+(ok?"y":"n")+'"><span aria-hidden="true">'+(ok?"✓":"–")+'</span>'+q[1]+'<i class="sr">'+(ok?": incluye":": no informado")+"</i></li>"}).join("")+'</ul></div>'
   +'<div class="vda"><a class="btn p" href="'+wl(c)+'" target="_blank" rel="noopener noreferrer">Consultar esta unidad</a><a class="btn" href="#unidad-'+sg(c)+'">Ver ficha</a></div></article>'}).join("")+"</div>"+(m?'<p class="vdy" aria-hidden="true">Deslizá para ver las demás unidades →</p>':"");
  $("vt").innerHTML=h;
- if(g&&!RM)g.from("#vt .vdc",{opacity:0,y:18,duration:.6,stagger:.08,ease:"expo.out",clearProps:"all"})}
+}
 vp.addEventListener("click",function(e){var b=e.target.closest(".vdp");if(!b)return;var j=+b.getAttribute("data-j"),k=sel.indexOf(j);
  if(k>-1){if(sel.length>1)sel.splice(k,1)}else{sel.push(j);if(sel.length>3)sel.shift()}
  vr();var f=vp.querySelector('[data-j="'+j+'"]');if(f)f.focus()});
 /* Datos de contacto de la ficha */
 $("icA").textContent=NEGOCIO.direccion+" ("+NEGOCIO.referencia+"), "+NEGOCIO.ciudad;$("icW").textContent="+54 9 "+NEGOCIO.telefono.replace("03442 ","3442 ");$("icT").textContent=NEGOCIO.telefono;
-function late(){g=window.gsap;vr()}
+function late(){vr()}
 vr();if(document.readyState==="complete")late();else window.addEventListener("load",late);
 })();
 </script>
@@ -1994,91 +1991,6 @@ go(0);
 <script>(function(){var b=document.getElementById("rqc"),o=document.getElementById("rqs");if(!b)return;b.addEventListener("click",function(){var t="Gral. Galarza 1712, Concepción del Uruguay, Entre Ríos";function ok(){o.textContent="Dirección copiada."}function ko(){o.textContent="No se pudo copiar. La dirección es "+t+"."}if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,ko);else{try{var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();ok()}catch(e){ko()}}})})();</script>
 <script>(function(){var b=document.getElementById("ftg"),f=document.getElementById("ff");if(!b||!f)return;b.addEventListener("click",function(){var o=f.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");b.textContent=o?"Ocultar filtros":"Más filtros y orden"})})();</script>
 <script src="js/recorrido.js" defer></script>
-<script>
-/* v13 · scroll sin trabajo de hover (solo mouse) y pulsos CSS en pausa cuando su bloque no está a la vista */
-(function(){
-var R=document.documentElement;
-if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
-if(matchMedia("(hover:hover) and (pointer:fine)").matches){
-/* v8 · escudo de hover: un único div fijo y transparente absorbe el puntero mientras se scrollea con mouse.
-   Antes se alternaba una clase en <html> (pointer-events heredado + colisión con la clase .sc de los botones): cada inicio y fin de scroll
-   invalidaba ~2000 elementos y reflowaba la página. Ahora alternar el escudo toca un solo nodo. */
-var sh=document.createElement("div"),on=false,t=0;sh.id="shd";sh.setAttribute("aria-hidden","true");
-function show(){if(!on){on=true;if(!sh.parentNode)document.body.appendChild(sh);sh.classList.add("on")}}
-function hide(){on=false;sh.classList.remove("on")}
-addEventListener("scroll",function(){show();clearTimeout(t);t=setTimeout(hide,140)},{passive:true});
-}
-if("IntersectionObserver" in window){
-var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle("off-screen",!e.isIntersecting)})},{rootMargin:"80px 0px"});
-[].forEach.call(document.querySelectorAll("#vj,#local,.rj .rl,.mp"),function(el){io.observe(el)});
-}
-})();
-</script>
-<script>
-/* v12 · precalentado de decodificación: las fotos grandes (fondos de sección y fotos diferidas) se decodifican en tiempos ociosos
-   ANTES de llegar a pantalla, para que el scroll no pague el costo de decodificar en pleno movimiento. Sin dependencias; sin efecto visual. */
-(function(){
-if(!("IntersectionObserver" in window))return;
-var warmed={},idle=window.requestIdleCallback||function(f){return setTimeout(f,60)};
-function warm(src){
-if(!src||warmed[src])return;warmed[src]=1;
-idle(function(){var i=new Image();i.decoding="async";i.src=src;if(i.decode)i.decode().catch(function(){})},{timeout:1500});
-}
-var conn=navigator.connection||{},save=!!conn.saveData||/(^|-)2g$/.test(conn.effectiveType||"");
-if(save)return;
-var ev=document.getElementById("eqv");
-if(ev&&ev.preload==="none"){var io3=new IntersectionObserver(function(es){if(es[0].isIntersecting){ev.preload="metadata";io3.disconnect()}},{rootMargin:"200% 0px"});io3.observe(ev)}
-/* fondos CSS: cada uno se precalienta cuando su sección está a ~1.5 pantallas */
-var bgs=[["#visita","images/fondo-visita.webp"],["#financiacion","images/fondo-precios.webp"],["#guia","images/fondo-guia.webp"]];
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){warm(e.target.__w);io.unobserve(e.target)}})},{rootMargin:"150% 0px"});
-function init(){
-bgs.forEach(function(b){var el=document.querySelector(b[0]);if(el){el.__w=b[1];io.observe(el)}});
-/* fotos diferidas: se decodifican al acercarse (currentSrc ya elegido por el navegador) */
-var lz=document.querySelectorAll("img[loading=lazy]"),io2=new IntersectionObserver(function(es){es.forEach(function(e){
-if(!e.isIntersecting)return;var im=e.target;io2.unobserve(im);
-if(im.complete&&im.decode)idle(function(){im.decode().catch(function(){})},{timeout:1200});
-else im.addEventListener("load",function(){if(im.decode)im.decode().catch(function(){})},{once:true});
-})},{rootMargin:"120% 0px"});
-for(var k=0;k<lz.length;k++)io2.observe(lz[k]);
-}
-if(document.readyState==="complete")init();else addEventListener("load",init,{once:true});
-})();
-</script>
-<script>
-/* v11 · capa cinematográfica sobre motion.js: profundidad atada al scroll (solo transform/opacity, scrub directo sin retraso).
-   Hero: la foto se acerca y se atenúa al salir. Banner: el marco se abre al llegar y la foto contra-desliza. Quiénes somos: contraparalaje de la foto.
-   Un solo gsap.matchMedia: se limpia solo al cambiar de escritorio a móvil. Sin listeners propios de scroll/resize. */
-(function(){
-function run(){
-var R=document.documentElement,g=window.gsap,ST=window.ScrollTrigger;
-if(!g||!ST||!R.classList.contains("m")||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
-var q=function(s){return document.querySelector(s)};
-var lite=(navigator.hardwareConcurrency||8)<=4||(navigator.deviceMemory||8)<=2||((navigator.deviceMemory||8)<=4&&matchMedia("(pointer:coarse)").matches)||!!(navigator.connection&&navigator.connection.saveData);
-g.matchMedia().add({d:"(min-width:900px)",m:"(max-width:899px)"},function(ctx){
-var D=ctx.conditions.d,hinted=[];
-function scrub(el,from,to,trig,start,end){
-if(!el||!trig)return;
-to.ease="none";
-to.scrollTrigger={trigger:trig,start:start||"top bottom",end:end||"bottom top",scrub:true,invalidateOnRefresh:true,onToggle:function(s){el.style.willChange=s.isActive?"transform":"auto"}};
-g.fromTo(el,from,to);
-hinted.push(el);
-}
-/* Hero: al bajar, la foto se acerca y se oscurece mientras el texto se despide en capas (ya lo hace motion.js) */
-scrub(q("#hzs"),{scale:1,yPercent:0,opacity:1},{scale:D?1.12:1.08,yPercent:D?5:4,opacity:.55},q(".hero"),"top top","bottom top");
-/* Banner: el marco se abre al llegar (compositor) y la foto contra-desliza dentro */
-var bd=q("#bd"),bm=q("#bd .bdm"),bi=q("#bd .bdm img");
-if(bd&&bm){
-scrub(bm,{scale:D?.9:.94},{scale:1},bd,"top bottom",D?"top 20%":"top 45%");
-if(bi&&!lite)scrub(bi,{scale:D?1.14:1.1,yPercent:D?-6:-4},{scale:D?1.14:1.1,yPercent:D?6:4},bd,"top bottom","bottom top");
-}
-/* Quiénes somos: contraparalaje de la foto del local */
-var ni=q("#nph img");
-if(ni&&!lite)scrub(ni,{scale:1.12,yPercent:-4},{scale:1.12,yPercent:4},q("#nph"),"top bottom","bottom top");
-return function(){hinted.forEach(function(el){el.style.willChange=""})};
-});
-}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run();
-})();
-</script>
+<script type="module" src="js/motion.js"></script>
 </body>
 </html>
