@@ -1,0 +1,104 @@
+{
+  "demo": {
+    "status": "independent-demo",
+    "official": false,
+    "publicIndexing": false
+  },
+  "identity": {
+    "tradeName": "Chita Automotores",
+    "legalName": null,
+    "cuit": null,
+    "note": "Un directorio lo lista junto al nombre del titular. No se carga ese nombre en el sitio ni en este repo (CLAUDE.md, regla 4)."
+  },
+  "location": {
+    "address": "Gral. Galarza 1712",
+    "city": "Concepción del Uruguay",
+    "province": "Entre Ríos",
+    "country": "Argentina",
+    "postalCode": "E3260",
+    "mapsPlaceUrl": "https://www.google.com/maps/place/Chita+Automotores,+Gral.+Galarza+1712,+Concepci%C3%B3n+del+Uruguay,+Entre+R%C3%ADos",
+    "mapsReviewsUrl": "https://www.google.com/maps/place/Chita+Automotores,+Gral.+Galarza+1712,+Concepci%C3%B3n+del+Uruguay,+Entre+R%C3%ADos",
+    "status": "direccion-en-6-directorios-publicos; URL de Maps construida por direccion (no es la ficha reclamada); sin coordenadas verificadas",
+    "coordinates": null
+  },
+  "contact": {
+    "phone": "03442 44-2782",
+    "phoneTel": "+543442442782",
+    "whatsApp": "WHATSAPP-A-CONFIRMAR",
+    "email": null,
+    "website": null,
+    "instagram": "chita.automotores",
+    "facebook": "https://www.facebook.com/Chitaautomotores",
+    "status": "telefono-fijo-en-4-directorios; hay un 2.o numero (+54 3442 54-7671, zonaauto, antiguo) SIN usar; WhatsApp no verificado",
+    "emailCandidate": "chitaautomotores@gmail.com (solo Cylex; sin confirmar)"
+  },
+  "hours": {
+    "display": null,
+    "status": "conflicting-sources",
+    "note": "Cylex/infoisinfo: L-V 8:30-12 y 16-20, Sab 9-12. zonaauto: L-V 8:30-12 y 15:30-19:30, Sab 9-12:30. latinoplaces: L-V 9-17. Se contradicen: preguntar al dueño."
+  },
+  "foundation": {
+    "claim": null,
+    "year": null,
+    "note": "Una reseña de Google (2020) dice 'mas de 35 años'. No es dato del negocio: NO usar sin confirmacion."
+  },
+  "services": {
+    "status": "partial",
+    "note": "Directorios: 'venta de automotores usados y nuevos' (Cylex, infoisinfo) y '0KM y usados' (zonaauto). Permuta/consignacion/financiacion: sin verificar."
+  },
+  "social": {
+    "facebookFollowers": "15.000 (dato del solicitante, sin verificar)",
+    "instagramFollowers": "8.000 (dato del solicitante, sin verificar)",
+    "lastFacebookPost": "hace ~8 h al 2026-10-02 (dato del solicitante)"
+  },
+  "sources": [
+    {
+      "label": "Cylex: Chita Automotores de Elvio",
+      "url": "https://www.cylex.com.ar/concepcion-del-uruguay/chita-automotores-de-elvio-11397671.html",
+      "checkedAt": "2026-10-02",
+      "finding": "Galarza 1712, tel 03442 44-2782, horarios (2022-12-27), email chitaautomotores@gmail.com"
+    },
+    {
+      "label": "gtm.com.ar",
+      "url": "https://gtm.com.ar/concesionario/chita-automotores/",
+      "checkedAt": "2026-10-02",
+      "finding": "Galarza 1712, E3260. Dice que la presencia online es casi solo Facebook."
+    },
+    {
+      "label": "zonaauto.com.ar",
+      "url": "https://zonaauto.com.ar/concesionarios/chita-automotores/",
+      "checkedAt": "2026-10-02",
+      "finding": "Gral. Galarza 1712; tel +543442547671; horarios distintos; 0KM y usados (ficha antigua)"
+    },
+    {
+      "label": "infoisinfo",
+      "url": "https://concepcion-del-uruguay.infoisinfo-ar.com/ficha/chita-automotores-de-elvio-orcellet/203912",
+      "checkedAt": "2026-10-02",
+      "finding": "Galarza 1712; 'venta de automotores usados y nuevos'; horarios"
+    },
+    {
+      "label": "licuo",
+      "url": "https://concepcion-del-uruguay.licuo.com.ar/concesionarios_automotor-en_concepcion_del_uruguay.htm",
+      "checkedAt": "2026-10-02",
+      "finding": "tel (03442) 44-2782, galarza 1712; titular figura en el listado"
+    },
+    {
+      "label": "latinoplaces (datos tipo Google Maps)",
+      "url": "https://ar.latinoplaces.com/entre-rios/chita-automotores-239482",
+      "checkedAt": "2026-10-02",
+      "finding": "Gral. Galarza 1712, +54 3442 44-2782; 6 opiniones (2020)"
+    },
+    {
+      "label": "Facebook /Chitaautomotores/photos",
+      "url": "https://www.facebook.com/Chitaautomotores/photos",
+      "checkedAt": "2026-10-02",
+      "finding": "Enlace del solicitante. NO abierto (acceso automatizado bloqueado). Fotos y publicaciones: bajar a mano (docs/CONTENIDO.md)."
+    },
+    {
+      "label": "Instagram @chita.automotores",
+      "url": "https://www.instagram.com/chita.automotores/",
+      "checkedAt": "2026-10-02",
+      "finding": "Enlace del solicitante. NO abierto (robots.txt lo bloquea)."
+    }
+  ]
+}

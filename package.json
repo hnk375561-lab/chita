@@ -1,0 +1,20 @@
+{
+  "name": "chita-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "test": "node scripts/validate-dealership.mjs",
+    "test:prod": "node scripts/validate-dealership.mjs --prod",
+    "prerender": "node scripts/prerender.mjs",
+    "images": "node scripts/make-images.mjs",
+    "audit": "node scripts/audit-copy.mjs",
+    "rebrand": "node scripts/rebrand.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

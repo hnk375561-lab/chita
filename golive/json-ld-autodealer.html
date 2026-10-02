@@ -1,0 +1,32 @@
+<!--
+  PREPARADO, SIN ACTIVAR. No pegar en index.html mientras el sitio sea demo (CLAUDE.md, regla 5).
+  Al salir a producción (ver golive/PRODUCCION.md):
+    1. Reemplazar DOMINIO-FINAL por el dominio real.
+    2. Pegar el bloque <script> de abajo dentro de <head> en index.html.
+    3. Comprobar que cada dato coincide con data/dealership.json y con NEGOCIO (npm test).
+  Sin "geo": no hay coordenadas verificadas; agregarlas cuando se confirme la ficha de Maps. Solo lleva datos que ya están confirmados en el sitio (nombre, dirección, teléfono, redes, ubicación).
+  A propósito NO incluye: horarios (openingHoursSpecification), rango de precios, puntuación ni cantidad
+  de opiniones (aggregateRating), ni imagen (el preview.png y el logo todavía llevan frases sin confirmar).
+  Sumarlos solo cuando el dueño lo confirme por escrito y quede registrado en AFIRMACIONES-A-CONFIRMAR.md.
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutoDealer",
+  "name": "Chita Automotores",
+  "url": "https://DOMINIO-FINAL/",
+  "telephone": "+543442442782",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Gral. Galarza 1712",
+    "addressLocality": "Concepción del Uruguay",
+    "addressRegion": "Entre Ríos",
+    "addressCountry": "AR"
+  },
+  "hasMap": "https://www.google.com/maps/place/Chita+Automotores,+Gral.+Galarza+1712,+Concepci%C3%B3n+del+Uruguay,+Entre+R%C3%ADos",
+  "sameAs": [
+    "https://www.instagram.com/chita.automotores/",
+    "https://www.facebook.com/Chitaautomotores"
+  ]
+}
+</script>
