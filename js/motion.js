@@ -6,6 +6,9 @@ import { initInteractions } from "./motion/interactions.js";
 import { initViewTransitions } from "./motion/transitions.js";
 import { initWebGL } from "./motion/webgl.js";
 import { initCursor } from "./motion/cursor.js";
+import { initEngine } from "./motion/engine.js";
+import { initMaterials } from "./motion/materials.js";
+import { initTypography } from "./motion/typography.js";
 
 const root = document.documentElement;
 const syncMotionMode = () => {
@@ -36,7 +39,7 @@ function init() {
     previousTime = now;
   };
   document.addEventListener("pointermove", trackPointer, { passive: true });
-  const cleanups = [initSensoryState(), initViewTransitions(), initReveals(), initScrollMotion(), initInteractions(), initWebGL(), initCursor(), () => document.removeEventListener("pointermove", trackPointer)];
+  const cleanups = [initSensoryState(), initEngine(), initViewTransitions(), initReveals(), initScrollMotion(), initInteractions(), initWebGL(), initMaterials(), initTypography(), initCursor(), () => document.removeEventListener("pointermove", trackPointer)];
   window.addEventListener("pagehide", () => cleanups.forEach((cleanup) => typeof cleanup === "function" && cleanup()), { once: true });
 }
 
