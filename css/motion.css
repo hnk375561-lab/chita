@@ -1,70 +1,18 @@
-/* Capa de movimiento — GSAP + ScrollTrigger + Lenis.
-   Este CSS solo contiene lo que JS no puede hacer sin parpadeo: estados base, máscaras de texto,
-   reglas de Lenis y la escenografía fotográfica (identidad visual, sin cambios). */
-
-/* ── Lenis ─────────────────────────────────────────────────────────────── */
+/* Movimiento cinematográfico de Chita Automotores.
+   Las fotografías se mantienen como un único plano por sección: sin capas de color,
+   filtros, degradados u opacidades que apaguen la imagen. */
 html.lenis,html.lenis body{height:auto}
-.lenis.lenis-smooth{scroll-behavior:auto!important}
-.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
-.lenis.lenis-stopped{overflow:hidden}
-
-/* ── Estado inicial del hero (se libera en hero.js; el temporizador de index.html es la red de seguridad) ── */
-.mh header .w>*,
-.mh .hero :is(.hlogo,.h1n,h1,.tx>p,.row,.lk,.hv,.hcap,.ha){visibility:hidden}
-
-/* ── Texto partido: máscara por palabra (el aria-label del título conserva la lectura) ── */
-.mo-w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .05em .16em;margin:0 -.05em -.16em}
-.mo-i{display:inline-block}
-.mo-c{display:inline-block}
-
-/* ── Los transforms los maneja GSAP: sin transiciones CSS de transform que compitan ── */
-.m :is(.btn,.oc,.pdc,.rvc,.car){transition-property:background-color,color,border-color,box-shadow,filter,background-position,opacity!important}
-.m .btn:hover,.m .pdc:hover{transform:none}
-.mo-swap :is(.hz,.vrz){transition:none!important}
-
-/* ── Cursor ─────────────────────────────────────────────────────────────── */
-.motion-cursor{position:fixed;left:0;top:0;z-index:999;width:38px;height:38px;pointer-events:none;opacity:0;mix-blend-mode:difference;will-change:transform}
-.motion-cursor__dot{position:absolute;inset:0;border:1px solid #fff;border-radius:50%}
-.motion-cursor__label{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:600 11px/1 Arial,sans-serif}
-.motion-cursor[data-state=button] .motion-cursor__dot{background:#fff}
-.motion-cursor[data-state=button] .motion-cursor__label{color:#0E1B26}
-
-/* ── Transición nativa entre documentos (sin librería) ── */
-@supports (view-transition-name:none){@view-transition{navigation:auto}}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.48s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{scroll-behavior:auto!important}
-  .motion-cursor{display:none}
-  .mh header .w>*,.mh .hero :is(.hlogo,.h1n,h1,.tx>p,.row,.lk,.hv,.hcap,.ha){visibility:visible}
-}
-
-/* Escenografía fotográfica: interiores reales del stock como atmósfera continua de cada sección. */
-main>.hero,main>section{--interior-bg:url('../images/bg/int-3.webp');background-size:cover!important;background-position:center 48%!important;background-repeat:no-repeat!important;background-attachment:scroll!important;background-image:linear-gradient(rgba(243,245,246,.55),rgba(243,245,246,.6)),var(--interior-bg)!important}
-main>.hero{--interior-bg:url('../images/bg/int-19.webp');background-image:linear-gradient(90deg,rgba(6,17,26,.72),rgba(6,17,26,.3)),var(--interior-bg)!important}
-#unidades{--interior-bg:url('../images/bg/int-3.webp')}
-#modelos{--interior-bg:url('../images/bg/int-6.webp')}
-#versus{--interior-bg:url('../images/bg/int-20.webp');background-image:linear-gradient(rgba(6,17,26,.58),rgba(6,17,26,.5)),var(--interior-bg)!important}
-#nosotros{--interior-bg:url('../images/bg/int-26.webp')}
-#trayectoria{--interior-bg:url('../images/bg/int-32.webp')}
-#contacto{--interior-bg:url('../images/bg/int-40.webp');background-image:linear-gradient(rgba(6,17,26,.6),rgba(6,17,26,.5)),var(--interior-bg)!important}
-#local{--interior-bg:url('../images/bg/int-45.webp')}
-#opiniones{--interior-bg:url('../images/bg/int-16.webp')}
-#bd{--interior-bg:url('../images/bg/int-51.webp');background-image:linear-gradient(rgba(6,17,26,.5),rgba(6,17,26,.42)),var(--interior-bg)!important}
-#como-comprar{--interior-bg:url('../images/bg/int-52.webp')}
-#financiacion{--interior-bg:url('../images/bg/int-19.webp');background-image:linear-gradient(rgba(6,17,26,.55),rgba(6,17,26,.46)),var(--interior-bg)!important}
-#operaciones{--interior-bg:url('../images/bg/int-6.webp')}
-#guia{--interior-bg:url('../images/bg/int-33.webp');background-image:linear-gradient(rgba(6,17,26,.58),rgba(6,17,26,.5)),var(--interior-bg)!important}
-#equipo{--interior-bg:url('../images/bg/int-39.webp')}
-#visita{--interior-bg:url('../images/bg/int-46.webp');background-image:linear-gradient(rgba(6,17,26,.55),rgba(6,17,26,.48)),var(--interior-bg)!important}
-#preguntas{--interior-bg:url('../images/bg/int-21.webp')}
-/* Replace legacy scene pseudo-backgrounds so the requested interior photographs remain the actual source. */
-#financiacion.pp::before,#visita.pd::before,#guia.pd::before{background-image:var(--interior-bg)!important;background-size:cover;background-position:center!important}
+html.lenis.lenis-smooth{scroll-behavior:auto!important}
+html.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+html.lenis.lenis-stopped{overflow:hidden}
+.mh header .w>*,.mh .hero :is(.hlogo,.h1n,h1,.tx>p,.row,.lk,.hv,.hcap,.ha){visibility:hidden}
+.mo-w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .05em .16em;margin:0 -.05em -.16em}.mo-i,.mo-c{display:inline-block}
+.m :is(.btn,.oc,.pdc,.rvc,.car){transition-property:background-color,color,border-color,box-shadow,filter,background-position,opacity!important}.m .btn:hover,.m .pdc:hover{transform:none}.mo-swap :is(.hz,.vrz){transition:none!important}
+main>.hero,main>section{position:relative;isolation:isolate;overflow:clip!important;background-image:none!important;background-attachment:scroll!important}
+.chita-section-backdrop{position:absolute;inset:0;z-index:0;pointer-events:none;background-repeat:no-repeat;background-size:cover;background-position:50% 50%;transform-origin:50% 50%;contain:paint}
+/* Las pseudo-capas eran la segunda fotografía/overlay de cada escena. */
+main>section::before,main>section::after,#financiacion.pp::before,#financiacion.pp::after,#visita.pd::before,#visita.pd::after,#guia.pd::before,#bd::after,.hero figure::after{display:none!important}
 #bd .bdm{display:none}
-main>section>.w,main>section>.ops,main>section>.fm,main>section>.bqp{position:relative;z-index:1}
-@media(min-width:900px){main>.hero,main>section{background-attachment:fixed!important}}
-@media(prefers-reduced-motion:reduce){main>.hero,main>section{background-attachment:scroll!important}}
-
-main>.hero,main>section{image-rendering:auto}
-.pd::before,.pp::before{image-rendering:auto}
-
+main>section>.w,main>section>.ops,main>section>.fm,main>section>.bqp,main>.hero>*{position:relative;z-index:1}
+.hero .hv,.hero .hzs,.hero .tx,#bd,.chita-section-backdrop{max-width:100%}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.mh header .w>*,.mh .hero :is(.hlogo,.h1n,h1,.tx>p,.row,.lk,.hv,.hcap,.ha){visibility:visible}main>.hero,main>section{background-attachment:scroll!important}}
