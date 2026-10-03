@@ -26,8 +26,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-<script>(function(r){if(!matchMedia("(prefers-reduced-motion:reduce)").matches){r.classList.add("m","mh");setTimeout(function(){r.classList.remove("mh")},4000)}})(document.documentElement)</script>
-<link rel="preload" as="image" href="assets/8.jpg" imagesrcset="assets/8.jpg" imagesizes="(min-width:900px) 56vw,100vw" fetchpriority="high">
+<script>(function(r){if(!matchMedia("(prefers-reduced-motion:reduce)").matches){r.classList.add("m","mh");setTimeout(function(){r.classList.remove("mh")},2500)}})(document.documentElement)</script>
+<link rel="preload" as="image" href="assets/8.jpg" fetchpriority="high">
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="fonts/cinzel-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/bodoni-moda-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -1633,6 +1633,72 @@ a,button,summary,label,select,.chip{touch-action:manipulation}
 @media(min-width:1000px){.ent .eg{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .ent .eg li{margin:0;aspect-ratio:340/285;overflow:hidden;background:var(--cd);border:1px solid rgba(255,255,255,.22);box-shadow:0 18px 34px -22px rgba(0,0,0,.8)}
 .ent .eg img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ===== Hero v10: composición propia (la capa final manda sobre las versiones anteriores del hero) =====
+   Clases propias (hx-*) para no heredar las reglas acumuladas de .tz/.hv/.hz/.hcap/.ha.
+   Fotos: portada 4:5 de 800x1000 mostrada sin recorte, sin zoom y sin filtros. */
+@font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/instrument-sans-latin.woff2) format("woff2")}
+main>.hero.hx{--hx-top:104px;--hx-pad:clamp(20px,4vw,48px);display:grid;grid-template-columns:minmax(0,1fr);height:auto;min-height:0;background-color:var(--deep);color:#fff;border-bottom:1px solid rgba(92,184,208,.35)}
+.hx .hx-ui,.hx .hx-ui *{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif!important;font-weight:500!important;letter-spacing:0!important}
+.hx .hx-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;padding:28px var(--hx-pad) 24px;background:radial-gradient(90% 70% at 0% 0%,#0e2e40 0%,rgba(14,46,64,0) 62%)}
+.hx .hx-logo{display:block;flex:none;width:64px;height:64px;max-width:none;object-fit:cover;margin:0 0 20px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.45))}
+.hx .hx-h1{margin:0;max-width:13ch;font-size:clamp(38px,11vw,60px);line-height:1.02;letter-spacing:-.012em!important;color:#fff;text-wrap:balance}
+.hx .hx-lead{margin:18px 0 22px;padding:0;max-width:36ch;font-size:17px;line-height:1.55;color:#b9cad3}
+.hx .hx-go{display:flex;flex-wrap:wrap;gap:10px}
+.hx .hx-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border:1px solid rgba(255,255,255,.55);border-radius:0;background:transparent;color:#fff;font-size:16px;line-height:1.15;text-align:center;text-decoration:none;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s}
+.hx .hx-btn,.hx .hx-btn *{font-weight:600!important}
+.hx .hx-btn:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.hx .hx-btn.hx-p{background:var(--lux);border-color:var(--lux);color:var(--deep)}
+.hx .hx-btn.hx-p:hover{background:#fff;border-color:#fff}
+.hx .hx-btn[hidden],.hx [hidden]{display:none}
+.hx :focus-visible{outline:3px solid #fff;outline-offset:3px}
+.hx .hx-show{display:grid;gap:18px;min-width:0;padding:0 var(--hx-pad) 28px}
+.hx .hx-photo{position:relative;width:min(100%,460px,calc(72svh*.8));aspect-ratio:4/5;margin-inline:auto;overflow:hidden;background:var(--cd) url(images/fondo-marca.webp) 50% 50%/cover no-repeat;touch-action:pan-y;box-shadow:0 30px 60px -34px rgba(0,0,0,.85)}
+.hx .hx-slides{position:absolute;inset:0}
+.hx .hx-s{position:absolute;inset:0;visibility:hidden}
+.hx .hx-s.on,.hx .hx-s.out{visibility:visible}
+.hx .hx-s.on{z-index:2}.hx .hx-s.out{z-index:1}
+.hx .hx-s img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%;-webkit-user-drag:none;user-select:none}
+.hx .hx-s.hx-err img{display:none}
+.hx .hx-s.hx-err::after{content:attr(data-t);position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;font:400 clamp(24px,3vw,34px)/1.1 "Bodoni Moda",Georgia,serif;color:#fff}
+.hx .hx-veil{display:none;position:absolute;inset:0;z-index:5;background:var(--deep);pointer-events:none}
+.mh .hx .hx-veil{display:block}
+.hx .hx-info{display:flex;flex-direction:column;gap:20px;min-width:0}
+.hx .hx-nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hx .hx-count{font-size:15px;color:#8fa9b6;font-variant-numeric:tabular-nums}
+.hx .hx-arrows{display:flex;gap:8px}
+.hx .hx-ar{display:grid;place-items:center;width:48px;height:48px;padding:0;border:1px solid rgba(255,255,255,.45);border-radius:0;background:transparent;color:#fff;cursor:pointer;transition:background-color .2s,border-color .2s}
+.hx .hx-ar:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.hx .hx-ar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hx .hx-cap{display:flex;flex-direction:column;justify-content:flex-start;flex:1 1 auto;min-width:0}
+.hx .hx-ui .hx-name{font:400 clamp(28px,7vw,40px)/1.05 "Bodoni Moda",Georgia,serif!important;letter-spacing:-.005em!important;color:#fff;text-wrap:balance}
+.hx .hx-meta{margin:10px 0 0;font-size:16px;color:#a9bfca}
+.hx .hx-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hx .hx-act .hx-btn{flex:1 1 170px}
+.hx .hx-rail{position:relative;display:flex;gap:8px;padding:3px;margin:-3px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;overscroll-behavior-x:contain}
+.hx .hx-rail::-webkit-scrollbar{display:none}
+.hx .hx-t{position:relative;flex:none;width:56px;height:70px;padding:0;border:0;border-radius:0;background:var(--cd);opacity:.55;cursor:pointer;scroll-snap-align:start;transition:opacity .2s}
+.hx .hx-t:hover{opacity:.9}
+.hx .hx-t[aria-current=true]{opacity:1;outline:2px solid var(--lux);outline-offset:2px}
+.hx .hx-t img{display:block;width:100%;height:100%;object-fit:cover}
+@media(min-width:640px){.hx .hx-logo{width:76px;height:76px}.hx .hx-h1{max-width:16ch;font-size:clamp(46px,7vw,68px)}.hx .hx-lead{font-size:18px}}
+/* Tableta: la copia arriba y, debajo, foto + panel lado a lado */
+@media(min-width:640px) and (max-width:1279px){.hx .hx-show{grid-template-columns:minmax(0,min(46%,440px)) minmax(0,1fr);gap:clamp(20px,3vw,36px);align-items:stretch}.hx .hx-photo{width:100%;margin:0}.hx .hx-copy{padding-top:40px}}
+/* Escritorio: copia 35 % + escena de la unidad 65 %; el hero entra entero en la pantalla */
+@media(min-width:1280px){
+main>.hero.hx{grid-template-columns:minmax(380px,.7fr) minmax(0,1.3fr);height:clamp(600px,calc(100svh - var(--hx-top)),880px)}
+.hx .hx-copy{padding:clamp(24px,4vh,56px) clamp(20px,2.4vw,44px) clamp(24px,4vh,56px) max(28px,calc((100vw - 1560px)/2))}
+.hx .hx-logo{width:clamp(56px,10vh,84px);height:clamp(56px,10vh,84px);margin-bottom:clamp(14px,3vh,28px)}
+.hx .hx-h1{max-width:11ch;font-size:clamp(40px,min(4vw,7.4vh),70px)}
+.hx .hx-lead{margin:clamp(14px,2.6vh,24px) 0 clamp(18px,3.4vh,30px);font-size:clamp(16px,2.4vh,19px)}
+.hx .hx-show{display:flex;gap:clamp(24px,2.6vw,44px);padding:clamp(20px,3.6vh,36px) var(--hx-pad) clamp(20px,3.6vh,36px) 0;min-height:0}
+.hx .hx-photo{flex:none;align-self:stretch;width:auto;height:100%;margin:0;aspect-ratio:4/5;max-width:64%}
+.hx .hx-info{flex:1 1 0;gap:clamp(12px,2.2vh,22px)}
+.hx .hx-ui .hx-name{font-size:clamp(32px,min(3.4vw,6.8vh),56px);min-height:2.1em}
+}
+/* Cabecera: la marca ya no pisa el menú entre 900 y 1699 px */
+@media(min-width:900px) and (max-width:1699px){header .mark small{display:none}}
+@media(prefers-reduced-motion:reduce){.hx .hx-btn,.hx .hx-ar,.hx .hx-t{transition:none}}
 </style>
 <noscript><style>#modelos,.ff,.ftg,#qc,#hf,.vs,.car .g-a,.car .g-c,.car .g-s,.vr .g-a,.vr .vrr,.vr .vri,#visitaForm,#buscoForm{display:none}</style></noscript>
 <link rel="stylesheet" href="css/motion.css">
@@ -1644,10 +1710,17 @@ a,button,summary,label,select,.chip{touch-action:manipulation}
 <nav aria-label="Principal"><a href="#unidades">Unidades</a><a href="#versus">Comparar</a><a href="#contacto">Dónde estamos</a><a href="#operaciones">Vender o permutar</a><a href="#preguntas">Preguntas</a></nav>
 <div class="hc"><a class="ic tel" data-tel href="tel:+543442442782" aria-label="Llamar al 03442 44-2782"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25c1.1.37 2.3.57 3.6.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.6a1 1 0 01-.25 1z"/></svg><span>03442 44-2782</span></a><a class="ic pin" data-map target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/place/Chita+Automotores,+Gral.+Galarza+1712,+Concepci%C3%B3n+del+Uruguay,+Entre+R%C3%ADos" aria-label="Ubicación en Google Maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 00-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1114.5 9 2.5 2.5 0 0112 11.5z"/></svg></a><a class="ic ig" data-ig target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/chita.automotores/" aria-label="Instagram"><svg class="o" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/></svg></a><a class="ic fb" data-fb target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/Chitaautomotores" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 00-4 4v2H7v4h3v8h4v-8h3l1-4h-4V8.5a.5.5 0 01.5-.5z"/></svg></a></div><a class="btn p" href="tel:+543442442782" data-wa="Hola! Quiero consultar por las unidades disponibles.">contacto</a></div></header>
 <main id="top">
-<div class="hero"><div class="tx"><img decoding="async" class="hlogo" src="images/logo-claro.webp" alt="Chita Automotores, Stock real y fotos reales" width="722" height="287"><h1><span class="h1n">Chita Automotores<span class="sr">:</span></span> Autos usados en Concepción del Uruguay</h1><p>Usados y 0 km. Recibimos tu usado. Financiación en cuotas fijas. Escribinos y te confirmamos si la unidad sigue disponible.</p>
-<div class="row"><a class="btn p" href="#unidades">Ver unidades</a><a class="btn" href="tel:+543442442782" data-wa="Hola! Quiero consultar por las unidades disponibles.">Consultar por contacto</a></div>
-<a class="lk" href="#operaciones">¿Querés vender o permutar tu auto? →</a></div>
-<figure class="hs" id="hs" aria-roledescription="carousel" aria-label="Unidades en stock"><div class="hv"><div class="hzs" id="hzs"><div class="hz on"><img decoding="async" src="assets/8.jpg" sizes="(min-width:900px) 56vw,100vw" alt="Vehículos fotografiados por Chita" fetchpriority="high" width="1440" height="1085"></div></div><div class="hcap"><p class="hn" id="hn">Vehículos fotografiados por Chita</p><p class="hm" id="hm">Consultá disponibilidad y horarios</p></div></div><div class="ha"><button type="button" class="btn hf" id="hf">Ver ficha</button><a class="btn p hw" id="hw" href="tel:+543442442782">Consultar esta unidad</a></div></figure></div>
+<div class="hero hx" id="hero"><div class="hx-copy">
+<img class="hx-logo" decoding="async" src="images/logo-claro.webp" alt="Chita Automotores, Stock real y fotos reales" width="722" height="287">
+<h1 class="hx-h1"><span class="sr">Chita Automotores: </span>Autos usados en Concepción del Uruguay</h1>
+<p class="hx-lead hx-ui">Usados y 0 km. Recibimos tu usado. Financiación en cuotas fijas. Escribinos y te confirmamos si la unidad sigue disponible.</p>
+<div class="hx-go hx-ui"><a class="hx-btn hx-p" href="#unidades">Ver unidades</a><a class="hx-btn" href="#operaciones">Vender o permutar mi auto</a></div></div>
+<div class="hx-show" id="hs" role="group" aria-roledescription="carousel" aria-label="Unidades en stock">
+<div class="hx-photo" id="hv" tabindex="0"><span class="hx-veil" aria-hidden="true"></span><div class="hx-slides" id="hzs"><div class="hx-s on"><img src="assets/8.jpg" alt="Renault Clio Dynamique 1.2N 2016" width="800" height="1000" decoding="async" fetchpriority="high" draggable="false"></div></div></div>
+<div class="hx-info hx-ui"><div class="hx-cap"><div class="hx-name" id="hn">Renault Clio Dynamique 1.2N</div><div class="hx-meta" id="hm">2016 · 123.000 km · Nafta</div>
+<div class="hx-act"><a class="hx-btn hx-p" id="hw" href="tel:+543442442782">Consultar esta unidad</a><button type="button" class="hx-btn" id="hf" hidden>Ver ficha</button></div></div>
+<div class="hx-nav" id="hnav" hidden><span class="hx-count" id="hcount" role="status" aria-live="polite"></span><div class="hx-arrows"><button type="button" class="hx-ar" id="hprev" aria-label="Unidad anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="hx-ar" id="hnext" aria-label="Unidad siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></div>
+<div class="hx-rail" id="hrail" aria-label="Elegir unidad" hidden></div></div></div></div>
 
 <section id="unidades"><div class="w">
 <div class="head"><div><h2>Unidades</h2><p class="sub">Tocá una unidad para ver todas las fotos. Precio y disponibilidad: consultanos por contacto.</p></div></div>
@@ -1888,24 +1961,47 @@ var tb=e.target.closest(".g-t button");if(tb)return gGo(D.querySelector(".ct"),+
 var b=e.target.closest("[data-n]");if(b)open_(+b.getAttribute("data-n"),b.getAttribute("data-k"))});
 
 
-/* Hero: solo el frente de cada unidad (primera foto de cada grupo de Chita). motion.js anima el cambio con el evento chita:hero */
-var HZ=$("hzs"),HN=$("hn"),HM=$("hm"),HW=$("hw"),hi=0,SL=[],hsl;
-(function(){var mx=Math.max.apply(null,STOCK.map(function(c){return ph(c).length}));for(var p=0;p<1;p++)STOCK.forEach(function(c,ci){var f=ph(c)[p];if(f)SL.push({c:ci,src:f})})})();
+/* Hero v10: carrusel de unidades (portada de cada una, sin recorte ni zoom). motion.js solo anima la entrada.
+   Cada unidad se presenta con la foto de portada que Chita rotuló: marca, modelo, año y km vienen impresos en la propia foto.
+   Se vinculan por título; una unidad sin entrada usa su primera foto, y null la omite (misma unidad que otra ya presente). */
+var HCOVER={"Renault Clio Dynamique 1.2N":"assets/8.jpg","Chevrolet Tracker Premier 1.8N":"assets/27.jpg","Fiat Palio Attractive 1.4N":"assets/22.jpg","Chevrolet Tracker Premier 1.8N · Serie 2":null,"Fiat Palio Attractive 1.4N · Serie 2":"assets/35.jpg","Renault Kangoo Comfort 1.6N":"assets/41.jpg","Renault Kangoo Authentique 1.6N":"assets/47.jpg","Kia K3 EX Cross 1.6N":"assets/53.jpg","Peugeot 301 Allure 1.6 HDI":"assets/57.jpg","Peugeot Partner Patagónica 1.4N":"assets/61.jpg","Chevrolet Tracker Premier 1.2T":"assets/9.jpg"};
+var HTHUMB={"assets/8.jpg":"assets/hero/t-8.webp","assets/27.jpg":"assets/hero/t-27.webp","assets/22.jpg":"assets/hero/t-22.webp","assets/35.jpg":"assets/hero/t-35.webp","assets/41.jpg":"assets/hero/t-41.webp","assets/47.jpg":"assets/hero/t-47.webp","assets/53.jpg":"assets/hero/t-53.webp","assets/57.jpg":"assets/hero/t-57.webp","assets/61.jpg":"assets/hero/t-61.webp","assets/9.jpg":"assets/hero/t-9.webp"};
+var HZ=$("hzs"),HN=$("hn"),HM=$("hm"),HW=$("hw"),HF=$("hf"),HC=$("hcount"),HR=$("hrail"),HV=$("hv"),HNAV=$("hnav"),hi=0,SL=[],hsl,hAnim=null;
+STOCK.forEach(function(c,ci){var s=Object.prototype.hasOwnProperty.call(HCOVER,c.titulo)?HCOVER[c.titulo]:ph(c)[0];if(s)SL.push({c:ci,src:s})});
 var hL=SL.length;
-var HSZ="(min-width:900px) 56vw,100vw";
-function sh(x,i){var c=STOCK[x.c],im=i?'data-src="'+esc(x.src)+'" data-srcset="'+esc(SSET(x.src))+'" sizes="'+HSZ+'" decoding="async"':'src="'+esc(x.src)+'" srcset="'+esc(SSET(x.src))+'" sizes="'+HSZ+'" fetchpriority="high"';return '<div class="hz'+(i?'':' on')+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' de '+hL+': '+esc(c.titulo)+'"><img '+im+' alt="'+esc(c.titulo+" "+c.anio)+'" width="1440" height="1085"></div>'}
+function hsub(c){return c.anio+" · "+(c.km||"Km: consultar")+" · "+(c.combustible||"—")}
+function hslide(x,i){var c=STOCK[x.c];return '<div class="hx-s" data-t="'+esc(c.titulo)+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' de '+hL+': '+esc(c.titulo)+'"><img data-src="'+esc(x.src)+'" alt="'+esc(c.titulo+" "+c.anio)+'" width="800" height="1000" decoding="async" draggable="false"></div>'}
 var f0=HZ.firstElementChild;
-/* la primera foto ya viene en el HTML: se conserva (no se vuelve a crear) y solo se agregan las demás */
-if(f0){f0.setAttribute("role","group");f0.setAttribute("aria-roledescription","slide");f0.setAttribute("aria-label","1 de "+hL+": "+STOCK[SL[0].c].titulo);HZ.insertAdjacentHTML("beforeend",SL.slice(1).map(function(x,j){return sh(x,j+1)}).join(""))}else HZ.innerHTML=SL.map(sh).join("");
-hsl=HZ.querySelectorAll(".hz");
-/* las fotos 2 en adelante no se descargan hasta que hacen falta (la siguiente se precarga) */
-function hl(i){var m=hsl[i]&&hsl[i].querySelector("img");if(m&&m.getAttribute("data-src")){m.srcset=m.getAttribute("data-srcset");m.src=m.getAttribute("data-src");m.removeAttribute("data-src");m.removeAttribute("data-srcset")}}
-window.addEventListener("load",function(){hl(1)});
-function heroGo(n,dir){n=(n+hL)%hL;if(n===hi)return;var f=hi,c=STOCK[SL[n].c],pc=STOCK[SL[f].c];hi=n;hl(n);hl((n+1)%hL);dir=dir||(n>f?1:-1);
-hsl[f].classList.remove("on");hsl[n].classList.add("on");
-if(c!==pc){HN.textContent=c.titulo;HM.textContent=c.anio+" · "+(c.km||"Km: consultar")+" · "+(c.combustible||"—");HW.href=wa(ask(c));HW.setAttribute("aria-label","Consultar por contacto: "+c.titulo)}
+/* La primera foto ya viene en el HTML (la misma que el preload): se conserva y se completan sus datos; las demás se crean sin descargarse */
+if(f0&&hL){var c0=STOCK[SL[0].c];f0.setAttribute("data-t",c0.titulo);f0.setAttribute("role","group");f0.setAttribute("aria-roledescription","slide");f0.setAttribute("aria-label","1 de "+hL+": "+c0.titulo);var i0=f0.querySelector("img");i0.src=SL[0].src;i0.alt=c0.titulo+" "+c0.anio;HZ.insertAdjacentHTML("beforeend",SL.slice(1).map(function(x,j){return hslide(x,j+1)}).join(""))}
+hsl=HZ.querySelectorAll(".hx-s");
+function hl(i){var s=hsl[i],m=s&&s.querySelector("img");if(m&&m.getAttribute("data-src")){m.src=m.getAttribute("data-src");m.removeAttribute("data-src")}}
+/* Si una foto no carga, la unidad no queda en blanco: el marco muestra su nombre sobre el fondo de marca */
+HZ.addEventListener("error",function(e){var s=e.target&&e.target.closest&&e.target.closest(".hx-s");if(s)s.classList.add("hx-err")},true);
+/* Riel de miniaturas (112x140 en assets/hero/): solo con JS, porque sin JS el carrusel no se puede mover */
+if(hL>1){HR.innerHTML=SL.map(function(x,i){var c=STOCK[x.c];return '<button type="button" class="hx-t" data-n="'+i+'" aria-label="Ver '+esc(c.titulo)+'"'+(i?'':' aria-current="true"')+'><img src="'+esc(HTHUMB[x.src]||x.src)+'" alt="" width="56" height="70" loading="lazy" decoding="async" draggable="false"></button>'}).join("");HR.hidden=false;HNAV.hidden=false}
+HF.hidden=false;
+function hstate(){HC.textContent=(hi+1)+" de "+hL;HR.querySelectorAll(".hx-t").forEach(function(b,k){if(k===hi)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});var t=HR.children[hi];if(t&&HR.scrollWidth>HR.clientWidth)HR.scrollTo({left:t.offsetLeft-(HR.clientWidth-t.offsetWidth)/2,behavior:RM?"auto":"smooth"})}
+function heroGo(n,dir){n=(n+hL)%hL;if(n===hi||!hL)return;var f=hi,c=STOCK[SL[n].c];hi=n;hl(n);hl((n+1)%hL);hl((n-1+hL)%hL);dir=dir||(n>f?1:-1);
+if(hAnim){hAnim.finish();hAnim=null}
+var a=hsl[f],b=hsl[n];a.classList.remove("on");a.classList.add("out");b.classList.add("on");
+HN.textContent=c.titulo;HM.textContent=hsub(c);HW.href=wa(ask(c));HW.setAttribute("aria-label","Consultar por contacto: "+c.titulo);hstate();
+function done(){a.classList.remove("out")}
+/* Cambio de unidad: cortina lateral sobre la foto anterior. Solo clip-path: la foto nueva entra sin escala ni opacidad */
+if(RM||!b.animate){done()}else{hAnim=b.animate([{clipPath:dir>0?"inset(0 0 0 100%)":"inset(0 100% 0 0)"},{clipPath:"inset(0 0 0 0)"}],{duration:650,easing:"cubic-bezier(.7,0,.2,1)"});hAnim.onfinish=function(){hAnim=null;done()};hAnim.oncancel=done}
 document.dispatchEvent(new CustomEvent("chita:hero",{detail:{from:f,to:n,dir:dir}}))}
-$("hf").addEventListener("click",function(){open_(SL[hi].c)});HW.setAttribute("aria-label","Consultar por contacto: "+STOCK[0].titulo);HW.href=wa(ask(STOCK[0]));
+$("hprev").addEventListener("click",function(){heroGo(hi-1,-1)});$("hnext").addEventListener("click",function(){heroGo(hi+1,1)});
+HR.addEventListener("click",function(e){var b=e.target.closest(".hx-t");if(b)heroGo(+b.getAttribute("data-n"))});
+$("hs").addEventListener("keydown",function(e){if(e.key==="ArrowRight"){e.preventDefault();heroGo(hi+1,1)}else if(e.key==="ArrowLeft"){e.preventDefault();heroGo(hi-1,-1)}});
+/* Deslizar la foto (táctil, lápiz o mouse) */
+(function(){var x0=null,y0=0;HV.addEventListener("pointerdown",function(e){if(e.button>0)return;x0=e.clientX;y0=e.clientY});HV.addEventListener("pointerup",function(e){if(x0===null)return;var dx=e.clientX-x0,dy=e.clientY-y0;x0=null;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.4)heroGo(hi+(dx<0?1:-1),dx<0?1:-1)});HV.addEventListener("pointercancel",function(){x0=null})})();
+HF.addEventListener("click",function(){open_(SL[hi].c)});HW.setAttribute("aria-label","Consultar por contacto: "+STOCK[SL[0].c].titulo);HW.href=wa(ask(STOCK[SL[0].c]));
+hstate();
+/* La primera foto la pide el HTML; la siguiente y la anterior se precargan cuando el navegador está libre, nunca todas juntas */
+(window.requestIdleCallback||function(f){setTimeout(f,1200)})(function(){hl(1%hL);hl(hL-1)},{timeout:3000});
+/* El hero mide la pantalla restando aviso de demo y cabecera: así entra completo, sin cortar título ni botones */
+function hxTop(){var d=document.querySelector(".demo"),h=document.querySelector("header"),r=document.getElementById("hero");if(!r)return;var t=(d?Math.max(0,d.getBoundingClientRect().bottom+scrollY):0)+(h?h.offsetHeight:0);r.style.setProperty("--hx-top",Math.round(t)+"px")}
+hxTop();window.addEventListener("resize",hxTop);window.addEventListener("load",hxTop);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(hxTop);
 function fromHash(){var m=/^#unidad-(.+)$/.exec(location.hash||"");if(!m)return;for(var i=0;i<STOCK.length;i++)if(slug(STOCK[i])===m[1]){open_(i);return}}
 window.addEventListener("hashchange",fromHash);fromHash();
 window.chitaHero={go:heroGo,next:function(){heroGo(hi+1,1)},get i(){return hi},n:hL};
@@ -1959,7 +2055,7 @@ waForm($("buscoForm"),function(f){var a=f.anio.value.trim(),p=f.presu.value.trim
 function ld(){if(!f||!f.getAttribute("data-src"))return;f.addEventListener("load",function(){m.classList.add("rd")},{once:true});f.src=f.getAttribute("data-src");f.removeAttribute("data-src")}
 /* El mapa se carga solo, un poco antes de llegar a la sección (sin clic) y aparece con un fundido */
 	if("IntersectionObserver" in window){var o=new IntersectionObserver(function(es){if(es[0].isIntersecting){o.disconnect();ld()}},{rootMargin:"1400px 0px"});o.observe(m)}else{addEventListener("load",function(){setTimeout(ld,800)})}
-	m.addEventListener("click",function(){ld();m.classList.add("on")});m.addEventListener("mouseleave",function(){m.classList.remove("on")});document.addEventListener("touchstart",function(e){if(!m.contains(e.target))m.classList.remove("on")},{passive:true)})();</script>
+	m.addEventListener("click",function(){ld();m.classList.add("on")});m.addEventListener("mouseleave",function(){m.classList.remove("on")});document.addEventListener("touchstart",function(e){if(!m.contains(e.target))m.classList.remove("on")},{passive:true})})();</script>
 <script>
 (function(){
 var S=window.STOCK||[],g,RM=matchMedia("(prefers-reduced-motion:reduce)").matches;

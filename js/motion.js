@@ -6,10 +6,9 @@
    No cambia HTML, CSS, contenido ni identidad visual: únicamente el movimiento.
 
    FIRMAS (los momentos propios de este sitio)
-     1 · PORTÓN       El hero queda anclado y la sección «Unidades» sube sobre él con un borde en
-                      diagonal que se endereza, como un portón de salón que se levanta. Mientras
-                      tanto el hero «se va»: palabras que escapan una a una, marco que se cierra,
-                      foto que se acerca.
+     1 · APERTURA     El hero se abre con una sola secuencia: el telón del marco sube y deja ver la
+                      foto de portada tal como es (sin zoom), el título entra palabra por palabra
+                      y el panel de la unidad aparece al final.
      2 · ARMADO       El banner se arma letra por letra con el scroll (cada letra llega desde su
                       propio lugar) y después las palabras derivan a distinta profundidad.
      3 · ODÓMETRO     Los números del sitio (reseñas, grupos, año del registro) giran como un
@@ -21,8 +20,8 @@
                       botones magnéticos.
      7 · RESORTE      La inercia del scroll es un resorte subamortiguado: al frenar, títulos y
                       fotos se pasan un poco y se asientan (banda elástica), en vez de frenar en seco.
-     8 · TÚNEL        El hero sale en perspectiva: el marco gira y se aleja, la foto interior va
-                      más lenta y el texto se retira sin cruzarse.
+     8 · FOTO FIEL    Las fotos del hero nunca se escalan, giran ni se atenúan: se ven al 100 %
+                      de su calidad en la entrada, en el cambio de unidad y al hacer scroll.
      9 · COLUMNAS     En la grilla de unidades cada columna reacciona distinto a la velocidad
                       (la izquierda se atrasa, la derecha se adelanta) y se reacomoda al filtrar.
     10 · RECESIÓN     La sección que se va retrocede (escala, opacidad, ascenso) mientras la siguiente
@@ -350,151 +349,57 @@ function bindSlides({ event, frame, slide, ctx, axis = "x", extra }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════════════════
-   HERO + PORTÓN (firma 1)
-   Entrada: cortina del marco, logo, palabras, CTAs y header en secuencia.
-   Salida (desktop): el hero queda anclado; «Unidades» sube sobre él con borde diagonal y el
-   hero se va por capas. Móvil: sin pin, misma idea con distancias cortas.
+   HERO (firma 1 · APERTURA)
+   El HTML y el carrusel viven en index.html (bloque «Hero v10»); acá solo está la entrada.
+   Una única secuencia: header, telón de la foto, logo, palabras del título, bajada, botones y
+   panel de la unidad. La foto no se escala ni se atenúa en ningún momento (se ve a calidad real),
+   no se descargan las demás unidades para animarlas y no hay pin ni salida por scroll: el hero
+   entra completo en la pantalla y se va con el scroll normal.
    ════════════════════════════════════════════════════════════════════════════════════════ */
 let introPlayed = false;
 
-function initHero({ desktop, fine }, scroll) {
+function initHero() {
   const hero = qs(".hero");
   if (!hero) { root.classList.remove("mh"); return noop; }
 
-  const header = qs("header");
-  const logo = qs(".hlogo", hero), eyebrow = qs(".h1n", hero), title = qs("h1", hero);
-  const lead = qs(".tx > p", hero), actions = qs(".row", hero), link = qs(".lk", hero);
-  const figure = qs("figure", hero), frame = qs(".hv", hero), stage = qs(".hzs", hero);
-  const caption = qs(".hcap", hero), cta = qs(".ha", hero);
-  const heroSlides = qsa(".hz", stage);
+  const logo = qs(".hx-logo", hero), title = qs(".hx-h1", hero), lead = qs(".hx-lead", hero);
+  const go = qs(".hx-go", hero), info = qs(".hx-info", hero), veil = qs(".hx-veil", hero);
   const headerItems = qsa("header .w > *");
-  const words = split(title, { skip: ".h1n" });
-  const buttons = actions ? [...actions.children] : [];
-  const ctaButtons = cta ? [...cta.children] : [];
-  const unidades = qs("#unidades");
-  const off = [];
-  const headerH = () => header?.offsetHeight || 0;
+  const words = split(title, { skip: ".sr" });
+  const goItems = go ? [...go.children] : [];
+  const infoItems = info ? [...info.children] : [];
 
   const ctx = gsap.context(() => {});
   ctx.add(() => {
-    const settle = desktop ? 1.1 : 1.06;
+    if (introPlayed) { root.classList.remove("mh"); return; }
+    introPlayed = true;
 
-    /* ── Entrada ── */
-    if (!introPlayed) {
-      introPlayed = true;
-      gsap.set(headerItems, { yPercent: -120, opacity: 0 });
-      gsap.set(logo, { clipPath: "inset(0 100% 0 0)", x: -26 });
-      gsap.set(eyebrow, { opacity: 0, y: 14 });
-      gsap.set(words, { yPercent: 118, rotate: 5, transformOrigin: "0% 100%" });
-      gsap.set([lead, link], { opacity: 0, y: 22 });
-      gsap.set(buttons, { opacity: 0, y: 18 });
-      gsap.set(frame, { clipPath: desktop ? "inset(0 0 0 100%)" : "inset(100% 0 0 0)" });
-      gsap.set(stage, { scale: desktop ? 1.5 : 1.28, transformOrigin: "50% 50%" });
-      gsap.set(caption, { opacity: 0, y: 14 });
-      gsap.set(ctaButtons, { opacity: 0, y: 14 });
-      root.classList.remove("mh");
+    /* Estado inicial. El CSS mantiene oculto el texto con .mh hasta este punto; la foto está pintada desde el
+       primer frame (el telón la cubre), así que la imagen principal no espera al JS para empezar a descargarse. */
+    gsap.set(headerItems, { yPercent: -120, opacity: 0 });
+    gsap.set(logo, { opacity: 0, y: 12 });
+    gsap.set(words, { yPercent: 118, rotate: 4, transformOrigin: "0% 100%" });
+    gsap.set(lead, { opacity: 0, y: 18 });
+    gsap.set(goItems, { opacity: 0, y: 16 });
+    gsap.set(infoItems, { opacity: 0, y: 16 });
+    if (veil) gsap.set(veil, { display: "block", yPercent: 0 });
+    root.classList.remove("mh");
 
-      /* FILM STRIP: durante la entrada, todas las unidades disponibles atraviesan el marco
-         como una hoja de contacto viva. Al finalizar se restituye el slide activo original. */
-      if (heroSlides.length > 1) {
-        /* Las fotos diferidas pasan a sus originales antes de entrar al montaje: ninguna unidad aparece vacía. */
-        heroSlides.forEach((slide) => {
-          const image = qs("img", slide);
-          if (!image || !image.dataset.src) return;
-          if (image.dataset.srcset) image.srcset = image.dataset.srcset;
-          image.src = image.dataset.src;
-          image.removeAttribute("data-src"); image.removeAttribute("data-srcset");
-        });
-        const activeSlide = heroSlides.findIndex((slide) => slide.classList.contains("on"));
-        const film = gsap.timeline({ defaults: { ease: EASE.expo }, onComplete: () => {
-          heroSlides.forEach((slide) => gsap.set(slide, { clearProps: "opacity,visibility,zIndex,clipPath,transform" }));
-          if (heroSlides[activeSlide]) heroSlides[activeSlide].classList.add("on");
-          ScrollTrigger.refresh();
-        }});
-        heroSlides.forEach((slide, index) => {
-          const at = 0.32 + index * Math.min(0.13, 1.2 / heroSlides.length);
-          gsap.set(slide, { zIndex: index === activeSlide ? 2 : 1, autoAlpha: 0 });
-          film.set(slide, { autoAlpha: 1, clipPath: "inset(0 100% 0 0)", xPercent: 12, scale: 1.18, zIndex: 3 }, at)
-            .to(slide, { clipPath: "inset(0 0% 0 0)", xPercent: 0, scale: 1.06, duration: 0.34 }, at)
-            .to(slide, { autoAlpha: 0, xPercent: -10, scale: 1.01, duration: 0.28, ease: EASE.drive }, at + 0.34);
-        });
-      }
-
-      gsap.timeline({ defaults: { ease: EASE.soft }, onComplete: () => ScrollTrigger.refresh() })
-        .to(headerItems, { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: EASE.expo }, 0)
-        .to(frame, { clipPath: desktop ? "inset(0 0 0 0%)" : "inset(0% 0 0 0)", duration: 1.5, ease: EASE.mask }, 0.05)
-        .to(stage, { scale: settle, duration: 2.3, ease: EASE.expo }, 0.05)
-        .to(logo, { clipPath: "inset(0 0% 0 0)", x: 0, duration: 1, ease: EASE.expo }, 0.4)
-        .to(eyebrow, { opacity: 1, y: 0, duration: 0.8 }, 0.62)
-        .to(words, { yPercent: 0, rotate: 0, duration: 1.1, ease: EASE.expo, stagger: 0.06 }, 0.68)
-        .to(lead, { opacity: 1, y: 0, duration: 0.9 }, 1.05)
-        .to(buttons, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.2)
-        .to(link, { opacity: 1, y: 0, duration: 0.8 }, 1.45)
-        .to(caption, { opacity: 1, y: 0, duration: 0.8 }, 1.3)
-        .to(ctaButtons, { opacity: 1, y: 0, duration: 0.7, stagger: 0.09 }, 1.45);
-    } else {
-      gsap.set(stage, { scale: settle });
-      root.classList.remove("mh");
-    }
-
-    /* ── Salida ──
-       Todo con fromTo + immediateRender:false: el estado de reposo es explícito, así que la entrada
-       y la salida nunca se pisan aunque alguien empiece a scrollear antes de que termine la intro. */
-    const exit = gsap.timeline({
-      defaults: { ease: EASE.linear, overwrite: false, immediateRender: false },
-      scrollTrigger: desktop
-        ? { trigger: hero, start: () => `top top+=${headerH()}`, end: () => `+=${hero.offsetHeight}`, scrub: true, pin: true, pinSpacing: false, anticipatePin: 1, refreshPriority: 20, invalidateOnRefresh: true }
-        : { trigger: hero, start: "top top", end: "bottom top", scrub: true }
-    });
-    const out = (target, from, to, at, duration, ease = EASE.linear) => target && exit.fromTo(target, from, { ...to, duration, ease }, at);
-
-    if (desktop) {
-      gsap.set(hero, { zIndex: 1 });
-      out(logo, { yPercent: 0, opacity: 1 }, { yPercent: -70, opacity: 0 }, 0, 0.42, "power2.in");
-      out(eyebrow, { opacity: 1, yPercent: 0 }, { opacity: 0, yPercent: -140 }, 0.02, 0.34, "power2.in");
-      out(words, { yPercent: 0, rotate: 0 }, { yPercent: -135, rotate: -6, stagger: { each: 0.045, from: "start" } }, 0.04, 0.46, EASE.drive);
-      /* El texto de abajo se desvanece ANTES de poder cruzarse con el título (la opacidad va por su cuenta, rápida)
-         y después sigue subiendo con la misma curva que las palabras: sin solapes en ningún punto de la salida. */
-      out(lead, { opacity: 1 }, { opacity: 0 }, 0.04, 0.2, EASE.linear);
-      out(lead, { yPercent: 0 }, { yPercent: -90 }, 0.1, 0.42, EASE.drive);
-      out(buttons, { opacity: 1 }, { opacity: 0, stagger: 0.03 }, 0.05, 0.2, EASE.linear);
-      out(buttons, { yPercent: 0 }, { yPercent: -70, stagger: 0.05 }, 0.13, 0.4, EASE.drive);
-      out(link, { opacity: 1 }, { opacity: 0 }, 0.07, 0.2, EASE.linear);
-      out(link, { yPercent: 0 }, { yPercent: -80 }, 0.18, 0.36, EASE.drive);
-      out(figure, { clipPath: "inset(0% 0% 0% 0% round 0px)" }, { clipPath: "inset(7% 4.5% 7% 4.5% round 28px)" }, 0, 1);
-      /* TÚNEL: el marco se abre en perspectiva (gira y se aleja) y la foto interior se desliza más lento: tres planos. */
-      out(frame, { scale: 1, opacity: 1, rotationY: 0, xPercent: 0, transformPerspective: 1400, transformOrigin: "50% 50%" }, { scale: 1.2, opacity: 0.42, rotationY: -9, xPercent: 3 }, 0, 1);
-      out(stage, { yPercent: 0 }, { yPercent: 9 }, 0, 1);
-      out(caption, { yPercent: 0, opacity: 1 }, { yPercent: -90, opacity: 0 }, 0.05, 0.4, "power2.in");
-      out(cta, { yPercent: 0, opacity: 1 }, { yPercent: 110, opacity: 0 }, 0.05, 0.4, "power2.in");
-
-      /* El portón: «Unidades» sube sobre el hero anclado; su borde superior arranca en diagonal y se endereza. */
-      if (unidades) {
-        gsap.set(unidades, { position: "relative", zIndex: 2 });
-        gsap.fromTo(unidades,
-          { clipPath: "polygon(0vw 9vw, 100% 0vw, 100% 100%, 0% 100%)" },
-          {
-            clipPath: "polygon(0vw 0vw, 100% 0vw, 100% 100%, 0% 100%)", ease: EASE.linear, immediateRender: true,
-            scrollTrigger: { trigger: unidades, start: "top bottom", end: () => `top top+=${headerH()}`, scrub: true, invalidateOnRefresh: true }
-          });
-      }
-    } else {
-      out(figure, { clipPath: "inset(0% 0% 0% 0% round 0px)" }, { clipPath: "inset(0% 4% 0% 4% round 24px)" }, 0, 1);
-      out(frame, { scale: 1, transformOrigin: "50% 50%" }, { scale: 1.14 }, 0, 1);
-      out(logo, { yPercent: 0, opacity: 1 }, { yPercent: -30, opacity: 0.2 }, 0, 1);
-      out(title, { yPercent: 0 }, { yPercent: -10 }, 0, 1);
-      out(lead, { yPercent: 0, opacity: 1 }, { yPercent: -26, opacity: 0.1 }, 0, 1);
-      out(caption, { yPercent: 0 }, { yPercent: -30 }, 0, 1);
-    }
-
-    /* Cambio de unidad (chita:hero): cortina lateral + planos cruzados + caption que reentra. */
-    off.push(bindSlides({
-      event: "chita:hero", frame, slide: ".hz", ctx, axis: "x",
-      extra: (tl) => { if (caption) tl.fromTo(caption, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.75, ease: EASE.soft, overwrite: false }, 0.35); }
-    }));
+    const clean = [logo, lead, ...words, ...goItems, ...infoItems, veil, ...headerItems].filter(Boolean);
+    gsap.timeline({
+      defaults: { ease: EASE.soft },
+      onComplete: () => { gsap.set(clean, { clearProps: "all" }); ScrollTrigger.refresh(); }
+    })
+      .to(headerItems, { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: EASE.expo }, 0)
+      .to(veil || [], { yPercent: -100, duration: 1.25, ease: EASE.mask }, 0.1)
+      .to(logo, { opacity: 1, y: 0, duration: 0.8 }, 0.3)
+      .to(words, { yPercent: 0, rotate: 0, duration: 1.05, ease: EASE.expo, stagger: 0.055 }, 0.4)
+      .to(lead, { opacity: 1, y: 0, duration: 0.9 }, 0.85)
+      .to(goItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0)
+      .to(infoItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0);
   });
 
-  return () => { off.forEach((fn) => fn()); ctx.revert(); };
+  return () => { ctx.revert(); };
 }
 
 /* ════════════════════════════════════════════════════════════════════════════════════════

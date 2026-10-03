@@ -5,17 +5,17 @@ html.lenis,html.lenis body{height:auto}
 html.lenis.lenis-smooth{scroll-behavior:auto!important}
 html.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
 html.lenis.lenis-stopped{overflow:hidden}
-.mh header .w>*,.mh .hero :is(.hlogo,.h1n,h1,.tx>p,.row,.lk,.hv,.hcap,.ha){visibility:hidden}
+.mh header .w>*,.mh .hero :is(.hx-logo,.hx-h1,.hx-lead,.hx-go,.hx-info){visibility:hidden}
 .mo-w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .05em .16em;margin:0 -.05em -.16em}.mo-i,.mo-c{display:inline-block}
 .m :is(.btn,.oc,.pdc,.rvc,.car){transition-property:background-color,color,border-color,box-shadow,filter,background-position,opacity!important}.m .btn:hover,.m .pdc:hover{transform:none}.mo-swap :is(.hz,.vrz){transition:none!important}
 main>.hero,main>section{position:relative;isolation:isolate;overflow:clip!important;background-image:none!important;background-attachment:scroll!important}
 .chita-section-backdrop{position:absolute;inset:0;z-index:0;pointer-events:none;background-repeat:no-repeat;background-size:cover;background-position:50% 50%;background-color:transparent;opacity:1!important;filter:none!important;transform-origin:50% 50%;contain:paint}
 /* Las pseudo-capas eran la segunda fotografía/overlay de cada escena. */
-main>section::before,main>section::after,#financiacion.pp::before,#financiacion.pp::after,#visita.pd::before,#visita.pd::after,#guia.pd::before,#bd::after,.hero figure::after{display:none!important}
+main>section::before,main>section::after,#financiacion.pp::before,#financiacion.pp::after,#visita.pd::before,#visita.pd::after,#guia.pd::before,#bd::after{display:none!important}
 #bd .bdm{display:none}
 main>section>.w,main>section>.ops,main>section>.fm,main>section>.bqp,main>.hero>*{position:relative;z-index:1}
-.hero .hv,.hero .hzs,.hero .tx,#bd,.chita-section-backdrop{max-width:100%}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.mh header .w>*,.mh .hero :is(.hlogo,.h1n,h1,.tx>p,.row,.lk,.hv,.hcap,.ha){visibility:visible}main>.hero,main>section{background-attachment:scroll!important}}
+.hero .hx-photo,.hero .hx-copy,#bd,.chita-section-backdrop{max-width:100%}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.mh header .w>*,.mh .hero :is(.hx-logo,.hx-h1,.hx-lead,.hx-go,.hx-info){visibility:visible}main>.hero,main>section{background-attachment:scroll!important}}
 
 /* Secciones en color sólido (sin foto de fondo). El resto de las secciones lleva foto desde js/motion.js. */
 #unidades,#modelos,#trayectoria,#como-comprar,#operaciones,#equipo,#preguntas{background:#f3f5f6!important;background-image:none!important;color:var(--ink)}
