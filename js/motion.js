@@ -487,23 +487,6 @@ function initHero({ desktop, fine }, scroll) {
       out(caption, { yPercent: 0 }, { yPercent: -30 }, 0, 1);
     }
 
-    /* ── Profundidad por puntero (solo mouse): cuatro capas con distinta masa ── */
-    if (fine && desktop) {
-      const layer = (el, xAmp, yAmp, time) => el && ({
-        x: gsap.quickTo(el, "x", { duration: time, ease: "power3.out" }),
-        y: yAmp ? gsap.quickTo(el, "y", { duration: time, ease: "power3.out" }) : null, xAmp, yAmp
-      });
-      const layers = [layer(stage, -30, -18, 1.1), layer(title, 10, 7, 1.4), layer(caption, 18, 0, 1.2), layer(lead, 6, 0, 1.6)].filter(Boolean);
-      const move = (event) => {
-        const nx = event.clientX / innerWidth - 0.5, ny = event.clientY / innerHeight - 0.5;
-        layers.forEach((l) => { l.x(nx * l.xAmp); l.y?.(ny * l.yAmp); });
-      };
-      const leave = () => layers.forEach((l) => { l.x(0); l.y?.(0); });
-      hero.addEventListener("pointermove", move, { passive: true });
-      hero.addEventListener("pointerleave", leave, { passive: true });
-      off.push(() => { hero.removeEventListener("pointermove", move); hero.removeEventListener("pointerleave", leave); });
-    }
-
     /* Cambio de unidad (chita:hero): cortina lateral + planos cruzados + caption que reentra. */
     off.push(bindSlides({
       event: "chita:hero", frame, slide: ".hz", ctx, axis: "x",
@@ -1110,14 +1093,6 @@ function initInteractions({ desktop, fine }) {
       on(icon, "pointerleave", () => gsap.to(svg, { scale: 1, rotate: 0, duration: 0.6, ease: EASE.settle, overwrite: "auto" }));
     });
 
-    /* Panel de modelos: la foto grande se desplaza con el puntero. */
-    const panel = qs("#mdf");
-    if (panel && desktop) {
-      const move = gsap.quickTo(panel, "rotationY", { duration: 0.8, ease: "power3.out" }), tiltX = gsap.quickTo(panel, "rotationX", { duration: 0.8, ease: "power3.out" });
-      gsap.set(panel, { transformPerspective: 1100 });
-      on(panel, "pointermove", (event) => { const r = panel.getBoundingClientRect(); move(((event.clientX - r.left) / r.width - 0.5) * 6); tiltX(((event.clientY - r.top) / r.height - 0.5) * -5); }, { passive: true });
-      on(panel, "pointerleave", () => { move(0); tiltX(0); }, { passive: true });
-    }
   });
   return () => { off.forEach((fn) => fn()); undo.forEach((fn) => fn()); ctx.revert(); };
 }
@@ -1125,6 +1100,123 @@ function initInteractions({ desktop, fine }) {
 /* ════════════════════════════════════════════════════════════════════════════════════════
    ARRANQUE · gsap.matchMedia decide qué corre en cada contexto y revierte todo al cambiar
    ════════════════════════════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════════════════════════════
+   COREOGRAFÍA CONTINUA · una escena distinta por sección
+   No dispara animaciones aisladas: cada timeline sigue el recorrido completo del scroll.
+   Los targets son wrappers ya existentes para no alterar contenido ni layout.
+   ════════════════════════════════════════════════════════════════════════════════════════ */
+function initSceneChoreography({ desktop }) {
+  const k = desktop ? 1 : 0.55;
+  const ctx = gsap.context(() => {});
+  const scene = (id, fn) => {
+    const section = document.getElementById(id);
+    if (section) fn(section);
+  };
+  const scrubScene = (section, start = "top bottom", end = "bottom top") => ({
+    trigger: section, start, end, scrub: true, invalidateOnRefresh: true
+  });
+  const imgDrift = (section, selector, from, to, start = "top bottom", end = "bottom top") => {
+    const items = qsa(selector, section);
+    items.forEach((item) => gsap.fromTo(item, from, { ...to, ease: EASE.linear, immediateRender: false, scrollTrigger: scrubScene(section, start, end) }));
+  };
+  ctx.add(() => {
+    /* Unidades: el stock se comporta como una cinta de contacto; cada foto respira a una velocidad. */
+    scene("unidades", (s) => {
+      imgDrift(s, ".car .ct", { scale: 1.035, yPercent: -2 * k }, { scale: 1.12, yPercent: 2 * k }, "top 92%", "bottom 8%");
+      qsa(".car .g-c, .car .est", s).forEach((el, i) => gsap.fromTo(el, { x: (i % 2 ? 1 : -1) * 16 * k }, { x: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 88%", "bottom 18%") }));
+    });
+    /* Modelos: lista editorial horizontal + panel que se acerca desde otra profundidad. */
+    scene("modelos", (s) => {
+      const panel = qs("#mdf", s), list = qs(".mdl", s);
+      if (panel) gsap.fromTo(panel, { yPercent: 9 * k, scale: .94 }, { yPercent: -9 * k, scale: 1.025, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      if (list) gsap.fromTo(list, { xPercent: -3 * k }, { xPercent: 3 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 90%", "bottom 12%") });
+      imgDrift(s, ".mdl .mdv img", { scale: 1.04, xPercent: -3 }, { scale: 1.13, xPercent: 3 }, "top 86%", "bottom 18%");
+    });
+    /* Comparador: las columnas se separan y vuelven a alinearse como una mesa óptica. */
+    scene("versus", (s) => {
+      const cards = qsa(".vsc, .vdc", s);
+      cards.forEach((card, i) => gsap.fromTo(card, { x: (i % 2 ? 1 : -1) * 24 * k, rotateY: (i % 2 ? 1 : -1) * 2, transformPerspective: 1200 }, { x: (i % 2 ? -1 : 1) * 8 * k, rotateY: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") }));
+      imgDrift(s, ".vsi img, .vdi img", { scale: 1.08, yPercent: -4 * k }, { scale: 1.18, yPercent: 4 * k }, "top 86%", "bottom 16%");
+    });
+    /* Nosotros: máscara vertical de la fotografía + tres líneas con velocidades escalonadas. */
+    scene("nosotros", (s) => {
+      imgDrift(s, ".ph img", { scale: 1.18, yPercent: -8 * k }, { scale: 1.04, yPercent: 8 * k }, "top bottom", "bottom top");
+      qsa(".pl > div", s).forEach((row, i) => gsap.fromTo(row, { x: (i - 1) * 18 * k, clipPath: "inset(0 100% 0 0)" }, { x: (1 - i) * 8 * k, clipPath: "inset(0 0% 0 0)", ease: EASE.linear, scrollTrigger: scrubScene(s, "top 84%", "bottom 28%") }));
+    });
+    /* Trayectoria: el registro se lee como una línea que avanza, no como una entrada vertical. */
+    scene("trayectoria", (s) => {
+      const line = qs(".arl", s), copy = qs(".arhd", s);
+      if (line) gsap.fromTo(line, { xPercent: -4 * k, scaleX: .94, transformOrigin: "0 50%" }, { xPercent: 4 * k, scaleX: 1.02, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      if (copy) gsap.fromTo(copy, { yPercent: 5 * k, letterSpacing: ".015em" }, { yPercent: -5 * k, letterSpacing: "0em", ease: EASE.linear, scrollTrigger: scrubScene(s, "top 86%", "bottom 20%") });
+    });
+    /* Contacto: el mapa abre una ventana y el panel de dirección viaja a contratiempo. */
+    scene("contacto", (s) => {
+      const map = qs(".mp", s), copy = qs(".lc", s);
+      if (map) gsap.fromTo(map, { clipPath: "inset(12% 9% 12% 9% round 28px)", scale: 1.08 }, { clipPath: "inset(0% 0% 0% 0% round 0px)", scale: 1, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 96%", "top 28%") });
+      if (copy) gsap.fromTo(copy, { xPercent: -7 * k }, { xPercent: 4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+    });
+    /* Local: el recorrido visual flota detrás de los hitos, mientras las señales entran por capas. */
+    scene("local", (s) => {
+      imgDrift(s, ".vc, .vin video, .vin img", { scale: 1.14, yPercent: -7 * k }, { scale: 1.03, yPercent: 7 * k }, "top bottom", "bottom top");
+      qsa(".vsn li, .vpn", s).forEach((item, i) => gsap.fromTo(item, { x: (i % 2 ? 1 : -1) * 22 * k }, { x: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 84%", "bottom 24%") }));
+    });
+    /* Opiniones: tarjetas en órbita leve y estrellas que recorren la lectura. */
+    scene("opiniones", (s) => {
+      qsa(".rvc", s).forEach((card, i) => gsap.fromTo(card, { yPercent: (i % 2 ? 2 : -2) * k, rotateZ: (i % 2 ? 1 : -1) * .8 }, { yPercent: (i % 2 ? -2 : 2) * k, rotateZ: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") }));
+      qsa(".rvs", s).forEach((stars) => gsap.fromTo(stars, { xPercent: -8 * k, scaleX: .92, transformOrigin: "0 50%" }, { xPercent: 8 * k, scaleX: 1.04, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 84%", "bottom 20%") }));
+    });
+    /* Banner: una contracción y expansión tipográfica que conecta con la guía siguiente. */
+    scene("bd", (s) => {
+      const title = qs("h2", s), lead = qs(".bdp", s), footer = qs(".bdf", s);
+      if (title) gsap.fromTo(title, { scale: .92, yPercent: 8 * k, letterSpacing: ".02em" }, { scale: 1.04, yPercent: -8 * k, letterSpacing: "-.01em", ease: EASE.linear, scrollTrigger: scrubScene(s, "top 92%", "bottom 18%") });
+      if (lead) gsap.fromTo(lead, { xPercent: -5 * k }, { xPercent: 5 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      if (footer) gsap.fromTo(footer, { yPercent: 16 * k }, { yPercent: -12 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+    });
+    /* Cómo comprar: dos columnas cruzan velocidades distintas; los pasos se dibujan en lectura. */
+    scene("como-comprar", (s) => {
+      const a = qs(".ccA", s), b = qs(".ccB", s);
+      if (a) gsap.fromTo(a, { xPercent: -5 * k }, { xPercent: 5 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      if (b) gsap.fromTo(b, { xPercent: 6 * k }, { xPercent: -6 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      qsa(".stp li", s).forEach((step, i) => gsap.fromTo(step, { clipPath: "inset(0 0 0 100%)", x: 22 * k }, { clipPath: "inset(0 0 0 0%)", x: (i % 2 ? -3 : 0) * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 90%", "bottom 44%") }));
+    });
+    /* Financiación: profundidad de tarjetas y una declaración que se estira con el scroll. */
+    scene("financiacion", (s) => {
+      qsa(".pdc", s).forEach((card, i) => gsap.fromTo(card, { z: -80 * k, yPercent: (i - 1) * 3 * k, scale: .96 }, { z: 40 * k, yPercent: (1 - i) * 3 * k, scale: 1.015, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") }));
+      const statement = qs(".xl", s); if (statement) gsap.fromTo(statement, { xPercent: -3 * k, scaleX: .97, transformOrigin: "0 50%" }, { xPercent: 3 * k, scaleX: 1.03, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 88%", "bottom 20%") });
+    });
+    /* Operaciones: galería de tarjetas con alternancia de zoom y desplazamiento interno. */
+    scene("operaciones", (s) => {
+      qsa(".oc", s).forEach((card, i) => {
+        gsap.fromTo(card, { yPercent: (i % 2 ? 2 : -2) * k, rotateZ: (i % 2 ? 1 : -1) * .7 }, { yPercent: (i % 2 ? -2 : 2) * k, rotateZ: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+        const image = qs(".oi img", card); if (image) gsap.fromTo(image, { scale: 1.08, xPercent: -4 * k }, { scale: 1.2, xPercent: 4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 92%", "bottom 16%") });
+      });
+    });
+    /* Guía: acordeones como hojas que se abren desde el centro, manteniendo lectura estable. */
+    scene("guia", (s) => {
+      qsa("details", s).forEach((detail, i) => gsap.fromTo(detail, { x: (i % 2 ? 1 : -1) * 14 * k, scaleX: .97, transformOrigin: i % 2 ? "100% 50%" : "0 50%" }, { x: 0, scaleX: 1.01, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 90%", "bottom 28%") }));
+      const intro = qs(".xl", s); if (intro) gsap.fromTo(intro, { yPercent: 5 * k, scale: .97 }, { yPercent: -5 * k, scale: 1.02, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+    });
+    /* Equipo: la foto es la profundidad; la lista sigue una diagonal suave. */
+    scene("equipo", (s) => {
+      imgDrift(s, ".eqm img, .eqm video", { scale: 1.12, yPercent: -6 * k }, { scale: 1.03, yPercent: 6 * k }, "top bottom", "bottom top");
+      qsa(".eqk li", s).forEach((item, i) => gsap.fromTo(item, { x: (i % 2 ? 1 : -1) * 16 * k }, { x: (i % 2 ? -1 : 1) * 6 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 88%", "bottom 25%") }));
+    });
+    /* Visita: formulario y declaración se aproximan desde lados opuestos. */
+    scene("visita", (s) => {
+      const form = qs("#visitaForm", s), quote = qs(".xl", s);
+      if (form) gsap.fromTo(form, { yPercent: 8 * k, scale: .96, rotateZ: -.6 }, { yPercent: -8 * k, scale: 1.015, rotateZ: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      if (quote) gsap.fromTo(quote, { xPercent: 4 * k }, { xPercent: -4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+    });
+    /* Preguntas: el cierre se expande en abanico, sin fade genérico. */
+    scene("preguntas", (s) => {
+      const form = qs("#buscoForm", s), faq = qs(".bqm", s);
+      if (form) gsap.fromTo(form, { xPercent: -4 * k, scaleX: .97, transformOrigin: "0 50%" }, { xPercent: 4 * k, scaleX: 1.02, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      if (faq) gsap.fromTo(faq, { xPercent: 4 * k, scaleX: .97, transformOrigin: "100% 50%" }, { xPercent: -4 * k, scaleX: 1.02, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+    });
+  });
+  return () => ctx.revert();
+}
+
 function initMotion() {
   const mm = gsap.matchMedia();
 
@@ -1145,6 +1237,7 @@ function initMotion() {
       home ? initTypography(flags, inertia) : null,
       home ? initSeams(flags) : null,
       home ? initSectionEntrances(flags) : null,
+      home ? initSceneChoreography(flags) : null,
       home ? initReveals(flags, inertia) : null,
       home ? initParallax(flags) : null,
       home ? initSectionBackdrops(flags) : null,
