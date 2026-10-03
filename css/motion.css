@@ -9,7 +9,7 @@ html.lenis.lenis-stopped{overflow:hidden}
 .mo-w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .05em .16em;margin:0 -.05em -.16em}.mo-i,.mo-c{display:inline-block}
 .m :is(.btn,.oc,.pdc,.rvc,.car){transition-property:background-color,color,border-color,box-shadow,filter,background-position,opacity!important}.m .btn:hover,.m .pdc:hover{transform:none}.mo-swap :is(.hz,.vrz){transition:none!important}
 main>.hero,main>section{position:relative;isolation:isolate;overflow:clip!important;background-image:none!important;background-attachment:scroll!important}
-.chita-section-backdrop{position:absolute;inset:0;z-index:0;pointer-events:none;background-repeat:no-repeat;background-size:cover;background-position:50% 50%;transform-origin:50% 50%;contain:paint}
+.chita-section-backdrop{position:absolute;inset:0;z-index:0;pointer-events:none;background-repeat:no-repeat;background-size:cover;background-position:50% 50%;background-color:transparent;opacity:1!important;filter:none!important;transform-origin:50% 50%;contain:paint}
 /* Las pseudo-capas eran la segunda fotografía/overlay de cada escena. */
 main>section::before,main>section::after,#financiacion.pp::before,#financiacion.pp::after,#visita.pd::before,#visita.pd::after,#guia.pd::before,#bd::after,.hero figure::after{display:none!important}
 #bd .bdm{display:none}
