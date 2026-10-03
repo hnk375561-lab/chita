@@ -75,7 +75,8 @@ for (const page of ['index.html', '404.html', 'privacidad.html']) if (/href="#"/
 if (/href="http:\/\//.test(html)) errors.push('Enlace http:// sin cifrar en index.html');
 for (const page of ['404.html', 'privacidad.html']) {
   const h = fs.readFileSync(path.join(root, page), 'utf8');
-  if (!h.includes(`wa.me/${d.contact.whatsApp}`)) errors.push(`${page}: WhatsApp no coincide con dealership.json`);
+  if (d.contact.whatsApp && !h.includes(`wa.me/${d.contact.whatsApp}`)) errors.push(`${page}: WhatsApp no coincide con dealership.json`);
+  if (!d.contact.whatsApp && !h.includes(`tel:${d.contact.phoneTel}`)) errors.push(`${page}: falta fallback telefónico mientras WhatsApp no está configurado`);
   if (!h.includes(`tel:${d.contact.phoneTel}`) && page === 'privacidad.html') errors.push(`${page}: teléfono no coincide con dealership.json`);
 }
 if (!/<base href="https:\/\/[^"]+\/">/.test(fs.readFileSync(path.join(root, '404.html'), 'utf8'))) errors.push('404.html: falta <base href> absoluto');
