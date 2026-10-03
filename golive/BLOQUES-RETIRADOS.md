@@ -1,0 +1,23 @@
+# Bloques retirados de index.html (auditoría #4: redundancia)
+
+Cada uno repetía el flujo elegir → escribir → visitar o el hero. Recuperables desde git.
+Nota: video/ambiente.mp4 y images/poster-ambiente.webp quedaron sin uso al retirar #equipo.
+
+## #bd
+
+```html
+<section class="bd" id="bd" aria-labelledby="bdh"><div class="bdm"><picture><source media="(max-width:900px)" srcset="images/fondo-banner-movil.webp" width="1200" height="1600"><img decoding="async" src="images/fondo-marca.webp" sizes="100vw" alt="" loading="lazy" width="2400" height="1000"></picture></div><p class="bdk">Usados · Permutas · Consignaciones</p><span class="bde">Chita Automotores</span><h2 id="bdh">Encontrá tu próximo vehículo</h2><p class="bdp">Autos usados con las fotos y los datos de cada unidad. Escribinos y te confirmamos si la que te interesa sigue disponible.</p><a class="btn p" href="#unidades">Ver las unidades</a><p class="bdf">Gral. Galarza 1712 · Concepción del Uruguay · Entre Ríos</p></section>
+```
+
+## #equipo
+
+```html
+<section id="equipo" class="pd alt eqn" aria-labelledby="eqh"><div class="w"><div class="eqx"><div class="eqh"><span class="ey">El equipo</span><h2 id="eqh">Quién te <em>atiende</em></h2><p>Coordinamos tu visita, te recibimos en el local y te mostramos las unidades.</p></div><ol class="eqk"><li><span aria-hidden="true"></span><h3>Coordinamos tu visita</h3><p>Escribinos o llamanos y elegimos juntos el día. Te confirmamos si la unidad sigue disponible.</p></li><li><span aria-hidden="true"></span><h3>Te recibimos</h3><p>Te esperamos en Gral. Galarza 1712.</p></li><li><span aria-hidden="true"></span><h3>Te mostramos las unidades</h3><p>Cada auto con sus fotos reales, año, kilómetros y equipamiento.</p></li><li><span aria-hidden="true"></span><h3>Evaluamos tu usado</h3><p>Recibimos tu usado: contanos cuál es y lo evaluamos. También podés escribirnos por consignación.</p></li></ol><div class="eqc"><a class="btn p" href="tel:+543442442782" data-wa="Hola! Quiero coordinar una visita al local.">Coordinar una visita</a><a class="btn" href="https://www.instagram.com/chita.automotores/" data-ig target="_blank" rel="noopener noreferrer">Instagram</a><a class="btn" href="https://www.facebook.com/Chitaautomotores" data-fb target="_blank" rel="noopener noreferrer">Facebook</a></div><ul class="eqt" aria-label="Quiénes te atienden"><li><span class="eqa" aria-hidden="true">C</span><div><b>Chita Automotores</b><em>Atención</em></div></li></ul></div><div class="eqg"><figure class="eqf"><div class="eqm"><span class="eqb">Stock real y fotos reales</span><img decoding="async" src="images/equipo.webp" srcset="images/equipo.webp" sizes="(min-width:700px) 62vw,100vw" alt="Dos integrantes del equipo de Chita Automotores en la oficina, junto a los escritorios" width="1032" height="774" loading="lazy"></div><figcaption>En el local, frente al cartel de la agencia.</figcaption></figure><figure class="eqv"><div class="eqm"><video id="eqv" muted loop playsinline preload="none" poster="images/poster-ambiente.webp" width="480" height="854" aria-label="Video de la oficina de Chita: el equipo trabajando en los escritorios"><source src="video/ambiente.mp4" type="video/mp4"></video><button type="button" class="eqvb" aria-pressed="false" aria-label="Pausar video"><svg class="i-pa" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg></button></div><figcaption>Un día de lluvia en el ingreso</figcaption></figure></div></div></section>
+```
+
+## #historia
+
+```html
+<div id="historia" class="hw ccB" role="region" aria-labelledby="hish"><div class="hwh"><span class="ey">Cómo trabajamos</span><h2 id="hish">Del primer mensaje a tu visita</h2><p>Un camino simple para comprar, permutar o dejar tu auto en consignación.</p></div><ol class="hwl"><li><span aria-hidden="true"></span><h3>Elegís</h3><p>Mirás las unidades con sus fotos, año, kilómetros y equipamiento.</p></li><li><span aria-hidden="true"></span><h3>Escribís</h3><p>Se prepara una consulta; si necesitás completar la consulta, llamá a la agencia.</p></li><li><span aria-hidden="true"></span><h3>Visitás</h3><p>Coordinamos el día y te recibimos en Gral. Galarza 1712.</p></li><li><span aria-hidden="true"></span><h3>Permutás o consignás</h3><p>Recibimos tu usado: contanos cuál es y lo evaluamos. También podés escribirnos por consignación.</p></li></ol><div class="hwr"><a class="btn p" href="tel:+543442442782" data-wa="Hola! Quiero coordinar una visita al local.">Coordinar una visita</a></div></div>
+```
+

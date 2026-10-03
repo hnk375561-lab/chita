@@ -1,0 +1,7 @@
+BORRAR estos archivos del repo:
+
+ELIMINAR.txt
+motion.js (raiz)
+fonts/playfair-display-latin.woff2 antic-didone-latin.woff2 gilda-display-latin.woff2 rufina-latin.woff2 prata-latin.woff2 marcellus-latin.woff2 federo-latin.woff2 radley-latin.woff2 old-standard-tt-latin.woff2 ovo-latin.woff2
+js/ui.js scenes.js zones.js config.js data.js site.js
+js/motion/: todos menos core.js y vendor.js

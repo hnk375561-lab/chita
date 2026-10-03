@@ -56,12 +56,12 @@
   "contact": {
     "phone": "03442 44-2782",
     "phoneTel": "+543442442782",
-    "whatsApp": "",
+    "whatsApp": "5493442647442",
     "email": null,
     "website": null,
     "instagram": "chita.automotores",
     "facebook": "https://www.facebook.com/Chitaautomotores",
-    "status": "telefono fijo 03442 44-2782 verificado en directorios; perfil público de Instagram publica Gestoría 3442-547671; WhatsApp no confirmado",
+    "status": "telefono fijo 03442 44-2782 verificado en directorios; WhatsApp Ventas 3442-647442 confirmado en la bio de Facebook y en el perfil de WhatsApp del negocio (capturas del 3/10/2026); Gestoría 3442-547671 publicada en Instagram y Facebook",
     "emailCandidate": "NO USAR: Cylex tiene un correo protegido; no se reconstruye ni se adivina (dossier 3). Pedir el email oficial a Chita.",
     "gestoriaPhone": "03442 54-7671",
     "gestoriaPhoneTel": "+543442547671",
@@ -225,6 +225,13 @@
       "checkedAt": "2026-10-02",
       "published": true,
       "note": "Solo con fecha y atribución. No mezclar con GTM (9,2/10, 58 reseñas, cifras propias). No se publican testimonios textuales."
+    },
+    "facebook": {
+      "recommendedPct": 100,
+      "count": 22,
+      "checkedAt": "2026-10-03",
+      "published": true,
+      "note": "Dato visible en el perfil público de Facebook de la agencia. Publicar solo con fecha y atribución."
     }
   },
   "history": {
