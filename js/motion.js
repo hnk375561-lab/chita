@@ -631,14 +631,17 @@ function initBanner({ desktop }) {
    ════════════════════════════════════════════════════════════════════════════════════════ */
 /* FONDOS ÚNICOS · un plano fotográfico por sección, sin repetir imágenes. */
 function initSectionBackdrops({ desktop }) {
-  const sources = { unidades:"images/bg/int-3.webp", modelos:"images/bg/int-6.webp", versus:"images/bg/int-16.webp", nosotros:"images/bg/int-17.webp", trayectoria:"images/bg/int-18.webp", contacto:"images/bg/int-19.webp", local:"images/bg/int-20.webp", opiniones:"images/bg/int-21.webp", bd:"images/bg/int-26.webp", "como-comprar":"images/bg/int-32.webp", financiacion:"images/bg/int-33.webp", operaciones:"images/bg/int-34.webp", guia:"images/bg/int-39.webp", equipo:"images/bg/int-40.webp", visita:"images/bg/int-45.webp", preguntas:"images/bg/int-46.webp" };
-  const dark = new Set(["versus","contacto","local","bd","financiacion","guia","equipo"]);
+  /* Secciones en color sólido (sin foto): unidades, modelos, trayectoria, local, como-comprar, operaciones, equipo, preguntas.
+     El resto lleva una foto de interior; con 6 fotos y 9 secciones se reutilizan, nunca en secciones contiguas. */
+  const sources = { versus:"images/bg/stock-1.webp", entregas:"images/bg/stock-2.webp", nosotros:"images/bg/stock-3.webp", contacto:"images/bg/stock-4.webp", opiniones:"images/bg/stock-5.webp", bd:"images/bg/stock-6.webp", financiacion:"images/bg/stock-1.webp", guia:"images/bg/stock-2.webp", visita:"images/bg/stock-3.webp" };
+  const dark = new Set(["versus","entregas","contacto","bd","financiacion","guia","visita"]);
+  const veil = (id) => dark.has(id) ? "linear-gradient(rgba(6,17,26,.74),rgba(6,17,26,.74))" : "linear-gradient(rgba(243,245,246,.82),rgba(243,245,246,.82))";
   const mobile = !desktop, clean = [];
   qsa("main > section").forEach((section, index) => {
     const src = sources[section.id]; if (!src) return;
     section.style.position = "relative"; section.style.isolation = "isolate";
     const layer = document.createElement("div"); layer.className = "chita-section-backdrop"; layer.setAttribute("aria-hidden", "true");
-    layer.style.cssText = ["position:absolute","inset:0","z-index:0","pointer-events:none","overflow:clip",`background-image:url(${src})`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1!important","filter:none!important","transform:scale(1.04)","transform-origin:50% 50%","will-change:transform"].join(";");
+    layer.style.cssText = ["position:absolute","inset:0","z-index:0","pointer-events:none","overflow:clip",`background-image:${veil(section.id)},url(${src})`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1!important","filter:none!important","transform:scale(1.04)","transform-origin:50% 50%","will-change:transform"].join(";");
     section.prepend(layer);
     const tween = gsap.fromTo(layer,{yPercent:mobile?-1.5:-3,scale:1.04},{yPercent:mobile?1.5:3,scale:1.04,ease:EASE.linear,immediateRender:true,scrollTrigger:scrub(section,"top 104%","bottom -8%")});
     clean.push(() => { tween.kill(); layer.remove(); section.style.removeProperty("position"); section.style.removeProperty("isolation"); });
