@@ -22,7 +22,7 @@ Sitio estático (HTML/CSS/JS; el movimiento usa GSAP + ScrollTrigger + Lenis, se
 `npm test` valida que no haya `href="#"`, que los datos coincidan con `index.html`, que no haya precios sin confirmar, que existan todas las imágenes (y no sobren), un solo `h1`, `alt` en imágenes, `noindex` en las tres páginas y `Disallow: /` en `robots.txt`.
 
 ## Publicar
-GitHub > Settings > Pages > Deploy from a branch > main / (root). URL esperada: https://hnk375561-lab.github.io/chita.automotores/
+GitHub > Settings > Pages > Deploy from a branch > main / (root). URL esperada: https://hnk375561-lab.github.io/chita/
 
 ## Estado
 Demo: `noindex`, aviso visible y `robots.txt` con `Disallow: /`. Para pasar a producción seguir `golive/PRODUCCION.md`.
