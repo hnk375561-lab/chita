@@ -607,7 +607,7 @@ function initBanner({ desktop }) {
 
     const R = seeded(23);
     const spread = desktop ? 1 : 0.5;
-    const origin = chars.map(() => ({ x: (R() - 0.5) * 760 * spread, y: (R() - 0.5) * 460 * spread, rotation: (R() - 0.5) * 170, scale: 0.35 + R() * 1.5 }));
+    const origin = chars.map(() => ({ x: (R() - 0.5) * Math.min(innerWidth * 0.42, 520) * spread, y: (R() - 0.5) * Math.min(innerHeight * 0.5, 360) * spread, rotation: (R() - 0.5) * 170, scale: 0.35 + R() * 1.5 }));
 
     gsap.set(words, { overflow: "visible" });                  // las letras vuelan fuera de su máscara
     gsap.set(chars, { x: (i) => origin[i].x, y: (i) => origin[i].y, rotation: (i) => origin[i].rotation, scale: (i) => origin[i].scale, opacity: 0, transformOrigin: "50% 50%" });
@@ -655,10 +655,9 @@ function initSectionBackdrops({ desktop }) {
     const src = sources[section.id]; if (!src) return;
     section.style.position = "relative"; section.style.isolation = "isolate";
     const layer = document.createElement("div"); layer.className = "chita-section-backdrop"; layer.setAttribute("aria-hidden", "true");
-    const shade = dark.has(section.id) ? "linear-gradient(180deg,rgba(6,17,26,.12),rgba(6,17,26,.06) 48%,rgba(6,17,26,.14))" : "linear-gradient(180deg,rgba(243,245,246,.12),rgba(243,245,246,.05) 44%,rgba(243,245,246,.14))";
-    layer.style.cssText = ["position:absolute","inset:0","z-index:-2","pointer-events:none","overflow:hidden",`background-image:url(${src}),${shade}`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1","transform:scale(1.08)","transform-origin:50% 50%","will-change:transform,opacity"].join(";");
+    layer.style.cssText = ["position:absolute","inset:0","z-index:0","pointer-events:none","overflow:clip",`background-image:url(${src})`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1","transform:scale(1.04)","transform-origin:50% 50%","will-change:transform"].join(";");
     section.prepend(layer);
-    const tween = gsap.fromTo(layer,{yPercent:mobile?-2:-5,scale:mobile?1.1:1.14,opacity:0},{yPercent:mobile?2:5,scale:1.08,opacity:1,ease:EASE.linear,immediateRender:true,scrollTrigger:scrub(section,"top 104%","bottom -8%")});
+    const tween = gsap.fromTo(layer,{yPercent:mobile?-1.5:-3,scale:1.04},{yPercent:mobile?1.5:3,scale:1.04,ease:EASE.linear,immediateRender:true,scrollTrigger:scrub(section,"top 104%","bottom -8%")});
     clean.push(() => { tween.kill(); layer.remove(); section.style.removeProperty("position"); section.style.removeProperty("isolation"); });
   });
   return () => clean.forEach((fn) => fn());
