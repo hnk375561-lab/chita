@@ -1741,6 +1741,49 @@ main>.hero.hx{grid-template-columns:minmax(380px,.7fr) minmax(0,1.3fr);height:cl
 @media(max-width:899px){.catalogo-comparador{display:block}.modelos-panel{border-right:0;border-bottom:1px solid #284452}.catalogo-panel .w{width:min(100% - 40px,720px)}#nosotros .w{grid-template-columns:1fr!important}#nosotros .ph{max-width:520px;margin-inline:auto}}
 @media(prefers-reduced-motion:reduce){#preguntas .fs2 img{transition:none!important}}
 
+
+/* ===== Oct 2026 · fondos originales que rotan, paneles de contenido sólidos, catálogo y comparador apilados =====
+   Regla: ningún fondo lleva velo ni opacidad. El texto se apoya en paneles sólidos; la foto se ve entera alrededor. */
+.chita-section-backdrop{position:absolute;inset:0;z-index:0;overflow:hidden;background:#06111a;pointer-events:none}
+.cb-f{position:absolute;inset:0;z-index:0;background-size:cover;background-position:50% 50%;background-repeat:no-repeat;opacity:0;transition:opacity 1.2s ease}
+.cb-f.prev{opacity:1;z-index:1;transition:none}
+.cb-f.on{opacity:1;z-index:2}
+.has-bgshow{position:relative;isolation:isolate;overflow:hidden}
+.has-bgshow>.w{position:relative;z-index:1}
+/* se retiran los fondos y velos anteriores de estas secciones */
+#financiacion.pp::before,#financiacion.pp::after,#visita.pd::before,#visita.pd::after,#guia.pd::before,#guia.pd::after,.ent::before,.ent::after{display:none!important;background:none!important}
+#entregas,#financiacion.pp,#visita.pd,#guia.pd,#nosotros,#trayectoria,#opiniones{background:#06111a!important}
+.bd .bdm{display:none!important}
+.bd.has-bgshow{background:#06111a}
+.bd .bdk,.bd .bde,.bd h2,.bd .bdp,.bd .bdf{text-shadow:0 2px 18px rgba(0,0,0,.85),0 1px 3px rgba(0,0,0,.7)}
+/* paneles oscuros */
+:is(#entregas,#financiacion,#guia,#visita).has-bgshow{padding-block:clamp(36px,5vw,72px)!important}
+:is(#entregas,#financiacion,#guia,#visita)>.w{width:min(100% - 32px,1180px)!important;margin-inline:auto!important;padding:clamp(24px,4vw,56px)!important;background:#06111a;border:1px solid rgba(143,211,228,.3);box-shadow:0 40px 80px -40px rgba(0,0,0,.85)}
+#financiacion.pp.pp.pp.pp.pp .pdc{background:#0a1a26!important}
+#financiacion h2,#visita h2,#financiacion .pdl p,#visita .pdl p{text-shadow:none!important}
+/* paneles claros */
+:is(#trayectoria,#opiniones).has-bgshow{padding-block:clamp(36px,5vw,72px)!important}
+:is(#trayectoria,#opiniones)>.w{width:min(100% - 32px,1180px)!important;margin-inline:auto!important;padding:clamp(24px,4vw,56px)!important;background:#f3f5f6;color:var(--ink);box-shadow:0 40px 80px -40px rgba(0,0,0,.7)}
+#opiniones .rvh h2,#opiniones .rvh p{color:var(--ink)}
+/* Quiénes somos: tarjeta a escuadra, foto y texto con la misma altura */
+#nosotros.has-bgshow{padding-block:clamp(36px,5vw,72px)!important}
+#nosotros>.w{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:0!important;align-items:stretch!important;width:min(100% - 32px,1180px)!important;margin-inline:auto!important;padding:0!important;background:#fff;box-shadow:0 40px 80px -40px rgba(0,0,0,.75)}
+@media(min-width:860px){#nosotros>.w{grid-template-columns:minmax(0,5fr) minmax(0,6fr)!important}}
+#nosotros .ph{position:relative;display:flex;align-items:center;align-self:stretch!important;height:auto!important;aspect-ratio:4/5!important;max-width:none!important;margin:0!important;overflow:hidden;background:linear-gradient(180deg,#022061 50%,#520504 50%)!important}
+@media(min-width:860px){#nosotros .ph{aspect-ratio:auto!important;min-height:100%}}
+#nosotros .ph img{position:static!important;display:block;width:100%!important;height:auto!important;max-height:100%;object-fit:contain!important;background:none!important}
+#nosotros>.w>div:not(.ph):not(.ci){align-self:stretch!important;padding:clamp(24px,4vw,56px)!important;text-align:left!important;color:var(--ink)}
+#nosotros .ci{grid-column:1/-1;padding:clamp(24px,3vw,40px) clamp(24px,4vw,56px)}
+/* Catálogo y comparador: dos paneles de ancho completo, uno sobre otro */
+.catalogo-comparador{display:block!important}
+#modelos.catalogo-panel,#versus.catalogo-panel{background:#06111a!important;color:#fff!important}
+.catalogo-panel .w{width:min(100% - 40px,1240px)!important}
+.modelos-panel{border-right:0!important;border-bottom:1px solid #284452;padding-block:clamp(48px,6vw,88px)!important}
+#modelos .mdh{max-width:none}
+#modelos .mdh h2,#modelos .mdh p{color:#fff!important}
+@media(min-width:900px){#modelos .mdg{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}}
+#modelos .mdl b{font-size:clamp(24px,2.6vw,34px)!important}
+#modelos .mdf{position:sticky!important;top:96px}
 </style>
 <noscript><style>#modelos,.ff,.ftg,#qc,#hf,.vs,.car .g-a,.car .g-c,.car .g-s,.vr .g-a,.vr .vrr,.vr .vri,#visitaForm,#buscoForm{display:none}</style></noscript>
 <link rel="stylesheet" href="css/motion.css">
@@ -2146,7 +2189,7 @@ vp.addEventListener("click",function(e){var b=e.target.closest(".vdp");if(!b)ret
  if(k>-1){if(sel.length>1)sel.splice(k,1)}else{sel.push(j);if(sel.length>3)sel.shift()}
  vr();var f=vp.querySelector('[data-j="'+j+'"]');if(f)f.focus()});
 /* Datos de contacto de la ficha */
-$("icA").textContent=NEGOCIO.direccion+" ("+NEGOCIO.referencia+"), "+NEGOCIO.ciudad;$("icW").textContent="+54 9 "+NEGOCIO.telefono.replace("03442 ","3442 ");$("icT").textContent=NEGOCIO.telefono;
+$("icA").textContent=NEGOCIO.direccion+(NEGOCIO.referencia?" ("+NEGOCIO.referencia+")":"")+", "+NEGOCIO.ciudad;$("icW").textContent="+54 9 "+NEGOCIO.telefono.replace("03442 ","3442 ");$("icT").textContent=NEGOCIO.telefono;
 function late(){vr()}
 vr();if(document.readyState==="complete")late();else window.addEventListener("load",late);
 })();
@@ -2181,7 +2224,7 @@ go(0);
     window.setInterval(function(){
       var hero=document.getElementById('hero'),r=hero&&hero.getBoundingClientRect();
       if(r&&r.bottom>0&&r.top<innerHeight)window.chitaHero.next();
-    },8000);
+    },4500);
   }
   if(window.chitaHero)startHero();else window.addEventListener('load',startHero,{once:true});
   var sources=['assets/3.jpg','assets/30.jpg','assets/8.jpg','assets/27.jpg','assets/41.jpg','assets/53.jpg','assets/57.jpg'];
