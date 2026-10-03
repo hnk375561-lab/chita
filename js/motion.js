@@ -5,7 +5,7 @@
    Archivo único y autocontenido: solo importa el bundle ya servido en js/vendor/.
    No cambia HTML, CSS, contenido ni identidad visual: únicamente el movimiento.
 
-   FIRMAS (los 6 momentos propios de este sitio)
+   FIRMAS (los momentos propios de este sitio)
      1 · PORTÓN       El hero queda anclado y la sección «Unidades» sube sobre él con un borde en
                       diagonal que se endereza, como un portón de salón que se levanta. Mientras
                       tanto el hero «se va»: palabras que escapan una a una, marco que se cierra,
@@ -19,6 +19,17 @@
                       tarjetas, estiran el cursor y esconden/muestran el header.
      6 · CURSOR       Anillo con estados (ver, arrastrar, mover…), estiramiento direccional y
                       botones magnéticos.
+     7 · RESORTE      La inercia del scroll es un resorte subamortiguado: al frenar, títulos y
+                      fotos se pasan un poco y se asientan (banda elástica), en vez de frenar en seco.
+     8 · TÚNEL        El hero sale en perspectiva: el marco gira y se aleja, la foto interior va
+                      más lenta y el texto se retira sin cruzarse.
+     9 · COLUMNAS     En la grilla de unidades cada columna reacciona distinto a la velocidad
+                      (la izquierda se atrasa, la derecha se adelanta) y se reacomoda al filtrar.
+    10 · RECESIÓN     La sección que se va retrocede (escala, opacidad, ascenso) mientras la siguiente
+                      la cubre; el pie sube por capas y se asienta justo al llegar al final.
+    11 · HAZ          En Trayectoria el hito que se lee en el centro es el que brilla; los leídos se atenúan.
+       + ROLL         El menú gira letra por letra al apuntarlo (copia aria-hidden, nombre accesible intacto).
+       + ATERRIZAJE   Las anclas corrigen su destino al llegar si el layout se movió durante el viaje.
 
    REGLAS
      · Solo transform / opacity / clip-path. Cero lecturas de layout por frame.
@@ -121,26 +132,40 @@ function split(element, { chars = false, skip = null } = {}) {
    elementos visibles con quickSetter (sin tweens, sin lecturas de layout).
    ════════════════════════════════════════════════════════════════════════════════════════ */
 function createInertia() {
-  const state = { v: 0, dir: 1 };
+  /* v = velocidad suavizada (cursor, lecturas). s/sv = resorte subamortiguado que persigue a v:
+     al frenar el scroll, los elementos se pasan un poco y vuelven (efecto «banda elástica»). */
+  const state = { v: 0, s: 0, sv: 0, dir: 1 };
   const items = new Map();
   let rest = true;
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => { const item = items.get(entry.target); if (item) item.vis = entry.isIntersecting; });
   }, { rootMargin: "15% 0px" });
+  const drop = (el) => { io.unobserve(el); items.delete(el); };
   return {
     state,
+    /* gain puede ser una función: se reevalúa en cada refresh (p. ej. columnas de una grilla responsive). */
     add(el, prop, gain, unit = "", max = Infinity) {
       if (!el || items.has(el)) return;
-      items.set(el, { set: gsap.quickSetter(el, prop, unit), gain, max, vis: false });
+      const fn = typeof gain === "function" ? gain : null;
+      items.set(el, { set: gsap.quickSetter(el, prop, unit), gain: fn ? fn() : gain, fn, max, vis: false });
       io.observe(el);
     },
-    step(instant) {
-      state.v += (instant - state.v) * 0.16;
+    remove(el) { if (items.has(el)) drop(el); },
+    refresh() {
+      items.forEach((item, el) => { if (!el.isConnected) drop(el); else if (item.fn) item.gain = item.fn(); });
+    },
+    step(instant, dt = 1) {
+      state.v += (instant - state.v) * (1 - Math.pow(0.84, dt));
       if (Math.abs(state.v) < 0.03) state.v = 0;
       if (instant !== 0) state.dir = instant > 0 ? 1 : -1;
-      if (state.v === 0 && rest) return;
-      rest = state.v === 0;
-      items.forEach((item) => { if (item.vis || rest) item.set(clamp(state.v * item.gain, -item.max, item.max)); });
+      state.sv += (state.v - state.s) * 0.09 * dt;
+      state.sv *= Math.pow(0.8, dt);
+      state.s += state.sv * dt;
+      const settled = state.v === 0 && Math.abs(state.s) < 0.02 && Math.abs(state.sv) < 0.02;
+      if (settled) { state.s = 0; state.sv = 0; }
+      if (settled && rest) return;
+      rest = settled;
+      items.forEach((item) => { if (item.vis || rest) item.set(clamp(state.s * item.gain, -item.max, item.max)); });
     },
     destroy() { io.disconnect(); items.forEach((item) => item.set(0)); items.clear(); }
   };
@@ -168,11 +193,13 @@ function initScroll({ desktop }) {
     lenis.raf(time * 1000);
     const y = lenis.scroll;
     const dt = Math.min(gsap.ticker.deltaRatio(), 4) || 1;
-    inertia.step((y - lastY) / dt);
+    inertia.step((y - lastY) / dt, dt);
     lastY = y;
   };
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add(tick);
+  const onRefresh = () => inertia.refresh();
+  ScrollTrigger.addEventListener("refresh", onRefresh);
   gsap.ticker.lagSmoothing(0);
 
   const header = qs("header");
@@ -182,7 +209,14 @@ function initScroll({ desktop }) {
     if (typeof target === "number") distance = Math.abs(target - lenis.scroll);
     else if (target instanceof Element) distance = Math.abs(target.getBoundingClientRect().top + (options.offset || 0));
     const duration = options.duration ?? clamp(0.9 + distance / 3400, 1.1, 2.4);
-    return lenis.scrollTo(target, { duration, easing: easeOutExpo, ...options });
+    /* Aterrizaje exacto: Lenis calcula el destino al salir. Si el layout se movió durante el viaje (imágenes lazy,
+       filtros, acordeones) se corrige al llegar con un tramo corto; máximo 2 reintentos para no oscilar. */
+    const settle = (tries) => () => {
+      if (!(target instanceof Element) || tries <= 0) return;
+      const miss = target.getBoundingClientRect().top + (options.offset || 0);
+      if (Math.abs(miss) > 4) lenis.scrollTo(target, { duration: 0.7, easing: easeOutExpo, ...options, onComplete: settle(tries - 1) });
+    };
+    return lenis.scrollTo(target, { duration, easing: easeOutExpo, ...options, onComplete: settle(2) });
   };
 
   const onClick = (event) => {
@@ -227,6 +261,7 @@ function initScroll({ desktop }) {
       document.removeEventListener("click", onClick);
       observer?.disconnect();
       gsap.ticker.remove(tick);
+      ScrollTrigger.removeEventListener("refresh", onRefresh);
       inertia.destroy();
       lenis.destroy();
       if (window.chitaScroll?.lenis === lenis) delete window.chitaScroll;
@@ -391,11 +426,18 @@ function initHero({ desktop, fine }, scroll) {
       out(logo, { yPercent: 0, opacity: 1 }, { yPercent: -70, opacity: 0 }, 0, 0.42, "power2.in");
       out(eyebrow, { opacity: 1, yPercent: 0 }, { opacity: 0, yPercent: -140 }, 0.02, 0.34, "power2.in");
       out(words, { yPercent: 0, rotate: 0 }, { yPercent: -135, rotate: -6, stagger: { each: 0.045, from: "start" } }, 0.04, 0.46, EASE.drive);
-      out(lead, { yPercent: 0, opacity: 1 }, { yPercent: -90, opacity: 0 }, 0.08, 0.38, "power2.in");
-      out(buttons, { yPercent: 0, opacity: 1 }, { yPercent: -70, opacity: 0, stagger: 0.05 }, 0.1, 0.36, "power2.in");
-      out(link, { yPercent: 0, opacity: 1 }, { yPercent: -80, opacity: 0 }, 0.14, 0.32, "power2.in");
+      /* El texto de abajo se desvanece ANTES de poder cruzarse con el título (la opacidad va por su cuenta, rápida)
+         y después sigue subiendo con la misma curva que las palabras: sin solapes en ningún punto de la salida. */
+      out(lead, { opacity: 1 }, { opacity: 0 }, 0.04, 0.2, EASE.linear);
+      out(lead, { yPercent: 0 }, { yPercent: -90 }, 0.1, 0.42, EASE.drive);
+      out(buttons, { opacity: 1 }, { opacity: 0, stagger: 0.03 }, 0.05, 0.2, EASE.linear);
+      out(buttons, { yPercent: 0 }, { yPercent: -70, stagger: 0.05 }, 0.13, 0.4, EASE.drive);
+      out(link, { opacity: 1 }, { opacity: 0 }, 0.07, 0.2, EASE.linear);
+      out(link, { yPercent: 0 }, { yPercent: -80 }, 0.18, 0.36, EASE.drive);
       out(figure, { clipPath: "inset(0% 0% 0% 0% round 0px)" }, { clipPath: "inset(7% 4.5% 7% 4.5% round 28px)" }, 0, 1);
-      out(frame, { scale: 1, opacity: 1, transformOrigin: "50% 50%" }, { scale: 1.2, opacity: 0.42 }, 0, 1);
+      /* TÚNEL: el marco se abre en perspectiva (gira y se aleja) y la foto interior se desliza más lento: tres planos. */
+      out(frame, { scale: 1, opacity: 1, rotationY: 0, xPercent: 0, transformPerspective: 1400, transformOrigin: "50% 50%" }, { scale: 1.2, opacity: 0.42, rotationY: -9, xPercent: 3 }, 0, 1);
+      out(stage, { yPercent: 0 }, { yPercent: 9 }, 0, 1);
       out(caption, { yPercent: 0, opacity: 1 }, { yPercent: -90, opacity: 0 }, 0.05, 0.4, "power2.in");
       out(cta, { yPercent: 0, opacity: 1 }, { yPercent: 110, opacity: 0 }, 0.05, 0.4, "power2.in");
 
@@ -595,6 +637,19 @@ function initSeams({ desktop }) {
       }
     });
 
+    /* RECESIÓN: la sección que se va no desaparece de golpe: su contenido retrocede (escala, opacidad, leve
+       ascenso) mientras la siguiente la cubre. Escala y opacidad no las toca ningún otro efecto del contenedor.
+       Se omiten Unidades (portón), el banner, Modelos (panel sticky) y la última antes del pie. */
+    const k2 = desktop ? 1 : 0.5;
+    qsa("main > section").forEach((section) => {
+      if (["unidades", "bd", "modelos", "preguntas"].includes(section.id) || section.classList.contains("bd")) return;
+      const inner = qs(":scope > .w", section);
+      if (!inner) return;
+      gsap.fromTo(inner,
+        { scale: 1, opacity: 1, yPercent: 0, transformOrigin: "50% 100%" },
+        { scale: 1 - 0.05 * k2, opacity: desktop ? 0.4 : 0.55, yPercent: -2.2 * k2, ease: EASE.linear, overwrite: false, immediateRender: false, scrollTrigger: scrub(section, "bottom 78%", "bottom 6%") });
+    });
+
     /* Comparar entra «desde atrás»: escala + profundidad (más teatral que el resto). */
     const versus = qs("#versus > .w");
     if (versus) gsap.fromTo(versus, { y: desktop ? 110 : 40, scale: desktop ? 0.93 : 0.98, transformOrigin: "50% 0%" }, { y: 0, scale: 1, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub("#versus", "top 100%", "top 28%") });
@@ -637,18 +692,30 @@ function initReveals({ desktop }, inertia) {
     batch(cards, play, { start: "top 92%", gap: 0.08, max: 4 });
     if (desktop) cards.forEach((card) => { const ct = qs(".ct", card); if (ct) inertia?.add(ct, "skewY", 0.22, "deg", 2.2); });
 
+    /* COLUMNAS: cada columna de la grilla responde distinto a la velocidad del scroll (la de la izquierda
+       se atrasa, la de la derecha se adelanta) y se acomodan con el resorte al frenar. Solo desktop. */
+    const columnDrift = (card) => inertia?.add(card, "yPercent", () => {
+      const n = grid ? colCount() : 1;
+      if (n < 2) return 0;
+      /* El filtro del sitio oculta (hidden) y reordena las mismas tarjetas: la columna se cuenta solo entre las visibles. */
+      const col = [...grid.children].filter((c) => !c.hidden).indexOf(card);
+      return col < 0 ? 0 : ((col % n) - (n - 1) / 2) * 0.1;
+    }, "", 5);
+    if (desktop && grid) cards.forEach(columnDrift);
+
     /* Filtros / orden vuelven a pintar la grilla: las tarjetas nuevas entran en cascada corta. */
     if (grid) {
       observer = new MutationObserver(() => {
         clearTimeout(timer);
         timer = setTimeout(() => {
+          inertia?.refresh();                       // filtros / orden: las columnas se reasignan al nuevo acomodo
           const fresh = qsa(".car:not([data-mo])", grid);
           if (!fresh.length) return;
           fresh.forEach((card) => { card.dataset.mo = "1"; card.dataset.mr = "p"; });
           ctx.add(() => gsap.fromTo(fresh,
             { opacity: 0, y: 34 * d, scale: 0.97 },
             { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: EASE.soft, stagger: 0.05, clearProps: "opacity,transform", onComplete: () => fresh.forEach((c) => c.removeAttribute("data-mr")) }));
-          if (desktop) fresh.forEach((card) => { const ct = qs(".ct", card); if (ct) inertia?.add(ct, "skewY", 0.22, "deg", 2.2); });
+          if (desktop) fresh.forEach((card) => { const ct = qs(".ct", card); if (ct) inertia?.add(ct, "skewY", 0.22, "deg", 2.2); columnDrift(card); });
           ScrollTrigger.refresh();
         }, 60);
       });
@@ -714,10 +781,14 @@ function initReveals({ desktop }, inertia) {
       gsap.set(form, { opacity: 0, y: 64 * d, scale: 0.96, transformOrigin: "50% 100%" });
       once(form, "top 90%", () => gsap.to(form, { opacity: 1, y: 0, scale: 1, duration: 1.25, ease: EASE.expo, clearProps: "opacity,transform" }));
     }
-    const foot = qs("footer > .w");
-    if (foot) {
-      gsap.set(foot, { opacity: 0, y: 70 * d });
-      once(foot, "top 96%", () => gsap.to(foot, { opacity: 1, y: 0, duration: 1.2, ease: EASE.expo, clearProps: "opacity,transform" }));
+    /* CORTINA DEL PIE: cada capa del pie (logo, dirección, enlaces, avisos) sube a su propia velocidad y se
+       asienta justo al llegar al final de la página. «bottom bottom» siempre es alcanzable: nunca queda a medias. */
+    const footer = qs("footer"), foot = qs("footer > .w");
+    if (footer && foot) {
+      const layers = [...foot.children];
+      gsap.fromTo(layers,
+        { yPercent: (i) => 26 + i * 16, opacity: 0 },
+        { yPercent: 0, opacity: 1, ease: "power2.out", stagger: { each: 0.12 }, immediateRender: true, scrollTrigger: scrub(footer, "top 98%", "bottom bottom") });
     }
   });
   return () => { clearTimeout(timer); observer?.disconnect(); undo.forEach((fn) => fn()); ctx.revert(); };
@@ -729,6 +800,7 @@ function initReveals({ desktop }, inertia) {
    ════════════════════════════════════════════════════════════════════════════════════════ */
 function initParallax({ desktop }) {
   const k = desktop ? 1 : 0.45;
+  const undo = [];
   const ctx = gsap.context(() => {
     /* NOSOTROS · el marco gira y se acomoda; la foto se «abre» desde un arco y se desplaza dentro (3 planos). */
     const frame = qs("#nph"), photo = qs("#nph img"), column = frame?.nextElementSibling;
@@ -750,6 +822,21 @@ function initParallax({ desktop }) {
       const year = qs(".ary", item);
       if (year) gsap.fromTo(year, { x: -30 * k }, { x: 0, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(item, "top 94%", "top 60%") });
     });
+
+    /* HAZ DE LECTURA: una vez leído, cada hito se atenúa y se corre al seguir subiendo; el que está en el
+       centro de la pantalla es el que brilla. Actúa sobre el texto interior (el <li> ya usa opacidad). */
+    qsa("#trayectoria .arl li > div").forEach((box) => {
+      gsap.fromTo(box, { opacity: 1, x: 0 }, { opacity: desktop ? 0.28 : 0.45, x: -18 * k, ease: EASE.linear, overwrite: false, immediateRender: false, scrollTrigger: scrub(box.parentElement, "top 34%", "bottom 8%") });
+    });
+
+    /* COMPARAR · los chips convergen desde los costados hacia su lugar con el avance del scroll. */
+    const chips = qsa("#versus .vdp");
+    if (chips.length) {
+      undo.push(claim(chips, { "transition-property": "background, border-color" }));   // el CSS anima transform con transition: choca con el scrub
+      gsap.fromTo(chips,
+        { x: (i) => (i - (chips.length - 1) / 2) * 38 * k, y: 28 * k, opacity: 0 },
+        { x: 0, y: 0, opacity: 1, ease: EASE.linear, stagger: { each: 0.05 }, immediateRender: true, scrollTrigger: scrub("#versus .vdk", "top 98%", "top 60%") });
+    }
 
     /* DÓNDE ESTAMOS · el mapa se abre como un iris y llega acercándose. */
     const map = qs("#contacto .mp");
@@ -800,7 +887,7 @@ function initParallax({ desktop }) {
       gsap.fromTo(step, { opacity: 0.2, x: desktop ? -40 : -14 }, { opacity: 1, x: 0, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(step, "top 92%", "top 58%") });
     });
   });
-  return () => ctx.revert();
+  return () => { undo.forEach((fn) => fn()); ctx.revert(); };
 }
 
 /* ════════════════════════════════════════════════════════════════════════════════════════
@@ -975,6 +1062,37 @@ function initInteractions({ desktop, fine }) {
       const arrow = closest(event, ".g-a"); if (!arrow || arrow.contains(event.relatedTarget)) return;
       const svg = qs("svg", arrow); if (svg) gsap.to(svg, { x: 0, duration: 0.7, ease: "elastic.out(1, 0.5)", overwrite: "auto" });
     }, { passive: true });
+
+    /* ROLL del menú: al apuntar, cada letra sube y es reemplazada por su copia que entra desde abajo (escalonado).
+       La copia es aria-hidden y el enlace conserva su nombre accesible; al limpiar se restituye el texto original. */
+    qsa("header nav a").forEach((link) => {
+      const original = link.textContent;
+      if (link.children.length || !original.trim()) return;
+      const hadLabel = link.hasAttribute("aria-label");
+      const letters = (value) => [...value].map((ch) => { const c = document.createElement("span"); c.style.cssText = "display:inline-block;will-change:transform"; c.textContent = ch === " " ? "\u00a0" : ch; return c; });
+      const wrap = document.createElement("span"); wrap.style.cssText = "position:relative;display:block;overflow:hidden;white-space:pre";
+      const top = document.createElement("span"); top.style.display = "block"; top.setAttribute("aria-hidden", "true");
+      const bottom = document.createElement("span"); bottom.style.cssText = "position:absolute;left:0;top:0;display:block"; bottom.setAttribute("aria-hidden", "true");
+      const a = letters(original.trim()), b = letters(original.trim());
+      top.append(...a); bottom.append(...b); wrap.append(top, bottom);
+      if (!hadLabel) link.setAttribute("aria-label", original.trim());
+      link.textContent = ""; link.append(wrap);
+      gsap.set(b, { yPercent: 115 });
+      const roll = gsap.timeline({ paused: true, defaults: { duration: 0.5, ease: "power3.inOut" } })
+        .to(a, { yPercent: -115, stagger: 0.018 }, 0)
+        .to(b, { yPercent: 0, stagger: 0.018 }, 0);
+      const play = () => roll.timeScale(1).play();
+      const back = () => roll.timeScale(1.5).reverse();
+      on(link, "pointerenter", play); on(link, "pointerleave", back);
+      on(link, "focus", () => { if (link.matches(":focus-visible")) play(); }); on(link, "blur", back);
+      undo.push(() => { roll.kill(); link.textContent = original; if (!hadLabel) link.removeAttribute("aria-label"); });
+    });
+
+    /* Enlaces del pie: empujan hacia la derecha y vuelven con rebote. */
+    qsa("footer .fx a").forEach((link) => {
+      on(link, "pointerenter", () => gsap.to(link, { x: 8, duration: 0.45, ease: EASE.soft, overwrite: "auto" }));
+      on(link, "pointerleave", () => gsap.to(link, { x: 0, duration: 0.9, ease: "elastic.out(1, 0.5)", overwrite: "auto" }));
+    });
 
     /* Iconos del header: giro corto con rebote. */
     qsa(ICON).forEach((icon) => {
