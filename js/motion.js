@@ -366,6 +366,7 @@ function initHero({ desktop, fine }, scroll) {
   const lead = qs(".tx > p", hero), actions = qs(".row", hero), link = qs(".lk", hero);
   const figure = qs("figure", hero), frame = qs(".hv", hero), stage = qs(".hzs", hero);
   const caption = qs(".hcap", hero), cta = qs(".ha", hero);
+  const heroSlides = qsa(".hz", stage);
   const headerItems = qsa("header .w > *");
   const words = split(title, { skip: ".h1n" });
   const buttons = actions ? [...actions.children] : [];
@@ -392,6 +393,32 @@ function initHero({ desktop, fine }, scroll) {
       gsap.set(caption, { opacity: 0, y: 14 });
       gsap.set(ctaButtons, { opacity: 0, y: 14 });
       root.classList.remove("mh");
+
+      /* FILM STRIP: durante la entrada, todas las unidades disponibles atraviesan el marco
+         como una hoja de contacto viva. Al finalizar se restituye el slide activo original. */
+      if (heroSlides.length > 1) {
+        /* Las fotos diferidas pasan a sus originales antes de entrar al montaje: ninguna unidad aparece vacía. */
+        heroSlides.forEach((slide) => {
+          const image = qs("img", slide);
+          if (!image || !image.dataset.src) return;
+          if (image.dataset.srcset) image.srcset = image.dataset.srcset;
+          image.src = image.dataset.src;
+          image.removeAttribute("data-src"); image.removeAttribute("data-srcset");
+        });
+        const activeSlide = heroSlides.findIndex((slide) => slide.classList.contains("on"));
+        const film = gsap.timeline({ defaults: { ease: EASE.expo }, onComplete: () => {
+          heroSlides.forEach((slide) => gsap.set(slide, { clearProps: "opacity,visibility,zIndex,clipPath,transform" }));
+          if (heroSlides[activeSlide]) heroSlides[activeSlide].classList.add("on");
+          ScrollTrigger.refresh();
+        }});
+        heroSlides.forEach((slide, index) => {
+          const at = 0.32 + index * Math.min(0.13, 1.2 / heroSlides.length);
+          gsap.set(slide, { zIndex: index === activeSlide ? 2 : 1, autoAlpha: 0 });
+          film.set(slide, { autoAlpha: 1, clipPath: "inset(0 100% 0 0)", xPercent: 12, scale: 1.18, zIndex: 3 }, at)
+            .to(slide, { clipPath: "inset(0 0% 0 0)", xPercent: 0, scale: 1.06, duration: 0.34 }, at)
+            .to(slide, { autoAlpha: 0, xPercent: -10, scale: 1.01, duration: 0.28, ease: EASE.drive }, at + 0.34);
+        });
+      }
 
       gsap.timeline({ defaults: { ease: EASE.soft }, onComplete: () => ScrollTrigger.refresh() })
         .to(headerItems, { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: EASE.expo }, 0)
@@ -628,8 +655,8 @@ function initSectionBackdrops({ desktop }) {
     const src = sources[section.id]; if (!src) return;
     section.style.position = "relative"; section.style.isolation = "isolate";
     const layer = document.createElement("div"); layer.className = "chita-section-backdrop"; layer.setAttribute("aria-hidden", "true");
-    const shade = dark.has(section.id) ? "linear-gradient(180deg,rgba(6,17,26,.82),rgba(6,17,26,.5) 48%,rgba(6,17,26,.86))" : "linear-gradient(180deg,rgba(243,245,246,.9),rgba(243,245,246,.72) 44%,rgba(243,245,246,.92))";
-    layer.style.cssText = ["position:absolute","inset:0","z-index:-2","pointer-events:none","overflow:hidden",`background-image:${shade},url(${src})`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat",`opacity:${dark.has(section.id) ? (mobile ? .42 : .5) : (mobile ? .2 : .26)}`,"transform:scale(1.08)","transform-origin:50% 50%","will-change:transform,opacity"].join(";");
+    const shade = dark.has(section.id) ? "linear-gradient(180deg,rgba(6,17,26,.12),rgba(6,17,26,.06) 48%,rgba(6,17,26,.14))" : "linear-gradient(180deg,rgba(243,245,246,.12),rgba(243,245,246,.05) 44%,rgba(243,245,246,.14))";
+    layer.style.cssText = ["position:absolute","inset:0","z-index:-2","pointer-events:none","overflow:hidden",`background-image:url(${src}),${shade}`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1","transform:scale(1.08)","transform-origin:50% 50%","will-change:transform,opacity"].join(";");
     section.prepend(layer);
     const tween = gsap.fromTo(layer,{yPercent:mobile?-2:-5,scale:mobile?1.1:1.14,opacity:0},{yPercent:mobile?2:5,scale:1.08,opacity:1,ease:EASE.linear,immediateRender:true,scrollTrigger:scrub(section,"top 104%","bottom -8%")});
     clean.push(() => { tween.kill(); layer.remove(); section.style.removeProperty("position"); section.style.removeProperty("isolation"); });
