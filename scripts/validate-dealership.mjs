@@ -14,7 +14,11 @@ for (const page of ['index.html', '404.html', 'privacidad.html']) {
   const h = fs.readFileSync(path.join(root, page), 'utf8');
   if (d.demo.publicIndexing === false && !h.includes('noindex')) errors.push(`${page}: falta noindex mientras sea demo`);
 }
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+// La lógica vive en js/app.js y los estilos en css/site.css; se valida junto con index.html como si fuera un solo documento.
+const appJs = fs.existsSync(path.join(root, 'js/app.js')) ? fs.readFileSync(path.join(root, 'js/app.js'), 'utf8') : '';
+const cssSite = fs.existsSync(path.join(root, 'css/site.css')) ? fs.readFileSync(path.join(root, 'css/site.css'), 'utf8') : '';
+const html = indexHtml + '\n' + appJs + '\n' + cssSite;
 if (!html.includes('rel="canonical"')) errors.push('index.html: falta canonical');
 const get = (k) => (html.match(new RegExp(`${k}:\\s*"([^"]*)"`)) || [])[1];
 const pairs = [['mapsPlace', d.location.mapsPlaceUrl], ['mapsReviews', d.location.mapsReviewsUrl], ['direccion', d.location.address], ['telefono', d.contact.phone], ['telefonoTel', d.contact.phoneTel],
@@ -59,7 +63,7 @@ for (const v of veh) if (v.published && v.kmStatus === 'conflict') { const l = s
 const co = d.location.coordinates; if (!co || !html.includes(`q=${co.lat},${co.lng}`) || !html.includes(`ll=${co.lat},${co.lng}`)) errors.push('Mapa/Waze no usan las coordenadas de dealership.json');
 if (/-32\.4828|-32\.4882114/.test(html)) errors.push('index.html: coordenadas antiguas');
 const g = d.reputation.google; if (!html.includes(`${g.rating} de ${g.outOf} con ${g.count} reseñas`)) errors.push('Reseñas de Google del sitio no coinciden con dealership.json');
-const visible = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '');
+const visible = indexHtml.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '');
 for (const re of [/concesionario oficial/i, /\b(35|39) años/i, /desde 1991/i, /tasa fija/i, /compramos tu/i, /parte de pago/i, /\(\)|, ,/]) if (re.test(visible)) errors.push(`index.html: afirmación o texto no permitido ${re}`);
 
 // Dossier 3: sin fotos de terceros, sin email reconstruido, sección histórica presente
