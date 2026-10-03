@@ -16,7 +16,7 @@
                       tablero de kilometraje y se asientan en su valor real.
      4 · VENTANA      Mapa e itinerario del local se abren como iris/ventana con el avance.
      5 · INERCIA      La velocidad y la dirección del scroll inclinan títulos y fotos de las
-                      tarjetas, estiran el cursor y esconden/muestran el header.
+                      tarjetas y esconden/muestran el header.
      6 · CURSOR       Anillo con estados (ver, arrastrar, mover…), estiramiento direccional y
                       botones magnéticos.
      7 · RESORTE      La inercia del scroll es un resorte subamortiguado: al frenar, títulos y
@@ -619,6 +619,38 @@ function initBanner({ desktop }) {
    COSTURAS · cada sección se apoya sobre la anterior (transición continua)
    Oscuras: hoja que se ensancha con esquinas redondeadas. Claras: el contenido sube desde atrás.
    ════════════════════════════════════════════════════════════════════════════════════════ */
+/* FONDOS ÚNICOS · un plano fotográfico por sección, sin repetir imágenes. */
+function initSectionBackdrops({ desktop }) {
+  const sources = { unidades:"assets/1.jpg", modelos:"assets/12.jpg", versus:"assets/23.jpg", nosotros:"assets/26.jpg", trayectoria:"assets/32.jpg", contacto:"assets/36.jpg", local:"assets/42.jpg", opiniones:"assets/53.jpg", bd:"assets/55.jpg", "como-comprar":"assets/57.jpg", financiacion:"assets/58.jpg", operaciones:"assets/6.jpg", guia:"assets/48.jpg", equipo:"assets/56.jpg", visita:"assets/60.jpg", preguntas:"assets/62.jpg" };
+  const dark = new Set(["versus","contacto","local","bd","financiacion","guia","equipo"]);
+  const mobile = !desktop, clean = [];
+  qsa("main > section").forEach((section, index) => {
+    const src = sources[section.id]; if (!src) return;
+    section.style.position = "relative"; section.style.isolation = "isolate";
+    const layer = document.createElement("div"); layer.className = "chita-section-backdrop"; layer.setAttribute("aria-hidden", "true");
+    const shade = dark.has(section.id) ? "linear-gradient(180deg,rgba(6,17,26,.82),rgba(6,17,26,.5) 48%,rgba(6,17,26,.86))" : "linear-gradient(180deg,rgba(243,245,246,.9),rgba(243,245,246,.72) 44%,rgba(243,245,246,.92))";
+    layer.style.cssText = ["position:absolute","inset:0","z-index:-2","pointer-events:none","overflow:hidden",`background-image:${shade},url(${src})`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat",`opacity:${dark.has(section.id) ? (mobile ? .42 : .5) : (mobile ? .2 : .26)}`,"transform:scale(1.08)","transform-origin:50% 50%","will-change:transform,opacity"].join(";");
+    section.prepend(layer);
+    const tween = gsap.fromTo(layer,{yPercent:mobile?-2:-5,scale:mobile?1.1:1.14,opacity:0},{yPercent:mobile?2:5,scale:1.08,opacity:1,ease:EASE.linear,immediateRender:true,scrollTrigger:scrub(section,"top 104%","bottom -8%")});
+    clean.push(() => { tween.kill(); layer.remove(); section.style.removeProperty("position"); section.style.removeProperty("isolation"); });
+  });
+  return () => clean.forEach((fn) => fn());
+}
+
+/* MAPA · carga anticipada y visible sin depender de un clic. */
+function initMapExperience() {
+  const map = qs("#contacto .mp"), iframe = qs("#contacto .mp iframe");
+  if (!map || !iframe) return noop;
+  let observer = null, fallback = 0;
+  const reveal = () => {
+    if (!iframe.src && iframe.dataset.src) { iframe.addEventListener("load", () => map.classList.add("rd"), { once:true }); iframe.src = iframe.dataset.src; iframe.removeAttribute("data-src"); }
+    map.classList.add("rd"); fallback = window.setTimeout(() => map.classList.add("rd"), 1200);
+  };
+  const onPointer = () => reveal(); map.addEventListener("pointerdown", onPointer, { passive:true }); map.addEventListener("click", onPointer, { passive:true });
+  if ("IntersectionObserver" in window) { observer = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) { observer.disconnect(); reveal(); } }, { rootMargin:"900px 0px" }); observer.observe(map); } else window.addEventListener("load", reveal, { once:true });
+  return () => { observer?.disconnect(); window.clearTimeout(fallback); map.removeEventListener("pointerdown", onPointer); map.removeEventListener("click", onPointer); };
+}
+
 function initSeams({ desktop }) {
   const SHEET = new Set(["versus", "contacto", "financiacion", "guia", "visita"]);
   const ctx = gsap.context(() => {
@@ -660,6 +692,34 @@ function initSeams({ desktop }) {
 /* ════════════════════════════════════════════════════════════════════════════════════════
    REVELADOS · cada familia de elementos entra con su propio gesto
    ════════════════════════════════════════════════════════════════════════════════════════ */
+/* ENTRADAS DE SECCIÓN · una firma distinta por sección, siempre ligada al scroll. */
+function initSectionEntrances({ desktop }) {
+  const k = desktop ? 1 : .55;
+  const ctx = gsap.context(() => {});
+  const recipes = {
+    unidades:(s,i)=>gsap.fromTo(i,{y:120*k,rotateX:7,transformPerspective:1200},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
+    modelos:(s,i)=>gsap.fromTo(i,{x:-90*k,clipPath:"inset(0 100% 0 0)"},{x:0,clipPath:"inset(0 0% 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 42%")}),
+    versus:(s,i)=>gsap.fromTo(i,{scale:.82,rotateY:desktop?-12:0,opacity:.2,transformPerspective:1400},{scale:1,rotateY:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 32%")}),
+    nosotros:(s,i)=>gsap.fromTo(i,{y:100*k,clipPath:"inset(14% 0 0 0)"},{y:0,clipPath:"inset(0% 0 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 38%")}),
+    trayectoria:(s,i)=>gsap.fromTo(i,{x:80*k,opacity:.25},{x:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 95%","top 40%")}),
+    contacto:(s,i)=>gsap.fromTo(i,{y:70*k,scale:.96},{y:0,scale:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 38%")}),
+    local:(s,i)=>gsap.fromTo(i,{x:-70*k,skewX:desktop?-3:0},{x:0,skewX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 36%")}),
+    opiniones:(s,i)=>gsap.fromTo(i,{y:-70*k,rotateX:desktop?-8:0,transformPerspective:1000},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
+    bd:(s,i)=>gsap.fromTo(i,{scale:.7,opacity:.1,rotate:desktop?-3:0},{scale:1,opacity:1,rotate:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 102%","top 46%")}),
+    "como-comprar":(s,i)=>gsap.fromTo(i,{x:90*k,clipPath:"inset(0 0 0 100%)"},{x:0,clipPath:"inset(0 0 0 0%)",ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
+    financiacion:(s,i)=>gsap.fromTo(i,{scale:.9,y:60*k},{scale:1,y:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
+    operaciones:(s,i)=>gsap.fromTo(i,{y:90*k,rotateZ:desktop?1.6:0},{y:0,rotateZ:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 40%")}),
+    guia:(s,i)=>gsap.fromTo(i,{clipPath:"circle(10% at 50% 50%)",scale:1.12},{clipPath:"circle(76% at 50% 50%)",scale:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 40%")}),
+    equipo:(s,i)=>gsap.fromTo(i,{x:-65*k,y:55*k,opacity:.15},{x:0,y:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
+    visita:(s,i)=>gsap.fromTo(i,{y:110*k,clipPath:"inset(100% 0 0 0)"},{y:0,clipPath:"inset(0% 0 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 98%","top 42%")}),
+    preguntas:(s,i)=>gsap.fromTo(i,{scale:.94,y:45*k,opacity:.35},{scale:1,y:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 44%")})
+  };
+  ctx.add(() => {
+    qsa("main > section").forEach((section) => { const inner=qs(":scope > .w",section)||section.querySelector(":scope > .bdm"), recipe=recipes[section.id]; if(recipe&&inner) recipe(section,inner); });
+  });
+  return () => ctx.revert();
+}
+
 function initReveals({ desktop }, inertia) {
   const d = desktop ? 1 : 0.55;
   let observer = null, timer = 0;
@@ -841,7 +901,8 @@ function initParallax({ desktop }) {
     /* DÓNDE ESTAMOS · el mapa se abre como un iris y llega acercándose. */
     const map = qs("#contacto .mp");
     if (map) {
-      gsap.fromTo(map, { clipPath: "circle(14% at 50% 62%)", scale: 1.12 }, { clipPath: "circle(80% at 50% 50%)", scale: 1, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub("#contacto", "top 96%", "top 30%") });
+      gsap.fromTo(map, { clipPath: "circle(18% at 50% 62%)", scale: 1.08 }, { clipPath: "circle(82% at 50% 50%)", scale: 1, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub("#contacto", "top 98%", "top 28%") });
+      gsap.fromTo(map.querySelector(".mph"), { opacity:0, y:12 }, { opacity:1, y:0, ease:EASE.linear, immediateRender:false, scrollTrigger:scrub("#contacto", "top 92%", "top 56%") });
     }
 
     /* LOCAL · el marco del recorrido es una ventana que se abre; el fondo y la foto viajan a distinta velocidad. */
@@ -928,10 +989,9 @@ function initOdometer() {
 
 /* ════════════════════════════════════════════════════════════════════════════════════════
    MICROINTERACCIONES · botones, enlaces, tarjetas, acordeones
-   Delegación de eventos (las tarjetas se repintan con los filtros). Mouse: magnetismo, inclinación,
-   rebotes. Touch: solo feedback de presión.
+   Delegación de eventos (las tarjetas se repintan con los filtros). Sin cursor custom ni magnetismo.
+   Touch: solo feedback de presión.
    ════════════════════════════════════════════════════════════════════════════════════════ */
-const MAGNETIC = "[data-magnetic], .btn.p, nav a, .hv + .ha .btn, .vqb, footer .soc a";
 const TILT = ".oc, .pdc, .rvc, .vqb";
 const ICON = "header .ic";
 
@@ -965,83 +1025,6 @@ function initInteractions({ desktop, fine }) {
       refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 320);
     }, true);
     off.push(() => clearTimeout(refreshTimer));
-
-    if (!fine) return;
-
-    /* Magnético: el elemento sigue al puntero dentro de un radio corto, con tope y retorno elástico. */
-    const magnets = new WeakMap();
-    const magnet = (el) => {
-      if (!magnets.has(el)) magnets.set(el, { x: gsap.quickTo(el, "x", { duration: 0.6, ease: "power3.out" }), y: gsap.quickTo(el, "y", { duration: 0.6, ease: "power3.out" }), rect: null, nav: el.matches("nav a") });
-      return magnets.get(el);
-    };
-    on(document, "pointerover", (event) => { const el = closest(event, MAGNETIC); if (el) magnet(el).rect = el.getBoundingClientRect(); }, { passive: true });
-    on(document, "pointermove", (event) => {
-      const el = closest(event, MAGNETIC);
-      if (!el) return;
-      const m = magnet(el); if (!m.rect) m.rect = el.getBoundingClientRect();
-      const dx = event.clientX - (m.rect.left + m.rect.width / 2), dy = event.clientY - (m.rect.top + m.rect.height / 2);
-      const s = m.nav ? 0.18 : 0.3;
-      m.x(clamp(dx * s, -14, 14)); m.y(clamp(dy * s * 1.15, -10, 10));
-    }, { passive: true });
-    on(document, "pointerout", (event) => {
-      const el = closest(event, MAGNETIC);
-      if (!el || el.contains(event.relatedTarget)) return;
-      const m = magnet(el); m.rect = null; gsap.to(el, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, 0.42)", overwrite: "auto" });
-    }, { passive: true });
-
-    /* Botones no magnéticos: elevación corta. */
-    const plain = (event) => { const b = closest(event, ".btn"); return b && !b.matches(MAGNETIC) ? b : null; };
-    on(document, "pointerover", (event) => { const b = plain(event); if (b && !b.contains(event.relatedTarget)) gsap.to(b, { y: -2, duration: 0.4, ease: EASE.soft, overwrite: "auto" }); }, { passive: true });
-    on(document, "pointerout", (event) => { const b = plain(event); if (b && !b.contains(event.relatedTarget)) gsap.to(b, { y: 0, duration: 0.6, ease: EASE.settle, overwrite: "auto" }); }, { passive: true });
-
-    /* Tarjetas de stock: elevación + inclinación suave + la foto sigue al puntero (profundidad interior). */
-    const cardFx = new WeakMap();
-    const car = (el) => {
-      if (!cardFx.has(el)) {
-        gsap.set(el, { transformPerspective: 1000 });
-        const ct = qs(".ct", el);
-        cardFx.set(el, { rx: gsap.quickTo(el, "rotationX", { duration: 0.7, ease: "power3.out" }), ry: gsap.quickTo(el, "rotationY", { duration: 0.7, ease: "power3.out" }), ct, cx: ct && gsap.quickTo(ct, "x", { duration: 0.8, ease: "power3.out" }), cy: ct && gsap.quickTo(ct, "y", { duration: 0.8, ease: "power3.out" }) });
-      }
-      return cardFx.get(el);
-    };
-    on(document, "pointerover", (event) => {
-      const card = closest(event, ".car");
-      if (!card || card.dataset.mr || card.contains(event.relatedTarget)) return;
-      gsap.to(card, { y: -9, duration: 0.6, ease: EASE.soft, overwrite: "auto" });
-      const f = car(card); if (f.ct) gsap.to(f.ct, { scale: 1.06, duration: 0.9, ease: EASE.soft, overwrite: false });
-    }, { passive: true });
-    on(document, "pointermove", (event) => {
-      const card = closest(event, ".car");
-      if (!card || card.dataset.mr) return;
-      const r = card.getBoundingClientRect(), f = car(card);
-      const nx = (event.clientX - r.left) / r.width - 0.5, ny = (event.clientY - r.top) / r.height - 0.5;
-      f.ry(nx * 5); f.rx(ny * -4); f.cx?.(nx * -10); f.cy?.(ny * -8);
-    }, { passive: true });
-    on(document, "pointerout", (event) => {
-      const card = closest(event, ".car");
-      if (!card || card.contains(event.relatedTarget)) return;
-      const f = car(card);
-      gsap.to(card, { y: 0, rotationX: 0, rotationY: 0, duration: 0.9, ease: "elastic.out(1, 0.6)", overwrite: "auto" });
-      if (f.ct) { gsap.to(f.ct, { scale: 1, x: 0, y: 0, duration: 0.9, ease: EASE.settle, overwrite: "auto" }); }
-    }, { passive: true });
-
-    /* Operaciones / precio / reseñas / accesos del local: plano que se inclina hacia el puntero. */
-    const tilts = new WeakMap();
-    const tilt = (el) => {
-      if (!tilts.has(el)) { gsap.set(el, { transformPerspective: 900 }); tilts.set(el, { rx: gsap.quickTo(el, "rotationX", { duration: 0.7, ease: "power3.out" }), ry: gsap.quickTo(el, "rotationY", { duration: 0.7, ease: "power3.out" }) }); }
-      return tilts.get(el);
-    };
-    on(document, "pointermove", (event) => {
-      const el = closest(event, TILT);
-      if (!el) return;
-      const r = el.getBoundingClientRect(), t = tilt(el);
-      t.ry(((event.clientX - r.left) / r.width - 0.5) * 7); t.rx(((event.clientY - r.top) / r.height - 0.5) * -6);
-    }, { passive: true });
-    on(document, "pointerout", (event) => {
-      const el = closest(event, TILT);
-      if (!el || el.contains(event.relatedTarget)) return;
-      gsap.to(el, { rotationX: 0, rotationY: 0, duration: 1.1, ease: "elastic.out(1, 0.5)", overwrite: "auto" });
-    }, { passive: true });
 
     /* Foto de cada operación: zoom manejado por JS (el CSS lo anulamos porque el scrub controla transform). */
     on(document, "pointerover", (event) => {
@@ -1114,95 +1097,6 @@ function initInteractions({ desktop, fine }) {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════════════════
-   CURSOR (firma 6) · anillo con estados, estiramiento direccional y reacción a la velocidad
-   Solo mouse. El label usa los estilos del CSS existente (.motion-cursor).
-   ════════════════════════════════════════════════════════════════════════════════════════ */
-const CURSOR_TARGETS = "a, button, summary, select, input, textarea, label, [role='button'], [data-gal], .hv, .mp, .ct";
-const CURSOR_STATES = {
-  default: { scale: 0.62, label: "" },
-  link: { scale: 1, label: "↗" },
-  button: { scale: 1.05, label: "+" },
-  image: { scale: 1.9, label: "Ver" },
-  drag: { scale: 2.1, label: "Arrastrar" },
-  map: { scale: 1.9, label: "Mover" },
-  field: { scale: 0.42, label: "" }
-};
-
-function initCursor(inertia) {
-  if (!document.body) return noop;
-  const cursor = document.createElement("div");
-  cursor.className = "motion-cursor";
-  cursor.setAttribute("aria-hidden", "true");
-  cursor.innerHTML = '<span class="motion-cursor__dot"></span><span class="motion-cursor__label"></span>';
-  document.body.append(cursor);
-  root.classList.add("cur-on");
-  const dot = cursor.querySelector(".motion-cursor__dot"), label = cursor.querySelector(".motion-cursor__label");
-
-  const view = { base: CURSOR_STATES.default.scale, stretch: 0, angle: 0 };
-  let visible = false, pressed = false, current = "default", lastX = 0, lastY = 0;
-  const off = [];
-  const ctx = gsap.context(() => {});
-  ctx.add(() => {
-    gsap.set(cursor, { xPercent: -50, yPercent: -50, opacity: 0 });
-    const x = gsap.quickTo(cursor, "x", { duration: 0.28, ease: "power3.out" });
-    const y = gsap.quickTo(cursor, "y", { duration: 0.28, ease: "power3.out" });
-    const setDot = gsap.quickSetter(dot, "css");
-
-    /* Un solo ticker compone escala de estado + estiramiento por movimiento + estiramiento por scroll. */
-    const paint = () => {
-      const sv = Math.abs(inertia?.state.v || 0);
-      const scrollStretch = clamp(sv / 38, 0, 0.5);
-      const s = view.base * (pressed ? 0.8 : 1);
-      setDot({ rotation: view.angle, scaleX: s * (1 + view.stretch), scaleY: s * (1 - view.stretch * 0.45 + scrollStretch) });
-      view.stretch *= 0.86;
-    };
-    gsap.ticker.add(paint);
-    off.push(() => gsap.ticker.remove(paint));
-
-    const apply = (name) => {
-      const s = CURSOR_STATES[name];
-      gsap.to(view, { base: s.scale, duration: 0.5, ease: "back.out(1.6)", overwrite: "auto" });
-      label.textContent = s.label;
-      cursor.dataset.state = name;
-    };
-    const set = (name) => { if (name === current) return; current = name; apply(name); };
-
-    const move = (event) => {
-      if (!visible) { visible = true; gsap.set(cursor, { x: event.clientX, y: event.clientY }); lastX = event.clientX; lastY = event.clientY; gsap.to(cursor, { opacity: 1, duration: 0.3 }); }
-      x(event.clientX); y(event.clientY);
-      const dx = event.clientX - lastX, dy = event.clientY - lastY;
-      const speed = Math.hypot(dx, dy);
-      if (speed > 1.5) { view.angle = Math.atan2(dy, dx) * 180 / Math.PI; view.stretch = Math.max(view.stretch, clamp(speed / 70, 0, 0.42)); }
-      lastX = event.clientX; lastY = event.clientY;
-    };
-    const over = (event) => {
-      const t = event.target.closest?.(CURSOR_TARGETS);
-      if (!t) return set("default");
-      if (t.matches("input, textarea, select, label")) return set("field");
-      if (t.matches(".hv")) return set("drag");
-      if (t.matches(".ct, [data-gal]")) return set("image");
-      if (t.matches(".mp")) return set("map");
-      if (t.matches("button, [role='button'], summary, .btn")) return set("button");
-      set("link");
-    };
-    const down = () => { pressed = true; };
-    const up = () => { pressed = false; };
-    const leave = () => { visible = false; gsap.to(cursor, { opacity: 0, duration: 0.25 }); };
-    document.addEventListener("pointermove", move, { passive: true });
-    document.addEventListener("pointerover", over, { passive: true });
-    document.addEventListener("pointerdown", down, { passive: true });
-    document.addEventListener("pointerup", up, { passive: true });
-    root.addEventListener("mouseleave", leave, { passive: true });
-    off.push(() => {
-      document.removeEventListener("pointermove", move); document.removeEventListener("pointerover", over);
-      document.removeEventListener("pointerdown", down); document.removeEventListener("pointerup", up);
-      root.removeEventListener("mouseleave", leave);
-    });
-  });
-  return () => { off.forEach((fn) => fn()); ctx.revert(); root.classList.remove("cur-on"); cursor.remove(); };
-}
-
-/* ════════════════════════════════════════════════════════════════════════════════════════
    ARRANQUE · gsap.matchMedia decide qué corre en cada contexto y revierte todo al cambiar
    ════════════════════════════════════════════════════════════════════════════════════════ */
 function initMotion() {
@@ -1224,11 +1118,13 @@ function initMotion() {
       home ? initBanner(flags) : null,
       home ? initTypography(flags, inertia) : null,
       home ? initSeams(flags) : null,
+      home ? initSectionEntrances(flags) : null,
       home ? initReveals(flags, inertia) : null,
       home ? initParallax(flags) : null,
+      home ? initSectionBackdrops(flags) : null,
+      home ? initMapExperience() : null,
       home ? initOdometer() : null,
-      initInteractions(flags),
-      fine && desktop ? initCursor(inertia) : null
+      initInteractions(flags)
     ];
     ScrollTrigger.sort();
 
