@@ -402,3 +402,56 @@ html body :is(#contacto,#local,#guia,#catalogo-comparador) .btn:not(.p):hover{ba
  html body #opiniones .rvh,html body #opiniones .rvh *{text-align:left!important}
  html body #opiniones .rvr{justify-content:flex-start!important;display:flex;flex-wrap:wrap;gap:10px}
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v7 · "EL SELLO"  — el talonario completo
+   Idea  La página es un talonario de remitos de entrega. Cada sección es un talón que se corta por la
+         perforación; cada entrega real recibe su sello. Todo sale de lo que ya existe en el local: papel, chapa, columnas.
+   MOTION  tres verbos, un solo easing:
+     CORTE   (revelar)   barrido diagonal clip-path · .7 s · cubic-bezier(.7,0,.2,1)      → --ease
+     SELLO   (confirmar) golpe: entra grande y se asienta con rebote mínimo · .42 s       → --ease-i
+     RIEL    (scroll)    deriva lineal ligada al scroll (numerales, cinta, hero)          → linear
+   Sin fade-up. Solo transform / scale / rotate / opacity / clip-path.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+:root{--ease-i:cubic-bezier(.2,.9,.1,1);--d-sello:.42s}
+::selection{background:var(--rojo);color:#fff}
+html{scrollbar-color:var(--rojo) var(--ink)}
+/* — LA PERFORACIÓN — */
+.pf{position:absolute;left:0;right:0;top:0;height:12px;z-index:3;pointer-events:none;background:radial-gradient(circle at 50% 0,var(--pv,#ECEDEA) 0 6px,transparent 6.7px) 0 0/26px 12px repeat-x}
+main>section>.tl{top:12px}
+@media(max-width:899px){.pf{height:9px;background-size:20px 9px;background-image:radial-gradient(circle at 50% 0,var(--pv,#ECEDEA) 0 4.5px,transparent 5.2px)}main>section>.tl{top:9px}}
+/* — EL SELLO — */
+@keyframes sello{0%{opacity:0;scale:2.1;rotate:-16deg}58%{opacity:1;scale:.93;rotate:calc(var(--r,-6deg) + 1deg)}100%{opacity:1;scale:1;rotate:var(--r,-6deg)}}
+.sl{position:absolute;right:12px;bottom:12px;z-index:5;display:block;padding:.55em 1em .55em .85em;font:800 clamp(10px,.95vw,14px)/1 var(--font-display);letter-spacing:.22em;text-transform:uppercase;color:var(--rojo);background:rgba(255,255,255,.94);box-shadow:inset 0 0 0 3px var(--rojo);clip-path:var(--cut-sm);rotate:-6deg;pointer-events:none;transform-origin:50% 50%}
+html body .eg li:nth-child(1) .sl{right:18px;bottom:18px;font-size:clamp(13px,1.5vw,22px);padding:.6em 1.1em .6em .95em}
+.cj .eg:not(.st) .sl{opacity:0;scale:2.1;rotate:-16deg}
+.cj .eg.st .sl{animation:sello var(--d-sello) var(--ease-i) calc(var(--i)*85ms + 140ms) both}
+@media(max-width:899px){.sl{right:8px;bottom:8px;font-size:9.5px;letter-spacing:.16em;box-shadow:inset 0 0 0 2px var(--rojo)}html body .eg li:nth-child(1) .sl{font-size:12px}}
+/* el 4,7 de Google también se estampa al terminar la carga */
+.m .hx-proof{--r:0deg;animation:sello var(--d-sello) var(--ease-i) 2.5s both}
+/* — EL TALÓN: las declaraciones dejan de ser frases centradas — */
+html body :is(#financiacion,#guia,#visita) .w>.xt{max-width:none!important;width:100%;align-items:flex-start;text-align:left;position:relative;padding:calc(var(--xa,64px)*.55) clamp(64px,7vw,120px) clamp(28px,4vw,64px) clamp(18px,3vw,48px);border-left:10px solid var(--rojo);margin:0}
+html body #financiacion .w>.xt{border-left-color:var(--ink)}
+html body :is(#financiacion,#guia,#visita) .xt .xr{display:none}
+html body :is(#financiacion,#guia,#visita) .xt .xk{margin:0 0 clamp(14px,2vw,26px);color:#fff!important}
+html body :is(#financiacion,#guia,#visita) .xt .xl{font:800 clamp(30px,5.4vw,92px)/.98 var(--font-display)!important;text-transform:uppercase!important;letter-spacing:-.028em!important;max-width:15em;text-align:left;text-shadow:none!important;margin:0;text-wrap:balance;color:rgba(255,255,255,.62)}
+html body :is(#financiacion,#guia,#visita) .xt .xl em{font-style:normal;color:#fff!important}
+html body #financiacion .xt .xl{color:rgba(255,255,255,.86)}
+html body #financiacion .xt .xl em{color:var(--ink)!important}
+html body :is(#financiacion,#guia,#visita) .xt::after{content:"TALÓN N° " counter(s,decimal-leading-zero);position:absolute;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;width:clamp(44px,5vw,76px);writing-mode:vertical-rl;border-left:3px dashed currentColor;font:800 11px/1 var(--font-display);letter-spacing:.34em;color:#fff;opacity:.9;pointer-events:none}
+html body #financiacion .xt::after{color:var(--ink)}
+@media(max-width:899px){
+ html body :is(#financiacion,#guia,#visita) .w>.xt{padding:34px 16px 28px 18px;border-left-width:8px}
+ html body :is(#financiacion,#guia,#visita) .xt .xl{font-size:clamp(28px,8.6vw,48px)!important;max-width:100%}
+ html body :is(#financiacion,#guia,#visita) .xt::after{right:auto;left:0;top:auto;bottom:0;width:100%;height:auto;writing-mode:horizontal-tb;border-left:0;border-top:3px dashed currentColor;padding-top:10px;justify-content:flex-start;letter-spacing:.24em}
+ html body :is(#financiacion,#guia,#visita) .w>.xt{padding-bottom:58px}
+}
+/* — EL CURSOR — */
+.cu{position:fixed;left:0;top:0;z-index:80;pointer-events:none;will-change:transform}
+.cu b{display:block;margin:20px 0 0 20px;padding:9px 16px 9px 1.9em;background:var(--plate);color:var(--ink);font:800 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;clip-path:var(--cut-sm);box-shadow:inset 0 0 0 2px var(--ink);white-space:nowrap;opacity:0;scale:.6;transform-origin:0 0;transition:opacity .22s var(--ease),scale .34s var(--ease-i)}
+.cu.on b{opacity:1;scale:1}
+html body :is(.hx-btn,.btn){transition:background var(--t) var(--ease),color var(--t) var(--ease),translate .3s var(--ease-i)}
+/* — limpieza de capas heredadas — */
+html body main>section :is(h2,h3,p,li,summary,span,small){text-shadow:none}
+@media(max-width:899px){html body .hx-copy .hx-logo{display:none!important}html body .hx-copy{padding-top:22px}}
+@media(prefers-reduced-motion:reduce){.sl{opacity:1;scale:1;rotate:-6deg;animation:none}.m .hx-proof{animation:none}.cu{display:none}.pf{display:block}}

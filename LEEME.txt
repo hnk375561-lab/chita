@@ -1,4 +1,9 @@
-CHITA v6 — reemplazar en el repo (misma ruta):
+CHITA v7 — reemplazar en el repo (misma ruta):
   css/identidad.css
   js/identidad.js
-No tocar nada más. Sin dependencias nuevas. Reemplazo 100 %: cada archivo incluye todo lo anterior (v3, v4, v5) + v6.
+  docs/IDENTIDAD.md
+  LEEME.txt
+No tocar nada más (index.html, motion.js y site.css quedan igual). Sin dependencias nuevas.
+Reemplazo 100 %: cada archivo incluye todo lo anterior (v3 a v6) + v7.
+Probar: npm run dev  ->  http://localhost:8080   ·   npm test
+Para volver atrás: restaurar los archivos anteriores desde git.
