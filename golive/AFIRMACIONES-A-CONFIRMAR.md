@@ -165,3 +165,8 @@ Precios: todos "Consultar". El validador falla si aparece otro valor sin confirm
 ## Equipo: quiénes atienden (2026-09-30)
 - "Chita Automotores · Dueño": rol indicado por quien arma la demo (el nombre ya es el de la agencia). **PENDIENTE: confirmar con el dueño que figure así.**
 - Segunda persona: "Nombre a confirmar · Empleado" es un marcador. **PENDIENTE: completar con el nombre real y su rol, o quitar la fila antes de salir a producción.** No se identificó a nadie en la foto del local.
+
+
+## Fechas de consulta retiradas del texto público (4/10/2026)
+
+Se quitó de `index.html` el meta-copy de verificación. Registro de respaldo, todo consultado el 2/10/2026: valoración de Google (4,7 de 5, 45 reseñas), paradas de colectivo según Moovit y mensaje de financiación según el Instagram de Chita. Se eliminó también la frase «Este sitio no incluye simulador de cuotas».
