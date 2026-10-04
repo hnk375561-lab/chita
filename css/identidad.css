@@ -826,3 +826,108 @@ html body #visita .vvid::before{content:"";position:absolute;left:0;top:0;bottom
 html body #visita .vvid .vv-b{left:22px;right:auto;top:12px;bottom:auto}
 html body #visita .vvid video{display:block;width:100%;height:auto}
 html body #visita .vvid figcaption{padding:10px 14px 12px 22px;background:var(--ink);color:#fff;font:700 12px/1.3 var(--font-display);letter-spacing:.1em;text-transform:uppercase}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v18 · FICHA: el dato sin completar es un renglón en blanco (no una nota de borrador)
+   Antes   «Km: Consultar» + nota «Kilometraje a confirmar con la agencia» (voz de auditoría en la web pública).
+   Ahora   renglón punteado en blanco con «Se completa con la agencia»; sin dato inventado.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #dlg .fcd dd.bl{display:block;min-height:1.1em;margin-top:10px;padding-bottom:3px;border-bottom:2px dotted rgba(255,255,255,.55);color:var(--plata)!important;font:700 11px/1.2 var(--font-display)!important;letter-spacing:.12em;text-transform:uppercase}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v19 · FICHA: carril de km (cada unidad es una pista)
+   Qué es   barra = kilometraje de la unidad frente al máximo de las unidades publicadas (datos de STOCK, nada inventado).
+   Cómo     la línea de partida es la columna roja; el número gira hasta el km real al abrir (sin movimiento si hay reduced-motion).
+   Después  el mismo componente (.kl) se reutiliza en Comparador y Viaje.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #dlg .kl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:end;margin:14px 0 0;padding:14px 16px 14px 22px;position:relative;background:var(--paper);color:var(--ink);border:2px solid var(--ink);clip-path:var(--cut);--c:18px}
+html body #dlg .kl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--rojo)}
+html body #dlg .kl-t{grid-column:1/-1;font:700 11px/1.2 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+html body #dlg .kl-r{grid-column:1/-1;display:block;height:14px;background:repeating-linear-gradient(90deg,rgba(10,16,32,.28) 0 2px,transparent 2px 10%);border-bottom:2px solid var(--ink);position:relative}
+html body #dlg .kl-r i{display:block;height:100%;width:0;background:var(--chapa);clip-path:polygon(0 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:width .9s var(--ease)}
+html body #dlg .kl-n{grid-column:1/-1;font:800 clamp(18px,1.8vw,26px)/1.1 var(--font-display);letter-spacing:-.01em}
+html body #dlg .kl-n b{font-variant-numeric:tabular-nums}
+html body #dlg .kl-n small{font:600 12px/1.3 var(--font-display);letter-spacing:.04em;color:rgba(10,16,32,.7)}
+html body #dlg .kl.nd .kl-r{background:none;border-bottom:2px dotted var(--ink)}
+html body #dlg .kl.nd .kl-n{font:700 12px/1.3 var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:rgba(10,16,32,.7)}
+@media(prefers-reduced-motion:reduce){html body #dlg .kl-r i{transition:none}}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v20 · COMPARADOR: km como carriles, lo desconocido en una sola línea, fuera el cian
+   Antes   hereda el tema «lujo» de site.css (cian, degradados, píldoras, círculos) y se lee como una sola sección con Modelos.
+   Ahora   papel + tinta (Modelos queda oscuro, el ritmo se corta); cada tarjeta es una pista con la columna roja como partida.
+   Datos   los mismos de STOCK; «Sin informar» agrupa lo que no consta en la nota de la unidad. Nada inventado.
+   Motion  SELLO: las barras y los odómetros arrancan escalonados (85 ms); sin movimiento con reduced-motion (se hace en JS).
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #versus.vs{background:var(--paper)!important;color:var(--ink)}
+html body #versus .head h2,html body #versus .vsh{color:var(--ink)}
+html body #versus .sub,html body #versus .vdn,html body #versus .vl{color:rgba(10,16,32,.75)}
+html body #versus .vde{color:var(--ink)!important}
+html body #versus .vp{background:none!important;padding:0!important;margin-top:26px}
+html body #versus .vdp{border:2px solid var(--ink);border-radius:0;background:#fff;color:var(--ink);clip-path:var(--cut-sm)}
+html body #versus .vdp small{color:rgba(10,16,32,.7)}
+html body #versus .vdp img{filter:none}
+html body #versus .vdp:hover{background:var(--paper);border-color:var(--rojo);transform:none}
+html body #versus .vdp[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+html body #versus .vdp[aria-pressed=true] small{color:var(--plata)}
+html body #versus .vdp[aria-pressed=true]::after{border-radius:0;background:var(--rojo);color:#fff}
+html body #versus .vdp:focus-visible,html body #versus .vda .btn:focus-visible{outline:3px solid var(--rojo);outline-offset:3px}
+html body #versus .vdc{position:relative;background:#fff;color:var(--ink);border:2px solid var(--ink);border-left:10px solid var(--rojo);box-shadow:none;clip-path:var(--cut);--c:26px}
+html body #versus .vdi{background:var(--ink)}
+html body #versus .vdi::after{display:none}
+html body #versus .vdb i{background:var(--rojo);color:#fff;border-radius:0;font:800 11px/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase;padding:6px 10px}
+html body #versus .vdh h3{color:var(--ink);font:800 clamp(22px,2.1vw,30px)/1.05 var(--font-display);letter-spacing:-.015em}
+html body #versus .vdh p{color:rgba(10,16,32,.7)}
+html body #versus .vdm>div{border-bottom:2px dashed rgba(10,16,32,.25)}
+html body #versus .vdm dt{color:var(--ink);font:700 11px/1.2 var(--font-display);letter-spacing:.14em}
+html body #versus .vdm dt small{color:rgba(10,16,32,.65);font:600 11px/1.2 var(--font-display);letter-spacing:.04em}
+html body #versus .vdm dd b{color:var(--ink);font:800 clamp(26px,2.4vw,34px)/1 var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+html body #versus .vdm .win dd b{color:var(--rojo)}
+html body #versus .vbr{height:12px;margin-top:9px;background:repeating-linear-gradient(90deg,rgba(10,16,32,.3) 0 2px,transparent 2px 10%);border-bottom:2px solid var(--ink)}
+html body #versus .vbr u{background:var(--chapa);clip-path:polygon(0 0,100% 0,calc(100% - 9px) 100%,0 100%);transition:width .9s var(--ease)}
+html body #versus .vdm .win .vbr u{background:var(--rojo)}
+html body #versus .vdm dd.bl{margin-top:10px;padding-bottom:3px;border-bottom:2px dotted var(--ink);font:700 11px/1.2 var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:rgba(10,16,32,.7)}
+html body #versus .vdq .vdt{color:var(--ink);font:700 11px/1.2 var(--font-display);letter-spacing:.14em;text-transform:uppercase}
+html body #versus .vdq li{color:var(--ink)}
+html body #versus .vdq li span{border-radius:0;background:var(--chapa);color:#fff}
+html body #versus .vdz{margin:10px 0 4px;padding-top:8px;border-top:2px dotted rgba(10,16,32,.4);font:600 12.5px/1.35 var(--font-display);color:rgba(10,16,32,.7)}
+html body #versus .vda .btn{border:2px solid var(--ink);color:var(--ink);background:transparent;border-radius:0}
+html body #versus .vda .btn:hover{background:var(--paper);color:var(--ink);border-color:var(--ink)}
+html body #versus .vda .btn.p{background:var(--rojo);border-color:var(--rojo);color:#fff}
+html body #versus .vda .btn.p:hover{background:var(--ink);border-color:var(--ink);color:#fff}
+html body #versus .vdy{color:rgba(10,16,32,.7)}
+@media(prefers-reduced-motion:reduce){html body #versus .vbr u{transition:none}}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v21 · MODELOS: tablero de salidas (columnas N.º · MODELO · AÑO · KM · FOTOS)
+   Antes   lista numerada con una línea de texto y frases instructivas («Pasá el mouse sobre…»).
+   Ahora   columnas reales con encabezado de hardware; la fila activa voltea sus dígitos (320–560 ms, escalonado).
+   Datos   los de STOCK; la cantidad de fotos es dato real. Modelos = índice; Unidades = vitrina.
+   Móvil   sin encabezado: cada fila vuelve a ser nombre + una línea «año · km · fotos».
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #modelos{--mc:56px minmax(0,1fr) 54px clamp(76px,7vw,92px) 42px;--mg:clamp(8px,1vw,14px)}
+html body #mdl a{column-gap:var(--mg)!important}
+html body #modelos .mdcols{display:grid;grid-template-columns:var(--mc);column-gap:var(--mg);padding:0 clamp(8px,1vw,16px) 8px;font:800 11px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--plata)}
+html body #modelos .mdcols span:nth-child(n+3){text-align:right}
+html body #mdl a{grid-template-columns:var(--mc)!important}
+html body #mdl a::before{min-width:0}
+html body #mdl b{grid-row:1/span 2;align-self:center}
+html body #mdl small{display:contents}
+html body #mdl small span{grid-row:1/span 2;grid-column:auto;align-self:center;text-align:right;font:800 clamp(15px,1.5vw,22px)/1 var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:-.01em;color:#fff;white-space:nowrap}
+html body #mdl .mdv{display:none!important}
+html body #mdl small .mc-a{grid-column:3}
+html body #mdl small .mc-k{grid-column:4}
+html body #mdl small .mc-f{grid-column:5;color:var(--plata)}
+html body #mdl a:is(:hover,:focus-visible,.act) small .mc-f{color:#fff}
+@media(max-width:699px){
+ html body #modelos .mdcols{display:none}
+ html body #mdl a{grid-template-columns:auto minmax(0,1fr)!important}
+ html body #mdl b{grid-row:auto}
+ html body #mdl small{display:flex;grid-column:2;gap:14px;margin-top:6px}
+ html body #mdl small span,html body #mdl small .mc-a,html body #mdl small .mc-k,html body #mdl small .mc-f{grid-column:auto;grid-row:auto;text-align:left;font:700 13px/1.2 var(--font-display);color:var(--plata)}
+ html body #mdl small .mc-k::after{content:" km"}
+ html body #mdl small .mc-k.nd::after{content:none}
+ html body #mdl small .mc-f::after{content:" fotos"}
+ html body #mdl a:is(:hover,:focus-visible,.act) small span{color:#fff}
+}
+
