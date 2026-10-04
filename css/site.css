@@ -1420,3 +1420,39 @@ main>.hero.hx{grid-template-columns:minmax(380px,.7fr) minmax(0,1.3fr);height:cl
 
 .hx-pause{width:auto;padding:0 10px;font-size:12px}.fs2-toggle{position:absolute;right:10px;bottom:10px;z-index:4;min-height:36px;padding:0 10px;border:1px solid #fff;background:#06111a;color:#fff;cursor:pointer;font:600 12px var(--b)}
 .ent .rt{margin:clamp(24px,4vw,40px) 0 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 28px}.ent .rts{margin:0;font-size:17px;line-height:1.4}.ent .rst{color:#f5b83d;letter-spacing:.1em;margin-right:6px}.ent .rtb{display:flex;flex-wrap:wrap;gap:12px}#visita .vvid{margin:clamp(24px,4vw,40px) auto 0;max-width:300px}#visita .vvid video{display:block;width:100%;height:auto;aspect-ratio:9/16;border-radius:10px;background:#06111a}#visita .vvid figcaption{margin-top:10px;font-size:15px;line-height:1.4;text-align:center;color:var(--ink)}
+
+/* ===== Correcciones visuales (revisión de capturas, oct. 2026) ===== */
+/* Entregas: prueba social legible sobre fondo oscuro y segundo botón visible */
+#entregas .rts,#entregas .rts strong{color:#fff;letter-spacing:0}
+#entregas .rts strong{font-weight:700}
+#entregas .rtb .btn{min-height:48px}
+#entregas .rtb .btn.p{background:var(--lux);border-color:var(--lux);color:var(--deep)}
+#entregas .rtb .btn:not(.p){background:transparent;border-color:rgba(255,255,255,.7);color:#fff}
+#entregas .rtb .btn:not(.p):hover,#entregas .rtb .btn:not(.p):focus-visible{background:#fff;border-color:#fff;color:var(--deep)}
+
+/* Unidades: el contador de fotos no tapa los textos grabados arriba de cada foto */
+#unidades .g-c{top:auto;right:12px;bottom:22px}
+
+/* Modelos: títulos legibles, "Ver ficha" con contraste y tarjeta de vista previa sin solapes */
+.modelos-panel .mdl a:not(.act) b{color:#c3d1d8}
+.modelos-panel .mdl a.act b{color:#fff}
+.modelos-panel .mdl .mdv{color:var(--luxl)}
+.modelos-panel .mdf{aspect-ratio:auto;min-height:clamp(460px,34vw,560px)}
+.modelos-panel .mdth{top:20px;right:20px}
+.modelos-panel .mdpt{left:26px;right:26px;bottom:26px}
+.modelos-panel .mdpt b{font-size:clamp(26px,2.3vw,36px)}
+.mdp::before{background:linear-gradient(180deg,rgba(6,17,26,.15),transparent 22%,rgba(6,17,26,.94) 58%)}
+
+/* Comparador: tarjetas con ancho suficiente; el equipamiento no se corta */
+.vdq ul{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.vdq li{min-width:0;overflow-wrap:anywhere}
+.vdq .vdt{gap:12px;flex-wrap:nowrap}.vdq .vdt b{white-space:nowrap}
+.vdm dt{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline}.vdm dt small{margin-left:0}
+@media(min-width:900px) and (max-width:1799px){
+  .catalogo-comparador{display:block}
+  .modelos-panel{border-right:0;border-bottom:1px solid #284452}
+  .catalogo-panel .w{width:min(100% - 64px,1180px)}
+}
+@media(min-width:1800px){.vdq ul{grid-template-columns:minmax(0,1fr)}}
+/* Odómetro de "Quiénes somos": los dígitos animados no heredan el estilo de la etiqueta (<span> bajo .ns) */
+#nosotros .ns b span{font:inherit;letter-spacing:inherit;text-transform:none;color:inherit}

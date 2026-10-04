@@ -797,7 +797,7 @@ function initParallax({ desktop }) {
     }
     /* Las tres líneas (Usados / Permutas / Consignaciones) se destapan con un wipe controlado por el scroll. */
     qsa("#nosotros .pl > div").forEach((row) => {
-      gsap.fromTo(row, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(row, "top 94%", "top 68%") });
+      gsap.fromTo(row, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(row, "top 98%", "top 86%") });
     });
 
     /* TRAYECTORIA · cada hito se destapa con el scroll y su año se desliza desde la izquierda. */
@@ -1056,7 +1056,7 @@ function initSceneChoreography({ desktop }) {
     /* Nosotros: máscara vertical de la fotografía + tres líneas con velocidades escalonadas. */
     scene("nosotros", (s) => {
       imgDrift(s, ".ph img", { scale: 1.18, yPercent: -8 * k }, { scale: 1.04, yPercent: 8 * k }, "top bottom", "bottom top");
-      qsa(".pl > div", s).forEach((row, i) => gsap.fromTo(row, { x: (i - 1) * 18 * k, clipPath: "inset(0 100% 0 0)" }, { x: (1 - i) * 8 * k, clipPath: "inset(0 0% 0 0)", ease: EASE.linear, scrollTrigger: scrubScene(s, "top 84%", "bottom 28%") }));
+      /* Las filas ya se destapan con su propio wipe (arriba); no se vuelven a recortar ni a desplazar aquí. */
     });
     /* Trayectoria: el registro se lee como una línea que avanza, no como una entrada vertical. */
     scene("trayectoria", (s) => {

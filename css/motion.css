@@ -18,5 +18,5 @@ main>section>.w,main>section>.ops,main>section>.fm,main>section>.bqp,main>.hero>
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.mh header .w>*,.mh .hero :is(.hx-logo,.hx-h1,.hx-lead,.hx-go,.hx-info){visibility:visible}main>.hero,main>section{background-attachment:scroll!important}}
 
 /* Secciones en color sólido (sin foto de fondo). El resto de las secciones lleva foto desde js/motion.js. */
-#unidades,#modelos,#trayectoria,#como-comprar,#operaciones,#equipo,#preguntas{background:#f3f5f6!important;background-image:none!important;color:var(--ink)}
+#unidades,#trayectoria,#como-comprar,#operaciones,#equipo,#preguntas{background:#f3f5f6!important;background-image:none!important;color:var(--ink)}
 #local{background:#06111a!important;background-image:none!important;color:#fff}
