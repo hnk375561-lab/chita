@@ -1,0 +1,6 @@
+CHITA · PASO 1 · Entregas (3 archivos, misma ruta que en el repo; reemplazar)
+  index.html          (solo la sección #entregas: data-m en las 12 fotos + talón 13)
+  css/identidad.css   (bloque v16 agregado AL FINAL; no se borró nada de lo anterior)
+  js/identidad.js     (1 línea: el cursor dice «Entrega E·07 · Yaris»)
+Probar: npm run dev -> http://localhost:8080  ·  npm test
+Volver atrás: restaurar los 3 archivos desde git.

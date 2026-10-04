@@ -89,7 +89,7 @@ if(RM||!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
 var cu=d.createElement("div");cu.className="cu";cu.setAttribute("aria-hidden","true");cu.innerHTML="<b></b>";d.body.appendChild(cu);
 var lb=cu.firstChild,x=-99,y=-99,tx=-99,ty=-99,raf=0,txt="",mg=null,T=".car,.eg li,.hx-reel,.oc";
 function say(t){var e=t&&t.closest?t.closest(T):null,s="";
- if(e){if(e.matches(".car"))s="Ver ficha";else if(e.matches(".eg li"))s="Entrega E·"+("0"+([].indexOf.call(e.parentNode.children,e)+1)).slice(-2);else if(e.matches(".oc"))s="Consultar";else s="Recorrido"}
+ if(e){if(e.matches(".car"))s="Ver ficha";else if(e.matches(".eg li"))s="Entrega E·"+("0"+([].indexOf.call(e.parentNode.children,e)+1)).slice(-2)+(e.getAttribute("data-m")?" · "+e.getAttribute("data-m"):"");else if(e.matches(".oc"))s="Consultar";else s="Recorrido"}
  if(s!==txt){txt=s;if(s)lb.textContent=s;cu.classList.toggle("on",!!s)}}
 function loop(){raf=0;x+=(tx-x)*.24;y+=(ty-y)*.24;cu.style.transform="translate3d("+x.toFixed(1)+"px,"+y.toFixed(1)+"px,0)";if(Math.abs(tx-x)>.4||Math.abs(ty-y)>.4)raf=requestAnimationFrame(loop)}
 function mag(t,px,py){var b=t&&t.closest?t.closest(".btn,.hx-btn"):null;

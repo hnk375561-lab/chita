@@ -690,3 +690,45 @@ html body #operaciones .stp li{counter-increment:p;display:grid!important;grid-t
 html body #operaciones .stp li:last-child{border-bottom:2px dashed var(--ink)}
 html body #operaciones .stp li::before{content:"P·" counter(p,decimal-leading-zero)!important;display:block!important;width:auto!important;height:auto!important;margin:2px 0 0!important;padding:.5em .9em .5em .7em;transform:none!important;outline:0!important;background:var(--ink)!important;color:#fff!important;font:800 11px/1 var(--font-display)!important;letter-spacing:.16em;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%)}
 html body #operaciones .stp li b{font:800 clamp(16px,1.4vw,20px)/1.1 var(--font-display);text-transform:uppercase;display:block;margin-bottom:.3em}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v16 · ENTREGAS: foto sin recortar, rótulo con el modelo, talón N.º 13
+   Problema  las 12 fotos son apaisadas (340×285) y la pared de remitos (v5) las metía en celdas de otra
+             proporción (la grande, 483×538): se cortaba un cuarto del ancho, justo donde están las personas.
+   Ahora     cada celda tiene la proporción de la foto (340/285): no se recorta a nadie. Como la fuente mide
+             340 px, ninguna celda de escritorio pasa de ~1,0×; solo en móvil chico una foto ocupa dos columnas.
+   Rótulo    «E·07 · Yaris» (modelo tomado de data-m, verificado contra el alt de cada foto). El cursor lo repite.
+   Sello     «Entregado» pasa arriba a la izquierda para no chocar con el rótulo (que ahora es más largo).
+   Talón 13  el talón en blanco: «El próximo es el tuyo» → #busco (Contanos qué auto buscás). Sin datos nuevos.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #entregas .eg{grid-template-columns:repeat(12,minmax(0,1fr))!important;grid-auto-rows:auto!important;grid-auto-flow:row;align-items:start;gap:clamp(10px,1.2vw,16px)!important;padding-bottom:clamp(12px,1.6vw,24px)}
+html body #entregas .eg li,html body #entregas .eg li:nth-child(n){grid-column:span 3;grid-row:auto;aspect-ratio:340/285!important;height:auto;--c:22px}
+html body #entregas .eg li:nth-child(even){transform:translateY(clamp(8px,1.4vw,22px))!important}
+html body #entregas .eg li img{object-fit:cover;object-position:50% 50%}
+html body #entregas .eg li:nth-child(1)::before{display:none}
+/* rótulo: E·NN · Modelo */
+html body #entregas .eg li::after,html body #entregas .eg li:nth-child(1)::after{padding:7px 14px 7px 9px;font-size:clamp(11px,1vw,13px);max-width:calc(100% - 14px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase}
+html body #entregas .eg li[data-m]::after,html body #entregas .eg li[data-m]:nth-child(1)::after{content:"E·" counter(e,decimal-leading-zero) " · " attr(data-m)}
+/* sello arriba a la izquierda (el rótulo ocupa el pie) */
+html body #entregas .eg li .sl,html body #entregas .eg li:nth-child(1) .sl{left:10px;top:10px;right:auto;bottom:auto;font-size:clamp(9px,.8vw,12px);padding:.55em .95em .55em .8em;box-shadow:inset 0 0 0 2px var(--rojo)}
+/* talón N.º 13 */
+.eg-next{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:clamp(14px,2.4vw,36px);margin:clamp(14px,2vw,28px) 0 0;padding:clamp(18px,2.4vw,32px) clamp(18px,2.6vw,40px);border:3px dashed rgba(255,255,255,.8);color:#fff;text-decoration:none;clip-path:var(--cut);--c:clamp(22px,3vw,44px);transition:background .5s var(--ease),color .5s var(--ease)}
+.eg-next .egn-n{display:inline-block;padding:8px 14px;font:800 13px/1 var(--font-display);letter-spacing:.14em;box-shadow:inset 0 0 0 2px currentColor;clip-path:var(--cut-sm)}
+.eg-next .egn-t{font:800 clamp(26px,4.2vw,64px)/.95 var(--font-display);letter-spacing:-.025em;text-transform:uppercase}
+.eg-next .egn-t em{font-style:normal;display:inline-block;padding:.04em .3em .06em .22em;margin-left:.1em;background:var(--rojo);color:#fff;clip-path:var(--cut-sm)}
+.eg-next .egn-c{font:800 clamp(12px,1.05vw,15px)/1.2 var(--font-display);letter-spacing:.1em;text-transform:uppercase;text-align:right}
+.eg-next:hover,.eg-next:focus-visible{background:var(--paper);color:var(--ink)}
+.eg-next:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@media(max-width:899px){
+ html body #entregas .eg{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ html body #entregas .eg li,html body #entregas .eg li:nth-child(n){grid-column:span 1;grid-row:auto}
+ html body #entregas .eg li:nth-child(even){transform:none!important}
+ html body #entregas .eg{padding-bottom:0}
+ .eg-next{grid-template-columns:1fr;justify-items:start}
+ .eg-next .egn-c{text-align:left}
+}
+@media(max-width:599px){
+ html body #entregas .eg{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html body #entregas .eg li:nth-child(1),html body #entregas .eg li:nth-child(8){grid-column:span 2}
+}
+@media(prefers-reduced-motion:reduce){.eg-next{transition:none}}
