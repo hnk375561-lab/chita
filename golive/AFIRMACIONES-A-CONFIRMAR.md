@@ -170,3 +170,11 @@ Precios: todos "Consultar". El validador falla si aparece otro valor sin confirm
 ## Fechas de consulta retiradas del texto público (4/10/2026)
 
 Se quitó de `index.html` el meta-copy de verificación. Registro de respaldo, todo consultado el 2/10/2026: valoración de Google (4,7 de 5, 45 reseñas), paradas de colectivo según Moovit y mensaje de financiación según el Instagram de Chita. Se eliminó también la frase «Este sitio no incluye simulador de cuotas».
+
+## Dossier 4 · 2026-10-04
+**Agregado:** video vertical «Recorrido por el salón» (`video/reel-recorrido.mp4`, póster `images/reel-poster.webp`) en el hero, tomado de un reel de Instagram; y el logotipo horizontal (`images/logo-chita-wordmark.webp`), recortado de una captura del cartel del local. Prueba social del hero (4,7 en Google · 45 reseñas) tomada de `data/dealership.json`.
+
+| Pendiente con Chita | Detalle |
+|---|---|
+| Autorización del video | Confirmar con el dueño que se puede usar el reel en el sitio y que la persona que aparece está de acuerdo. El video trae subtítulos incluidos y menciona un vehículo (sin datos comerciales cargados en el sitio) |
+| Logotipo en alta | Pedir el archivo original del logo (vector o PNG grande). El actual sale de una captura de 411 px y pierde nitidez en pantallas grandes |
