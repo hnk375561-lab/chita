@@ -4,13 +4,18 @@ var S=[].slice.call(document.querySelectorAll("main>section[id]"));if(!S.length)
 var N={entregas:"Entregas",unidades:"Unidades","catalogo-comparador":"Modelos",nosotros:"Nosotros",contacto:"Dónde estamos",local:"El local",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
 var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<i></i><b hidden></b>";document.body.appendChild(c);
 var bar=c.firstChild,lab=c.lastChild,raf=0,cur="";
+/* 13 pilares: un segmento por sección; el relleno rojo los atraviesa y el de la sección actual se enciende */
+var seg=S.map(function(){var s=document.createElement("s");c.insertBefore(s,lab);return s});
+function lay(){var d=document.documentElement,m=d.scrollHeight-innerHeight;if(m<=0)return;var f=S.map(function(s){return Math.max(0,Math.min(1,(s.getBoundingClientRect().top+scrollY-innerHeight*.4)/m))});
+ seg.forEach(function(s,i){var a=f[i],b=i<S.length-1?f[i+1]:1;s.style.top=a*100+"%";s.style.height=Math.max(0,b-a)*100+"%"})}
+function lit(k){seg.forEach(function(s,i){s.classList.toggle("on",i===k)})}
 function upd(){raf=0;var d=document.documentElement,m=d.scrollHeight-innerHeight;bar.style.transform="scaleY("+(m>0?Math.min(1,scrollY/m):0)+")";
  var y=innerHeight*.4,k=-1;for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.top<=y&&r.bottom>y){k=i;break}}
- if(k<0){lab.hidden=true;cur="";return}
- var id=S[k].id;if(id!==cur){cur=id;lab.hidden=false;lab.innerHTML="<span>"+("0"+(k+1)).slice(-2)+"/"+S.length+"</span>"+(N[id]||id)}
+ if(k<0){lab.hidden=true;cur="";lit(-1);return}
+ var id=S[k].id;if(id!==cur){cur=id;lay();lit(k);lab.hidden=false;lab.innerHTML="<span>"+("0"+(k+1)).slice(-2)+"/"+S.length+"</span>"+(N[id]||id)}
  var a=document.querySelectorAll("header nav a");for(var j=0;j<a.length;j++){var al={"catalogo-comparador":"versus",local:"contacto"},on=a[j].getAttribute("href")==="#"+id||a[j].getAttribute("href")==="#"+al[id];a[j].classList.toggle("on",on);if(on&&a[j].parentNode.scrollWidth>a[j].parentNode.clientWidth+4){var n=a[j].parentNode;n.scrollTo({left:a[j].offsetLeft-n.clientWidth/2+a[j].offsetWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}}
 function q(){if(!raf)raf=requestAnimationFrame(upd)}
-addEventListener("scroll",q,{passive:true});addEventListener("resize",q);upd();
+addEventListener("scroll",q,{passive:true});addEventListener("resize",function(){lay();q()});addEventListener("load",function(){lay();q()});lay();upd();
 })();
 /* CHITA · Recorrido en video del hero: carga diferida, pausa fuera de pantalla, sonido a pedido. */
 (function(){
@@ -32,6 +37,17 @@ if("IntersectionObserver" in window){
 else if(auto)play();
 label();
 })();
+/* CHITA · video de Visita: loop silencioso al entrar en pantalla, pausa al salir, botón propio (respeta movimiento reducido y ahorro de datos) */
+(function(){
+var f=document.querySelector("#visita .vvid"),v=f&&f.querySelector("video"),b=f&&f.querySelector(".vv-b");if(!v||!b)return;
+var RM=matchMedia("(prefers-reduced-motion:reduce)").matches,sd=navigator.connection&&navigator.connection.saveData,auto=!RM&&!sd,manual=false;
+function label(){b.textContent=v.paused?"Reproducir":"Pausar";b.setAttribute("aria-pressed",String(!v.paused))}
+function play(){var p=v.play();if(p&&p.catch)p.catch(function(){})}
+b.addEventListener("click",function(){if(v.paused){manual=false;play()}else{manual=true;v.pause()}});
+v.addEventListener("play",label);v.addEventListener("pause",label);
+if("IntersectionObserver" in window){new IntersectionObserver(function(e){var vis=e[0].isIntersecting;if(vis&&auto&&!manual&&v.paused)play();else if(!vis&&!v.paused)v.pause()},{threshold:.25}).observe(f)}
+label();
+})();
 /* CHITA · v3 — La Cinta, El Riel y El Corte. Sin dependencias, 1 IntersectionObserver, solo datos ya publicados. */
 (function(){
 var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,main=d.querySelector("main");if(!main)return;
@@ -40,9 +56,9 @@ function tx(s){var e=d.querySelector(s);return e?e.textContent.replace(/\s+/g," 
 /* EL RIEL */
 var hero=d.getElementById("hero");
 if(hero){var r=d.createElement("div");r.className="rl";r.setAttribute("aria-hidden","true");r.textContent="Chita Automotores · Entre Ríos";hero.appendChild(r)}
-/* LA CINTA: solo hechos presentes en la página (dirección, reseñas, unidades, teléfono) */
-var pe=d.querySelector(".hx-proof"),p=pe?[].slice.call(pe.children).map(function(c){return c.textContent.trim()}).join(" "):"",u=(tx(".hx-copy>p:last-child").match(/\d+\s+unidades?\s+publicadas?/i)||[""])[0],t=tx("header .tel"),f=["Gral. Galarza 1712","Concepción del Uruguay · Entre Ríos"];
-if(p)f.push(p.replace(/\s*\.\s*/g," · "));if(u)f.push(u);if(t)f.push("Tel. "+t);f.push("Escribinos por WhatsApp");
+/* LA CINTA DE INAUGURACIÓN: lleva los modelos ya entregados (se leen de la sección Entregas; no se inventa ningún dato) */
+var f=[].slice.call(d.querySelectorAll("#entregas .eg li[data-m]")).map(function(li,i){return "E·"+("0"+(i+1)).slice(-2)+" · "+li.getAttribute("data-m")});
+if(f.length)f.push("El próximo es el tuyo");else f=["Gral. Galarza 1712","Concepción del Uruguay · Entre Ríos","Escribinos por WhatsApp"];
 var h=f.map(function(x){return "<span>"+x.replace(/[<>&]/g,"")+"</span>"}).join(""),cin=d.createElement("div");
 cin.className="cin";cin.setAttribute("aria-hidden","true");cin.innerHTML="<i></i><div><b class=\"cin-t\">"+h+h+"</b></div>";
 if(hero&&hero.nextSibling)main.insertBefore(cin,hero.nextSibling);else main.appendChild(cin);

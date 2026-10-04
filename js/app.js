@@ -32,7 +32,7 @@ $("reviewsLink").href=N.mapsReviews;$("reviewsLink2").href=N.mapsReviews;
 var dir="<strong>"+esc(N.direccion)+"</strong>"+(N.referencia?" <span class='k'>("+esc(N.referencia)+")</span>":"")+"<br>"+esc(N.ciudad);
 $("addr").innerHTML=dir;$("fAddr").textContent=N.direccion+", "+N.ciudad;
 var p=$("phoneLink");p.href="tel:"+N.telefonoTel;p.textContent="Llamar al "+N.telefono;
-$("fPhone").href="tel:"+N.telefonoTel;$("fPhone").textContent="Tel. "+N.telefono;$("barCall").href="tel:"+N.telefonoTel;
+$("fPhone").href="tel:"+N.telefonoTel;var fpb=$("fPhone").querySelector("b");if(fpb)fpb.textContent=N.telefono;$("barCall").href="tel:"+N.telefonoTel;
 if(N.horarios)$("hrs").innerHTML="<h3>Horarios de atención</h3><p>"+esc(N.horarios)+"</p>";
 document.querySelectorAll("[data-ig]").forEach(function(a){a.href="https://www.instagram.com/"+N.instagram+"/"});
 document.querySelectorAll("[data-fb]").forEach(function(a){a.href=N.facebook});document.querySelectorAll("[data-tel]").forEach(function(a){a.href="tel:"+N.telefonoTel});
@@ -195,6 +195,13 @@ if(isWebContact(u)){FS.textContent="Abriendo WhatsApp con tu consulta. Si no se 
 /* Visita y búsqueda: arman un mensaje de contacto que envía la persona; no se guarda nada */
 $("vsU").insertAdjacentHTML("beforeend",STOCK.map(function(c,i){return '<label class="ck"><input type="checkbox" name="u" value="'+i+'"><span>'+esc(c.titulo+" "+c.anio)+'</span></label>'}).join(""));
 function waForm(f,build){var s=f.querySelector(".fs");f.addEventListener("submit",function(e){e.preventDefault();if(!f.reportValidity())return;var m=build(f),u=wa(m);if(isWebContact(u)){s.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";s.appendChild(l);s.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(s,m)}})}
-waForm($("visitaForm"),function(f){var s=[].slice.call(f.querySelectorAll("input[name=u]:checked")).map(function(x){var c=STOCK[+x.value];return c.titulo+" "+c.anio}),w=f.cuando.value.trim();return "Hola! Quiero coordinar una visita para ver "+(s.length?s.join(", "):"algunas unidades")+"."+(w?" Me queda cómodo: "+w+".":"")+" ¿Me confirman si siguen disponibles y en qué horario puedo ir?"});
+/* Pase de visita: las unidades se numeran en el orden en que se eligen; ese orden va también en el mensaje */
+var visOrd=[];(function(){var f=$("visitaForm"),box=$("pase");if(!f||!box)return;
+function render(){var w=f.cuando.value.trim(),was=box.hidden;if(!visOrd.length&&!w){box.hidden=true;return}
+ box.innerHTML='<div class="pase-m"><b class="pase-h">Pase de visita</b>'+(visOrd.length?'<ol>'+visOrd.map(function(v,i){var c=STOCK[+v];return '<li><i>'+(i+1)+'</i>'+esc(c.titulo+" "+c.anio)+'</li>'}).join("")+'</ol>':'')+(w?'<p class="pase-w">Día y horario: '+esc(w)+'</p>':'')+'</div><div class="pase-t"><b>Chita</b><span>Gral. Galarza 1712</span><span>Se confirma con la agencia</span></div>';
+ box.hidden=false;if(was){box.classList.remove("nv");void box.offsetWidth;box.classList.add("nv")}}
+$("vsU").addEventListener("change",function(e){var t=e.target;if(!t||t.name!=="u")return;var i=visOrd.indexOf(t.value);if(t.checked&&i<0)visOrd.push(t.value);if(!t.checked&&i>=0)visOrd.splice(i,1);render()});
+f.cuando.addEventListener("input",render)})();
+waForm($("visitaForm"),function(f){var s=visOrd.map(function(v,i){var c=STOCK[+v];return (visOrd.length>1?(i+1)+") ":"")+c.titulo+" "+c.anio}),w=f.cuando.value.trim();return "Hola! Quiero coordinar una visita para ver "+(s.length?s.join(", "):"algunas unidades")+"."+(w?" Me queda cómodo: "+w+".":"")+" ¿Me confirman si siguen disponibles y en qué horario puedo ir?"});
 waForm($("buscoForm"),function(f){var a=f.anio.value.trim(),p=f.presu.value.trim(),c=f.comb.value;return "Hola! Estoy buscando un auto: "+f.modelo.value.trim()+(a?", año "+a+" en adelante":"")+(c?", "+c:"")+(p?", presupuesto aproximado "+p:"")+". ¿Tienen o van a tener algo parecido?"});
 })();

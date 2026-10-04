@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="Reservá tu momento en Chita Automotores. Elegí un día y un horario para armar tu consulta de visita por WhatsApp.">
   <title>Reservá tu momento · Chita Automotores</title>
   <link rel="stylesheet" href="css/reserva.css"><link rel="stylesheet" href="css/motion.css">
@@ -10,7 +11,7 @@
 <body>
   <main id="booking" data-step="month">
     <header class="booking-nav">
-      <a class="brand" href="index.html" aria-label="Volver a Chita Automotores">CHITA</a>
+      <a class="brand" href="index.html" aria-label="Volver a Chita Automotores"><img src="images/logo-chita-wordmark.webp" alt="" width="114" height="34"></a>
       <p class="eyebrow">Reservá tu momento <span aria-hidden="true">/</span> consulta de visita</p>
       <button class="back" id="back" type="button" aria-label="Volver un paso" hidden>← Atrás</button>
     </header>
@@ -34,17 +35,17 @@
     </section>
 
     <section class="scene scene--time" aria-labelledby="time-title" hidden>
-      <div class="scene__meta"><span>03 / HORA</span><span id="time-status" aria-live="polite"></span></div>
-      <div class="time-copy"><p class="kicker">Horarios configurables</p><h2 id="time-title">¿Cuándo<br><em>te queda bien?</em></h2><p>Seleccioná una franja para enviar una consulta de visita.</p></div>
-      <div id="slots" class="slots" role="listbox" aria-label="Horarios configurables"></div>
+      <div class="scene__meta"><span>03 / FRANJA</span><span id="time-status" aria-live="polite"></span></div>
+      <div class="time-copy"><p class="kicker">Franja del día</p><h2 id="time-title">¿Cuándo<br><em>te queda bien?</em></h2><p>Seleccioná mañana o tarde. El horario exacto lo confirma la agencia.</p></div>
+      <div id="slots" class="slots" role="listbox" aria-label="Franja del día"></div>
       <button class="next-step" id="to-confirm" type="button" disabled>Ver resumen <span>→</span></button>
     </section>
 
     <section class="scene scene--confirm" aria-labelledby="confirm-title" hidden>
       <div class="diagonal-wipe" aria-hidden="true"></div>
       <div class="scene__meta"><span>04 / CONFIRMAR</span><span>consulta de visita</span></div>
-      <div class="confirm-copy"><p class="kicker">Tu momento</p><h2 id="confirm-title"><span id="summary-day">DÍA</span><br><em id="summary-time">HORA</em></h2><p>Gral. Galarza 1712<br>Concepción del Uruguay</p></div>
-      <div class="confirm-actions"><a id="whatsapp" class="primary" href="tel:+543442442782">Llamar a Chita <span>↗</span></a><a class="secondary" href="https://www.google.com/maps/dir/?api=1&destination=Chita+Automotores%2C+Gral.+Galarza+1712%2C+Concepci%C3%B3n+del+Uruguay%2C+Entre+R%C3%ADos" target="_blank" rel="noopener noreferrer">Abrir Maps</a><button id="restart" class="secondary" type="button">Elegir otro momento</button></div>
+      <div class="confirm-copy"><p class="kicker">Tu momento</p><h2 id="confirm-title"><span id="summary-day">DÍA</span><br><em id="summary-time">FRANJA</em></h2><p>Gral. Galarza 1712<br>Concepción del Uruguay</p></div>
+      <div class="confirm-actions"><a id="whatsapp" class="primary" href="https://wa.me/5493442647442" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp <span>↗</span></a><a class="secondary" href="https://www.google.com/maps/dir/?api=1&destination=Chita+Automotores%2C+Gral.+Galarza+1712%2C+Concepci%C3%B3n+del+Uruguay%2C+Entre+R%C3%ADos" target="_blank" rel="noopener noreferrer">Abrir Maps</a><button id="restart" class="secondary" type="button">Elegir otro momento</button></div>
       <p class="disclaimer">El mensaje solicita una consulta de visita. La disponibilidad queda sujeta a confirmación por WhatsApp.</p>
     </section>
     <div id="live" class="sr-only" aria-live="polite"></div>

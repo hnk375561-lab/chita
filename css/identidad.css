@@ -211,11 +211,11 @@ html body header nav a::before{counter-increment:n;content:counter(n,decimal-lea
 /* LA CINTA · cruza la costura hero → entregas */
 .cin{position:relative;z-index:7;height:clamp(78px,7vw,104px);margin:calc(clamp(78px,7vw,104px)/-2) 0;overflow-x:clip;overflow-y:visible;pointer-events:none}
 .cin i,.cin div{position:absolute;left:-4vw;width:108vw;top:50%;height:clamp(32px,2.8vw,44px);margin-top:calc(clamp(32px,2.8vw,44px)/-2)}
-.cin i{background:var(--rojo);transform:rotate(1.4deg)}
-.cin div{background:var(--ink);transform:rotate(-1.4deg);overflow:hidden;display:flex;align-items:center;box-shadow:0 -2px 0 #fff inset,0 2px 0 #fff inset}
+.cin i{background:var(--paper);box-shadow:0 0 0 2px var(--ink) inset;transform:rotate(1.4deg)}
+.cin div{background:var(--rojo);transform:rotate(-1.4deg);overflow:hidden;display:flex;align-items:center;box-shadow:0 -2px 0 #fff inset,0 2px 0 #fff inset}
 .cin-t{display:flex;flex:none;white-space:nowrap;animation:cin 46s linear infinite;will-change:transform}
 .cin-t span{display:inline-flex;align-items:center;font:800 clamp(11px,.95vw,14px)/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:#fff;padding-right:2.2em}
-.cin-t span::after{content:"";width:6px;height:15px;background:var(--rojo);margin-left:2.2em;transform:skewX(-14deg)}
+.cin-t span::after{content:"";width:6px;height:15px;background:#fff;margin-left:2.2em;transform:skewX(-14deg)}
 @keyframes cin{to{transform:translate3d(-50%,0,0)}}
 /* EL CORTE · único verbo de entrada */
 .cj main>section:not(.in) h2::before,.cj .cin:not(.in) div{clip-path:polygon(0 0,0 0,0 10px,0 100%,0 100%)}
@@ -770,3 +770,59 @@ html body #contacto .rgl{width:100%}
 /* v15 · en pantallas anchas el mapa se desplaza a la derecha para que el pin (centro del mapa) no quede bajo los paneles */
 @media(min-width:1100px){html body #contacto .mp iframe{inset:0 0 0 34%;width:66%}html body #contacto .mp .mpp{left:67%}}
 
+
+/* CHITA · reseñas provisorias: 45 casillas selladas (dato real: 45 reseñas en Google; no se cita ninguna) */
+html body #opiniones .rv45c{grid-column:1/-1;grid-row:3;margin-top:clamp(28px,3.4vw,52px)}
+html body #opiniones .rv45{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:clamp(4px,.5vw,7px)}
+html body #opiniones .rv45 i{display:grid;place-items:center;aspect-ratio:1;background:var(--rojo);color:#fff;font:800 clamp(8px,.85vw,12px)/1 var(--font-display);font-style:normal;letter-spacing:.04em;clip-path:var(--cut-sm)}
+html body #opiniones .rv45t{margin:14px 0 0;font:700 12px/1.3 var(--font-display);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+@keyframes rvst{0%{opacity:0;scale:2}60%{opacity:1;scale:.92}100%{opacity:1;scale:1}}
+.cj #opiniones:not(.in) .rv45 i{opacity:0}
+.cj #opiniones.in .rv45 i{animation:rvst .4s var(--ease-i) calc(var(--i)*30ms) both}
+@media(max-width:899px){html body #opiniones .rv45{grid-template-columns:repeat(9,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.cj #opiniones.in .rv45 i{animation:none}}
+
+/* CHITA · La Columna como fachada: 13 pilares separados por vidrio; el de la sección actual se enciende con el corte */
+.cl s{position:absolute;left:0;right:0;box-sizing:border-box;border-bottom:3px solid #fff;text-decoration:none}
+.cl s::after{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--rojo);clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),0 100%);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.cl s.on::after{transform:scaleX(1.8)}
+@media(max-width:899px){.cl s::after{width:6px}.cl s.on::after{transform:scaleX(2)}}
+@media(prefers-reduced-motion:reduce){.cl s::after{transition:none}}
+
+/* CHITA · cuponera de Financiación: tira de cupones perforados cortada por el borde (sin cantidad: no se informa nº de cuotas) */
+html body #financiacion .pdc .cup{display:flex;margin:4px -22px 18px 0;width:calc(100% + 22px);overflow:hidden}
+html body #financiacion .pdc .cup i{flex:none;width:96px;padding:12px 10px;background:var(--paper);color:var(--ink);font:800 10px/1 var(--font-display);font-style:normal;letter-spacing:.14em;text-transform:uppercase;border-left:2px dashed var(--rojo);clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+html body #financiacion .pdc .cup i:first-child{border-left:0}
+.cj #financiacion .cup i{transition:clip-path .7s var(--ease) calc(var(--i)*90ms)}
+.cj #financiacion:not(.in) .cup i{clip-path:polygon(0 0,0 0,0 0,0 100%,0 100%)}
+@media(prefers-reduced-motion:reduce){.cj #financiacion .cup i{transition:none}}
+
+/* CHITA · footer: el teléfono como patente y coordenadas (aprox., las del JSON) como línea de cierre */
+html body footer a.fpl{display:block;width:min(340px,100%);margin:0 0 14px;background:var(--paper);color:var(--ink)!important;border:3px solid var(--ink);clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%);text-decoration:none;text-align:center}
+html body footer a.fpl i{display:block;background:var(--chapa);color:#fff;font:800 12px/1 var(--font-display);font-style:normal;letter-spacing:.38em;text-indent:.38em;text-transform:uppercase;padding:8px 0}
+html body footer a.fpl b{display:block;font:800 clamp(28px,3.4vw,40px)/1 var(--font-display);letter-spacing:.04em;padding:12px 8px 14px;font-variant-numeric:tabular-nums}
+html body footer a.fpl:hover b{color:var(--rojo)}
+html body footer a.fpl:focus-visible{outline:3px solid #fff;outline-offset:3px}
+html body footer .fco{margin:28px 0 8px;font:700 12px/1.3 var(--font-display);letter-spacing:.2em;text-transform:uppercase;opacity:.75}
+
+/* CHITA · pase de visita: vista previa con perforación; unidades numeradas en el orden elegido */
+html body #visita #visitaForm .pase{display:grid;grid-template-columns:minmax(0,1fr) auto;margin:18px 0;background:var(--ink);color:#fff;border-left:10px solid var(--rojo);clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%)}
+html body #visita #visitaForm .pase[hidden]{display:none}
+html body #visita #visitaForm .pase-m{padding:16px 18px}
+html body #visita #visitaForm .pase-h{display:block;font:800 12px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--plata);margin-bottom:10px}
+html body #visita #visitaForm .pase ol{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+html body #visita #visitaForm .pase li{display:flex;align-items:center;font:800 clamp(14px,1.3vw,18px)/1.2 var(--font-display);text-transform:uppercase;letter-spacing:.02em}
+html body #visita #visitaForm .pase li i{flex:none;display:inline-grid;place-items:center;width:24px;height:24px;margin-right:10px;background:var(--rojo);color:#fff;font:800 13px/1 var(--font-display);font-style:normal}
+html body #visita #visitaForm .pase-w{margin:12px 0 0;font:600 14px/1.3 var(--font-body,inherit);color:#fff}
+html body #visita #visitaForm .pase-t{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:16px 26px 16px 18px;border-left:3px dashed rgba(255,255,255,.5);font:700 11px/1.3 var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:var(--plata)}
+html body #visita #visitaForm .pase-t b{color:#fff;font-size:18px;letter-spacing:.3em;margin-bottom:4px}
+@keyframes paseIn{from{clip-path:polygon(0 0,0 0,0 0,0 100%,0 100%)}to{clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%)}}
+.cj #visita .pase.nv{animation:paseIn .6s var(--ease) both}
+@media(max-width:899px){html body #visita #visitaForm .pase{grid-template-columns:1fr}html body #visita #visitaForm .pase-t{border-left:0;border-top:3px dashed rgba(255,255,255,.5);flex-direction:row;flex-wrap:wrap;gap:4px 14px;align-items:center}}
+
+/* CHITA · video de Visita con el mismo marco que el reel: barra roja, corte y botón propio */
+html body #visita .vvid{position:relative}
+html body #visita .vvid::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--rojo);z-index:3}
+html body #visita .vvid .vv-b{left:22px;right:auto;top:12px;bottom:auto}
+html body #visita .vvid video{display:block;width:100%;height:auto}
+html body #visita .vvid figcaption{padding:10px 14px 12px 22px;background:var(--ink);color:#fff;font:700 12px/1.3 var(--font-display);letter-spacing:.1em;text-transform:uppercase}

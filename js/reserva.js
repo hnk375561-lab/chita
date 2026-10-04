@@ -1,12 +1,13 @@
 import { gsap } from "./motion/vendor.js";
 import { reduceMotion } from "./motion/core.js";
 
-const CONFIG = { diasHabilitados: [1, 2, 3, 4, 5, 6], slots: ["10:00", "11:30", "16:00", "17:30"], slotsNote: "Horarios configurables: consultar disponibilidad." };
+const CONFIG = { slots: ["Mañana", "Tarde"], slotsNote: "Consulta de visita: la agencia confirma día y horario.", whatsapp: "5493442647442" };
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 const state = { month: new Date(new Date().getFullYear(), new Date().getMonth(), 1), day: null, slot: null, step: "month", control: null };
 const live = $("#live");
+const startOfToday = () => { const t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate()); };
 const announce = (text) => { if (live) live.textContent = text; };
 const monthTitle = (date) => `${months[date.getMonth()]} ${date.getFullYear()}`;
 const formatDate = (date) => date.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
@@ -17,9 +18,9 @@ function renderCalendar() {
   const calendar = $("#calendar"); if (!calendar) return; calendar.textContent = ""; $("#month-label").textContent = monthTitle(state.month); $("#month-status").textContent = CONFIG.slotsNote;
   for (let i = 0; i < firstDay(state.month); i += 1) { const empty = document.createElement("span"); empty.className = "day-cell day-cell--empty"; empty.setAttribute("aria-hidden", "true"); calendar.appendChild(empty); }
   for (let day = 1; day <= daysInMonth(state.month); day += 1) {
-    const date = new Date(state.month.getFullYear(), state.month.getMonth(), day), enabled = CONFIG.diasHabilitados.includes(date.getDay()), button = document.createElement("button");
+    const date = new Date(state.month.getFullYear(), state.month.getMonth(), day), enabled = date >= startOfToday(), button = document.createElement("button");
     button.className = "day-cell"; button.type = "button"; button.dataset.day = day; button.disabled = !enabled; button.setAttribute("role", "gridcell"); button.setAttribute("aria-disabled", String(!enabled)); button.setAttribute("aria-selected", String(state.day?.getTime() === date.getTime())); if (state.day?.getTime() === date.getTime()) button.setAttribute("aria-current", "true");
-    button.innerHTML = `<span>${String(day).padStart(2, "0")}</span><small>${enabled ? "disponible" : "cerrado"}</small>`; calendar.appendChild(button);
+    button.innerHTML = `<span>${String(day).padStart(2, "0")}</span><small>${date.getTime() === startOfToday().getTime() ? "hoy" : ""}</small>`; calendar.appendChild(button);
   }
 }
 
@@ -35,10 +36,11 @@ function animateScene(show) {
   if (show === "confirm" && wipe) tl.fromTo(wipe, { xPercent: -100 }, { xPercent: 100, duration: 0.8, ease: "expo.inOut" }, 0);
   state.control = tl;
 }
-function selectDay(day) { const date = new Date(state.month.getFullYear(), state.month.getMonth(), day); if (!CONFIG.diasHabilitados.includes(date.getDay())) return; state.day = date; state.slot = null; $("#day-number").textContent = String(day).padStart(2, "0"); $("#day-month").textContent = months[date.getMonth()].slice(0, 3).toUpperCase(); $("#day-status").textContent = formatDate(date); $("#to-time").disabled = false; renderCalendar(); announce(`Día seleccionado: ${formatDate(date)}`); animateScene("day"); }
-function renderSlots() { const box = $("#slots"); box.textContent = ""; CONFIG.slots.forEach((slot) => { const button = document.createElement("button"); button.type = "button"; button.className = "slot"; button.dataset.slot = slot; button.setAttribute("role", "option"); button.setAttribute("aria-selected", String(state.slot === slot)); button.innerHTML = `<b>${slot}</b><small>consultar disponibilidad</small>`; box.appendChild(button); }); }
-function selectSlot(slot) { state.slot = slot; $$(".slot").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.slot === slot))); $("#time-status").textContent = slot; $("#to-confirm").disabled = false; announce(`Horario seleccionado: ${slot}`); }
-function showConfirm() { if (!state.day || !state.slot) return; $("#summary-day").textContent = `${state.day.getDate()} ${months[state.day.getMonth()]}`; $("#summary-time").textContent = state.slot; announce(`Resumen listo: ${formatDate(state.day)} a las ${state.slot}`); animateScene("confirm"); }
+function selectDay(day) { const date = new Date(state.month.getFullYear(), state.month.getMonth(), day); if (date < startOfToday()) return; state.day = date; state.slot = null; $("#day-number").textContent = String(day).padStart(2, "0"); $("#day-month").textContent = months[date.getMonth()].slice(0, 3).toUpperCase(); $("#day-status").textContent = formatDate(date); $("#to-time").disabled = false; renderCalendar(); announce(`Día seleccionado: ${formatDate(date)}`); animateScene("day"); }
+function renderSlots() { const box = $("#slots"); box.textContent = ""; CONFIG.slots.forEach((slot) => { const button = document.createElement("button"); button.type = "button"; button.className = "slot"; button.dataset.slot = slot; button.setAttribute("role", "option"); button.setAttribute("aria-selected", String(state.slot === slot)); button.innerHTML = `<b>${slot}</b><small>a coordinar con la agencia</small>`; box.appendChild(button); }); }
+function selectSlot(slot) { state.slot = slot; $$(".slot").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.slot === slot))); $("#time-status").textContent = slot; $("#to-confirm").disabled = false; announce(`Franja seleccionada: ${slot}`); }
+function showConfirm() { if (!state.day || !state.slot) return; $("#summary-day").textContent = `${state.day.getDate()} ${months[state.day.getMonth()]}`; $("#summary-time").textContent = state.slot; { const wa = $("#whatsapp"); if (wa) wa.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(`Hola! Quiero coordinar una visita el ${formatDate(state.day)}, por la ${state.slot.toLowerCase()}. ¿Me confirman disponibilidad y horario?`)}`; }
+  announce(`Resumen listo: ${formatDate(state.day)}, por la ${state.slot.toLowerCase()}`); animateScene("confirm"); }
 function goBack() { if (state.step === "confirm") animateScene("time"); else if (state.step === "time") animateScene("day"); else if (state.step === "day") animateScene("month"); }
 function reset() { state.day = null; state.slot = null; state.step = "month"; $("#to-time").disabled = true; $("#to-confirm").disabled = true; renderCalendar(); renderSlots(); $$(".scene").forEach((scene) => { scene.hidden = !scene.classList.contains("scene--month"); scene.style.removeProperty("opacity"); scene.style.removeProperty("transform"); }); $("#back").hidden = true; $("#booking").dataset.step = "month"; window.scrollTo({ top: 0, behavior: "auto" }); announce("Calendario reiniciado"); }
 
