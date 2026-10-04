@@ -10,8 +10,9 @@ const file = path.join(root, 'index.html');
 const html = fs.readFileSync(file, 'utf8');
 const negocio = (html.match(/var NEGOCIO = \{[\s\S]*?\n\};/) || [])[0];
 const stock = (html.match(/var STOCK = \[[\s\S]*?\n\];/) || [])[0];
-const fn = (html.match(/\/\*PRE:start\*\/([\s\S]*?)\/\*PRE:end\*\//) || [])[1];
-if (!negocio || !stock || !fn) { console.error('ERROR: no se encontró NEGOCIO, STOCK o el bloque PRE en index.html'); process.exit(1); }
+const appJs = fs.readFileSync(path.join(root, 'js', 'app.js'), 'utf8');  // card() y helpers viven en js/app.js
+const fn = (appJs.match(/\/\*PRE:start\*\/([\s\S]*?)\/\*PRE:end\*\//) || html.match(/\/\*PRE:start\*\/([\s\S]*?)\/\*PRE:end\*\//) || [])[1];
+if (!negocio || !stock || !fn) { console.error('ERROR: no se encontró NEGOCIO/STOCK en index.html o el bloque PRE en js/app.js'); process.exit(1); }
 const ctx = vm.createContext({});
 vm.runInContext(`${negocio}\n${stock}\nvar N = NEGOCIO;\n${fn}\nvar OUT = STOCK.map(card).join("");`, ctx);
 if (!/<!--PRE:cards-->[\s\S]*?<!--\/PRE:cards-->/.test(html)) { console.error('ERROR: faltan los marcadores <!--PRE:cards--> en index.html'); process.exit(1); }
