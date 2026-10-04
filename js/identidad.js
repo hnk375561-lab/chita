@@ -87,9 +87,9 @@ if(eg){[].forEach.call(eg.children,function(li,k){var b=d.createElement("b");b.c
 /* EL CURSOR: etiqueta-chapa que sigue al mouse y dice qué hace cada pieza. Magnetismo leve en botones. Solo mouse. */
 if(RM||!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
 var cu=d.createElement("div");cu.className="cu";cu.setAttribute("aria-hidden","true");cu.innerHTML="<b></b>";d.body.appendChild(cu);
-var lb=cu.firstChild,x=-99,y=-99,tx=-99,ty=-99,raf=0,txt="",mg=null,T=".car,.eg li,.hx-reel";
+var lb=cu.firstChild,x=-99,y=-99,tx=-99,ty=-99,raf=0,txt="",mg=null,T=".car,.eg li,.hx-reel,.oc";
 function say(t){var e=t&&t.closest?t.closest(T):null,s="";
- if(e){if(e.matches(".car"))s="Ver ficha";else if(e.matches(".eg li"))s="Entrega E·"+("0"+([].indexOf.call(e.parentNode.children,e)+1)).slice(-2);else s="Recorrido"}
+ if(e){if(e.matches(".car"))s="Ver ficha";else if(e.matches(".eg li"))s="Entrega E·"+("0"+([].indexOf.call(e.parentNode.children,e)+1)).slice(-2);else if(e.matches(".oc"))s="Consultar";else s="Recorrido"}
  if(s!==txt){txt=s;if(s)lb.textContent=s;cu.classList.toggle("on",!!s)}}
 function loop(){raf=0;x+=(tx-x)*.24;y+=(ty-y)*.24;cu.style.transform="translate3d("+x.toFixed(1)+"px,"+y.toFixed(1)+"px,0)";if(Math.abs(tx-x)>.4||Math.abs(ty-y)>.4)raf=requestAnimationFrame(loop)}
 function mag(t,px,py){var b=t&&t.closest?t.closest(".btn,.hx-btn"):null;
@@ -97,4 +97,11 @@ function mag(t,px,py){var b=t&&t.closest?t.closest(".btn,.hx-btn"):null;
  if(b){var r=b.getBoundingClientRect();mg=b;b.style.translate=Math.max(-7,Math.min(7,(px-r.left-r.width/2)*.12))+"px "+Math.max(-5,Math.min(5,(py-r.top-r.height/2)*.18))+"px"}}
 d.addEventListener("pointermove",function(e){if(e.pointerType!=="mouse")return;tx=e.clientX;ty=e.clientY;if(x<0&&y<0){x=tx;y=ty}say(e.target);mag(e.target,e.clientX,e.clientY);if(!raf)raf=requestAnimationFrame(loop)},{passive:true});
 d.addEventListener("pointerleave",function(){say(null);mag(null)},{passive:true});
+})();
+/* CHITA · v8 — El corte en tarjetas: un observador, una sola vez, escalonado por fila. Si falla IntersectionObserver, todo queda visible. */
+(function(){
+var d=document;if(!d.documentElement.classList.contains("cj")||!("IntersectionObserver" in window))return;
+var E=[].slice.call(d.querySelectorAll("#stockGrid .car,#operaciones .oc,#opiniones .rvc"));if(!E.length)return;
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){var t=x.target;t.style.setProperty("--d",(([].indexOf.call(t.parentNode.children,t))%4)*70+"ms");t.classList.add("in");io.unobserve(t)}})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+E.forEach(function(e){e.classList.add("cz7");io.observe(e)});
 })();

@@ -12,6 +12,9 @@ Archivos: `css/identidad.css` (se carga al final) y `js/identidad.js`. Núcleo: 
 - **v7 · El talón**: las tres declaraciones (Financiación, Guía, Visita) son talones: a la izquierda, display gigante, borde perforado con «TALÓN N° NN».
 - **v7 · El cursor**: etiqueta-chapa que sigue al mouse (Ver ficha / Entrega E·NN / Recorrido) y botones magnéticos. Solo mouse; no existe en táctil ni con reduced-motion.
 
+- **v8 · El corte en el hero y en las tarjetas**: el recorrido y la unidad del hero (solo escritorio) entran con barrido diagonal y «SUS DUEÑOS» se corta de izquierda a derecha; unidades, operaciones y reseñas se revelan una sola vez con el mismo corte (clase `cz7`, un `IntersectionObserver`; si no existe, todo queda visible).
+- **v8 · U·NN**: numeración de unidades en la lista (orden de la lista, tipo remito).
+
 ## Color
 Azul chapa `#0A2C8C`, rojo `#C1121F` (logotipo y columnas del local), papel `#ECEDEA`, tinta `#0A1020`, plata `#B9BEC4`. Sin cian, sin dorado, sin vidrio.
 
@@ -21,7 +24,7 @@ Bricolage Grotesque 800 en versalitas (display, títulos, etiquetas, números, n
 ## Lenguaje de movimiento (tres verbos, un easing)
 | Verbo | Para qué | Curva y duración |
 |---|---|---|
-| CORTE | revelar (barrido diagonal `clip-path`) | `--ease` cubic-bezier(.7,0,.2,1) · .7 s |
+| CORTE | revelar (barrido diagonal `clip-path`; hero y tarjetas) | `--ease` cubic-bezier(.7,0,.2,1) · .7 s |
 | SELLO | confirmar (entra grande, se asienta) | `--ease-i` cubic-bezier(.2,.9,.1,1) · .42 s, escalonado 85 ms |
 | RIEL | scroll (deriva lineal ligada al scroll) | linear |
 Solo `transform`, `scale`, `rotate`, `opacity`, `clip-path`. Sin fade-up. `js/motion.js` (GSAP + ScrollTrigger + Lenis) se conserva sin cambios.

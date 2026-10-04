@@ -455,3 +455,26 @@ html body :is(.hx-btn,.btn){transition:background var(--t) var(--ease),color var
 html body main>section :is(h2,h3,p,li,summary,span,small){text-shadow:none}
 @media(max-width:899px){html body .hx-copy .hx-logo{display:none!important}html body .hx-copy{padding-top:22px}}
 @media(prefers-reduced-motion:reduce){.sl{opacity:1;scale:1;rotate:-6deg;animation:none}.m .hx-proof{animation:none}.cu{display:none}.pf{display:block}}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v8 · EL CORTE llega al hero y a las tarjetas · U·NN en cada unidad
+   Hero      el recorrido y la unidad entran con el barrido diagonal; «SUS DUEÑOS» se corta de izquierda a derecha.
+   Tarjetas  unidades, operaciones y reseñas se revelan con el mismo corte, una sola vez (misma gramática que la chapa).
+   Unidades  numeración U·01… (orden de la lista, tipo remito).
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@keyframes corte{from{clip-path:polygon(0 100%,0 100%,0 100%,0 100%,0 100%)}to{clip-path:polygon(0 0,calc(100% - var(--c,22px)) 0,100% var(--c,22px),100% 100%,0 100%)}}
+@keyframes corte-h{from{clip-path:polygon(0 0,0 0,0 .34em,0 100%,0 100%)}to{clip-path:polygon(0 0,calc(100% - .34em) 0,100% .34em,100% 100%,0 100%)}}
+/* HERO (solo escritorio: en móvil el hero ya está en pantalla al cargar) */
+@media(min-width:900px){
+ .m .hx-reel{animation:corte .95s var(--ease) .15s both}
+ .m .hx .hx-show{animation:corte .95s var(--ease) .35s both;--c:clamp(36px,5vw,84px)}
+ .m .hx-copy .hx-h1 em{animation:corte-h .7s var(--ease) .55s both}
+}
+/* TARJETAS: un solo barrido al entrar */
+.cj .cz7:not(.in){opacity:0}
+.cj .cz7.in{animation:corte .8s var(--ease) var(--d,0s) both}
+/* U·NN */
+#stockGrid{counter-reset:u}
+html body #stockGrid .car{counter-increment:u}
+html body #stockGrid .car::after{content:"U·" counter(u,decimal-leading-zero);position:absolute;top:0;right:calc(var(--c,22px) + 6px);z-index:6;padding:7px 11px 7px 9px;background:var(--ink);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.14em;pointer-events:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%)}
+@media(prefers-reduced-motion:reduce){.cz7{clip-path:none}}
