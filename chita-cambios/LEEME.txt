@@ -1,0 +1,6 @@
+Reemplazar en el repo (misma ruta):
+  index.html
+  css/site.css
+  js/motion.js
+  images/cartel-chita.webp  (archivo nuevo)
+No tocar nada mas.
