@@ -1,4 +1,4 @@
-# Identidad CHITA — «La entrega» (v13)
+# Identidad CHITA — «La entrega» (v15)
 Archivos: `css/identidad.css` (se carga al final) y `js/identidad.js`. Núcleo: el momento en que un auto se va con su dueño, frente al local de columnas rojas. La página es un **talonario de remitos de entrega**.
 
 ## Firmas (todas salen del local, del logotipo o del papeleo de una entrega)
@@ -25,6 +25,10 @@ Archivos: `css/identidad.css` (se carga al final) y `js/identidad.js`. Núcleo: 
 - **v12 · El índice**: en móvil la tira de navegación es el índice del talonario: cada enlace lleva su número, la sección actual es una chapa roja con el corte, se desliza con imán y se desvanece en ambos bordes. Corrección: «Comparar» y «Dónde estamos» ahora también se marcan al estar en Modelos y en Local (antes ninguna sección coincidía con su `href`).
 
 - **v13 · El remito de la unidad**: la ficha deja de ser una tabla gris y pasa a ser el remito de esa unidad: columna roja junto a las fotos, rótulo «Remito de unidad», datos en bloque de tinta con renglones punteados, botón de cerrar con el corte y el botón de consulta como talón (borde perforado, «Talón · consulta»). Solo CSS sobre el diálogo existente; galería, flechas y teclado no cambian. En móvil, el botón de cerrar ya no tapa «Siguiente →».
+
+- **v14 · El desglose**: la segunda mitad de los tres talones (Financiación, Guía, Visita) seguía con el estilo anterior (títulos centrados con sombra, tarjetas moradas, formulario blanco con sombra, pastilla redonda). Ahora es el cuerpo del remito, alineado a la columna del talón: rótulo de chapa con el corte; Financiación = tres talones `F·01…F·03` en tinta con renglón perforado rojo; Guía = renglones de planilla `G·01…G·04` con borde punteado; Visita y «Contanos tu auto» = planilla de papel con el corte y renglón perforado, sin sombra; pie del talón con filete a la columna en lugar de línea y texto centrado. En «Comprá, vendé o permutá» se quitó la chapa de logo que tapaba el rótulo impreso en las fotos. En `js/motion.js` las ventanas de scroll (hojas de sección, recorrido, mapa) dejan de tener esquinas redondeadas: solo recorte recto, coherente con el corte. Solo CSS más tres cadenas de `clip-path`; no cambia ningún texto ni dato.
+
+- **v15 · Ritmo de color y pasos de remito**: «Dónde estamos» pasa a azul chapa (antes Modelos, Dónde estamos y El local eran tres fondos oscuros seguidos con la dirección repetida). Los pasos de «Cómo funciona vender o permutar» dejan los rombos y son renglones `P·01…P·03` (chapa de tinta con corte + renglón perforado). Solo CSS.
 
 ## Color
 Azul chapa `#0A2C8C`, rojo `#C1121F` (logotipo y columnas del local), papel `#ECEDEA`, tinta `#0A1020`, plata `#B9BEC4`. Sin cian, sin dorado, sin vidrio.

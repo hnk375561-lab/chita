@@ -555,8 +555,8 @@ function initSeams({ desktop }) {
 
       if (SHEET.has(section.id)) {
         gsap.fromTo(section,
-          { clipPath: desktop ? "inset(0% 5% 0% 5% round 44px 44px 0px 0px)" : "inset(0% 3% 0% 3% round 26px 26px 0px 0px)" },
-          { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(section, "top 100%", "top 38%") });
+          { clipPath: desktop ? "inset(0% 5% 0% 5%)" : "inset(0% 3% 0% 3%)" },
+          { clipPath: "inset(0% 0% 0% 0%)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(section, "top 100%", "top 38%") });
       }
       if (inner && section.id !== "versus") {
         gsap.fromTo(inner, { y: 90 * k }, { y: 0, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(section, "top 100%", "top 42%") });
@@ -793,7 +793,7 @@ function initParallax({ desktop }) {
     const tour = qs("#local .vv");
     if (tour) {
       const slides = qs(".vsc", tour);
-      gsap.fromTo(tour, { clipPath: "inset(14% 12% 14% 12% round 24px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(tour, "top 98%", "top 26%") });
+      gsap.fromTo(tour, { clipPath: "inset(14% 12% 14% 12%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(tour, "top 98%", "top 26%") });
       if (slides) gsap.fromTo(slides, { scale: 1.2 }, { scale: 1, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(tour, "top 98%", "top 26%") });
     }
     qsa("#local .vbk").forEach((layer) => {
@@ -1025,7 +1025,7 @@ function initSceneChoreography({ desktop }) {
     /* Contacto: el mapa abre una ventana y el panel de dirección viaja a contratiempo. */
     scene("contacto", (s) => {
       const map = qs(".mp", s), copy = qs(".lc", s);
-      if (map) gsap.fromTo(map, { clipPath: "inset(12% 9% 12% 9% round 28px)", scale: 1.08 }, { clipPath: "inset(0% 0% 0% 0% round 0px)", scale: 1, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 96%", "top 28%") });
+      if (map) gsap.fromTo(map, { clipPath: "inset(12% 9% 12% 9%)", scale: 1.08 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 96%", "top 28%") });
       if (copy) gsap.fromTo(copy, { xPercent: -7 * k }, { xPercent: 4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
     });
     /* Local: el recorrido visual flota detrás de los hitos, mientras las señales entran por capas. */
