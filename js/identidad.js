@@ -69,3 +69,6 @@ function tick(){raf=0;var y=scrollY,vh=innerHeight,dy=y-ly;ly=y;v+=(Math.abs(dy)
 function q(){if(!raf)raf=requestAnimationFrame(tick)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q);q();
 })();
+/* CHITA · v5 — Entregas: rótulo con la cantidad real de fotos publicadas. */
+(function(){var g=document.querySelector("#entregas .eg");if(!g)return;var n=g.children.length;if(!n||document.querySelector(".ec"))return;
+var c=document.createElement("p");c.className="ec";c.textContent=n+" entregas · fotos publicadas en redes";g.parentNode.insertBefore(c,g)})();

@@ -1,4 +1,4 @@
-CHITA v4 — reemplazar en el repo (misma ruta):
+CHITA v5 — reemplazar en el repo (misma ruta):
   css/identidad.css
   js/identidad.js
-No tocar nada más. Sin dependencias nuevas. Reemplazo 100 %: cada archivo incluye todo lo anterior + v3 + v4.
+No tocar nada más. Sin dependencias nuevas. Reemplazo 100 %: cada archivo incluye todo lo anterior (v3, v4) + v5.

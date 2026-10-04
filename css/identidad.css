@@ -282,3 +282,70 @@ html body #como-comprar .stp span{font-size:clamp(15px,1.15vw,18px);color:var(--
 html body #como-comprar .stp li::before{writing-mode:horizontal-tb!important;transform:none!important;rotate:none!important;position:static!important;inset:auto!important;width:auto!important;height:auto!important;border:0!important;background:none!important;box-shadow:none!important;margin:0!important;display:block!important;text-orientation:mixed}
 html body #como-comprar .stp li::after,html body #como-comprar .stp li>div::before,html body #como-comprar .stp li>div::after{display:none!important}
 html body #como-comprar .stp li::before{outline:0!important;min-width:1.6em;text-align:left}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v5 · ENTREGAS = PARED DE REMITOS  ·  MODELOS = TABLERO DE SALIDAS
+   Entregas  mosaico de 12 fotos reales con escalas distintas (1 foto grande + resto), rótulo E·NN, al pasar el mouse el resto baja.
+   Modelos   lista numerada tipo tablero; el modelo activo se llena de rojo con el corte; foto grande con columna roja.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+/* — ENTREGAS — */
+html body .eg{grid-template-columns:repeat(12,minmax(0,1fr))!important;grid-auto-rows:clamp(60px,8.6vw,124px);gap:clamp(8px,.9vw,14px)!important;grid-auto-flow:dense}
+html body .eg li{aspect-ratio:auto!important;transform:none!important;grid-column:span 3;grid-row:span 2;transition:opacity .5s var(--ease)}
+html body .eg li:nth-child(1){grid-column:span 5;grid-row:span 4;--c:clamp(40px,6vw,92px)}
+html body .eg li:nth-child(2){grid-column:span 4}html body .eg li:nth-child(3){grid-column:span 3}
+html body .eg li:nth-child(4){grid-column:span 3}html body .eg li:nth-child(5){grid-column:span 4}
+html body .eg li:nth-child(10),html body .eg li:nth-child(11),html body .eg li:nth-child(12){grid-column:span 4}
+html body .eg li:nth-child(1)::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--rojo);z-index:2}
+html body .eg li:nth-child(1)::after{font-size:clamp(15px,1.5vw,22px);padding:10px 18px 10px 14px}
+html body .eg:hover li:not(:hover){opacity:.5}
+.ec{display:inline-block;margin:0 0 clamp(14px,2vw,26px);padding:9px 30px 9px 2.3em;background:linear-gradient(90deg,var(--rojo) 0 1.1em,#fff 1.1em);color:var(--ink);font:800 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;clip-path:var(--cut);--c:12px}
+@media(max-width:899px){
+ html body .eg{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:clamp(120px,36vw,200px)}
+ html body .eg li,html body .eg li:nth-child(n){grid-column:span 1;grid-row:span 1}
+ html body .eg li:nth-child(1),html body .eg li:nth-child(6),html body .eg li:nth-child(11){grid-column:span 2;grid-row:span 2}
+}
+/* — MODELOS — */
+html body #modelos .w{width:min(1180px,calc(100% - 2*clamp(20px,4vw,64px)))!important;margin-inline:auto!important}
+html body #modelos .mdh{margin-bottom:clamp(20px,3vw,44px)}
+html body #mdl{counter-reset:m;margin:0;padding:0;list-style:none;border-bottom:3px solid #fff}
+html body #mdl li{counter-increment:m;border-top:3px solid #fff}
+html body #mdl a{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;column-gap:clamp(12px,1.6vw,24px);align-items:center;padding:clamp(12px,1.4vw,20px) clamp(8px,1vw,16px)!important;color:#fff!important;text-decoration:none;background:transparent!important;border:0!important;transition:background .45s var(--ease),color .45s var(--ease);position:relative}
+html body #mdl a::before{content:counter(m,decimal-leading-zero);grid-row:1/span 2;font:800 clamp(28px,3vw,46px)/1 var(--font-display);color:transparent;-webkit-text-stroke:1.5px #fff;min-width:1.6em;transition:color .45s var(--ease),-webkit-text-stroke-color .45s var(--ease)}
+html body #mdl a>img{display:none}
+html body #mdl b{font:800 clamp(16px,1.7vw,25px)/1 var(--font-display)!important;text-transform:uppercase;letter-spacing:-.01em;grid-column:2}
+html body #mdl small{grid-column:2;font:500 13px/1.3 "Instrument Sans",system-ui,sans-serif;color:var(--plata);margin-top:5px}
+html body #mdl .mdv{grid-row:1/span 2;grid-column:3;font:800 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;opacity:0;translate:-10px 0;transition:opacity .4s var(--ease),translate .4s var(--ease)}
+html body #mdl .mdv::after{content:" →"}
+html body #mdl a:is(:hover,:focus-visible,.act){background:var(--rojo)!important;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+html body #mdl a:is(:hover,:focus-visible,.act) small{color:#fff}
+html body #mdl a:is(:hover,:focus-visible,.act)::before{-webkit-text-stroke-color:#fff}
+html body #mdl a:is(:hover,:focus-visible,.act) .mdv{opacity:1;translate:0 0}
+@media(hover:hover) and (min-width:900px){
+ html body .mdg{grid-template-columns:minmax(0,6fr) minmax(0,6fr)!important;gap:clamp(24px,4vw,64px)!important;align-items:start}
+ html body .mdf{position:sticky;top:110px;background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}
+ html body .mdf .mdp>img{width:100%;aspect-ratio:4/3;height:auto!important;object-fit:cover;clip-path:var(--cut);--c:clamp(40px,6vw,92px)}
+ html body .mdf .mdk{display:none!important}
+ html body .mdf .mdp::before,html body .mdf .mdp::after{display:none!important}
+ html body .mdf .mdth{position:static!important;display:flex;gap:6px;margin-top:10px;background:none!important;padding:0!important}
+ html body .mdf .mdb{border:0!important;border-radius:0!important;opacity:.55;outline:0;transition:opacity .3s}
+ html body .mdf .mdb:is(.on,:hover){opacity:1;box-shadow:inset 0 -4px 0 var(--rojo)}
+}
+/* v5 · fixes Modelos: numeral en el flujo de la grilla; panel de la foto sin fondo ni rayas heredadas */
+html body #mdl a::before{position:static!important;inset:auto!important;width:auto!important;height:auto!important;transform:none!important;background:none!important;display:block!important;border:0!important;opacity:1!important;-webkit-text-stroke-color:#fff!important}
+html body #mdl a:is(:hover,:focus-visible,.act)::after{display:none!important}
+@media(hover:hover) and (min-width:900px){
+ html body .mdf::before,html body .mdf::after{display:none!important}
+ html body .mdf .mdp{background:none!important;box-shadow:none!important;border:0!important;padding:0!important;inset:auto!important}
+ html body .mdf .mdp.on{position:relative!important;display:block!important}
+ html body .mdf .mdp:not(.on){display:none!important}
+ html body .mdf .mdp>img{position:static!important;max-width:none}
+ html body .mdf .mdpt{position:static!important;background:none!important;padding:14px 0 0!important;color:#fff;font:800 clamp(18px,1.8vw,26px)/1.05 var(--font-display);text-transform:uppercase}
+ html body .mdf .mdpt *{color:inherit;font-family:inherit}
+ html body .mdf .mdp.on::before{content:"";display:block!important;position:absolute;left:0;top:0;width:10px;aspect-ratio:auto;height:calc(100% - 0px);background:var(--rojo);z-index:3;max-height:calc(var(--ph,100%))}
+}
+@media(hover:hover) and (min-width:900px){
+ html body .mdf .mdp.on::before,html body .mdf .mdp.on::after,html body .mdf .mdpt::before,html body .mdf .mdpt::after,html body .mdf .mdth::before,html body .mdf .mdth::after{display:none!important;content:none!important}
+ html body .mdf .mdp>img{width:100%!important;height:auto!important;aspect-ratio:4/3!important;object-fit:cover!important;margin:0!important;left:auto!important;right:auto!important;top:auto!important;transform:none!important;border-left:10px solid var(--rojo)!important;filter:none!important}
+ html body .mdf .mdth{margin-left:10px}
+}
+@media(max-width:899px){.ec{font-size:10.5px;letter-spacing:.08em;padding-right:26px}html body #mdl .mdv{display:none}}
