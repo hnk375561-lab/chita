@@ -732,3 +732,18 @@ html body #entregas .eg li .sl,html body #entregas .eg li:nth-child(1) .sl{left:
  html body #entregas .eg li:nth-child(1),html body #entregas .eg li:nth-child(8){grid-column:span 2}
 }
 @media(prefers-reduced-motion:reduce){.eg-next{transition:none}}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHITA v17 · HERO: un solo protagonista (el reel)
+   Se retiran del hero el carrusel de unidades y el segundo wordmark (el logo
+   queda solo en el header). El reel se muestra completo, en 9:16 como el video,
+   para que los subtítulos grabados no se recorten. Las reglas anteriores del
+   carrusel (.hx-show, .hx-photo, .hx-info) quedan sin efecto: ya no hay HTML.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media(min-width:900px){
+ html body main>.hero.hx{grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(24px,4vw,64px);align-items:center;padding-right:clamp(20px,3vw,48px)}
+ html body .hx-reel{width:auto;height:min(calc(100svh - var(--hx-top,110px) - 32px),680px);min-height:420px;aspect-ratio:9/16;align-self:center;margin:16px 0}
+}
+@media(max-width:899px){
+ html body .hx-reel{aspect-ratio:9/16;max-height:none;width:min(100%,calc(76svh * 9 / 16));margin-inline:auto}
+}

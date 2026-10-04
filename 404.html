@@ -6,31 +6,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Página no encontrada · Chita Automotores</title>
-<meta name="theme-color" content="#0E1B26">
+<meta name="theme-color" content="#022061">
 <link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <style>
 @font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:200 800;font-display:swap;src:url(fonts/bricolage-grotesque-latin.woff2) format("woff2")}
 @font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/instrument-sans-latin.woff2) format("woff2")}
+:root{--azul:#022061;--noche:#011439;--bordo:#520504;--chapa:#0A2C8C;--rojo:#C1121F;--papel:#ECEDEA;--tinta:#0A1020;--cut:polygon(0 0,calc(100% - 28px) 0,100% 28px,100% 100%,0 100%)}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0E1B26;color:#fff;font:400 17px/1.55 "Instrument Sans",system-ui,sans-serif;text-align:center;padding:32px 20px}
-main{max-width:520px}.lg{width:min(280px,80%);height:auto;margin:0 auto 24px}
-.k{font:600 13px "Instrument Sans",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#aebbc3;margin:0 0 12px}
-h1{font:700 clamp(32px,8vw,48px)/1.05 "Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;letter-spacing:-.02em;margin:0 0 14px}
-p{margin:0 0 24px;color:#d3dde3}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--azul);color:#fff;font:400 17px/1.55 "Instrument Sans",system-ui,sans-serif;padding:32px 20px}
+/* LA BANDA: tres franjas diagonales (azul, azul noche, bordó) con filete blanco doble; los colores salen del fondo de marca */
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(124deg,var(--azul) 0 44%,var(--papel) 44% 44.7%,var(--azul) 44.7% 45.6%,var(--papel) 45.6% 45.9%,var(--azul) 45.9% 49%,var(--noche) 49% 66%,var(--bordo) 66% 94%,#780A0B 94%)}
+main{width:min(560px,100%);background:var(--azul);border-left:10px solid var(--rojo);clip-path:var(--cut);padding:clamp(24px,5vw,44px) clamp(20px,5vw,44px) clamp(28px,5vw,44px);text-align:center}
+/* LA CHAPA CHITA: patente con "CHITA" fijo en la banda azul */
+.chapa{width:min(300px,100%);margin:0 auto 24px;background:var(--papel);color:var(--tinta);border:3px solid var(--tinta);clip-path:var(--cut)}
+.chapa i{display:block;background:var(--chapa);color:#fff;font:800 13px/1 "Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;font-style:normal;letter-spacing:.38em;text-indent:.38em;text-transform:uppercase;padding:9px 0}
+.chapa b{display:block;font:800 clamp(64px,20vw,104px)/1 "Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;letter-spacing:.04em;padding:10px 0 0}
+.chapa small{display:block;font:700 12px/1 "Instrument Sans",system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;padding:6px 0 14px}
+h1{font:800 clamp(28px,7vw,42px)/1.02 "Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;letter-spacing:-.02em;text-transform:uppercase;margin:0 0 14px}
+p{margin:0 0 24px;color:#dfe5f3}
 .row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1.5px solid #fff;color:#fff;font:600 16px "Instrument Sans",system-ui,sans-serif;text-decoration:none;border-radius:3px}
-.btn:hover{background:#fff;color:#0E1B26}
-.btn.p{background:#fff;color:#0E1B26}.btn.p:hover{background:#DCE2E6}
-:focus-visible{outline:3px solid #34B4D2;outline-offset:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 26px;color:#fff;font:800 15px/1 "Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;box-shadow:inset 0 0 0 2px #fff;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
+.btn:hover{background:#fff;color:var(--tinta)}
+.btn.p{background:var(--rojo);box-shadow:none}.btn.p:hover{background:var(--chapa);color:#fff}
+.tel{margin:22px 0 0;font-size:15px;color:#dfe5f3}.tel a{color:#fff;font-weight:600}
+:focus-visible{outline:3px solid #fff;outline-offset:3px}
 </style>
 </head>
 <body>
 <main>
-<img class="lg" src="images/logo-claro.webp" alt="Chita Automotores" width="722" height="287">
+<div class="chapa" aria-hidden="true"><i>Chita</i><b>404</b><small>Patente no encontrada</small></div>
 <h1>No encontramos esa página</h1>
 <p>El enlace puede estar mal escrito o la página ya no existe. Volvé al inicio para ver las unidades, o escribinos y te ayudamos.</p>
-<div class="row"><a class="btn p" href="./">Volver al inicio</a><a class="btn" href="./#unidades">Ver unidades</a><a class="btn" href="tel:+543442442782">Llamar a la agencia</a><a class="btn" href="https://wa.me/5493442647442?text=Hola!%20Quiero%20consultar%20por%20las%20unidades%20disponibles." target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a></div>
+<div class="row"><a class="btn p" href="./">Volver al inicio</a><a class="btn" href="https://wa.me/5493442647442?text=Hola!%20Quiero%20consultar%20por%20las%20unidades%20disponibles." target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a></div>
+<p class="tel">O llamanos al <a href="tel:+543442442782">03442 44-2782</a></p>
 </main>
 </body>
 </html>

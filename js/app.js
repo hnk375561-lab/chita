@@ -20,7 +20,7 @@ function est(c){var k=ES[c.estado]?c.estado:"consultar";return '<p class="est e-
 var CHV={l:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',r:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>'};
 function garr(){return '<button type="button" class="g-a l" data-d="-1" aria-label="Foto anterior" disabled>'+CHV.l+'</button><button type="button" class="g-a r" data-d="1" aria-label="Foto siguiente">'+CHV.r+'</button>'}
 function card(c){var i=STOCK.indexOf(c),f=ph(c),t=[],n=c.nota||"";if(/única mano/i.test(n))t.push("Única mano");if(/permuta/i.test(n))t.push("Permuta");
-var im=f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+f.map(function(s,k){return '<img src="'+esc(s)+'" srcset="'+ss(s)+'" sizes="'+CSZ+'" alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" loading="'+(k?'lazy':'eager')+'" decoding="async" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")+'</div></div>'+(f.length>1?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos a confirmar</span>';
+var im=f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+f.map(function(s,k){return '<img src="'+esc(s)+'" srcset="'+ss(s)+'" sizes="'+CSZ+'" alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" loading="'+(k?'lazy':'eager')+'" decoding="async" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")+'</div></div>'+(f.length>1?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos: consultar</span>';
 var e=eqs(c),eh=e.slice(0,4).map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+(e.length>4?'<li class="mas">+'+(e.length-4)+' más en la ficha</li>':"");
 return '<article class="car" data-i="'+i+'"><div class="im" data-gal>'+im+'</div><h3><button type="button" class="st" data-i="'+i+'">'+esc(c.titulo)+'</button></h3><p class="meta">'+esc(c.anio||"")+' · '+esc(c.km||"Km: consultar")+(c.combustible?' · '+esc(c.combustible):'')+'</p>'+est(c)+(t.length?'<p class="tg">'+t.join(" · ")+'</p>':'')+(eh?'<ul class="eqp" aria-label="Equipamiento">'+eh+'</ul>':'')+'<div class="pr"><button type="button" class="st vf" data-i="'+i+'" aria-label="Ver ficha completa de '+esc(c.titulo)+'">Ver ficha completa ›</button></div><a class="btn wab" href="'+wa(ask(c))+'"'+(isWebContact(wa(ask(c)))?' target="_blank" rel="noopener noreferrer"':'')+' aria-label="Consultar esta unidad: '+esc(c.titulo)+'">Consultar</a></article>'}
 /*PRE:end*/
@@ -76,8 +76,8 @@ function slug(c){return String((c.corto||c.titulo)+"-"+c.anio).normalize("NFD").
 function shareUrl(i){return location.href.split("#")[0]+"#unidad-"+slug(STOCK[i])}
 function tbc(v){return v?'<dd>'+esc(v)+'</dd>':""}
 function edad(c){var a=new Date().getFullYear()-(+c.anio||0),k=parseInt(String(c.km).replace(/\D/g,""),10),h="";if(c.anio&&a>0){h+='<div><dt>Antigüedad</dt><dd>'+a+(a===1?" año":" años")+'</dd></div>';if(k>0)h+='<div><dt>Km por año (aprox.)</dt><dd>'+Math.round(k/a).toLocaleString("es-AR")+'</dd></div>'}return h}
-function ext(c){var n=c.nota||"",pu=n.match(/(\d)\s*puertas/i),h=edad(c);if(pu)h+='<div><dt>Puertas</dt>'+tbc(pu[1])+'</div>';if(/única mano/i.test(n))h+='<div><dt>Titulares</dt>'+tbc("Única mano")+'</div>';if(c.transmision)h+='<div><dt>Transmisión</dt>'+tbc(c.transmision)+'</div>';if(/permuta/i.test(n))h+='<div><dt>Permuta</dt>'+tbc("Figura en la publicación")+'</div>';return h}
-function eqm(c){var e=eqs(c);return e.length?'<div class="fce"><b>Equipamiento según la publicación</b><ul>'+e.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+"</ul></div>":""}
+function ext(c){var n=c.nota||"",pu=n.match(/(\d)\s*puertas/i),h=edad(c);if(pu)h+='<div><dt>Puertas</dt>'+tbc(pu[1])+'</div>';if(/única mano/i.test(n))h+='<div><dt>Titulares</dt>'+tbc("Única mano")+'</div>';if(c.transmision)h+='<div><dt>Transmisión</dt>'+tbc(c.transmision)+'</div>';if(/permuta/i.test(n))h+='<div><dt>Permuta</dt>'+tbc("Consultar")+'</div>';return h}
+function eqm(c){var e=eqs(c);return e.length?'<div class="fce"><b>Equipamiento</b><ul>'+e.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+"</ul></div>":""}
 function setHash(h){try{history.replaceState(null,"",location.href.split("#")[0]+h)}catch(x){}}
 var ci=0,lf;
 function fimgs(c,f){return f.map(function(s,k){return '<img src="'+esc(s)+'" srcset="'+ss(s)+'" sizes="(min-width:1000px) 700px,100vw" alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")}
@@ -85,13 +85,13 @@ function fthumbs(c,f){return f.map(function(s,k){return '<button type="button" d
 function open_(i,keep){var n=STOCK.length,was=D.open;i=(i+n)%n;ci=i;var c=STOCK[i],f=ph(c),multi=f.length>1;
 D.setAttribute("aria-label","Ficha: "+c.titulo);
 D.innerHTML='<button class="fcx" type="button" data-x aria-label="Cerrar ficha"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+
-'<div class="fc"><div class="fcg" data-gal><div class="fcs">'+(f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+fimgs(c,f)+'</div></div>'+(multi?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos a confirmar</span>')+'</div>'+
+'<div class="fc"><div class="fcg" data-gal><div class="fcs">'+(f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+fimgs(c,f)+'</div></div>'+(multi?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos: consultar</span>')+'</div>'+
 (multi?'<div class="g-t" role="group" aria-label="Miniaturas de fotos">'+fthumbs(c,f)+'</div>':'')+BRAND+'</div>'+
 '<div class="fci"><div class="fcb"><div class="fcu"><button type="button" data-n="'+(i-1)+'" data-k="p" aria-label="Unidad anterior">← Anterior</button><span>Unidad '+(i+1)+' de '+n+'</span><button type="button" data-n="'+(i+1)+'" data-k="s" aria-label="Unidad siguiente">Siguiente →</button></div>'+
 '<h3 class="fch">'+esc(c.titulo)+'</h3>'+est(c)+
 '<dl class="fcd"><div><dt>Año</dt><dd>'+esc(c.anio||"—")+'</dd></div><div><dt>Km</dt><dd>'+esc(c.km||"Consultar")+'</dd></div><div><dt>Combustible</dt><dd>'+esc(c.combustible||"—")+'</dd></div><div><dt>Precio</dt><dd>'+esc(c.precio||"Consultar")+'</dd></div>'+ext(c)+'</dl>'+eqm(c)+
 (c.nota?'<p class="fcn">'+esc(c.nota)+'</p>':'')+
-'<p class="fcn s">Datos y fotos orientativos. «A confirmar» quiere decir que la publicación no lo informa. Confirmá precio, disponibilidad y estado con nosotros antes de decidir.</p>'+
+'<p class="fcn s">Confirmá precio, disponibilidad y estado con nosotros antes de decidir.</p>'+
 '<div class="fcr"><button class="btn" type="button" data-sh>Copiar enlace</button><a class="btn" href="https://wa.me/?text='+encodeURIComponent(c.titulo+" "+c.anio+": "+shareUrl(i))+'" target="_blank" rel="noopener noreferrer">Compartir enlace</a></div><p class="fcn s" role="status" data-shs></p></div>'+
 '<div class="fcft"><a class="btn p" href="'+wa(ask(c))+'">Consultar esta unidad</a></div></div></div>';
 var ct=D.querySelector(".ct");if(ct)gLoad(ct);
@@ -110,6 +110,8 @@ var b=e.target.closest("[data-n]");if(b)open_(+b.getAttribute("data-n"),b.getAtt
    Se vinculan por título; una unidad sin entrada usa su primera foto, y null la omite (misma unidad que otra ya presente). */
 var HCOVER={"Renault Clio Dynamique 1.2N":"assets/w800/8.webp","Chevrolet Tracker Premier 1.8N":"assets/w800/27.webp","Fiat Palio Attractive 1.4N":"assets/w800/22.webp","Chevrolet Tracker Premier 1.8N · Serie 2":null,"Fiat Palio Attractive 1.4N · Serie 2":"assets/w800/35.webp","Renault Kangoo Comfort 1.6N":"assets/w800/41.webp","Renault Kangoo Authentique 1.6N":"assets/w800/47.webp","Kia K3 EX Cross 1.6N":"assets/w800/53.webp","Peugeot 301 Allure 1.6 HDI":"assets/w800/57.webp","Peugeot Partner Patagónica 1.4N":"assets/w800/61.webp","Chevrolet Tracker Premier 1.2T":"assets/tracker-2021-1.webp"};
 var HTHUMB={"assets/w800/8.webp":"assets/hero/t-8.webp","assets/w800/27.webp":"assets/hero/t-27.webp","assets/w800/22.webp":"assets/hero/t-22.webp","assets/w800/35.webp":"assets/hero/t-35.webp","assets/w800/41.webp":"assets/hero/t-41.webp","assets/w800/47.webp":"assets/hero/t-47.webp","assets/w800/53.webp":"assets/hero/t-53.webp","assets/w800/57.webp":"assets/hero/t-57.webp","assets/w800/61.webp":"assets/hero/t-61.webp","assets/w800/9.webp":"assets/hero/t-9.webp"};
+/* Carrusel de unidades del hero: solo existe si el HTML lo trae (desde v17 el hero es el reel). */
+if($("hs")){
 var HZ=$("hzs"),HN=$("hn"),HM=$("hm"),HW=$("hw"),HF=$("hf"),HC=$("hcount"),HR=$("hrail"),HV=$("hv"),HNAV=$("hnav"),hi=0,SL=[],hsl,hAnim=null;
 STOCK.forEach(function(c,ci){var s=Object.prototype.hasOwnProperty.call(HCOVER,c.titulo)?HCOVER[c.titulo]:ph(c)[0];if(s)SL.push({c:ci,src:s})});
 var hL=SL.length;
@@ -143,20 +145,15 @@ HF.addEventListener("click",function(){open_(SL[hi].c)});HW.setAttribute("aria-l
 hstate();
 /* La primera foto la pide el HTML; la siguiente y la anterior se precargan cuando el navegador está libre, nunca todas juntas */
 (window.requestIdleCallback||function(f){setTimeout(f,1200)})(function(){hl(1%hL);hl(hL-1)},{timeout:3000});
+window.chitaHero={go:heroGo,next:function(){heroGo(hi+1,1)},get i(){return hi},n:hL};
+}
 /* El hero mide la pantalla restando aviso de demo y cabecera: así entra completo, sin cortar título ni botones */
 function hxTop(){var d=document.querySelector(".demo"),h=document.querySelector("header"),r=document.getElementById("hero");if(!r)return;var t=(d?Math.max(0,d.getBoundingClientRect().bottom+scrollY):0)+(h?h.offsetHeight:0);r.style.setProperty("--hx-top",Math.round(t)+"px")}
 hxTop();window.addEventListener("resize",hxTop);window.addEventListener("load",hxTop);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(hxTop);
 function fromHash(){var m=/^#unidad-(.+)$/.exec(location.hash||"");if(!m)return;for(var i=0;i<STOCK.length;i++)if(slug(STOCK[i])===m[1]){open_(i);return}}
 window.addEventListener("hashchange",fromHash);fromHash();
-/* Hero v11: ambiente (foto de la unidad desenfocada de fondo, con fundido), datos en celdas y sello de la agencia. Solo datos que ya están en el sitio. */
-(function(){var R=$("hero");if(!R||!hL)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
-function amb(src,first){var n=first?0:cu^1,a=Ls[n],o=Ls[cu];a.style.backgroundImage="url('"+src+"')";a.classList.add("on");if(!first){o.classList.remove("on");cu=n}}
-amb(SL[0].src,true);document.addEventListener("chita:hero",function(e){amb(SL[e.detail.to].src)});
-var cap=HM&&HM.parentNode;if(cap){var sp=document.createElement("dl");sp.className="hx-spec";sp.setAttribute("aria-hidden","true");HM.insertAdjacentElement("afterend",sp);
-function spec(c){sp.innerHTML='<div><dt>Año</dt><dd>'+esc(c.anio||"—")+'</dd></div><div><dt>Km</dt><dd>'+esc(c.km||"Consultar")+'</dd></div><div><dt>Combustible</dt><dd>'+esc(c.combustible||"—")+'</dd></div>'}
-spec(STOCK[SL[0].c]);document.addEventListener("chita:hero",function(e){spec(STOCK[SL[e.detail.to].c])})}
-var cp=R.querySelector(".hx-copy");if(cp){var ft=document.createElement("p");ft.className="hx-foot hx-ui";ft.textContent=STOCK.length+" unidades publicadas · "+N.direccion+", Concepción del Uruguay";cp.appendChild(ft)}})();
-window.chitaHero={go:heroGo,next:function(){heroGo(hi+1,1)},get i(){return hi},n:hL};
+/* Línea de datos al pie del texto del hero (la lee identidad.js para la Cinta). */
+(function(){var R=$("hero"),cp=R&&R.querySelector(".hx-copy");if(cp){var ft=document.createElement("p");ft.className="hx-foot hx-ui";ft.textContent=STOCK.length+" unidades publicadas · "+N.direccion+", Concepción del Uruguay";cp.appendChild(ft)}})();
 
 /* Vender o permutar: una unidad por vez (segunda foto de cada una). motion.js anima el cambio con el evento chita:vr */
 (function(){var VR=$("vr"),VZ=$("vrs"),VN=$("vrN"),VM=$("vrM"),VI=$("vrI"),VB=$("vrr"),vi=0,VS=[];

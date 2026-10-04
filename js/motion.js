@@ -383,7 +383,7 @@ function initHero() {
     /* Estado inicial. El CSS mantiene oculto el texto con .mh hasta este punto; la foto está pintada desde el
        primer frame (el telón la cubre), así que la imagen principal no espera al JS para empezar a descargarse. */
     gsap.set(headerItems, { yPercent: -120, opacity: 0 });
-    gsap.set(logo, { opacity: 0, y: 12 });
+    if (logo) gsap.set(logo, { opacity: 0, y: 12 });
     gsap.set(words, { yPercent: 118, rotate: 4, transformOrigin: "0% 100%" });
     gsap.set(lead, { opacity: 0, y: 18 });
     gsap.set(goItems, { opacity: 0, y: 16 });
@@ -398,7 +398,7 @@ function initHero() {
     })
       .to(headerItems, { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: EASE.expo }, 0)
       .to(veil || [], { yPercent: -100, duration: 1.25, ease: EASE.mask }, 0.1)
-      .to(logo, { opacity: 1, y: 0, duration: 0.8 }, 0.3)
+      .to(logo || [], { opacity: 1, y: 0, duration: 0.8 }, 0.3)
       .to(words, { yPercent: 0, rotate: 0, duration: 1.05, ease: EASE.expo, stagger: 0.055 }, 0.4)
       .to(lead, { opacity: 1, y: 0, duration: 0.9 }, 0.85)
       .to(goItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0)
