@@ -105,3 +105,11 @@ var E=[].slice.call(d.querySelectorAll("#stockGrid .car,#operaciones .oc,#opinio
 var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){var t=x.target;t.style.setProperty("--d",(([].indexOf.call(t.parentNode.children,t))%4)*70+"ms");t.classList.add("in");io.unobserve(t)}})},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
 E.forEach(function(e){e.classList.add("cz7");io.observe(e)});
 })();
+/* CHITA · v9 — El pie también es un talón: perforación y «Fin del talonario». Sin listeners. */
+(function(){
+var f=document.querySelector("footer"),m=document.querySelector("main");if(!f||!m)return;
+var l=m.querySelector(":scope>section:last-of-type"),c=l?getComputedStyle(l).backgroundColor:"#ECEDEA";
+var p=document.createElement("i");p.className="pf";p.setAttribute("aria-hidden","true");p.style.setProperty("--pv",c);f.insertBefore(p,f.firstChild);
+var n=m.querySelectorAll(":scope>section[id]").length,t=document.createElement("p");t.className="fin7";t.setAttribute("aria-hidden","true");t.textContent="Fin del talonario · "+n+"/"+n;
+var w=f.querySelector(".w");if(w)w.insertBefore(t,w.firstChild);
+})();

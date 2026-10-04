@@ -478,3 +478,60 @@ html body main>section :is(h2,h3,p,li,summary,span,small){text-shadow:none}
 html body #stockGrid .car{counter-increment:u}
 html body #stockGrid .car::after{content:"U·" counter(u,decimal-leading-zero);position:absolute;top:0;right:calc(var(--c,22px) + 6px);z-index:6;padding:7px 11px 7px 9px;background:var(--ink);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.14em;pointer-events:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%)}
 @media(prefers-reduced-motion:reduce){.cz7{clip-path:none}}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v9 · EL TALONARIO LLEGA AL FINAL
+   Preguntas   cada pregunta es una línea de remito P·NN; la abierta se llena de rojo con el corte y se despliega con barrido.
+   Operaciones cada tarjeta es un talón O·NN: foto arriba, perforación, cuerpo abajo.
+   Nosotros    las cifras publicadas son bloques de tinta con numeral rojo y columna; la foto lleva la columna roja del local.
+   Cierre      el pie también se corta del talonario: perforación + «Fin del talonario».
+   ═══════════════════════════════════════════════════════════════════════════════ */
+/* — PREGUNTAS — */
+html body #preguntas .fl{text-align:left!important}
+html body #preguntas .fl :is(h2,.sub){text-align:left!important;margin-left:0!important}
+html body #preguntas .fa{counter-reset:q;border-top:3px solid var(--ink)}
+html body #preguntas .fa details{counter-increment:q;border:0!important;border-bottom:3px solid var(--ink)!important;background:transparent;transition:background .45s var(--ease),color .45s var(--ease)}
+html body #preguntas .fa summary{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:clamp(10px,1.4vw,20px);list-style:none;cursor:pointer;padding-inline:8px!important;font:800 clamp(16px,1.45vw,21px)/1.15 var(--font-display)!important;text-transform:uppercase;letter-spacing:-.005em;color:var(--ink)}
+html body #preguntas .fa summary::-webkit-details-marker{display:none}
+html body #preguntas .fa summary::before{content:"P·" counter(q,decimal-leading-zero);font:800 11px/1 var(--font-display);letter-spacing:.16em;color:var(--rojo);min-width:3.2em}
+html body #preguntas .fa summary::after{content:"+";display:grid;place-items:center;width:30px;height:30px;font:800 20px/1 var(--font-display);background:var(--ink);color:#fff;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);transition:rotate .4s var(--ease-i),background .4s var(--ease)}
+html body #preguntas .fa details:is([open],:hover) summary::after{background:var(--rojo)}
+html body #preguntas .fa details[open]{background:var(--rojo);color:#fff;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%)}
+html body #preguntas .fa details[open] summary{color:#fff}
+html body #preguntas .fa details[open] summary::before{color:#fff}
+html body #preguntas .fa details[open] summary::after{rotate:45deg;background:var(--ink)}
+html body #preguntas .fa details[open]>:not(summary){color:#fff;padding-inline:calc(8px + 3.2em + clamp(10px,1.4vw,20px)) 16px;animation:fa-in .5s var(--ease) both}
+html body #preguntas .fa details[open] a{color:#fff;text-decoration:underline}
+@keyframes fa-in{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+/* — OPERACIONES: talones — */
+html body #operaciones .og{counter-reset:o}
+html body #operaciones .oc{counter-increment:o;position:relative}
+html body #operaciones .oc::after{content:"O·" counter(o,decimal-leading-zero);position:absolute;top:0;left:0;z-index:6;padding:7px 12px 7px 10px;background:var(--ink);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.16em;pointer-events:none}
+html body #operaciones .oc .ob{border-top:3px dashed var(--ink);position:relative}
+html body #operaciones .oc .ob h3{font:800 clamp(20px,1.9vw,28px)/1 var(--font-display)!important;text-transform:uppercase}
+html body #operaciones .oc .ob a{display:inline-block;margin-top:10px;padding:9px 16px 9px 12px;background:var(--rojo);color:#fff!important;font:800 12px/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;clip-path:var(--cut-sm);transition:background .4s var(--ease),translate .4s var(--ease-i)}
+html body #operaciones .oc .ob a:hover{background:var(--chapa);translate:4px 0}
+/* — NOSOTROS — */
+html body #nosotros .ns{gap:0!important;border-left:10px solid var(--rojo)}
+html body #nosotros .ns>div{background:var(--ink)!important;color:#fff;border-right:3px dashed rgba(255,255,255,.4);padding:clamp(14px,1.6vw,24px)!important}
+html body #nosotros .ns>div:last-child{border-right:0}
+html body #nosotros .ns b{font-family:var(--font-display)!important;font-weight:800!important;color:var(--rojo)!important;letter-spacing:-.03em}
+html body #nosotros .ns span{color:var(--plata)!important;font:700 11px/1.3 var(--font-display)!important;letter-spacing:.12em!important}
+html body #nosotros .ph{border-left:10px solid var(--rojo);position:relative}
+/* — CIERRE — */
+footer{position:relative}
+footer .pf{top:0}
+footer .fin7{display:inline-block;margin:0 0 18px;padding:9px 16px 9px 2.3em;background:linear-gradient(90deg,var(--rojo) 0 1.1em,#fff 1.1em);color:var(--ink);font:800 11px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;clip-path:var(--cut-sm)}
+footer{padding-top:clamp(44px,5vw,72px)}
+@media(max-width:899px){
+ html body #preguntas .fa summary{grid-template-columns:minmax(0,1fr) auto;row-gap:6px}
+ html body #preguntas .fa summary::before{grid-column:1/-1}
+ html body #preguntas .fa details[open]>:not(summary){padding-inline:8px 12px}
+ html body #nosotros .ns{grid-template-columns:1fr 1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){html body #preguntas .fa details[open]>:not(summary){animation:none}}
+/* v9 · ajustes */
+html body #preguntas .fa summary::after{position:static!important;inset:auto!important;transform:none!important;margin:0!important;align-self:center;justify-self:end}
+html body #preguntas .fa summary{min-height:0!important;position:relative}
+html body #nosotros h2{font-size:clamp(30px,3.7vw,62px)!important;overflow-wrap:anywhere}
+html body #preguntas .fa details[open] summary::after{content:"×";rotate:none;background:var(--ink)}

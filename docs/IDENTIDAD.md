@@ -14,6 +14,7 @@ Archivos: `css/identidad.css` (se carga al final) y `js/identidad.js`. Núcleo: 
 
 - **v8 · El corte en el hero y en las tarjetas**: el recorrido y la unidad del hero (solo escritorio) entran con barrido diagonal y «SUS DUEÑOS» se corta de izquierda a derecha; unidades, operaciones y reseñas se revelan una sola vez con el mismo corte (clase `cz7`, un `IntersectionObserver`; si no existe, todo queda visible).
 - **v8 · U·NN**: numeración de unidades en la lista (orden de la lista, tipo remito).
+- **v9 · El talonario llega al final**: Preguntas son líneas de remito `P·NN` (la abierta se llena de rojo con el corte y se despliega con barrido); Operaciones son talones `O·NN` con perforación entre foto y cuerpo; las cifras de Quiénes somos son bloques de tinta con numeral rojo; el pie se corta con perforación y «Fin del talonario».
 
 ## Color
 Azul chapa `#0A2C8C`, rojo `#C1121F` (logotipo y columnas del local), papel `#ECEDEA`, tinta `#0A1020`, plata `#B9BEC4`. Sin cian, sin dorado, sin vidrio.
