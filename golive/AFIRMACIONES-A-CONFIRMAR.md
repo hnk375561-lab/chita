@@ -35,7 +35,7 @@ Detalle por dato en `data/sources.json` y `data/vehicles.json`.
 
 - Instagram público: [@chita.automotores](https://www.instagram.com/chita.automotores/?hl=en) muestra “Usados y 0km | Cuotas fijas” y “Gestoría: 3442-547671”; sus destacados incluyen Consignación, Financiación y 0km y usados.
 - GTM publica horarios L-V 08:30–12:00 y 16:00–20:00, sábado 08:30–12:00 y domingo cerrado. Como las fichas públicas discrepan, no se cargan como horario oficial: se mantiene “consultar antes de venir”.
-- No se encontró un WhatsApp inequívocamente confirmado; los CTA del sitio hacen fallback al teléfono fijo 03442 44-2782.
+- WhatsApp Ventas 3442-647442 (`5493442647442`): confirmado en la bio de Facebook y en el perfil de WhatsApp del negocio (capturas del 3/10/2026, ver `data/dealership.json`). Los CTA usan `wa.me`; sin JS o sin número válido hacen fallback al teléfono fijo 03442 44-2782. Pendiente: confirmación escrita del dueño antes de salir a producción.
 
 # Afirmaciones a confirmar (Chita Automotores)
 
