@@ -20,7 +20,7 @@ function est(c){var k=ES[c.estado]?c.estado:"consultar";return '<p class="est e-
 var CHV={l:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',r:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>'};
 function garr(){return '<button type="button" class="g-a l" data-d="-1" aria-label="Foto anterior" disabled>'+CHV.l+'</button><button type="button" class="g-a r" data-d="1" aria-label="Foto siguiente">'+CHV.r+'</button>'}
 function card(c){var i=STOCK.indexOf(c),f=ph(c),t=[],n=c.nota||"";if(/única mano/i.test(n))t.push("Única mano");if(/permuta/i.test(n))t.push("Permuta");
-var im=f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+f.map(function(s,k){return '<img src="'+esc(s)+'" srcset="'+ss(s)+'" sizes="'+CSZ+'" alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" loading="lazy" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")+'</div></div>'+(f.length>1?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos a confirmar</span>';
+var im=f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+f.map(function(s,k){return '<img src="'+esc(s)+'" srcset="'+ss(s)+'" sizes="'+CSZ+'" alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" loading="'+(k?'lazy':'eager')+'" decoding="async" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")+'</div></div>'+(f.length>1?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos a confirmar</span>';
 var e=eqs(c),eh=e.slice(0,4).map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+(e.length>4?'<li class="mas">+'+(e.length-4)+' más en la ficha</li>':"");
 return '<article class="car" data-i="'+i+'"><div class="im" data-gal>'+im+'</div><h3><button type="button" class="st" data-i="'+i+'">'+esc(c.titulo)+'</button></h3><p class="meta">'+esc(c.anio||"")+' · '+esc(c.km||"Km: consultar")+(c.combustible?' · '+esc(c.combustible):'')+'</p>'+est(c)+(t.length?'<p class="tg">'+t.join(" · ")+'</p>':'')+(eh?'<ul class="eqp" aria-label="Equipamiento">'+eh+'</ul>':'')+'<div class="pr"><button type="button" class="st vf" data-i="'+i+'" aria-label="Ver ficha completa de '+esc(c.titulo)+'">Ver ficha completa ›</button></div><a class="btn wab" href="'+wa(ask(c))+'"'+(isWebContact(wa(ask(c)))?' target="_blank" rel="noopener noreferrer"':'')+' aria-label="Consultar esta unidad: '+esc(c.titulo)+'">Consultar</a></article>'}
 /*PRE:end*/
@@ -117,9 +117,9 @@ function hsub(c){return c.anio+" · "+(c.km||"Km: consultar")+" · "+(c.combusti
 function hslide(x,i){var c=STOCK[x.c];return '<div class="hx-s" data-t="'+esc(c.titulo)+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' de '+hL+': '+esc(c.titulo)+'"><img data-src="'+esc(x.src)+'" alt="'+esc(c.titulo+" "+c.anio)+'" width="800" height="1000" decoding="async" draggable="false"></div>'}
 var f0=HZ.firstElementChild;
 /* La primera foto ya viene en el HTML (la misma que el preload): se conserva y se completan sus datos; las demás se crean sin descargarse */
-if(f0&&hL){var c0=STOCK[SL[0].c];f0.setAttribute("data-t",c0.titulo);f0.setAttribute("role","group");f0.setAttribute("aria-roledescription","slide");f0.setAttribute("aria-label","1 de "+hL+": "+c0.titulo);var i0=f0.querySelector("img");i0.src=SL[0].src;i0.alt=c0.titulo+" "+c0.anio;HZ.insertAdjacentHTML("beforeend",SL.slice(1).map(function(x,j){return hslide(x,j+1)}).join(""))}
+if(f0&&hL){var c0=STOCK[SL[0].c];f0.setAttribute("data-t",c0.titulo);f0.setAttribute("role","group");f0.setAttribute("aria-roledescription","slide");f0.setAttribute("aria-label","1 de "+hL+": "+c0.titulo);var i0=f0.querySelector("img");i0.src=SL[0].src;i0.alt=c0.titulo+" "+c0.anio;f0.style.setProperty("--bg","url('"+SL[0].src+"')");HZ.insertAdjacentHTML("beforeend",SL.slice(1).map(function(x,j){return hslide(x,j+1)}).join(""))}
 hsl=HZ.querySelectorAll(".hx-s");
-function hl(i){var s=hsl[i],m=s&&s.querySelector("img");if(m&&m.getAttribute("data-src")){m.src=m.getAttribute("data-src");m.removeAttribute("data-src")}}
+function hl(i){var s=hsl[i],m=s&&s.querySelector("img");if(m&&m.getAttribute("data-src")){m.src=m.getAttribute("data-src");m.removeAttribute("data-src")}if(s&&m&&!s.style.getPropertyValue("--bg"))s.style.setProperty("--bg","url('"+m.src+"')")}
 /* Si una foto no carga, la unidad no queda en blanco: el marco muestra su nombre sobre el fondo de marca */
 HZ.addEventListener("error",function(e){var s=e.target&&e.target.closest&&e.target.closest(".hx-s");if(s)s.classList.add("hx-err")},true);
 /* Riel de miniaturas (112x140 en assets/hero/): solo con JS, porque sin JS el carrusel no se puede mover */
@@ -148,6 +148,14 @@ function hxTop(){var d=document.querySelector(".demo"),h=document.querySelector(
 hxTop();window.addEventListener("resize",hxTop);window.addEventListener("load",hxTop);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(hxTop);
 function fromHash(){var m=/^#unidad-(.+)$/.exec(location.hash||"");if(!m)return;for(var i=0;i<STOCK.length;i++)if(slug(STOCK[i])===m[1]){open_(i);return}}
 window.addEventListener("hashchange",fromHash);fromHash();
+/* Hero v11: ambiente (foto de la unidad desenfocada de fondo, con fundido), datos en celdas y sello de la agencia. Solo datos que ya están en el sitio. */
+(function(){var R=$("hero");if(!R||!hL)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
+function amb(src,first){var n=first?0:cu^1,a=Ls[n],o=Ls[cu];a.style.backgroundImage="url('"+src+"')";a.classList.add("on");if(!first){o.classList.remove("on");cu=n}}
+amb(SL[0].src,true);document.addEventListener("chita:hero",function(e){amb(SL[e.detail.to].src)});
+var cap=HM&&HM.parentNode;if(cap){var sp=document.createElement("dl");sp.className="hx-spec";sp.setAttribute("aria-hidden","true");HM.insertAdjacentElement("afterend",sp);
+function spec(c){sp.innerHTML='<div><dt>Año</dt><dd>'+esc(c.anio||"—")+'</dd></div><div><dt>Km</dt><dd>'+esc(c.km||"Consultar")+'</dd></div><div><dt>Combustible</dt><dd>'+esc(c.combustible||"—")+'</dd></div>'}
+spec(STOCK[SL[0].c]);document.addEventListener("chita:hero",function(e){spec(STOCK[SL[e.detail.to].c])})}
+var cp=R.querySelector(".hx-copy");if(cp){var ft=document.createElement("p");ft.className="hx-foot hx-ui";ft.textContent=STOCK.length+" unidades publicadas · "+N.direccion+", Concepción del Uruguay";cp.appendChild(ft)}})();
 window.chitaHero={go:heroGo,next:function(){heroGo(hi+1,1)},get i(){return hi},n:hL};
 
 /* Vender o permutar: una unidad por vez (segunda foto de cada una). motion.js anima el cambio con el evento chita:vr */

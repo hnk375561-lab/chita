@@ -179,8 +179,8 @@ const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 function initScroll({ desktop }) {
   const inertia = createInertia();
   const lenis = new Lenis({
-    lerp: desktop ? 0.085 : 0.12,
-    wheelMultiplier: 0.92,
+    lerp: desktop ? 0.12 : 0.14,
+    wheelMultiplier: 1,
     smoothWheel: true,
     syncTouch: false,
     allowNestedScroll: true,
@@ -241,7 +241,7 @@ function initScroll({ desktop }) {
     observer = new MutationObserver(() => (dialog.open ? lenis.stop() : lenis.start()));
     observer.observe(dialog, { attributes: true, attributeFilter: ["open"] });
   }
-  qsa(".tw, [role='region'][tabindex]").forEach((el) => el.setAttribute("data-lenis-prevent-wheel", ""));
+  /* v11: el comparador (.tw) ya no se excluye de Lenis: sacar la rueda de Lenis sobre toda la sección hacía que el scroll se trabara. */
 
   /* Hash inicial (enlace compartido a una sección): se resuelve cuando el layout ya es definitivo. */
   const goHash = () => {
@@ -654,9 +654,7 @@ function initReveals({ desktop }, inertia) {
     const colCount = () => Math.max(1, (getComputedStyle(grid).gridTemplateColumns || "").split(" ").filter(Boolean).length);
     const prepare = (cards) => {
       cards.forEach((card) => { card.dataset.mo = "1"; card.dataset.mr = "p"; });
-      gsap.set(cards, { opacity: 0, y: 84 * d, x: 0, rotationX: desktop ? 9 : 0, transformPerspective: 1200, transformOrigin: "50% 100%" });
-      gsap.set(cards.map((c) => qs(".im", c)).filter(Boolean), { clipPath: "inset(0 0 100% 0)" });
-      gsap.set(cards.map((c) => qs(".ct", c)).filter(Boolean), { scale: 1.3, transformOrigin: "50% 50%" });
+      /* v11: las tarjetas nacen visibles y quietas (sin clip, zoom ni opacidad): las fotos ya no rebotan ni titilan. */
     };
     const play = (group) => {
       const cols = grid ? colCount() : 1;
@@ -672,8 +670,7 @@ function initReveals({ desktop }, inertia) {
     };
     const cards = qsa(".car", grid || document);
     prepare(cards);
-    batch(cards, play, { start: "top 92%", gap: 0.08, max: 4 });
-    if (desktop) cards.forEach((card) => { const ct = qs(".ct", card); if (ct) inertia?.add(ct, "skewY", 0.22, "deg", 2.2); });
+    void play;
 
     /* COLUMNAS: cada columna de la grilla responde distinto a la velocidad del scroll (la de la izquierda
        se atrasa, la de la derecha se adelanta) y se acomodan con el resorte al frenar. Solo desktop. */
@@ -684,7 +681,7 @@ function initReveals({ desktop }, inertia) {
       const col = [...grid.children].filter((c) => !c.hidden).indexOf(card);
       return col < 0 ? 0 : ((col % n) - (n - 1) / 2) * 0.1;
     }, "", 5);
-    if (desktop && grid) cards.forEach(columnDrift);
+    void columnDrift;
 
     /* Filtros / orden vuelven a pintar la grilla: las tarjetas nuevas entran en cascada corta. */
     if (grid) {
@@ -694,11 +691,7 @@ function initReveals({ desktop }, inertia) {
           inertia?.refresh();                       // filtros / orden: las columnas se reasignan al nuevo acomodo
           const fresh = qsa(".car:not([data-mo])", grid);
           if (!fresh.length) return;
-          fresh.forEach((card) => { card.dataset.mo = "1"; card.dataset.mr = "p"; });
-          ctx.add(() => gsap.fromTo(fresh,
-            { opacity: 0, y: 34 * d, scale: 0.97 },
-            { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: EASE.soft, stagger: 0.05, clearProps: "opacity,transform", onComplete: () => fresh.forEach((c) => c.removeAttribute("data-mr")) }));
-          if (desktop) fresh.forEach((card) => { const ct = qs(".ct", card); if (ct) inertia?.add(ct, "skewY", 0.22, "deg", 2.2); columnDrift(card); });
+          fresh.forEach((card) => { card.dataset.mo = "1"; });
           ScrollTrigger.refresh();
         }, 60);
       });
@@ -707,8 +700,7 @@ function initReveals({ desktop }, inertia) {
 
     /* MODELOS · las filas entran desde la izquierda, una tras otra. */
     const rows = qsa("#mdl > li");
-    gsap.set(rows, { opacity: 0, x: -70 * d });
-    batch(rows, (g) => gsap.to(g, { opacity: 1, x: 0, duration: 1, ease: EASE.expo, stagger: 0.08, clearProps: "opacity,transform" }), { start: "top 94%", max: 8 });
+    void rows;
 
     /* OPERACIONES · tarjetas alternando lado + foto con persiana; la imagen interior queda con parallax. */
     const ops = qsa("#operaciones .oc");
@@ -789,11 +781,8 @@ function initParallax({ desktop }) {
     /* NOSOTROS · el marco gira y se acomoda; la foto se «abre» desde un arco y se desplaza dentro (3 planos). */
     const frame = qs("#nph"), photo = qs("#nph img"), column = frame?.nextElementSibling;
     if (frame && photo) {
-      gsap.fromTo(frame, { rotate: desktop ? -4 : -2, scale: 0.9 }, { rotate: 0, scale: 1, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(frame, "top 98%", "top 30%") });
-      gsap.fromTo(photo, { clipPath: "inset(10% 14% 10% 14% round 240px 240px 18px 18px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(frame, "top 94%", "top 34%") });
-      gsap.set(photo, { scale: 1.26, transformOrigin: "50% 50%" });
-      gsap.fromTo(photo, { yPercent: -7 * k }, { yPercent: 7 * k, ease: EASE.linear, overwrite: false, immediateRender: false, scrollTrigger: scrub(frame, "top bottom", "bottom top") });
-      if (desktop && column) gsap.fromTo(column, { yPercent: 3 }, { yPercent: -3, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub("#nosotros", "top bottom", "bottom top") });
+      /* v11: foto y texto de «Quiénes somos» quedan quietos para medir exactamente lo mismo (sin giro, zoom, recorte ni parallax). */
+      void column;
     }
     /* Las tres líneas (Usados / Permutas / Consignaciones) se destapan con un wipe controlado por el scroll. */
     qsa("#nosotros .pl > div").forEach((row) => {
@@ -1037,25 +1026,23 @@ function initSceneChoreography({ desktop }) {
   ctx.add(() => {
     /* Unidades: el stock se comporta como una cinta de contacto; cada foto respira a una velocidad. */
     scene("unidades", (s) => {
-      imgDrift(s, ".car .ct", { scale: 1.035, yPercent: -2 * k }, { scale: 1.12, yPercent: 2 * k }, "top 92%", "bottom 8%");
-      qsa(".car .g-c, .car .est", s).forEach((el, i) => gsap.fromTo(el, { x: (i % 2 ? 1 : -1) * 16 * k }, { x: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 88%", "bottom 18%") }));
+      /* v11: sin deriva ni zoom por scroll sobre las fotos de las tarjetas. */
     });
     /* Modelos: lista editorial horizontal + panel que se acerca desde otra profundidad. */
     scene("modelos", (s) => {
       const panel = qs("#mdf", s), list = qs(".mdl", s);
-      if (panel) gsap.fromTo(panel, { yPercent: 9 * k, scale: .94 }, { yPercent: -9 * k, scale: 1.025, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
-      if (list) gsap.fromTo(list, { xPercent: -3 * k }, { xPercent: 3 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 90%", "bottom 12%") });
-      imgDrift(s, ".mdl .mdv img", { scale: 1.04, xPercent: -3 }, { scale: 1.13, xPercent: 3 }, "top 86%", "bottom 18%");
+      /* v11: el panel de vista previa es sticky (CSS): ningún transform por scroll sobre él ni sobre la lista. */
+      void panel; void list;
     });
     /* Comparador: las columnas se separan y vuelven a alinearse como una mesa óptica. */
     scene("versus", (s) => {
       const cards = qsa(".vsc, .vdc", s);
-      cards.forEach((card, i) => gsap.fromTo(card, { x: (i % 2 ? 1 : -1) * 24 * k, rotateY: (i % 2 ? 1 : -1) * 2, transformPerspective: 1200 }, { x: (i % 2 ? -1 : 1) * 8 * k, rotateY: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") }));
-      imgDrift(s, ".vsi img, .vdi img", { scale: 1.08, yPercent: -4 * k }, { scale: 1.18, yPercent: 4 * k }, "top 86%", "bottom 16%");
+      /* v11: comparador sin transformaciones por scroll (era lo que lo hacía trabarse). */
+      void cards;
     });
     /* Nosotros: máscara vertical de la fotografía + tres líneas con velocidades escalonadas. */
     scene("nosotros", (s) => {
-      imgDrift(s, ".ph img", { scale: 1.18, yPercent: -8 * k }, { scale: 1.04, yPercent: 8 * k }, "top bottom", "bottom top");
+      /* v11: la foto del local queda quieta y entera. */
       /* Las filas ya se destapan con su propio wipe (arriba); no se vuelven a recortar ni a desplazar aquí. */
     });
     /* Trayectoria: el registro se lee como una línea que avanza, no como una entrada vertical. */
