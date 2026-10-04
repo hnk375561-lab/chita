@@ -546,8 +546,14 @@ function initSectionBackdrops({ desktop }) {
     const src = sources[section.id]; if (!src) return;
     section.style.position = "relative"; section.style.isolation = "isolate";
     const layer = document.createElement("div"); layer.className = "chita-section-backdrop"; layer.setAttribute("aria-hidden", "true");
-    layer.style.cssText = ["position:absolute","inset:0","z-index:0","pointer-events:none","overflow:clip",`background-image:${veil(section.id)},url(${src})`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1!important","filter:none!important","transform:scale(1.04)","transform-origin:50% 50%","will-change:transform"].join(";");
+    layer.style.cssText = ["position:absolute","inset:0","z-index:0","pointer-events:none","overflow:clip",`background-image:${veil(section.id)}`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1!important","filter:none!important","transform:scale(1.04)","transform-origin:50% 50%","will-change:transform"].join(";");
     section.prepend(layer);
+    /* La foto se pide solo cuando la sección está cerca del viewport (antes bajaban las 5 al abrir el sitio). */
+    const paint = () => { layer.style.backgroundImage = `${veil(section.id)},url(${src})`; };
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) { io.disconnect(); paint(); } }, { rootMargin: "1200px 0px" });
+      io.observe(section); clean.push(() => io.disconnect());
+    } else paint();
     const tween = gsap.fromTo(layer,{yPercent:mobile?-1.5:-3,scale:1.04},{yPercent:mobile?1.5:3,scale:1.04,ease:EASE.linear,immediateRender:true,scrollTrigger:scrub(section,"top 104%","bottom -8%")});
     clean.push(() => { tween.kill(); layer.remove(); section.style.removeProperty("position"); section.style.removeProperty("isolation"); });
   });
@@ -739,8 +745,9 @@ function initReveals({ desktop }, inertia) {
     /* CÓMO TRABAJAMOS / EQUIPO · pasos con marcador que «pega» un rebote. */
     [["#historia .hwl li", 0.16], ["#equipo .eqk li", 0.12]].forEach(([selector, gap]) => {
       const steps = qsa(selector);
+      if (!steps.length) return;
       gsap.set(steps, { opacity: 0, y: 32 * d });
-      steps.forEach((step) => gsap.set(qs("span", step), { scale: 0.2, rotate: 90 }));
+      steps.forEach((step) => { const mark = qs("span", step); if (mark) gsap.set(mark, { scale: 0.2, rotate: 90 }); });
       batch(steps, (g) => {
         gsap.to(g, { opacity: 1, y: 0, duration: 0.95, ease: EASE.soft, stagger: gap, clearProps: "opacity,transform" });
         gsap.to(g.map((s) => qs("span", s)).filter(Boolean), { scale: 1, rotate: 0, duration: 0.8, ease: "back.out(2.6)", stagger: gap, delay: 0.15, clearProps: "transform" });

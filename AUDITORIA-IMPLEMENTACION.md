@@ -1,59 +1,44 @@
-# Auditoría de implementación — Chita Automotores
+# Estado de la auditoría (actualizado el 3/10/2026)
 
-**Fecha:** 3 de octubre de 2026  
-**Repositorio:** `hnk375561-lab/chita`
+Medido con Chromium headless (móvil 390 px, escritorio 1440 px, y anchos de 320, 768 y 1024 px) sobre el sitio servido en local. No reemplaza una prueba en dispositivos reales ni Lighthouse.
 
-## Resultado
+## Resuelto
 
-La auditoría fue aplicada en el código y validada con los scripts del repositorio:
+| Tema | Estado |
+|---|---|
+| WhatsApp | Configurado (`wa.me/5493442647442`). 18 CTAs lo usan; el rótulo pasa de «Llamar» a «Escribinos» por JS. Sin JS cae a `tel:`. |
+| Formularios | Arman el mensaje y abren WhatsApp. Verificado: «Hola! Quiero vender mi auto: Uno, año 2012, 150.000 km.» |
+| Videos | Reales (`recorrido.mp4` 66 s, `ambiente.mp4` 57 s, 480×854). |
+| Datos del local | Dirección única (Gral. Galarza 1712). Sin «1337», sin antigüedad publicada. |
+| Secciones | De 17 a 13. Sin `#trayectoria`, `#equipo` ni `#historia`. |
+| CSS | `!important` de 232 a 115. Hojas externas en `css/`. |
+| Tipografía | 2 familias (DM Serif Display, Instrument Sans) + Bricolage en reserva/viaje. `@font-face` rotos corregidos. |
+| Imágenes | `srcset` con 480w/800w en todas las fotos de unidades. Fondos CSS en WebP. |
+| Repo | Archivos sin uso eliminados. `canonical`, `og:*` y `404.html` apuntan a `/chita/`. `npm run prerender` reparado. |
 
-- `npm test` ✅
-- `npm run test:prod` ✅
-- `npm run audit` ✅ (el script informa líneas de copy que deben revisarse manualmente; no reporta fallos)
-- `git diff --check` ✅
-- Prerender de tarjetas ✅ (11 tarjetas, sincronizadas con `STOCK`)
+## Corregido en esta pasada (medido)
 
-## Puntos corregidos
+| Problema | Antes | Después |
+|---|---|---|
+| Alto de la página en móvil | 66.418 px | 38.071 px |
+| `#catalogo-comparador` en móvil | 32.208 px (11 paneles apilados e invisibles) | 3.872 px |
+| Descarga inicial en móvil (sin scroll) | 7.197 KB · 103 requests | 1.778 KB · 41 requests |
+| Avisos de consola (GSAP «target not found») | 2 | 0 |
 
-### Contacto y conversión
+Causa del primer punto: `.modelos-panel .mdf{display:block}` estaba fuera del `@media (hover:hover) and (min-width:900px)` que contiene las reglas del panel, así que en móvil y tablet se mostraba sin ellas. Escritorio no cambia.
 
-- WhatsApp no confirmado: eliminado como destino público y como placeholder de configuración. Todos los CTAs de consulta caen a `tel:+543442442782`.
-- Los enlaces telefónicos no abren pestañas nuevas.
-- Las tarjetas de unidades usan el mismo fallback telefónico que el resto de la página.
-- Los formularios ya no prometen abrir WhatsApp ni enviar automáticamente: preparan la consulta y explican que debe completarse por teléfono.
-- La página 404 ya no muestra un enlace WhatsApp sin número; ofrece llamada directa.
-- Se conserva el botón de compartir ubicación porque es un enlace genérico de WhatsApp para compartir, no un canal de contacto del negocio.
+## Pendiente (no depende del código)
 
-### Contenido y datos
+Lo tiene que confirmar el dueño; no se inventa. Ver `golive/PRODUCCION.md`:
 
-- Se retiró la referencia no confirmada a «Casi Bv. Montoneras».
-- Se corrigió el texto alternativo de la imagen de «Quiénes somos»: describe el interior del local y no la presenta como logo.
-- Se reemplazaron los horarios diarios «a confirmar» por una única indicación visible: consultar antes de venir porque los horarios publicados no son consistentes.
-- Se mantuvieron precios como `Consultar` y estados como `Consultar disponibilidad`.
-- Se mantuvieron explícitas las limitaciones de financiación, 0 km, consignación, disponibilidad y condiciones vigentes.
-- Se redujo el tono de promesa comercial: no se publican años de experiencia, garantías, tasas ni condiciones no confirmadas.
-- Se preservó el aviso de demo/no oficial y el `noindex` correspondiente.
+- Horarios, razón social, CUIT y correo para `privacidad.html`.
+- Autorización para usar fotos, logo y reseñas; decidir si se tapan patentes.
+- Si el Tracker 1.8N y el Palio 1.4N «Serie 2» son unidades distintas o la misma.
+- Fotos de entregas: confirmar que los clientes aceptan aparecer.
 
-### Accesibilidad y UX
+## Pendiente (código, opcional)
 
-- El control de pausa del carrusel hero está presente y operativo (`#hpause`, `aria-pressed`, `aria-label`).
-- El contador del hero usa `aria-live="off"` para no interrumpir la navegación.
-- El comparador referencia su encabezado con `aria-labelledby`.
-- Se conservan `alt` explícitos, un único `h1`, foco visible, botón de salto y estados `role="status"`.
-- No se agregaron afirmaciones personales no verificadas; la sección del equipo mantiene solo la entidad comercial.
-
-### Rendimiento
-
-- Se eliminó el warm-up que volvía eager todas las portadas y duplicaba descargas después del `load`.
-- Las tarjetas fuera del hero conservan `loading="lazy"`; el precalentamiento queda limitado al mecanismo de navegación del hero.
-- El prerender se volvió a ejecutar y quedó sincronizado con el inventario.
-
-## Validaciones pendientes externas
-
-No son fallos del código y no deben resolverse inventando datos:
-
-- Confirmar con el negocio horarios, WhatsApp oficial, email, CUIT/razón social y condiciones comerciales.
-- Confirmar disponibilidad y precio de cada unidad antes de publicar esos valores.
-- Confirmar que las cuentas sociales enlazadas son las oficiales.
-
-Mientras esos datos no existan por escrito, el sitio muestra teléfono, `Consultar`, `a confirmar` o indicaciones neutrales según corresponda.
+- `!important` restantes (93 en `site.css`) y namespacing de clases cortas.
+- `images/`: 9 variantes `-480`/`-800` del local y de «equipo» son placeholders («FOTO A CARGAR»). Ninguna se usa. Regenerar con `scripts/make-images.mjs` o borrar.
+- 72 `<img>` conservan `src="assets/N.jpg"` como respaldo; migrar exige pasar `STOCK` a WebP.
+- Salida a producción: quitar `noindex`, completar JSON-LD y sitemap (checklist en `golive/PRODUCCION.md`).

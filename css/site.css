@@ -1620,7 +1620,7 @@ main>.hero.hx{grid-template-columns:minmax(380px,.7fr) minmax(0,1.3fr);height:cl
 .modelos-panel .mdl{border-color:#49606b}
 .modelos-panel .mdl a{border-color:#49606b;color:#fff;background:#0d222e}
 .modelos-panel .mdl a.act{background:#173746}
-.modelos-panel .mdf{position:relative;top:auto;display:block;background:#0a1824;box-shadow:none}
+@media(hover:hover) and (min-width:900px){.modelos-panel .mdf{position:relative;top:auto;display:block;background:#0a1824;box-shadow:none}}
 /* Fondo completamente opaco: la legibilidad no depende de una capa sobre una foto. */
 .hero .tx::before,.bd::after,#financiacion.pp::after,#visita.pd::after,#guia.pd::after,.ent::before,.mp::after{display:none!important}
 .hx .hx-copy{background:#0e2e40!important}
