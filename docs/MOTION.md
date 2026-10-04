@@ -13,3 +13,6 @@
 1. Probar siempre con reduced-motion activado y desactivado.
 2. Las tarjetas de stock se vuelven a dibujar por JS: tras un cambio de stock hace falta `ScrollTrigger.refresh()`.
 3. El hero emite `chita:hero` y Vender/permutar emite `chita:vr`; `index.html` los dispara y `motion.js` los anima.
+
+## v10 · un solo verbo de revelado
+Títulos (`h2` de sección), textos secundarios y el formulario de visita entran con `CORTE` (constante al inicio de `js/motion.js`): barrido diagonal con `clip-path`, `expo.inOut`, 0,8–1 s, una sola vez. Ya no hay personalidades por sección ni fade-up en esos elementos. Para cambiar el gesto de todo el sitio basta con editar `CORTE` y `EASE.mask`.

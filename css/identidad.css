@@ -2,6 +2,10 @@
    Núcleo: el momento en que un auto se va con su dueño, frente al local de columnas rojas.
    Firma 1  EL CORTE      esquina superior derecha en diagonal, tomada del logotipo (--cut).
    Firma 2  LA COLUMNA    barra roja vertical = columna del local; marca el avance y la sección.
+   v10      EL DESPACHO   el hero queda fijo, el auto se va hacia la derecha y Entregas lo cubre (escritorio).
+   v11      LOS TRES TALONES   Financiación = bloque de tinta · Guía = planilla con tilde · Visita = patente.
+   v12      EL ÍNDICE   menú móvil = tira numerada; la sección actual es una chapa roja con el corte.
+   v13      EL REMITO DE LA UNIDAD   la ficha es un remito: columna roja, datos en bloque de tinta, talón de consulta.
    Firma 3  N° DE ENTREGA numeración tipo remito (§ 01…) en toda sección y en las 12 entregas reales.
    Color: azul chapa y rojo del logotipo + papel + tinta. Sin cian, sin dorado, sin vidrio.
    Tipografía: Bricolage Grotesque en peso 800, versalitas y apretada (display/labels/números) + Instrument Sans (texto). */
@@ -254,7 +258,7 @@ main>section.in>.tl{transform:scaleX(.18)}
 html body :is(#financiacion)>.tl{background:var(--ink)}
 /* HERO: salida a dos velocidades */
 html body .hx-reel{translate:0 var(--hr,0px)}
-html body .hx .hx-show{translate:0 var(--hs,0px)}
+html body .hx .hx-show{translate:var(--hx,0px) var(--hs,0px)}
 @media(max-width:899px){.gn{font-size:clamp(160px,58vw,300px);top:-.05em}html body .hx-reel,html body .hx .hx-show{translate:none}}
 @media(prefers-reduced-motion:reduce){.gn{translate:none!important}main>section>.tl{transition:none;transform:scaleX(.18)}html body .hx-reel,html body .hx .hx-show{translate:none}}
 
@@ -516,7 +520,8 @@ html body #nosotros .ns{gap:0!important;border-left:10px solid var(--rojo)}
 html body #nosotros .ns>div{background:var(--ink)!important;color:#fff;border-right:3px dashed rgba(255,255,255,.4);padding:clamp(14px,1.6vw,24px)!important}
 html body #nosotros .ns>div:last-child{border-right:0}
 html body #nosotros .ns b{font-family:var(--font-display)!important;font-weight:800!important;color:var(--rojo)!important;letter-spacing:-.03em}
-html body #nosotros .ns span{color:var(--plata)!important;font:700 11px/1.3 var(--font-display)!important;letter-spacing:.12em!important}
+html body #nosotros .ns>div>span{color:var(--plata)!important;font:700 11px/1.3 var(--font-display)!important;letter-spacing:.12em!important}
+html body .ns b span{font:inherit!important;letter-spacing:inherit!important;color:inherit!important;text-transform:none!important}
 html body #nosotros .ph{border-left:10px solid var(--rojo);position:relative}
 /* — CIERRE — */
 footer{position:relative}
@@ -535,3 +540,72 @@ html body #preguntas .fa summary::after{position:static!important;inset:auto!imp
 html body #preguntas .fa summary{min-height:0!important;position:relative}
 html body #nosotros h2{font-size:clamp(30px,3.7vw,62px)!important;overflow-wrap:anywhere}
 html body #preguntas .fa details[open] summary::after{content:"×";rotate:none;background:var(--ink)}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v10 · EL DESPACHO
+   «Autos que se van con sus dueños», hecho movimiento: el hero queda fijo detrás, el auto
+   se va hacia la derecha (translate, sin escala ni giro: foto fiel) y Entregas —los dueños—
+   sube y lo cubre con su borde perforado. Solo escritorio, sin reduced-motion y solo si el hero
+   entra completo bajo el header (js/identidad.js decide: clases html.dsp y hero.stk).
+   Móvil: el recorrido del salón entra en el primer viewport.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media(min-width:900px){
+ html.dsp main>.hero.hx.stk{position:sticky;top:var(--hh,58px);z-index:1}
+ html.dsp main>section[id]{z-index:2}
+}
+@media(max-width:899px){
+ html body .hx-go{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ html body .hx-go .hx-btn{min-height:50px;padding:8px 10px;font-size:13px;line-height:1.1;text-align:center;justify-content:center;align-items:center;display:flex}
+ html body .hx-lead{font-size:15px;line-height:1.4;margin-bottom:12px}
+ html body .hx-proof{margin-top:12px}
+ html body .hx-reel{margin-top:-22px}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v11 · LOS TRES TALONES, CADA UNO CON SU GESTO
+   Mismo talón (borde perforado, N° vertical), tres lecturas distintas del mismo texto:
+   FINANCIACIÓN  el valor se «estampa»: la frase clave es un bloque de tinta con corte.
+   GUÍA          es una planilla: renglones bajo cada línea y un tilde en el rótulo; la frase clave, subrayada en rojo.
+   VISITA        «en persona» es una patente (banda azul + cuerpo blanco), la misma chapa de los rótulos.
+   Solo CSS sobre el HTML existente; no cambia ningún texto.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #financiacion .xt .xl em{display:inline;background:var(--ink);color:#fff!important;padding:.02em .22em .06em .16em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+html body #guia .xt .xl{background:repeating-linear-gradient(to bottom,transparent 0 calc(.98em - 3px),rgba(255,255,255,.2) calc(.98em - 3px) .98em)}
+html body #guia .xt .xl em{color:#fff!important;background:linear-gradient(var(--rojo),var(--rojo)) 0 92%/100% .16em no-repeat}
+html body #guia .xt .xk::before{content:"";display:inline-block;width:.55em;height:1.05em;margin:0 .85em .22em .2em;border:solid var(--rojo);border-width:0 .28em .28em 0;transform:rotate(45deg)}
+html body #visita .xt .xl em{display:inline-block;background:linear-gradient(90deg,var(--ink) 0 .34em,#fff .34em);color:var(--ink)!important;border:.06em solid var(--ink);padding:.0em .26em .04em .56em;line-height:1.02;vertical-align:baseline;clip-path:none}
+@media(min-width:900px){
+ html body #guia .w>.xt{margin-left:clamp(0px,8vw,140px)}
+ html body #visita .w>.xt{margin-right:clamp(0px,8vw,140px)}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v12 · EL ÍNDICE (menú móvil)
+   La tira de navegación es el índice del talonario: cada enlace lleva su número y la sección
+   actual se «estampa» como chapa roja con el corte. Se desliza con imán y se desvanece en ambos bordes.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media(max-width:899px){
+ html body header nav{gap:4px;padding:6px 14px;scroll-snap-type:x proximity;scroll-padding-inline:14px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent)}
+ html body header nav a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;scroll-snap-align:center;transition:background .3s var(--ease),color .3s var(--ease)}
+ html body header nav a::before{display:inline-block;vertical-align:baseline;margin-right:.5em;font-size:10px}
+ html body header nav a::after{display:none}
+ html body header nav a.on{background:var(--rojo);color:#fff!important;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+ html body header nav a.on::before{color:#fff}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v13 · EL REMITO DE LA UNIDAD (ficha)
+   La ficha deja de ser una tabla gris: es el remito de esa unidad. Columna roja junto a las fotos,
+   rótulo «Remito de unidad», datos en bloque de tinta con renglones punteados, y el botón de consulta
+   como talón (borde perforado). Solo CSS sobre el diálogo existente: galería, flechas y teclado no cambian.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #dlg .fcg{border-left:10px solid var(--rojo)}
+html body #dlg .fcx{background:var(--rojo)!important;color:#fff!important;border:0!important;border-radius:0!important;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
+html body #dlg .fch::before{content:"Remito de unidad";display:block;width:max-content;margin:0 0 .7em;padding:.5em 1.5em .5em .8em;font:800 11px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--rojo);clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+html body #dlg .fcd{background:var(--ink)!important;color:#fff;border:0!important;border-left:10px solid var(--rojo)!important;gap:0!important;padding:0!important}
+html body #dlg .fcd>div{border:0!important;border-right:2px dashed rgba(255,255,255,.3)!important;border-bottom:2px dashed rgba(255,255,255,.3)!important;padding:12px 14px!important;background:transparent!important}
+html body #dlg .fcd dt{color:var(--plata)!important;font:700 11px/1.2 var(--font-display)!important;letter-spacing:.14em!important;text-transform:uppercase}
+html body #dlg .fcd dd{color:#fff!important;font:800 clamp(17px,1.5vw,22px)/1.1 var(--font-display)!important;letter-spacing:-.01em;margin:4px 0 0}
+html body #dlg .fcft{position:relative;border-top:3px dashed var(--ink)!important}
+html body #dlg .fcft::before{content:"Talón · consulta";position:absolute;left:16px;top:-9px;padding:0 8px;background:#fff;color:var(--ink);font:800 10px/16px var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+@media(max-width:899px){html body #dlg .fcu{padding-right:58px}}

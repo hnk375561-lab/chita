@@ -30,6 +30,10 @@
        + ROLL         El menú gira letra por letra al apuntarlo (copia aria-hidden, nombre accesible intacto).
        + ATERRIZAJE   Las anclas corrigen su destino al llegar si el layout se movió durante el viaje.
 
+   v10 · UN SOLO VERBO DE REVELADO: títulos, textos secundarios y formulario de visita entran con el CORTE
+         (barrido diagonal, expo.inOut, 0,8–1 s). Se quitaron las personalidades por sección (letras 3D,
+         cruce lateral, rebote, skew), el fade-up y la inclinación de títulos por velocidad.
+
    REGLAS
      · Solo transform / opacity / clip-path. Cero lecturas de layout por frame.
      · prefers-reduced-motion: no se oculta ni se mueve nada.
@@ -55,6 +59,8 @@ const EASE = {
   expo: "expo.out", mask: "expo.inOut", soft: "power3.out", settle: "power2.out",
   spring: "back.out(1.7)", linear: "none", drive: "power3.in"
 };
+/* v10 · CORTE: verbo único de revelado (barrido diagonal, borde inclinado 14 %). Misma curva y duración en todo el sitio. */
+const CORTE = { from: "polygon(0 0,0 0,-14% 100%,-14% 100%)", to: "polygon(0 0,114% 0,100% 100%,-14% 100%)" };
 const qs = (selector, scope = document) => scope.querySelector(selector);
 const qsa = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -411,48 +417,13 @@ function initTypography({ desktop }, inertia) {
     /* Las animaciones CSS por view() de estos bloques compiten con GSAP: se anulan donde GSAP toma el control. */
     undo.push(claim(qsa(".xt .xl, .xt .xk, .xb .xp, .xb .xs, .loc .xt, .loc .xb"), { animation: "none" }));
 
-    const R = seeded(11);
+    /* v10 · TÍTULOS: un solo verbo. Todo h2 de sección entra con el CORTE (misma curva, misma duración);
+       sin personalidades por sección ni inclinación por velocidad. */
     qsa("main section h2").forEach((heading) => {
       if (heading.closest("#bd, [hidden]") || heading.querySelector("img,svg,button,a")) return;
-      const section = heading.closest("section");
-      const id = section?.id || "";
-      const start = desktop ? "top 88%" : "top 94%";
-
-      /* UNIDADES: letras en 3D que caen desde el centro hacia los costados. */
-      if (id === "unidades") {
-        const chars = split(heading, { chars: true });
-        if (!chars.length) return;
-        gsap.set(chars, { yPercent: 120, rotate: () => (R() - 0.5) * 36, transformOrigin: "0% 100%" });
-        once(heading, start, () => gsap.to(chars, { yPercent: 0, rotate: 0, duration: 1.2, ease: EASE.expo, stagger: { each: 0.045, from: "center" } }));
-        inertia?.add(heading, "skewY", -0.35, "deg", 3);
-        return;
-      }
-
-      const words = split(heading);
-      if (!words.length || words.length > 24) return;
-      inertia?.add(heading, "skewY", -0.3, "deg", 2.6);
-
-      /* MODELOS: las palabras se cruzan desde los costados, alternando sentido. */
-      if (id === "modelos") {
-        gsap.set(words, { xPercent: (i) => (i % 2 ? 110 : -110), opacity: 0 });
-        once(heading, start, () => gsap.to(words, { xPercent: 0, opacity: 1, duration: 1.15, ease: EASE.expo, stagger: 0.08 }));
-        return;
-      }
-      /* COMPARAR: llegan «desde atrás», con escala y rebote corto. */
-      if (id === "versus") {
-        gsap.set(words, { yPercent: 40, scale: 0.55, opacity: 0, transformOrigin: "50% 100%" });
-        once(heading, start, () => gsap.to(words, { yPercent: 0, scale: 1, opacity: 1, duration: 1.2, ease: "back.out(1.5)", stagger: 0.07 }));
-        return;
-      }
-      /* NOSOTROS: ascenso con skew que se endereza (tipografía «de imprenta»). */
-      if (id === "nosotros") {
-        gsap.set(words, { yPercent: 125, skewX: -14, transformOrigin: "0% 100%" });
-        once(heading, start, () => gsap.to(words, { yPercent: 0, skewX: 0, duration: 1.15, ease: EASE.expo, stagger: 0.055 }));
-        return;
-      }
-      /* Resto: máscara ascendente con giro corto. */
-      gsap.set(words, { yPercent: 118, rotate: 3.5, transformOrigin: "0% 100%" });
-      once(heading, start, () => gsap.to(words, { yPercent: 0, rotate: 0, duration: 1.05, ease: EASE.expo, stagger: desktop ? 0.05 : 0.035 }));
+      gsap.set(heading, { clipPath: CORTE.from });
+      once(heading, desktop ? "top 88%" : "top 94%", () =>
+        gsap.to(heading, { clipPath: CORTE.to, duration: 0.9, ease: EASE.mask, onComplete: () => gsap.set(heading, { clearProps: "clipPath" }) }));
     });
 
     /* Declaraciones (.xl): el scroll las «lee»: cada palabra sube dentro de su máscara y se enciende. */
@@ -746,16 +717,16 @@ function initReveals({ desktop }, inertia) {
       }, { start: "top 88%", max: 4 });
     });
 
-    /* Textos secundarios: ascenso corto. */
+    /* Textos secundarios: el mismo CORTE (v10; antes ascenso con fundido). */
     const body = qsa("main section :is(.sub, .pdl > p, .mdt, .oh > p, .rvh > p, .eqh > p, .hwh > p, .pdr)").filter((el) => !el.closest(".hero"));
-    gsap.set(body, { opacity: 0, y: 26 * d });
-    batch(body, (g) => gsap.to(g, { opacity: 1, y: 0, duration: 0.95, ease: EASE.soft, stagger: 0.07, clearProps: "opacity,transform" }), { start: "top 92%" });
+    gsap.set(body, { clipPath: CORTE.from });
+    batch(body, (g) => gsap.to(g, { clipPath: CORTE.to, duration: 0.8, ease: EASE.mask, stagger: 0.07, clearProps: "clipPath" }), { start: "top 92%" });
 
     /* Formulario de visita y pie. */
     const form = qs("#visitaForm");
     if (form) {
-      gsap.set(form, { opacity: 0, y: 64 * d, scale: 0.96, transformOrigin: "50% 100%" });
-      once(form, "top 90%", () => gsap.to(form, { opacity: 1, y: 0, scale: 1, duration: 1.25, ease: EASE.expo, clearProps: "opacity,transform" }));
+      gsap.set(form, { clipPath: CORTE.from });
+      once(form, "top 90%", () => gsap.to(form, { clipPath: CORTE.to, duration: 1, ease: EASE.mask, clearProps: "clipPath" }));
     }
     /* CORTINA DEL PIE: cada capa del pie (logo, dirección, enlaces, avisos) sube a su propia velocidad y se
        asienta justo al llegar al final de la página. «bottom bottom» siempre es alcanzable: nunca queda a medias. */

@@ -1,4 +1,4 @@
-/* CHITA · La Columna: avance de lectura + sección actual (transform only, 1 listener pasivo). */
+/* CHITA · v12: «Comparar» y «Dónde estamos» también se marcan en Modelos y Local. La Columna: avance de lectura + sección actual (transform only, 1 listener pasivo). */
 (function(){
 var S=[].slice.call(document.querySelectorAll("main>section[id]"));if(!S.length)return;
 var N={entregas:"Entregas",unidades:"Unidades","catalogo-comparador":"Modelos",nosotros:"Nosotros",contacto:"Dónde estamos",local:"El local",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
@@ -8,7 +8,7 @@ function upd(){raf=0;var d=document.documentElement,m=d.scrollHeight-innerHeight
  var y=innerHeight*.4,k=-1;for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.top<=y&&r.bottom>y){k=i;break}}
  if(k<0){lab.hidden=true;cur="";return}
  var id=S[k].id;if(id!==cur){cur=id;lab.hidden=false;lab.innerHTML="<span>"+("0"+(k+1)).slice(-2)+"/"+S.length+"</span>"+(N[id]||id)}
- var a=document.querySelectorAll("header nav a");for(var j=0;j<a.length;j++){var on=a[j].getAttribute("href")==="#"+id;a[j].classList.toggle("on",on);if(on&&a[j].parentNode.scrollWidth>a[j].parentNode.clientWidth+4){var n=a[j].parentNode;n.scrollTo({left:a[j].offsetLeft-n.clientWidth/2+a[j].offsetWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}}
+ var a=document.querySelectorAll("header nav a");for(var j=0;j<a.length;j++){var al={"catalogo-comparador":"versus",local:"contacto"},on=a[j].getAttribute("href")==="#"+id||a[j].getAttribute("href")==="#"+al[id];a[j].classList.toggle("on",on);if(on&&a[j].parentNode.scrollWidth>a[j].parentNode.clientWidth+4){var n=a[j].parentNode;n.scrollTo({left:a[j].offsetLeft-n.clientWidth/2+a[j].offsetWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}}
 function q(){if(!raf)raf=requestAnimationFrame(upd)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q);upd();
 })();
@@ -63,7 +63,7 @@ function anim(){if(tape)return tape;var t=d.querySelector(".cin-t");if(t&&t.getA
 function tick(){raf=0;var y=scrollY,vh=innerHeight,dy=y-ly;ly=y;v+=(Math.abs(dy)-v)*.18;
  for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.bottom<-vh||r.top>vh*2)continue;
   var p=(vh-r.top)/(vh+r.height);S[i]._g.style.translate=((S[i]._g.parentNode.matches("main>section:nth-of-type(even)")?1:-1)*(p-.5)*14)+"vw 0"}
- if(hero&&big.matches){var k=Math.max(0,Math.min(1,y/Math.max(1,hero.offsetHeight)));if(hr)hr.style.setProperty("--hr",(-k*46)+"px");if(hs)hs.style.setProperty("--hs",(k*34)+"px")}
+ if(hero&&big.matches){var k=Math.max(0,Math.min(1,y/Math.max(1,hero.offsetHeight)));if(hr)hr.style.setProperty("--hr",(-k*46)+"px");if(hs){hs.style.setProperty("--hs",(k*34)+"px");hs.style.setProperty("--hx",(Math.pow(k,1.7)*innerWidth*.62).toFixed(1)+"px")}}
  var a=anim();if(a){var pb=1+Math.min(v*.5,7);if(Math.abs(pb-pr)>.05){a.playbackRate=pb;pr=pb}}
  if(v>.05)raf=requestAnimationFrame(tick)}
 function q(){if(!raf)raf=requestAnimationFrame(tick)}
@@ -112,4 +112,18 @@ var l=m.querySelector(":scope>section:last-of-type"),c=l?getComputedStyle(l).bac
 var p=document.createElement("i");p.className="pf";p.setAttribute("aria-hidden","true");p.style.setProperty("--pv",c);f.insertBefore(p,f.firstChild);
 var n=m.querySelectorAll(":scope>section[id]").length,t=document.createElement("p");t.className="fin7";t.setAttribute("aria-hidden","true");t.textContent="Fin del talonario · "+n+"/"+n;
 var w=f.querySelector(".w");if(w)w.insertBefore(t,w.firstChild);
+})();
+/* CHITA · v10 — EL DESPACHO. El hero queda fijo mientras Entregas lo cubre; cuando lo cubrió del todo se suelta
+   (sale de pantalla y el video del recorrido se pausa solo). Solo escritorio y sin reduced-motion; si el hero no
+   entra completo bajo el header, no se fija. 1 listener pasivo + 1 rAF por scroll, una lectura de layout. */
+(function(){
+var d=document,h=d.documentElement,hero=d.getElementById("hero"),hd=d.querySelector("header"),ent=d.querySelector("main>section[id]");
+if(!hero||!ent||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+var big=matchMedia("(min-width:900px)"),raf=0;
+function fit(){var hh=hd?hd.offsetHeight:0,ok=big.matches&&hero.offsetHeight+hh<=innerHeight+2;
+ hero.style.setProperty("--hh",hh+"px");h.classList.toggle("dsp",ok);if(!ok)hero.classList.remove("stk");upd()}
+function upd(){raf=0;if(!h.classList.contains("dsp"))return;
+ var covered=ent.getBoundingClientRect().top<=(hd?hd.offsetHeight:0);hero.classList.toggle("stk",!covered)}
+function q(){if(!raf)raf=requestAnimationFrame(upd)}
+addEventListener("scroll",q,{passive:true});addEventListener("resize",fit);fit();
 })();
