@@ -1456,3 +1456,14 @@ main>.hero.hx{grid-template-columns:minmax(380px,.7fr) minmax(0,1.3fr);height:cl
 @media(min-width:1800px){.vdq ul{grid-template-columns:minmax(0,1fr)}}
 /* Odómetro de "Quiénes somos": los dígitos animados no heredan el estilo de la etiqueta (<span> bajo .ns) */
 #nosotros .ns b span{font:inherit;letter-spacing:inherit;text-transform:none;color:inherit}
+
+/* ===== Dónde estamos: legibilidad sobre el mapa + sin foto detrás del mapa =====
+   El mapa se abre como un iris sobre el fondo de la sección: ese fondo es un color sólido (sin foto de auto).
+   Los textos «Cómo llegar» y «Antes de venir» van sobre el mapa claro: llevan panel oscuro propio, sin sombra difusa. */
+#contacto{background:#06111a}
+#contacto .xt p.xp,#contacto .xb p.xp{text-shadow:none;color:#e6eef2}
+#contacto .xt .xk,#contacto .xb .xk{text-shadow:none}
+@media(min-width:900px){
+  #contacto .xt,#contacto .xb{width:min(100%,560px);padding:24px 28px;background:rgba(6,17,26,.94);border:1px solid rgba(143,211,228,.3);box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
+  #contacto .xt p.xp,#contacto .xb p.xp{padding-left:18px}
+}
