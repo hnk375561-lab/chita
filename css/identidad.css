@@ -349,3 +349,56 @@ html body #mdl a:is(:hover,:focus-visible,.act)::after{display:none!important}
  html body .mdf .mdth{margin-left:10px}
 }
 @media(max-width:899px){.ec{font-size:10.5px;letter-spacing:.08em;padding-right:26px}html body #mdl .mdv{display:none}}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v6 · HERO que rompe su columna · DIRECCIÓN COMO PROTAGONISTA · RESEÑAS COMO PÓSTER
+   Hero      «SUS DUEÑOS» es un bloque rojo con el corte que invade el video: el título deja de vivir en su columna.
+   Dónde     la dirección (el dato central de un concesionario) en display gigante; cajas con borde fino → bloques sólidos con columna.
+   Reseñas   deja de ser el único bloque centrado: texto a la izquierda, 4,7 gigante a la derecha (dato ya publicado).
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media(min-width:900px){
+ html body .hx-copy .hx-h1{font-size:clamp(40px,5vw,90px)!important}
+ html body .hx-copy .hx-h1 em{display:block;width:max-content;max-width:none;background:var(--rojo);color:#fff!important;font-size:1.16em;padding:.02em .3em .08em .14em;margin:.08em -5.5vw 0 0;clip-path:polygon(0 0,calc(100% - .34em) 0,100% .34em,100% 100%,0 100%);position:relative;z-index:6}
+}
+@media(max-width:899px){
+ html body .hx-copy .hx-h1 em{display:block;width:max-content;max-width:100%;background:var(--rojo);color:#fff!important;padding:.02em .24em .08em .12em;margin-top:.08em;clip-path:polygon(0 0,calc(100% - .3em) 0,100% .3em,100% 100%,0 100%)}
+}
+html body .hx-count{display:inline-block;padding:6px 14px 6px 1.9em;background:linear-gradient(90deg,var(--chapa) 0 .9em,#fff .9em);color:var(--ink)!important;font:800 12px/1 var(--font-display)!important;letter-spacing:.12em;clip-path:var(--cut-sm)}
+/* — DÓNDE ESTAMOS — */
+@media(min-width:900px){
+ html body #contacto .w{width:min(1180px,calc(100% - 2*clamp(20px,4vw,64px)))!important;margin-inline:auto!important;display:flex!important;flex-direction:column;gap:14px;align-items:flex-start;padding-block:clamp(48px,6vw,96px);position:relative;z-index:2;max-width:none;left:auto!important;right:auto!important;inset:auto}
+ html body #contacto :is(.lc,.xt,.xb){position:relative!important;inset:auto!important;width:min(560px,100%)!important;margin:0!important;background:var(--ink)!important;border:0!important;box-shadow:none!important;border-radius:0!important;backdrop-filter:none!important}
+ html body #contacto .lc{border-left:10px solid var(--rojo)!important;padding:clamp(22px,2.6vw,38px)!important;clip-path:var(--cut);--c:44px;order:1}
+ html body #contacto .xt{order:2;border-left:10px solid var(--chapa)!important}
+ html body #contacto .xb{order:3;border-left:10px solid var(--chapa)!important}
+ html body #contacto :is(.xt,.xb){padding:18px 22px!important}
+}
+html body #contacto address strong{display:block;font:800 clamp(36px,4.6vw,76px)/.92 var(--font-display)!important;text-transform:uppercase;letter-spacing:-.025em;color:#fff;margin-bottom:.3em;border:0!important;padding:0!important}
+html body #contacto address{border:0!important;padding:0!important;font-style:normal;color:var(--plata)}
+html body #contacto :is(.xt,.xb) .xp{font-size:15px}
+/* — RESEÑAS — */
+@media(min-width:900px){
+ html body #opiniones .w{width:min(1180px,calc(100% - 2*clamp(20px,4vw,64px)))!important;margin-inline:auto!important;display:grid!important;grid-template-columns:minmax(0,6fr) minmax(0,5fr);column-gap:clamp(24px,4vw,72px);align-items:center}
+ html body #opiniones .rvh{grid-column:1;grid-row:1;text-align:left!important}
+ html body #opiniones .rvh :is(h2,p,.ey){text-align:left!important;margin-left:0!important;margin-right:0!important}
+ html body #opiniones .rvg{grid-column:2;grid-row:1/span 2;margin:0!important;padding:0!important;list-style:none}
+ html body #opiniones .rvr{grid-column:1;grid-row:2;justify-content:flex-start!important;margin-top:20px}
+}
+html body #opiniones .rvc{background:var(--ink)!important;color:#fff!important;border:0!important;border-left:10px solid var(--rojo)!important;clip-path:var(--cut);--c:56px;padding:clamp(24px,3vw,48px)!important;box-shadow:none!important;display:block!important;position:relative}
+html body #opiniones .rvc b{display:block;font:800 clamp(54px,7vw,116px)/.9 var(--font-display);letter-spacing:-.04em;color:#fff;text-transform:uppercase}
+html body #opiniones .rvc small{display:block;font:800 13px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:var(--plata);margin:14px 0 8px}
+html body #opiniones .rvs{color:var(--rojo)!important;font-size:clamp(22px,2.2vw,32px);letter-spacing:.1em}
+html body #opiniones .rvt{position:absolute;right:clamp(24px,3vw,48px);top:clamp(24px,3vw,48px);font:800 11px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--ink);background:#fff;padding:7px 12px}
+/* v6 · ajustes: eyebrows sin píldora (lenguaje de corte recto), botones legibles en secciones oscuras */
+html body :is(.ey,.pde,.xk,.vde){border:0!important;border-radius:0!important;background:none!important;padding:0!important;display:inline-flex!important;align-items:center;gap:.6em}
+html body :is(.ey,.pde,.xk,.vde)::before{content:"";width:6px;height:1.1em;background:var(--rojo);flex:none}
+html body #entregas :is(.ey)::before,html body :is(#financiacion,#visita) :is(.ey,.pde)::before{background:#fff}
+html body :is(#contacto,#local,#guia,#catalogo-comparador) .btn{color:#fff!important}
+html body :is(#contacto,#local,#guia,#catalogo-comparador) .btn:not(.p){background:transparent!important;box-shadow:inset 0 0 0 2px #fff!important}
+html body :is(#contacto,#local,#guia,#catalogo-comparador) .btn:not(.p):hover{background:#fff!important;color:var(--ink)!important}
+@media(max-width:899px){
+ html body #contacto :is(.lc,.xt,.xb){background:var(--ink)!important;border:0!important;border-left:8px solid var(--rojo)!important;border-radius:0!important;box-shadow:none!important}
+ html body #contacto :is(.xt,.xb){border-left-color:var(--chapa)!important}
+ html body #opiniones .rvh,html body #opiniones .rvh *{text-align:left!important}
+ html body #opiniones .rvr{justify-content:flex-start!important;display:flex;flex-wrap:wrap;gap:10px}
+}

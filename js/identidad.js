@@ -39,7 +39,7 @@ if(!RM)d.documentElement.classList.add("cj");
 function tx(s){var e=d.querySelector(s);return e?e.textContent.replace(/\s+/g," ").trim():""}
 /* EL RIEL */
 var hero=d.getElementById("hero");
-if(hero){var r=d.createElement("div");r.className="rl";r.setAttribute("aria-hidden","true");r.textContent="Chita Automotores — Concepción del Uruguay — Entre Ríos";hero.appendChild(r)}
+if(hero){var r=d.createElement("div");r.className="rl";r.setAttribute("aria-hidden","true");r.textContent="Chita Automotores · Entre Ríos";hero.appendChild(r)}
 /* LA CINTA: solo hechos presentes en la página (dirección, reseñas, unidades, teléfono) */
 var pe=d.querySelector(".hx-proof"),p=pe?[].slice.call(pe.children).map(function(c){return c.textContent.trim()}).join(" "):"",u=(tx(".hx-copy>p:last-child").match(/\d+\s+unidades?\s+publicadas?/i)||[""])[0],t=tx("header .tel"),f=["Gral. Galarza 1712","Concepción del Uruguay · Entre Ríos"];
 if(p)f.push(p.replace(/\s*\.\s*/g," · "));if(u)f.push(u);if(t)f.push("Tel. "+t);f.push("Escribinos por WhatsApp");
