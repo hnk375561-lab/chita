@@ -51,3 +51,21 @@ var T=[].slice.call(main.querySelectorAll(":scope>section")).concat([cin]);
 if("IntersectionObserver" in window&&!RM){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.08,rootMargin:"0px 0px -8% 0px"});T.forEach(function(s){io.observe(s)})}
 else T.forEach(function(s){s.classList.add("in")});
 })();
+/* CHITA · v4 — El Talón (numeral calado), Cinta viva (velocidad de scroll) y salida del hero. 1 rAF, 1 listener pasivo. */
+(function(){
+var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,S=[].slice.call(d.querySelectorAll("main>section[id]"));if(!S.length)return;
+S.forEach(function(s,i){var g=d.createElement("span");g.className="gn";g.setAttribute("aria-hidden","true");g.textContent=("0"+(i+1)).slice(-2);s.insertBefore(g,s.firstChild);
+ var t=d.createElement("i");t.className="tl";t.setAttribute("aria-hidden","true");s.appendChild(t);s._g=g});
+if(RM)return;
+var hr=d.querySelector(".hx-reel"),hs=d.querySelector(".hx .hx-show"),hero=d.getElementById("hero"),big=matchMedia("(min-width:900px)"),
+tape=null,ly=scrollY,v=0,raf=0,pr=1;
+function anim(){if(tape)return tape;var t=d.querySelector(".cin-t");if(t&&t.getAnimations){var a=t.getAnimations()[0];if(a)tape=a}return tape}
+function tick(){raf=0;var y=scrollY,vh=innerHeight,dy=y-ly;ly=y;v+=(Math.abs(dy)-v)*.18;
+ for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.bottom<-vh||r.top>vh*2)continue;
+  var p=(vh-r.top)/(vh+r.height);S[i]._g.style.translate=((S[i]._g.parentNode.matches("main>section:nth-of-type(even)")?1:-1)*(p-.5)*14)+"vw 0"}
+ if(hero&&big.matches){var k=Math.max(0,Math.min(1,y/Math.max(1,hero.offsetHeight)));if(hr)hr.style.setProperty("--hr",(-k*46)+"px");if(hs)hs.style.setProperty("--hs",(k*34)+"px")}
+ var a=anim();if(a){var pb=1+Math.min(v*.5,7);if(Math.abs(pb-pr)>.05){a.playbackRate=pb;pr=pb}}
+ if(v>.05)raf=requestAnimationFrame(tick)}
+function q(){if(!raf)raf=requestAnimationFrame(tick)}
+addEventListener("scroll",q,{passive:true});addEventListener("resize",q);q();
+})();
