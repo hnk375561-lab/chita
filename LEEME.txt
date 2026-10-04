@@ -1,0 +1,5 @@
+CHITA v3 — reemplazar en el repo (misma ruta):
+  css/identidad.css
+  js/identidad.js
+No tocar nada más. index.html ya enlaza ambos archivos. Sin dependencias nuevas.
+Cada archivo contiene TODO el contenido anterior + la capa v3 (reemplazo 100 %).

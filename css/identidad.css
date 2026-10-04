@@ -173,3 +173,61 @@ html body .hx-logo{filter:none!important;-webkit-filter:none!important}
  html body header nav::-webkit-scrollbar{display:none}
  html body header nav a{white-space:nowrap}
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v3 · "LA ENTREGA" llevada al límite
+   Tres firmas nuevas, todas salidas del local y del auto, no de una plantilla:
+     LA CHAPA   la patente es el sistema de rótulos (N° de sección, sección actual, 4,7 de Google).
+                Banda azul Mercosur a la izquierda + cuerpo blanco + corte del logotipo.
+     LA CINTA   cinta de obra/entrega que cruza la costura hero → entregas, torcida y fuera del eje.
+                Solo lleva datos reales ya publicados en la página.
+     EL RIEL    rótulo vertical y numeración de la navegación: la lectura es un recorrido, no un menú.
+   MOTION  (un solo verbo: EL CORTE)  todo entra con un barrido diagonal clip-path, .7s,
+           cubic-bezier(.7,0,.2,1), escalonado 70 ms. Sin fade-up. Solo transform/clip-path/opacity.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+:root{--t2:.7s;--stg:70ms;--plate:linear-gradient(90deg,var(--chapa) 0 .95em,#fff .95em);--cut-sm:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+/* LA CHAPA · número de sección */
+html body main>section h2::before{background:var(--plate)!important;color:var(--ink)!important;padding:.4em 1.5em .4em 1.9em!important;font:800 13px/1 var(--font-display)!important;letter-spacing:.16em!important;box-shadow:inset 0 0 0 2px var(--ink);clip-path:var(--cut-sm);font-variant-numeric:tabular-nums}
+html body #financiacion h2::before{background:var(--plate)!important}
+html body :is(#entregas,#visita,#catalogo-comparador,#contacto,#local,#guia,#financiacion) h2::before{box-shadow:inset 0 0 0 2px #fff}
+/* LA CHAPA · sección actual (La Columna) */
+.cl b{background:var(--plate)!important;color:var(--ink)!important;padding:8px 16px 8px 1.9em!important;box-shadow:inset 0 0 0 2px var(--ink);font-variant-numeric:tabular-nums}
+.cl b span{color:var(--rojo)!important}
+/* LA CHAPA · 4,7 de Google en el hero */
+html body .hx-proof{border:0!important;padding:9px 16px 9px 2.3em!important;background:linear-gradient(90deg,var(--chapa) 0 1.1em,#fff 1.1em)!important;box-shadow:inset 0 0 0 2px var(--ink);clip-path:var(--cut);--c:12px}
+/* EL RIEL · numeración de la navegación */
+html body header nav{counter-reset:n}
+html body header nav a::before{counter-increment:n;content:counter(n,decimal-leading-zero);font:800 9px/1 var(--font-display);letter-spacing:.1em;color:var(--rojo);vertical-align:super;margin-right:.45em}
+/* EL RIEL · rótulo vertical del hero (solo ≥1100px, donde hay margen) */
+.rl{display:none}
+@media(min-width:1100px){
+ .rl{display:block;position:absolute;left:18px;top:50%;z-index:4;writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);font:800 10px/1 var(--font-display);letter-spacing:.34em;text-transform:uppercase;color:var(--ink);white-space:nowrap;pointer-events:none}
+ .rl::before{content:"";display:inline-block;width:6px;height:28px;background:var(--rojo);margin-bottom:14px}
+}
+/* LA CINTA · cruza la costura hero → entregas */
+.cin{position:relative;z-index:7;height:clamp(78px,7vw,104px);margin:calc(clamp(78px,7vw,104px)/-2) 0;overflow-x:clip;overflow-y:visible;pointer-events:none}
+.cin i,.cin div{position:absolute;left:-4vw;width:108vw;top:50%;height:clamp(32px,2.8vw,44px);margin-top:calc(clamp(32px,2.8vw,44px)/-2)}
+.cin i{background:var(--rojo);transform:rotate(1.4deg)}
+.cin div{background:var(--ink);transform:rotate(-1.4deg);overflow:hidden;display:flex;align-items:center;box-shadow:0 -2px 0 #fff inset,0 2px 0 #fff inset}
+.cin-t{display:flex;flex:none;white-space:nowrap;animation:cin 46s linear infinite;will-change:transform}
+.cin-t span{display:inline-flex;align-items:center;font:800 clamp(11px,.95vw,14px)/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:#fff;padding-right:2.2em}
+.cin-t span::after{content:"";width:6px;height:15px;background:var(--rojo);margin-left:2.2em;transform:skewX(-14deg)}
+@keyframes cin{to{transform:translate3d(-50%,0,0)}}
+/* EL CORTE · único verbo de entrada */
+.cj main>section:not(.in) h2::before,.cj .cin:not(.in) div{clip-path:polygon(0 0,0 0,0 10px,0 100%,0 100%)}
+.cj main>section h2::before{transition:clip-path var(--t2) var(--ease)}
+.cj .cin div,.cj .cin i{transition:clip-path 1s var(--ease),transform 1s var(--ease)}
+.cj .cin:not(.in) div{clip-path:polygon(0 0,0 0,0 100%,0 100%)}
+.cj .cin:not(.in) i{transform:rotate(0)}
+.cj .cin.in div{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+/* accesibilidad: foco visible con el mismo vocabulario */
+html body :is(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid var(--rojo);outline-offset:3px}
+html body :is(#entregas,#visita,#catalogo-comparador,#contacto,#local,#guia,#financiacion) :is(a,button,input,select,textarea,summary):focus-visible{outline-color:#fff}
+@media(max-width:899px){
+ .cin{height:70px;margin:-35px 0}.cin i,.cin div{height:30px;margin-top:-15px}.cin-t span{font-size:11px;letter-spacing:.16em}
+ html body header nav a::before{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .cin-t{animation:none}.cj main>section:not(.in) h2::before,.cj .cin:not(.in) div{clip-path:var(--cut-sm)}
+ .cj .cin:not(.in) div{clip-path:none}.cj .cin:not(.in) i{transform:rotate(1.4deg)}
+}
