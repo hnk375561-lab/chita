@@ -1,0 +1,23 @@
+CHITA · Entrega final de la sesion (acumulado de los Pasos 1 a 5)
+
+Reemplazar en el repo, misma ruta:
+  index.html
+  css/identidad.css
+No tocar nada mas. Son los unicos 2 archivos modificados.
+
+Resumen de lo aplicado
+1. Financiacion: se quita la tarjeta "Precios" y el parrafo de ausencias; grilla de 2 columnas.
+2. Preguntas: pasos de "Compra, vende o permuta" pasan de P.NN a T.NN (ya no chocan con Preguntas);
+   el formulario "Contanos que auto buscas" lleva el rotulo "E.13 · El proximo es el tuyo".
+3. Quienes somos: foto real del frente (local-frente.webp) con alt correcto, titulo nuevo,
+   se quitan las cifras de relleno y el panel de contacto repetido.
+4. Donde estamos: mapa en duotono azul chapa, pin Chapa CHITA, "regla" de distancias a las paradas
+   de colectivo (datos de Moovit ya publicados), menos textos repetidos.
+   Corrige un bug previo: el mapa medía 0 px de alto en escritorio.
+5. El local: recorrido reordenado (calle, frente, video, cartel interior), un solo CTA al final,
+   "Porton negro" reemplazado por "Columnas rojas", una linea por parada.
+   Se elimina un script huerfano que tiraba error de JS (ids icA/icW/icT).
+
+Verificado: npm test OK; 0 errores de JS en Chromium (escritorio 1440 y movil 390).
+No verificado: el mapa real de Google (el entorno no tiene salida a Google) y anchos de 900 a 1100 px.
+Pendiente de confirmar con el dueño: "Porton negro", horarios, autorizacion de fotos y resenas.

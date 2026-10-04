@@ -629,7 +629,7 @@ html body :is(#financiacion,#guia,#visita) .pdl>p:not(.pdt):not(.pde){max-width:
 html body :is(#financiacion,#guia,#visita) .pdt{display:inline-flex!important;align-items:center;margin:0 0 14px!important;padding:.55em 1.5em .55em .9em!important;border:0!important;border-radius:0!important;background:#fff!important;color:var(--ink)!important;font:800 12px/1 var(--font-display)!important;letter-spacing:.16em!important;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);box-shadow:inset 6px 0 0 var(--chapa)}
 html body #financiacion .pdt{box-shadow:inset 6px 0 0 var(--ink)}
 /* — Financiación: tres talones numerados F·01…F·03, bloque de tinta con el corte — */
-html body #financiacion .pdg{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;max-width:none!important;margin:clamp(28px,4vw,48px) 0 0!important;padding:0 clamp(18px,3vw,48px) 0 calc(clamp(18px,3vw,48px) + 10px);counter-reset:f}
+html body #financiacion .pdg{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;max-width:none!important;margin:clamp(28px,4vw,48px) 0 0!important;padding:0 clamp(18px,3vw,48px) 0 calc(clamp(18px,3vw,48px) + 10px);counter-reset:f}
 html body #financiacion .pdg .pdc{counter-increment:f;position:relative;display:flex!important;flex-direction:column;align-items:flex-start!important;text-align:left!important;padding:44px 22px 20px!important;background:var(--ink)!important;border:0!important;border-top:3px dashed var(--rojo)!important;border-radius:0!important;box-shadow:none!important;clip-path:var(--cut);--c:22px;color:#fff}
 html body #financiacion .pdg .pdc::before{content:"F·" counter(f,decimal-leading-zero);position:absolute;left:0;top:0;padding:8px 14px 8px 12px;background:var(--rojo);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.16em}
 html body #financiacion .pdg .pdc h3{font:800 clamp(20px,1.8vw,28px)/1 var(--font-display)!important;text-transform:uppercase;text-align:left!important;margin:0 0 10px!important}
@@ -677,7 +677,7 @@ html body #operaciones .fr :is(input,select,textarea){border-radius:0!important;
    CHITA v15 · RITMO DE COLOR Y PASOS DE REMITO
    «Dónde estamos» pasa a azul chapa: entre Modelos (tinta) y El local (tinta) se rompía el ritmo y
    las dos secciones repetían la dirección con el mismo fondo. Los pasos de «Cómo funciona vender o permutar»
-   dejan los rombos y son renglones de remito P·01…P·03 (chapa de tinta con corte + renglón perforado).
+   dejan los rombos y son renglones de remito T·01…T·03 (chapa de tinta con corte + renglón perforado).
    Solo CSS; no cambia ningún texto ni dato.
    ═══════════════════════════════════════════════════════════════════════════════ */
 html body #contacto{background:var(--chapa)!important}
@@ -688,7 +688,7 @@ html body #contacto :is(.ey,.pde,.xk)::before{background:#fff}
 html body #operaciones .stp{counter-reset:p;margin:14px 0 16px}
 html body #operaciones .stp li{counter-increment:p;display:grid!important;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;padding:14px 0!important;border-top:2px dashed var(--ink)!important}
 html body #operaciones .stp li:last-child{border-bottom:2px dashed var(--ink)}
-html body #operaciones .stp li::before{content:"P·" counter(p,decimal-leading-zero)!important;display:block!important;width:auto!important;height:auto!important;margin:2px 0 0!important;padding:.5em .9em .5em .7em;transform:none!important;outline:0!important;background:var(--ink)!important;color:#fff!important;font:800 11px/1 var(--font-display)!important;letter-spacing:.16em;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%)}
+html body #operaciones .stp li::before{content:"T·" counter(p,decimal-leading-zero)!important;display:block!important;width:auto!important;height:auto!important;margin:2px 0 0!important;padding:.5em .9em .5em .7em;transform:none!important;outline:0!important;background:var(--ink)!important;color:#fff!important;font:800 11px/1 var(--font-display)!important;letter-spacing:.16em;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%)}
 html body #operaciones .stp li b{font:800 clamp(16px,1.4vw,20px)/1.1 var(--font-display);text-transform:uppercase;display:block;margin-bottom:.3em}
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -747,3 +747,26 @@ html body #entregas .eg li .sl,html body #entregas .eg li:nth-child(1) .sl{left:
 @media(max-width:899px){
  html body .hx-reel{aspect-ratio:9/16;max-height:none;width:min(100%,calc(76svh * 9 / 16));margin-inline:auto}
 }
+/* v15 · Quiénes somos: foto real del frente (cover), una sola cifra (el 4,7) */
+html body #nosotros .ph img{object-fit:cover!important;object-position:42% 50%;background:var(--ink)}
+html body #nosotros .ns,html body #nosotros .ns:has(>div:only-child){grid-template-columns:minmax(0,max-content)!important}
+/* v15 · Dónde estamos: mapa en duotono azul chapa, pin = Chapa CHITA, "la regla" de distancias (0 m = la columna roja) */
+html body #contacto .mp iframe{filter:grayscale(1) contrast(1.08)!important}
+html body #contacto .mp::after{display:block!important;content:"";position:absolute;inset:0;z-index:1;background:var(--chapa);mix-blend-mode:color;opacity:.92;pointer-events:none}
+html body #contacto .mp .mpp{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,calc(-100% - 12px));width:92px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,calc(50% + 11px) 100%,50% calc(100% + 15px),calc(50% - 11px) 100%,0 100%);text-align:center;pointer-events:none}
+html body #contacto .mp .mpp::after{content:"";position:absolute;left:50%;top:100%;margin-left:-8px;border:8px solid transparent;border-top:12px solid var(--ink)}
+html body #contacto .mp .mpp i{display:block;background:var(--chapa);color:#fff;font:800 10px/1 var(--font-display);font-style:normal;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;padding:6px 0}
+html body #contacto .mp .mpp b{display:block;font:800 28px/1 var(--font-display);letter-spacing:.03em;padding:6px 0 7px}
+html body #contacto .rgl{list-style:none;margin:10px 0 12px;padding:0;display:grid;gap:12px}
+html body #contacto .rgl li{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:baseline}
+html body #contacto .rgl span{font:700 13px/1.25 var(--b);color:#fff}
+html body #contacto .rgl b{font:800 15px/1 var(--font-display);letter-spacing:.04em;color:#fff;white-space:nowrap}
+html body #contacto .rgl i{grid-column:1/-1;display:block;height:18px;margin-top:4px;background:linear-gradient(var(--rojo),var(--rojo)) 0 50%/calc(var(--p)*100%) 10px no-repeat,repeating-linear-gradient(90deg,rgba(255,255,255,.45) 0 6px,transparent 6px 12px) 0 50%/100% 2px no-repeat}
+html body #contacto .rgl li:first-child i{background-size:10px 100%,100% 2px}
+@media(prefers-contrast:more){html body #contacto .mp::after{opacity:.6}}
+/* v15 · corrección: la regla de main>section>div (position:relative) dejaba el mapa de escritorio en 0 px de alto; vuelve a ser el fondo de la sección */
+@media(min-width:900px){html body #contacto>.mp{position:absolute;inset:0;height:auto;z-index:0}}
+html body #contacto .rgl{width:100%}
+/* v15 · en pantallas anchas el mapa se desplaza a la derecha para que el pin (centro del mapa) no quede bajo los paneles */
+@media(min-width:1100px){html body #contacto .mp iframe{inset:0 0 0 34%;width:66%}html body #contacto .mp .mpp{left:67%}}
+
