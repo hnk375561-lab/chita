@@ -1694,3 +1694,103 @@ html body #entregas .ent-bg::after{content:"";position:absolute;inset:0;z-index:
 @media(max-width:899px){html body #entregas .ent-bg{grid-template-columns:repeat(2,minmax(0,1fr))}html body #entregas .ent-bg::before{background:repeating-linear-gradient(90deg,var(--rojo) 0 6px,transparent 6px 50%)}}
 .m #entregas .ent-bg{opacity:0;transition:opacity 1.4s var(--ease)}
 .m #entregas.in .ent-bg{opacity:1}
+
+/* ==========================================================================
+   CHITA · v51 — ajustes de diseño
+   1) Botón «Activar sonido» más arriba, sin pisar el pie del video.
+   2) Entregas: todo centrado, fotos rectas en 4 × 3, sello «Entregado» en todas,
+      barra «El próximo es el tuyo» legible y estrellas rojas.
+   3) Unidades: grilla de 5 columnas × 2 filas, foto protagonista y nombre del
+      modelo chico, en la esquina.
+   4) Cinta de la marca (negro · rojo · naranja) en lugar del azul liso donde la
+      foto no llena el recuadro.
+   Volver atrás: borrar este bloque, el bloque v51 de js/identidad.js y restaurar
+   la línea del sello («Foto publicada») en js/identidad.js.
+   ========================================================================== */
+:root{--cinta:repeating-linear-gradient(-50deg,#0A1020 0 11px,#C1121F 11px 19px,#0A1020 19px 22px,#F26B1D 22px 25px,#0A1020 25px 36px)}
+
+/* 1 · sonido */
+html body .reel-snd{bottom:52px}
+@media(max-width:899px){html body .reel-snd{bottom:60px}}
+
+/* 2 · Entregas, centrada y pareja */
+html body #entregas .eh{flex-direction:column!important;align-items:center!important;text-align:center!important;gap:16px!important}
+html body #entregas .eh>div{display:flex;flex-direction:column;align-items:center;text-align:center}
+html body #entregas .eh .ey{display:block;text-align:center}
+html body #entregas .eh h2,html body #entregas .eh .ep{margin-inline:auto;text-align:center}
+html body #entregas .ec{display:block!important;width:fit-content;margin:0 auto clamp(14px,2vw,22px)!important}
+html body #entregas ul.eg{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-auto-rows:auto!important;align-items:stretch!important;gap:clamp(10px,1.2vw,16px)!important;margin:0 auto!important;padding:0!important}
+html body #entregas ul.eg li,html body #entregas ul.eg li:nth-child(n){grid-column:auto!important;grid-row:auto!important;aspect-ratio:340/285!important;margin:0!important;transform:none!important;translate:none!important}
+@media(max-width:899px){html body #entregas ul.eg{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:599px){html body #entregas ul.eg{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+/* columnas rojas del fondo: también en el borde derecho, para que quede simétrico */
+html body #entregas .ent-bg::before{box-shadow:inset -8px 0 0 var(--rojo)}
+/* sello «Entregado» a la vista en las 12 fotos */
+html body #entregas .eg li:not(:first-child) .sl{opacity:1!important;animation:sello var(--d-sello) var(--ease-i) calc(var(--i)*85ms + 140ms) both!important}
+.cj #entregas .eg:not(.st) li .sl{opacity:0!important;animation:none!important}
+
+/* barra «El próximo es el tuyo»: centrada y con texto legible también al pasar el mouse */
+html body #entregas .eg-next{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,1.6vw,20px);text-align:center;margin-top:clamp(20px,2.6vw,34px)}
+html body #entregas .eg-next .egn-t{color:#fff!important}
+html body #entregas .eg-next .egn-c{display:inline-block;padding:11px 20px 11px 16px;background:var(--rojo);color:#fff!important;text-align:center;clip-path:var(--cut-sm);transition:background .3s var(--ease)}
+html body #entregas .eg-next:is(:hover,:focus-visible){background:#fff!important;color:var(--ink)!important}
+html body #entregas .eg-next:is(:hover,:focus-visible) .egn-t{color:var(--ink)!important}
+html body #entregas .eg-next:is(:hover,:focus-visible) .egn-c{background:var(--ink)}
+/* reseñas: chapa blanca centrada, estrellas rojas pintadas según el 4,7 */
+html body #entregas .rt{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:clamp(14px,2vw,22px);margin:clamp(22px,3vw,36px) 0 0!important;text-align:center}
+html body #entregas .rts{display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 14px;margin:0!important;padding:12px 24px 14px 20px;background:#fff;color:var(--ink)!important;font:600 clamp(13px,1.2vw,16px)/1.35 var(--font-text);letter-spacing:.01em;clip-path:var(--cut-sm);box-shadow:inset 0 -4px 0 var(--rojo);max-width:100%}
+html body #entregas .rts strong{color:var(--ink)!important}
+html body #entregas .rtb{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+html body :is(#entregas .rst,#opiniones .rvs){display:inline-block;font-size:clamp(20px,1.9vw,26px);line-height:1;letter-spacing:.08em;background:linear-gradient(90deg,var(--rojo) 0 94%,#C9CDD3 94% 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}
+
+/* 4 · cinta de la marca donde la foto no llena el marco */
+html body :is(.vdi,.vsi,.mdp,.vrz){background:var(--cinta)!important}
+html body :is(.vdi,.vsi,.vrz) img,html body .mdp>img{background:transparent!important}
+html body #operaciones .oc .oi{aspect-ratio:1/1!important;background:var(--cinta)!important}
+html body #operaciones .oc .oi img{object-fit:cover!important;background:transparent!important}
+html body #operaciones .oc .oi img.land{object-fit:contain!important}
+
+/* 3 · Unidades, 5 × 2 */
+html body #unidades .head{margin-bottom:clamp(8px,1vw,14px)!important}
+html body #unidades .head>div{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 22px}
+html body #unidades #unidades-title{font-size:clamp(34px,3.4vw,50px)!important;line-height:1!important;margin:0!important}
+html body #unidades .head .sub{margin:0!important;font-size:15px!important;max-width:60ch}
+html body #unidades .ff{display:grid!important;grid-template-columns:minmax(200px,1.3fr) minmax(180px,.8fr) auto;grid-template-areas:"q o c" "m m m";align-items:end;gap:10px 14px;padding:12px 16px!important}
+html body #unidades .ff .fs1{grid-area:q}
+html body #unidades .ff .fmchips{grid-area:m;display:flex;flex-wrap:wrap;gap:6px}
+html body #unidades .ff>label:not(.fs1){grid-area:o}
+html body #unidades .ff #fc{grid-area:c}
+html body #unidades .ff label{font-size:10px!important;letter-spacing:.14em;gap:4px}
+html body #unidades .ff :is(input,select,#fc){min-height:36px!important;height:36px;padding-block:0!important;font-size:14px!important}
+html body #unidades .fm-chip{min-height:28px!important;padding:0 9px!important;font-size:10px!important;letter-spacing:.06em!important}
+html body #unidades #qc{margin:10px 0 8px!important;font-size:13px}
+@media(max-width:640px){html body #unidades .ff{grid-template-columns:minmax(0,1fr);grid-template-areas:"q" "o" "m" "c"}}
+
+html body #unidades #stockGrid{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:14px!important;align-items:stretch}
+html body #unidades #stockGrid .car{container-type:inline-size;display:flex;flex-direction:column;min-width:0;--c:16px}
+html body #unidades #stockGrid .car .im{flex:none;aspect-ratio:1.05/1!important;background:var(--cinta)!important}
+html body #unidades #stockGrid .car .ct img{object-fit:cover!important;object-position:50% 50%!important;background:transparent!important}
+html body #unidades #stockGrid .car .ct img.land{object-fit:contain!important}
+/* los carteles de nombre/año/km vienen impresos en la portada: se recortan y el nombre pasa a la esquina */
+html body #unidades #stockGrid .car .ct img:is([src$="w800/8.webp"],[src$="w800/22.webp"],[src$="w800/47.webp"]){object-position:50% 100%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/27.webp"],[src$="w800/41.webp"],[src$="w800/53.webp"],[src$="w800/57.webp"],[src$="w800/61.webp"]){object-position:50% 0%!important}
+html body #unidades #stockGrid .car .im::after{left:8px!important;top:8px!important;width:58px!important;height:24px!important;padding:3px 6px!important}
+html body #unidades #stockGrid .car h3{position:absolute;z-index:6;left:0;top:calc(100cqw / 1.05);transform:translateY(-100%);margin:0!important;max-width:90%;background:var(--ink);border-left:4px solid var(--rojo);color:#fff!important;font-size:10.5px;clip-path:polygon(0 0,100% 0,calc(100% - 9px) 100%,0 100%)}
+html body #unidades #stockGrid .car h3 button{display:block;padding:6px 16px 6px 8px!important;color:#fff!important;font:800 10.5px/1.15 var(--font-display);letter-spacing:.07em;text-transform:uppercase;text-align:left}
+html body #unidades #stockGrid .car h3 button:hover{color:#fff!important;text-decoration:underline}
+html body #unidades #stockGrid .car :is(.meta,.est,.tg,.eqp,.chita-state){margin-left:10px!important;margin-right:10px!important}
+html body #unidades #stockGrid .car .meta{--sl:7px;margin-top:10px!important;padding:6px calc(var(--sl) + 10px) 6px 52px;font-size:9.5px;letter-spacing:.03em}
+html body #unidades #stockGrid .car .meta::after{width:40px;font-size:7.5px;letter-spacing:.14em;text-indent:.14em;padding-left:4px}
+html body #unidades #stockGrid .car .pr{margin:auto 10px 0!important;padding:2px 0 0!important}
+html body #unidades #stockGrid .car .vf{min-height:30px;font-size:12px;padding:0;text-align:left}
+html body #unidades #stockGrid .car .wab{margin:2px 10px 12px!important;min-height:36px;font-size:11px;letter-spacing:.1em}
+html body #unidades #stockGrid .car .eqp{font-size:11px;margin-top:6px!important;margin-bottom:4px!important}
+/* última tarjeta de la grilla: completa los 10 lugares */
+html body #unidades #stockGrid .car-cta{order:99;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:10px;padding:18px 16px;min-width:0;background:var(--ink);color:#fff;text-decoration:none;border-left:8px solid var(--rojo);clip-path:var(--cut);--c:16px;transition:background .3s var(--ease)}
+html body #unidades #stockGrid .car-cta .cc-k{font:800 10px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:#fff;opacity:.8}
+html body #unidades #stockGrid .car-cta .cc-t{font:800 clamp(18px,1.6vw,24px)/1.05 var(--font-display);letter-spacing:-.01em;text-transform:uppercase;color:#fff}
+html body #unidades #stockGrid .car-cta .cc-c{display:inline-block;padding:9px 14px 9px 12px;background:var(--rojo);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase;clip-path:var(--cut-sm)}
+html body #unidades #stockGrid .car-cta:is(:hover,:focus-visible){background:var(--chapa)}
+html body #unidades #stockGrid .car-cta:focus-visible{outline:3px solid var(--rojo);outline-offset:3px}
+@media(max-width:1180px){html body #unidades #stockGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:700px){html body #unidades #stockGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}}

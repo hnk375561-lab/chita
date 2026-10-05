@@ -273,7 +273,7 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
 /* CHITA · V3 — cada columna abre una consecuencia de servicio y cada entrega declara su fuente. */
 (function(){
   var d=document, eg=d.querySelector("#entregas .eg");
-  if(eg){[].slice.call(eg.children).forEach(function(li,k){var seal=li.querySelector(".sl");if(seal)seal.textContent=k===0?"Entregado":"Foto publicada";li.setAttribute("title","Foto publicada por Chita")})}
+  if(eg){[].slice.call(eg.children).forEach(function(li,k){var seal=li.querySelector(".sl");if(seal)seal.textContent="Entregado";li.setAttribute("title","Entregado")})}
   var pl=d.querySelector("#nosotros .pl");
   if(pl){var actions=[
     ["Ver unidades publicadas","#unidades"],
@@ -327,3 +327,21 @@ if(b.dataset.d){var d=new Date(st.m.getFullYear(),st.m.getMonth(),+b.dataset.d);
 if(b.dataset.s){st.s=st.s===b.dataset.s?"":b.dataset.s;sync();draw('[data-s="'+b.dataset.s+'"]')}});
 inp.addEventListener("input",function(e){if(e.isTrusted&&st.d){st.d=null;st.s="";draw()}});
 draw()})();
+
+/* CHITA · v51 — fotos apaisadas con marca, tarjeta final de la grilla de Unidades y sello Entregado en todas las fotos.
+   Las fotos horizontales (la Tracker 1.2T y las de Operaciones) se muestran enteras: se marcan con .land y el espacio
+   que sobra lo cubre la cinta de la marca (ver bloque v51 de identidad.css) en lugar del azul liso. */
+(function(){
+  var d=document;
+  function mark(i){
+    function f(){if(i.naturalWidth&&i.naturalHeight/i.naturalWidth<.92)i.classList.add("land")}
+    if(i.complete)f();else i.addEventListener("load",f,{once:true});
+  }
+  [].forEach.call(d.querySelectorAll("#stockGrid .ctk img,#operaciones .oi img"),mark);
+  var g=d.getElementById("stockGrid");
+  if(g&&!g.querySelector(".car-cta")){
+    var a=d.createElement("a");a.className="car-cta";a.href="#busco";
+    a.innerHTML='<span class="cc-k">\u00bfNo ves el tuyo?</span><span class="cc-t">Contanos qu\u00e9 auto busc\u00e1s</span><span class="cc-c">Escribinos \u2192</span>';
+    g.appendChild(a);
+  }
+})();
