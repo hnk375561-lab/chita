@@ -1197,3 +1197,115 @@ html body #dlg .fch::before{content:attr(data-remito)!important}
 html body #dlg .fcs .ct img{object-fit:cover!important;object-position:50% 50%!important}
 html body #dlg[open] .fcs .ctk{animation:ficha-corte .65s var(--ease) both}
 @media(prefers-reduced-motion:reduce){html body #dlg[open] .fcs .ctk{animation:none}}
+
+
+/* ==========================================================================\n   CHITA / IDENTIDAD MADRE · V1\n   Primera aplicación: el sitio como archivo vivo de entregas.\n   No agrega contenido factual: sólo hace visible el proceso real.\n   ========================================================================== */
+:root{--chita-rule:3px dashed currentColor;--chita-muted:rgba(25,27,29,.62)}
+
+/* 00 · PARTE DE SALIDA */
+html body #hero .hx-reel{isolation:isolate}
+html body #hero .hx-reel::after{content:"E·00 / PARTE DE SALIDA";position:absolute;z-index:4;inset:18px 18px auto auto;padding:9px 12px 8px;background:var(--rojo);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase;clip-path:var(--cut-sm);pointer-events:none}
+html body #hero .hx-proof{position:relative;isolation:isolate}
+html body #hero .hx-proof::before{content:"REGISTRO PÚBLICO";display:block;margin-bottom:8px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+html body #hero .hx-reel figcaption b{color:var(--rojo)}
+
+/* 01 · ARCHIVO DE ENTREGAS */
+html body #entregas .eh{position:relative}
+html body #entregas .eh::before{content:"ARCHIVO DE ENTREGAS / REGISTROS PUBLICADOS";display:block;margin:0 0 12px;color:rgba(255,255,255,.68);font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+html body #entregas .eg-next{position:relative;isolation:isolate;border-top:3px dashed rgba(255,255,255,.55)!important;border-bottom:3px dashed rgba(255,255,255,.55)!important}
+html body #entregas .eg-next::before{content:"CASILLA ABIERTA / E·13";position:absolute;top:12px;right:16px;color:rgba(255,255,255,.68);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #entregas .ec{margin-top:18px!important;color:rgba(255,255,255,.72)!important;font:800 11px/1.2 var(--font-display)!important;letter-spacing:.16em!important;text-transform:uppercase!important}
+
+/* 02 · REMITOS DE UNIDAD */
+html body #unidades .head{position:relative}
+html body #unidades .head::after{content:"REMITOS PUBLICADOS / U·01—U·11";display:block;margin-top:14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #unidades .car{position:relative;isolation:isolate}
+html body #unidades .car::before{content:attr(data-chita-id);position:absolute;z-index:7;top:10px;left:10px;padding:7px 9px 6px;background:var(--ink);color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.16em;pointer-events:none;clip-path:var(--cut-sm)}
+html body #unidades .car[data-chita-state="consultar"]::after{content:"DATO A CONFIRMAR";position:absolute;z-index:7;right:10px;bottom:10px;padding:6px 8px;background:#fff;color:var(--ink);font:800 9px/1 var(--font-display);letter-spacing:.12em;pointer-events:none}
+
+/* 04 · LA REGLA */
+html body #versus{position:relative}
+html body #versus::before{content:"INSTRUMENTO DE MEDICIÓN / SIN DECISIÓN AUTOMÁTICA";display:block;width:min(1180px,calc(100% - 2*clamp(20px,4vw,64px)));margin:0 auto -8px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+
+/* 09–13 · DOCUMENTOS DE CIERRE */
+html body #como-comprar .ccA,html body #operaciones .fm,html body #visita #visitaForm,html body #preguntas #buscoForm{position:relative}
+html body #como-comprar .ccA::before{content:"TALÓN DE PROCESO / 04 ESTADOS";display:block;margin:0 0 16px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #operaciones .fm::before{content:"TALÓN DE OPERACIÓN / LA ENVIÁS VOS";display:block;margin:0 0 16px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #visita #visitaForm::before{content:"TALÓN DE VISITA / PENDIENTE DE CONFIRMACIÓN";display:block;margin:0 0 14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #preguntas #buscoForm::before{content:"E·13 / NUEVO REGISTRO DE BÚSQUEDA";display:block;margin:0 0 14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+
+@media(max-width:899px){
+  html body #hero .hx-reel::after{inset:10px 10px auto auto;font-size:9px;letter-spacing:.12em}
+  html body #entregas .eg-next::before{position:static;display:block;margin-bottom:12px;font-size:9px}
+  html body #versus::before{width:calc(100% - 32px);margin-bottom:0;font-size:9px;line-height:1.35}
+  html body #unidades .head::after{font-size:9px;line-height:1.35}
+}
+@media(prefers-reduced-motion:reduce){html body #hero .hx-reel::after,html body #entregas .eg-next::before,html body #unidades .car::before{transition:none}}
+
+
+/* ==========================================================================\n   CHITA / IDENTIDAD MADRE · V2\n   Cada sección restante recibe una función propia: ubicar, orientar, reconocer,\n   registrar, ordenar, desglosar, preparar, revisar, coordinar y abrir.\n   ========================================================================== */
+
+/* 05 · LAS COLUMNAS SON LAS PUERTAS DE SERVICIO */
+html body #nosotros .pdl,html body #nosotros> .w>div:last-child{position:relative}
+html body #nosotros .pdl::after,html body #nosotros .ey::after{content:"PUERTAS DEL SERVICIO / USADOS · PERMUTAS · CONSIGNACIONES";display:block;margin-top:14px;color:var(--rojo);font:800 10px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase}
+html body #nosotros .ns{position:relative}
+html body #nosotros .ns::before{content:"FACHADA → SERVICIO";position:absolute;left:0;top:-24px;color:var(--mute);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+
+/* 06 · REGLA DE LLEGADA */
+html body #contacto .xt{position:relative}
+html body #contacto .xt::before{content:"COORDENADA DE ORIGEN / CHITA";display:block;margin:0 0 14px;color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+html body #contacto .rgl li{position:relative}
+html body #contacto .rgl li::before{content:"R·" counter(r,decimal-leading-zero);position:absolute;left:-38px;top:0;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.12em}
+html body #contacto .rgl{counter-reset:r}
+html body #contacto .rgl li{counter-increment:r}
+
+/* 07 · PROTOCOLO DE RECONOCIMIENTO */
+html body #local .vh{position:relative}
+html body #local .vh::before{content:"PROTOCOLO DE RECONOCIMIENTO / 04 SEÑALES REALES";display:block;margin:0 0 14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+html body #local .vt button{position:relative}
+html body #local .vt button::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--rojo);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+html body #local .vt button.on::after{transform:scaleX(1)}
+
+/* 08 · FUENTE EXTERNA */
+html body #opiniones .rvh{position:relative}
+html body #opiniones .rvh::before{content:"REGISTRO EXTERNO / GOOGLE / OCTUBRE 2026";display:block;margin:0 0 14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+html body #opiniones .rv45t{border-left:3px solid var(--rojo);padding-left:12px}
+html body #opiniones .rvt{letter-spacing:.22em}
+
+/* 09 · TALÓN DE PROCESO */
+html body #como-comprar .stp{counter-reset:paso}
+html body #como-comprar .stp li{counter-increment:paso}
+html body #como-comprar .stp li::before{content:"T·" counter(paso,decimal-leading-zero)!important;background:var(--rojo)!important;color:#fff!important}
+html body #como-comprar .stp-seal{position:relative}
+html body #como-comprar .stp-seal::before{content:"";display:inline-block;width:5px;height:5px;margin:0 7px 2px 0;background:currentColor;border-radius:50%}
+
+/* 10 · TALÓN DE CONDICIONES */
+html body #financiacion .xb::before{content:"CONDICIÓN A CONFIRMAR";display:block;margin-bottom:10px;color:var(--ink);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #financiacion .pdc:nth-child(2){border-top-color:var(--chapa)!important}
+
+/* 11 · OPERACIONES: una operación, una ficha */
+html body #operaciones .oc{position:relative}
+html body #operaciones .oc::before{content:attr(data-chita-op);position:absolute;z-index:8;top:10px;right:10px;padding:6px 8px;background:var(--paper);color:var(--ink);font:800 10px/1 var(--font-display);letter-spacing:.14em;clip-path:var(--cut-sm);pointer-events:none}
+html body #operaciones .oc:hover::before{background:var(--rojo);color:#fff}
+html body #operaciones .fr form::before{content:"VISTA PREVIA / PRUEBA DE IMPRENTA";display:block;margin:0 0 12px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+
+/* 12 · PLANILLA CHITA */
+html body #guia .pdl::after{content:"PLANILLA CHITA / MIRAR · ANOTAR · CONFIRMAR";display:block;margin-top:14px;color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #guia .gtools{position:relative;border-left:4px solid var(--rojo)!important;padding-left:14px!important}
+html body #guia .gcount::before{content:"ESTADO DE LA PLANILLA / ";color:var(--rojo)}
+html body #guia .gprint{clip-path:var(--cut-sm)!important;border-radius:0!important}
+
+/* 13 · COORDINAR, NO RESERVAR / NUEVO REGISTRO */
+html body #visita .pdl::after{content:"COORDINAR, NO RESERVAR / LA AGENCIA CONFIRMA";display:block;margin-top:14px;color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #visita .vvid figcaption{border-left:3px solid var(--rojo);padding-left:10px;font-size:10px;letter-spacing:.16em}
+html body #preguntas .bqf{position:relative}
+html body #preguntas .bqf::after{content:"LA CASILLA VACÍA DEL ARCHIVO";display:block;margin:16px 0 0;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #preguntas .bqm .fl::before{content:"PREGUNTAS DE REFERENCIA";display:block;margin:0 0 12px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+
+@media(max-width:899px){
+  html body #nosotros .ns::before{position:static;display:block;margin:0 0 12px;font-size:9px}
+  html body #contacto .rgl li::before{left:-2px;top:-14px}
+  html body #local .vh::before,html body #opiniones .rvh::before{font-size:9px;line-height:1.35}
+  html body #operaciones .oc::before{top:8px;right:8px;font-size:9px}
+  html body #guia .pdl::after,html body #visita .pdl::after{font-size:9px;line-height:1.35}
+}

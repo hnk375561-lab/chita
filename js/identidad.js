@@ -199,3 +199,60 @@ d.getElementById("guiaPrint").addEventListener("click",function(){window.print()
 var tiles=[].slice.call(document.querySelectorAll("#opiniones .rv45 i"));if(!tiles.length)return;
 tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles.length;tile.title=tile.dataset.review+" · Leela en Google";});
 })();
+
+
+/* CHITA · IDENTIDAD MADRE V1 — códigos de archivo y estados documentales.
+   Sólo deriva etiquetas de información ya presente en el DOM; no inventa datos. */
+(function(){
+  var d=document;
+  var cards=[].slice.call(d.querySelectorAll("#stockGrid .car"));
+  cards.forEach(function(card,i){
+    card.setAttribute("data-chita-id","U·"+("0"+(i+1)).slice(-2));
+    var text=(card.textContent||"").toLowerCase();
+    if(/consultar|a confirmar|no informado/.test(text)) card.setAttribute("data-chita-state","consultar");
+    else card.setAttribute("data-chita-state","publicado");
+  });
+  var hero=d.getElementById("hero");
+  if(hero) hero.setAttribute("data-chita-role","parte-de-salida");
+  var ent=d.getElementById("entregas");
+  if(ent){
+    ent.setAttribute("data-chita-role","archivo-de-entregas");
+    var next=ent.querySelector(".eg-next");
+    if(next) next.setAttribute("data-chita-role","casilla-abierta");
+  }
+  var docs={
+    "como-comprar":"talon-de-proceso",
+    financiacion:"talon-de-condiciones",
+    operaciones:"talon-de-operacion",
+    guia:"planilla-de-revision",
+    visita:"talon-de-visita",
+    preguntas:"nuevo-registro"
+  };
+  Object.keys(docs).forEach(function(id){
+    var s=d.getElementById(id);if(s)s.setAttribute("data-chita-role",docs[id]);
+  });
+})();
+
+
+/* CHITA · IDENTIDAD MADRE V2 — cada sección opera como una pieza distinta del archivo. */
+(function(){
+  var d=document;
+  var roles={
+    nosotros:"puertas-del-servicio",
+    contacto:"regla-de-llegada",
+    local:"protocolo-de-reconocimiento",
+    opiniones:"registro-externo",
+    "como-comprar":"talon-de-proceso",
+    financiacion:"talon-de-condiciones",
+    operaciones:"talon-de-operacion",
+    guia:"planilla-chita",
+    visita:"talon-de-visita",
+    preguntas:"casilla-del-proximo-registro"
+  };
+  Object.keys(roles).forEach(function(id){
+    var section=d.getElementById(id);
+    if(section) section.setAttribute("data-chita-role",roles[id]);
+  });
+  var ops=[].slice.call(d.querySelectorAll("#operaciones .oc"));
+  ops.forEach(function(card,i){card.setAttribute("data-chita-op","O·"+(("0"+(i+1)).slice(-2)))})
+})();
