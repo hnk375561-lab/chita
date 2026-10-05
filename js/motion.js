@@ -1015,7 +1015,7 @@ function initSceneChoreography({ desktop }) {
     });
     /* Local: el recorrido visual flota detrás de los hitos, mientras las señales entran por capas. */
     scene("local", (s) => {
-      imgDrift(s, ".vc, .vin video, .vin img", { scale: 1.14, yPercent: -7 * k }, { scale: 1.03, yPercent: 7 * k }, "top bottom", "bottom top");
+      imgDrift(s, ".vc, .vin video, .vin:not(.vlogo):not(.vsign) img", { scale: 1.14, yPercent: -7 * k }, { scale: 1.03, yPercent: 7 * k }, "top bottom", "bottom top");
       qsa(".vsn li, .vpn", s).forEach((item, i) => gsap.fromTo(item, { x: (i % 2 ? 1 : -1) * 22 * k }, { x: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 84%", "bottom 24%") }));
     });
     /* Opiniones: tarjetas en órbita leve y estrellas que recorren la lectura. */

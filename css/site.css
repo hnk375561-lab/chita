@@ -767,6 +767,18 @@ section#financiacion.pp.pp.pp.pp .pdc{background:rgba(10,16,32,.8);border:1px so
 .vin .vf{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);aspect-ratio:1170/636}
 .vin .vf>img{display:block;width:100%;height:100%;object-fit:cover}
 .vin video{position:relative;z-index:1;display:block;height:100%;width:auto;max-width:100%;margin:0 auto;object-fit:contain}
+/* Escena "Nuestro logo" (marca sobre el fondo azul y rojo) y escena "El cartel" (foto enmarcada, nunca estirada) */
+#local .vlogo{background:#0a1020}
+#local .vlogo::before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(60% 70% at 50% 50%,rgba(10,16,32,0) 0,rgba(10,16,32,.55) 100%)}
+#local .vlogo::after{content:"";position:absolute;inset:clamp(14px,2.4vw,28px);z-index:2;pointer-events:none;--c:rgba(255,255,255,.55);background:linear-gradient(var(--c),var(--c)) 0 0/22px 2px,linear-gradient(var(--c),var(--c)) 0 0/2px 22px,linear-gradient(var(--c),var(--c)) 100% 0/22px 2px,linear-gradient(var(--c),var(--c)) 100% 0/2px 22px,linear-gradient(var(--c),var(--c)) 0 100%/22px 2px,linear-gradient(var(--c),var(--c)) 0 100%/2px 22px,linear-gradient(var(--c),var(--c)) 100% 100%/22px 2px,linear-gradient(var(--c),var(--c)) 100% 100%/2px 22px;background-repeat:no-repeat}
+#local .vlogo .lg{position:absolute;inset:0;z-index:2;display:grid;place-items:center}
+#local .vlogo .lg img{display:block;width:min(64%,440px);height:auto;aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.5),0 0 0 14px rgba(255,255,255,.07),0 0 0 15px rgba(255,255,255,.22),0 40px 70px -18px rgba(0,0,0,.75)}
+#local .vsign{background:radial-gradient(70% 80% at 50% 45%,#12233a 0,#0a1020 100%)}
+#local .vsign::before{content:"";position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(60% 60% at 50% 50%,#000,transparent);mask-image:radial-gradient(60% 60% at 50% 50%,#000,transparent)}
+#local .vsign .sg{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(16px,2.2vw,26px)}
+#local .vsign .sg img{display:block;width:min(88%,780px);height:auto;border:1px solid rgba(255,255,255,.35);border-top:3px solid var(--rojo,#c8102e);box-shadow:0 0 0 10px rgba(255,255,255,.05),0 40px 70px -20px rgba(0,0,0,.8)}
+#local .vsign .sgt{display:inline-flex;align-items:center;gap:12px;font:800 12px/1 var(--font-display,var(--b));letter-spacing:.22em;text-transform:uppercase;color:#fff}
+#local .vsign .sgt::before,#local .vsign .sgt::after{content:"";width:clamp(24px,5vw,56px);height:2px;background:var(--rojo,#c8102e)}
 .vpn{position:absolute;transform:translate(-50%,-50%);z-index:1;opacity:0;transition:opacity .6s .7s}.vl.on .vpn{opacity:1}
 .vpn i{display:block;width:14px;height:14px;border-radius:50%;background:var(--luxl);animation:rpl 2.4s infinite}
 .vpn b{position:absolute;left:22px;top:50%;transform:translateY(-50%);white-space:nowrap;background:rgba(10,16,32,.88);border:1px solid rgba(185,190,196,.4);padding:4px 10px;font:600 14.5px var(--b);letter-spacing:.04em}.vpn.lf b{left:auto;right:22px}
