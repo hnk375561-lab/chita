@@ -1140,3 +1140,14 @@ html body #visita #visitaForm .btn.p{color:#fff!important;font-weight:800;letter
 html body #visita #visitaForm .ck:has(input:checked){color:#fff!important}
 html body #visita #visitaForm .ck:has(input:checked) span{color:#fff!important}
 @media(max-width:600px){html body #visita #vsU{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}html body #visita #vsU legend{grid-column:1/-1}html body #visita .ck{min-height:46px;padding:6px 8px;line-height:1.15}}
+/* CHITA v32 · UNIDADES: filtros reducidos a búsqueda, chips de modelo y orden.
+   Los chips se generan desde STOCK; no agregan ni duplican datos. */
+html body #unidades .ff{grid-template-columns:minmax(0,1fr) auto!important;align-items:end}
+html body #unidades .ff .fs1,html body #unidades .ff .fmchips{grid-column:1/-1}
+html body #unidades .fmchips{display:flex;flex-wrap:wrap;gap:8px;min-width:0;padding:0 0 2px}
+html body #unidades .fm-chip{min-height:38px;padding:0 13px;border:1px solid rgba(255,255,255,.42);background:transparent;color:#fff;border-radius:0;font:800 11px/1 var(--font-display);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease)}
+html body #unidades .fm-chip.on{background:var(--rojo);border-color:var(--rojo);color:#fff}
+html body #unidades .fm-chip:hover,html body #unidades .fm-chip:focus-visible{border-color:var(--luxl);outline:0}
+html body #unidades .fm-chip:focus-visible{outline:2px solid var(--luxl);outline-offset:2px}
+@media(max-width:640px){html body #unidades .ff{grid-template-columns:minmax(0,1fr)!important}html body #unidades .fm-chip{min-height:40px;padding-inline:10px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){html body #unidades .fm-chip{transition:none}}
