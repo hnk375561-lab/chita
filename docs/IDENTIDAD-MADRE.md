@@ -1,4 +1,4 @@
-# CHITA / DOCUMENTO MADRE DE IDENTIDAD — v2.3 aplicable
+# CHITA / DOCUMENTO MADRE DE IDENTIDAD — v2.5 aplicable
 
 > **CHITA no debe parecer una concesionaria que aprendió a decorar una web.**
 > Debe sentirse como el lugar donde un auto pasa de estar publicado a irse con su dueño.
@@ -29,6 +29,8 @@
 | Se agregaron `F·NN`, `G·NN`, `N°` y `N°·B` a la tabla de códigos. | Existen en el código y faltaban. |
 | Se quitaron las puntuaciones /10. | Eran opinión sin criterio medible. Se reemplazan por estado y brecha. |
 | **v2.3:** se actualizó el estado de Unidades, Hero, Reseñas, Guía y Visita al código v32–v38 y se cerró la tabla de aplicación. | El documento describía el zip 37 y quedó atrasado. |
+| **v2.4:** se cierran T3, T13, T17 y T19 (código v46). | Quedan solo T1 (dueño), T14 y T15. |
+| **v2.5:** se cierran T14 y T15 (código v47), el texto de «Serie 2» pasa a neutro y se cumplen los «verificar» pendientes (frases de voz en `npm run audit`, registro del dato de Facebook). | Todo lo aplicable por código está hecho; lo que queda depende del dueño (sección 8). |
 | ~~Se agregó la deuda de `viaje.html` y `reserva.html` (otra paleta, tipografías sueltas).~~ **Retirado en v2.2.** | Se comprobó en navegador: ambas páginas ya se ven con la paleta y las dos tipografías de Chita (`viaje.css` las redefine más abajo en el mismo archivo). Queda solo código viejo sin efecto al inicio de `viaje.css`. |
 
 ---
@@ -394,9 +396,19 @@ Todo dato nuevo se registra en `golive/AFIRMACIONES-A-CONFIRMAR.md` y en `data/d
 | T11 | Hecho | v43: sello solo en la primera entrega (1 de 12 en reposo); en las demás al hover/foco. El rótulo `E·NN` queda en todas |
 | T20 | Hecho | v44: E·13 con perforación arriba y abajo; Preguntas como bloque aparte, sin numeración `P·NN` |
 | T12 | Hecho | v45: al sumar una cuarta unidad el aviso dice cuál reemplaza («Sumaste X. Reemplaza a Y, la más antigua de las tres.»); se usa el nombre porque `U·NN` ya no existe |
-| T1, T13–T15, T17, T19 | Pendiente | T1 depende del dueño |
+| T3 | Hecho | v46: km o precio sin dato se ven como «a confirmar» (tinta atenuada + subrayado punteado) en tarjeta y ficha; texto unificado «A confirmar con la agencia». El comparador conserva «Sin informar» |
+| T13 | Hecho | v46: cada columna de Quiénes somos cierra con un enlace: Usados → `#unidades`; Permutas → `#operaciones`; Consignaciones → `#operaciones` con «Consignar» ya elegido. Sin animación nueva |
+| T17 | Hecho | v46: elegir una tarjeta de Operaciones mueve el select y la vista previa del mensaje (antes el rótulo cambiaba pero el mensaje seguía diciendo «vender»); cambiar el select mueve el rótulo y la tarjeta. «Comprar» deja el select en «Todavía no lo sé» y remite a Unidades |
+| T19 | Hecho | v46: último paso de `reserva.html` con estado «Listo para enviar» → al tocar WhatsApp, «Consulta abierta en WhatsApp · pendiente de confirmación de la agencia». Nunca dice «confirmado» |
+| T14 | Hecho | v47: en `#local` el título ya no repite la dirección («Reconocé el frente antes de entrar»); la dirección completa queda como origen en Dónde estamos y en la Regla de llegada, y como referencia en el footer. Se corrigió el rótulo «CHITA · ORIGEN» que salía pegado a «Regla de llegada» |
+| T15 | Hecho | v47: cada paso del recorrido nombra la foto o el video que lo ilustra (frente sobre la calle · salón vidriado · recorrido en video · cartel). Sin fotos nuevas |
+| T1 | Parcial (dueño) | v47: las tarjetas «Serie 2» dicen «Serie 2 · confirmar detalles con la agencia» (ya no «diferencia editorial»). No se quitó ni se fusionó ninguna tarjeta: eso lo decide el dueño |
+| T9 (`.woff2`) | A mano | borrar `fonts/dm-serif-display-latin.woff2` y `chita-cambios/` del repo (un zip no borra) |
+| P3 `viaje.css` | No aplicado | limpieza de código muerto sin efecto visual; solo con prueba visual por página. Se deja documentado |
+| Verificar voz (sección 2) | Hecho | `npm run audit` lista aparte las frases a evitar: 0 encontradas |
+| Verificar Facebook (Entregas) | Hecho | el dato «100 % · 22 opiniones» se registró en `golive/AFIRMACIONES-A-CONFIRMAR.md` como pendiente de fuente y fecha |
 
-**Alerta T1:** `js/app.js` imprime en las tarjetas «Serie 2 · diferencia editorial; confirmar detalles con la agencia». Eso afirma una diferencia que el dueño todavía no confirmó (Tracker 1.8N y su «Serie 2» comparten año y km). No se tocó para no cambiar datos sin confirmación.
+**T1 (dueño):** el texto de las tarjetas «Serie 2» ya no afirma una diferencia. Sigue pendiente que el dueño confirme si Tracker 1.8N y Palio 1.4N «Serie 2» son unidades distintas o la misma (comparten año y km); hasta entonces no se tocan las tarjetas.
 
 ---
 

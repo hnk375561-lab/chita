@@ -67,3 +67,16 @@ Solo `transform`, `scale`, `rotate`, `opacity`, `clip-path`. Sin fade-up. `js/mo
 
 ## Datos
 No se agregó ningún dato: el sello y las etiquetas usan solo lo ya publicado (entregas, reseñas, dirección).
+
+## v46 · estados de dato, columnas con salida, Operaciones coherente, estado de la visita
+- **T3** `js/app.js` (`card()` y ficha): km sin dato → `<span class="dato-ac">Km: a confirmar</span>`; precio «Consultar» y km vacío en la ficha → `dd.bl.dato-ac` «A confirmar con la agencia». `css/identidad.css` define `.dato-ac` (tinta al 68 % + subrayado punteado plata; la plata sola no da contraste sobre papel). `index.html` se regeneró con `npm run prerender`.
+- **T13** `js/identidad.js`: enlace `.nl` dentro de cada `.nq` de Quiénes somos. El de Consignaciones llama a `window.CHITA_OP("Consignar")` antes de saltar a `#operaciones`.
+- **T17** `js/identidad.js`: `opShow()` unifica rótulo, título, bajada, tarjeta elegida y `select[name=interes]`; dispara `input` para que `app.js` recalcule `#wpT`.
+- **T19** `reserva.html`, `js/reserva.js`, `css/reserva.css`: `#send-state` con `data-state="ready|pending"`.
+- Sin datos nuevos. Sin verbos de movimiento nuevos.
+
+## v47 · T14, T15, T1 (texto neutro) y control de voz
+- **T14/T15** `index.html` (`#local`): título «Reconocé el frente antes de entrar»; cada `li.vi` lleva `<small class="vfoto">` con la foto o el video que lo ilustra. `css/identidad.css`: `.vfoto` y regla `#local #rqh .origin-mark` (antes solo existía para `#contacto`).
+- **T1** `js/app.js`: nota de «Serie 2» sin «diferencia editorial». Tarjetas regeneradas con `npm run prerender`.
+- **Audit** `scripts/audit-copy.mjs`: segunda lista «VOZ» con las frases que el documento madre pide evitar.
+

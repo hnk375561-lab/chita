@@ -178,3 +178,7 @@ Se quitó de `index.html` el meta-copy de verificación. Registro de respaldo, t
 |---|---|
 | Autorización del video | Confirmar con el dueño que se puede usar el reel en el sitio y que la persona que aparece está de acuerdo. El video trae subtítulos incluidos y menciona un vehículo (sin datos comerciales cargados en el sitio) |
 | Logotipo en alta | Pedir el archivo original del logo (vector o PNG grande). El actual sale de una captura de 411 px y pierde nitidez en pantallas grandes |
+
+## Entregas: «Recomendado por el 100 % en Facebook (22 opiniones) · octubre de 2026» (5/10/2026)
+El dato aparece en `index.html` (sección Entregas) y no tenía registro propio. **PENDIENTE: guardar la captura o el enlace de la fuente con fecha de consulta; si no se puede respaldar, retirar la línea.** Mientras tanto no se amplía ni se repite en otras secciones. Relacionado con la fila 10 de arriba (confirmar que el perfil de Facebook sea la cuenta oficial).
+

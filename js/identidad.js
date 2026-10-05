@@ -161,6 +161,11 @@ for(var i=0;i<3;i++)(function(i){
  bt.appendChild(n);bt.appendChild(b);
  w.className="np";w.id="nsp"+i;w.setAttribute("role","region");w.setAttribute("aria-labelledby",bt.id);
  p.className="nq";r.insertBefore(bt,r.firstChild);r.insertBefore(w,p);w.appendChild(p);
+ /* T13: cada columna abierta termina en una acción real (sin animación nueva) */
+ var L=[["#unidades","Ver las unidades publicadas"],["#operaciones","Preparar la consulta de mi usado"],["#operaciones","Consultar por consignar"]][i],a=d.createElement("a");
+ a.className="nl";a.href=L[0];a.textContent=L[1];a.setAttribute("data-op",["","Permutar","Consignar"][i]);
+ a.addEventListener("click",function(){var k=a.getAttribute("data-op");if(k&&window.CHITA_OP)window.CHITA_OP(k,false)});
+ p.appendChild(a);
  c.className="nc";c.setAttribute("aria-hidden","true");c.textContent="0"+(i+1);
  c.style.left=(Z[i][0]+Z[i][2]/2)+"%";c.style.top=Z[i][4]+"%";ph.appendChild(c);
  btns[i]=bt;chips[i]=c;
@@ -273,12 +278,22 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   /* Operaciones: una selección cambia el encabezado del talón y hace visible la consecuencia. */
   var ops=d.querySelector("#operaciones .og"), label=d.getElementById("opLabel"), title=d.getElementById("opTitle"), lead=d.getElementById("opLead");
   var copy={
-    Comprar:["Talón de operación · comprar","Abrí una unidad publicada","Elegí una ficha y prepará la consulta de disponibilidad."],
+    Comprar:["Talón de operación · comprar","Abrí una unidad publicada","Elegí una ficha en Unidades y consultá si sigue disponible. Este formulario es para tu usado."],
     Vender:["Talón de operación · vender","Prepará la evaluación de tu usado","Sumá marca, modelo, año y kilometraje; la agencia lo evalúa."],
     Permutar:["Talón de operación · permutar","Cruce entre dos autos","Contanos qué tenés y por cuál unidad te interesa consultar."],
     Consignar:["Talón de operación · consignar","Consulta de publicación","Enviá los datos de tu auto y la agencia te cuenta cómo funciona."]
   };
-  if(ops){[].slice.call(ops.querySelectorAll(".oc")).forEach(function(card){card.addEventListener("click",function(e){var h=card.querySelector("h3"),key=h&&h.textContent.trim();if(!copy[key])return;[].slice.call(ops.children).forEach(function(x){x.classList.toggle("is-selected",x===card)});if(label)label.textContent=copy[key][0];if(title)title.textContent=copy[key][1];if(lead)lead.textContent=copy[key][2]})})}
+  var sel=d.querySelector("#canjeForm select[name=interes]"), opVal={Comprar:"consulta",Vender:"vender",Permutar:"permutar",Consignar:"consignar"}, opKey={vender:"Vender",permutar:"Permutar",consignar:"Consignar"};
+  function opShow(key,fromSelect){
+    if(!copy[key])return;
+    if(ops)[].slice.call(ops.querySelectorAll(".oc")).forEach(function(x){var h=x.querySelector("h3");x.classList.toggle("is-selected",!!h&&h.textContent.trim()===key)});
+    if(label)label.textContent=copy[key][0];if(title)title.textContent=copy[key][1];if(lead)lead.textContent=copy[key][2];
+    /* el rótulo y la vista previa del mensaje dicen lo mismo: se mueve el select y se avisa al formulario (app.js recalcula la vista previa) */
+    if(!fromSelect&&sel&&opVal[key]&&sel.value!==opVal[key]){sel.value=opVal[key];sel.dispatchEvent(new Event("input",{bubbles:true}))}
+  }
+  if(ops){[].slice.call(ops.querySelectorAll(".oc")).forEach(function(card){card.addEventListener("click",function(){var h=card.querySelector("h3");opShow(h&&h.textContent.trim(),false)})})}
+  if(sel)sel.addEventListener("change",function(){if(opKey[sel.value])opShow(opKey[sel.value],true)});
+  window.CHITA_OP=opShow;
   /* E·13: muestra la pieza que se está abriendo sin guardar datos. */
   var bf=d.getElementById("buscoForm");
   if(bf){var p=d.createElement("p");p.className="e13-preview";p.setAttribute("role","status");p.setAttribute("aria-live","polite");p.textContent="E·13 · casilla vacante · completá los datos para abrir el pedido";var meta=bf.querySelector(".meta");if(meta)meta.parentNode.insertBefore(p,meta);var fields=[].slice.call(bf.querySelectorAll("input,select"));function preview(){var model=bf.modelo&&bf.modelo.value.trim(),year=bf.anio&&bf.anio.value.trim(),fuel=bf.comb&&bf.comb.value,pres=bf.presu&&bf.presu.value.trim();var bits=[model,year&&"desde "+year,fuel,pres&&"presupuesto "+pres].filter(Boolean);p.textContent=bits.length?"E·13 · consulta lista · "+bits.join(" · ")+" · la agencia confirma":"E·13 · casilla vacante · completá los datos para abrir el pedido"}fields.forEach(function(x){x.addEventListener("input",preview);x.addEventListener("change",preview)});bf.addEventListener("submit",function(){window.setTimeout(function(){p.textContent="E·13 · pedido listo para enviar · la agencia confirma stock y precio"},0)});}

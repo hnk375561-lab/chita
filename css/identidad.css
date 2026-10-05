@@ -1418,3 +1418,20 @@ html body #entregas .eg li:not(:first-child):is(:hover,:focus-within) .sl{opacit
 html body #preguntas .bqf{padding-block:clamp(22px,3vw,40px);border-block:3px dotted var(--rojo);margin-bottom:clamp(36px,5vw,72px)}
 html body #preguntas .bqm{padding-top:clamp(8px,1.5vw,20px)}
 html body #preguntas .fa summary::before{content:none;min-width:0}
+
+
+/* CHITA v46 · T3 estados de dato · T13 columnas con salida · T17 Operaciones coherente · T19 estado del último paso de la visita. Solo se suma; no se borró nada anterior. */
+/* T3: «a confirmar» se ve distinto de lo publicado: tinta atenuada y subrayado punteado plata (la plata sola no alcanza contraste sobre papel) */
+html body .dato-ac{color:rgba(10,16,32,.68);border-bottom:2px dotted var(--plata);text-decoration:none}
+html body #dlg .fcd dd.dato-ac{border-bottom-color:rgba(255,255,255,.55)}
+html body #stockGrid .car .meta .dato-ac{border-bottom-width:2px;padding-bottom:1px}
+/* T13: la acción que cierra cada columna abierta */
+html body #nosotros .np>.nq .nl{display:inline-block;margin-top:10px;padding:2px 0;border-bottom:3px solid var(--rojo);color:var(--ink);font:800 12px/1.2 var(--font-display);letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+html body #nosotros .np>.nq .nl::after{content:" ›"}
+html body #nosotros .np>.nq .nl:hover,html body #nosotros .np>.nq .nl:focus-visible{background:var(--ink);color:var(--paper,#ECEDEA);border-bottom-color:var(--ink)}
+html body #nosotros .np>.nq .nl:focus-visible{outline:3px solid var(--chapa);outline-offset:3px}
+@media(forced-colors:active){html body .dato-ac{border-bottom:2px dotted CanvasText;color:CanvasText}}
+
+/* CHITA v47 · T14 (la dirección cambia de función según la sección) y T15 (cada paso de El local nombra su foto). Solo se suma. */
+html body #local .vi .vfoto{display:block;margin:0 0 8px;color:var(--plata);font:800 10px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase}
+html body #local #rqh .origin-mark{display:block;margin-bottom:8px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em}

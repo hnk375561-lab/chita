@@ -1,0 +1,36 @@
+CHITA · v47 (zip 40) · ACUMULADO sobre el zip 39 (incluye lo de v46): solo archivos modificados; copiar encima y reemplazar
+
+  index.html                 tarjetas regeneradas (T3, T1) · El local: título y rótulo de foto por paso (T14, T15)
+  js/app.js                  T3 km/precio «a confirmar» · T1 nota de «Serie 2» neutra
+  js/identidad.js            T13 enlaces en Quiénes somos · T17 Operaciones coherente con la vista previa
+  js/reserva.js              T19 estado del último paso
+  css/identidad.css          bloques v46 y v47 al final. No se borró nada
+  css/reserva.css            T19
+  reserva.html               T19
+  scripts/audit-copy.mjs     lista «VOZ»: frases que el documento madre pide evitar (hoy 0)
+  golive/AFIRMACIONES-A-CONFIRMAR.md   registro del dato «100 % · 22 opiniones en Facebook» como pendiente de fuente
+  docs/IDENTIDAD-MADRE.md    v2.5: tabla de aplicación cerrada
+  docs/IDENTIDAD.md          entradas v46 y v47
+
+Qué se aplicó (ver docs/IDENTIDAD-MADRE.md, sección 9)
+  T3   «Km: a confirmar» / «A confirmar con la agencia» con subrayado punteado
+  T13  Quiénes somos: cada columna cierra con un enlace (Consignaciones deja «Consignar» elegido)
+  T17  Operaciones: tarjeta, select y vista previa del mensaje se mueven juntos
+  T19  reserva.html: «Listo para enviar» -> «pendiente de confirmación de la agencia»
+  T14  El local: el título ya no repite la dirección; corregido el rótulo «CHITA · ORIGEN» pegado
+  T15  El local: cada paso nombra su foto o video
+  T1   «Serie 2 · confirmar detalles con la agencia» (ya no «diferencia editorial»)
+
+HACER A MANO (un zip no puede borrar archivos)
+  Borrar del repo: chita-cambios/ y fonts/dm-serif-display-latin.woff2
+
+NO LO RESUELVE EL CÓDIGO (dueño; ver sección 8 del documento madre)
+  Tracker 1.8N / Palio 1.4N «Serie 2» (¿distintas o la misma?), km del Palio 2017, horarios, teléfono 03442 54-7671,
+  autorización de fotos de entregas y reseñas, condiciones de financiación, significado de «Recibimos tu usado»,
+  razón social/CUIT/correo, fuente del dato de Facebook, placeholders «FOTO A CARGAR».
+
+NO APLICADO a propósito: limpieza del código muerto de css/viaje.css (P3, sin efecto visual; requiere prueba visual por página).
+
+Verificado: npm test OK; Chromium 1440, 768 y 390 px: 0 errores de JS, sin desborde horizontal; clics de T3, T13, T14, T15, T17 y T19.
+No verificado: Safari/Firefox, dispositivos reales, lectores de pantalla. npm run audit sigue marcando 23 líneas de afirmaciones (ya estaban).
+Volver atrás: restaurar esos archivos desde git.
