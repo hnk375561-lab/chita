@@ -1913,3 +1913,37 @@ html body #contacto .mp .mpp b{color:var(--ink)!important;background:#fff;font-s
  html body #contacto .mp .mpp{left:calc(50% + 280px)!important;top:50%}
 }
 @media(prefers-contrast:more){html body #contacto .mp::before{background:none}}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v54 · OPERACIONES — fotos de entregas, tarjetas parejas y talón compacto
+   · Las 4 tarjetas comparten proporción (5:4) y la foto llena el marco: sin cinta, sin cortes.
+   · El botón queda siempre alineado abajo, aunque el texto tenga 2 o 3 renglones.
+   · El talón (pasos + formulario) deja de armarse en 2 filas con 2 huecos vacíos: pasos en una
+     tira de 3 columnas y formulario a dos columnas (datos | vista previa de WhatsApp).
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #operaciones .og{align-items:stretch}
+html body #operaciones .oc{height:100%}
+html body #operaciones .oc .oi{aspect-ratio:5/4!important;background:var(--ink)!important}
+html body #operaciones .oc .oi img,html body #operaciones .oc .oi img.land{object-fit:cover!important;object-position:50% 50%!important}
+html body #operaciones .oc .ob{flex:1;display:flex;flex-direction:column;padding-bottom:16px}
+html body #operaciones .oc .ob p{margin-bottom:14px}
+html body #operaciones .oc .ob a{margin-top:auto!important;align-self:flex-start}
+
+@media(min-width:900px){
+  html body #operaciones .fm{grid-template-columns:minmax(0,1fr)!important;column-gap:0!important;row-gap:clamp(18px,2vw,28px)!important;align-items:start!important}
+  html body #operaciones .fm::before{grid-column:1/-1;margin:0}
+  html body #operaciones .fm>div:first-child{grid-column:1/-1;display:block}
+  html body #operaciones .fm>div:first-child h3{margin:0 0 4px}
+  html body #operaciones .fm>div:first-child .stp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(20px,3vw,44px);margin:12px 0 0}
+  html body #operaciones .fm>div:first-child .stp li{display:block!important;padding:16px 0 0!important;border-top:2px dashed var(--ink)!important;border-bottom:0!important}
+  html body #operaciones .fm>div:first-child .stp li:last-child{border-bottom:0!important}
+  html body #operaciones .fm>div:first-child .stp li::before{display:inline-block!important;margin:0 0 12px!important}
+  html body #operaciones .fr{grid-column:1/-1;width:100%;min-width:0}
+  html body #operaciones .fr>form#canjeForm{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(28px,4vw,64px);row-gap:16px;align-items:start;padding:clamp(22px,2.4vw,34px)}
+  html body #operaciones #canjeForm>*{grid-column:1}
+  html body #operaciones #canjeForm>.wp{grid-column:2;grid-row:1/span 12;align-self:stretch;display:flex;flex-direction:column;margin:0}
+  html body #operaciones #canjeForm>.wp .wk{flex:1;display:grid;grid-auto-rows:1fr;align-content:stretch}
+}
+@media(min-width:900px){
+  html body #operaciones #canjeForm>.wp .wk li{display:flex!important;flex-direction:column;justify-content:center;gap:3px}
+}

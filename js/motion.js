@@ -672,7 +672,7 @@ function initReveals({ desktop }, inertia) {
     const rows = qsa("#mdl > li");
     void rows;
 
-    /* OPERACIONES · tarjetas alternando lado + foto con persiana; la imagen interior queda con parallax. */
+    /* OPERACIONES · tarjetas alternando lado + foto con persiana; la imagen interior queda con un parallax suave (zoom 1,12) para no recortar a las personas de las fotos de entregas. */
     const ops = qsa("#operaciones .oc");
     gsap.set(ops, { opacity: 0, y: 70 * d, x: (i) => (i % 2 ? 46 : -46) * d, rotate: (i) => (i % 2 ? 2 : -2) * (desktop ? 1 : 0), transformOrigin: "50% 100%" });
     gsap.set(ops.map((c) => qs(".oi", c)), { clipPath: "inset(0 0 100% 0)" });
@@ -684,9 +684,9 @@ function initReveals({ desktop }, inertia) {
       const img = qs(".oi img", card);
       if (!img) return;
       undo.push(claim(img, { transition: "none" }));          // el CSS anima transform con transition: choca con el scrub
-      gsap.set(img, { scale: 1.22 });
-      gsap.fromTo(img, { yPercent: -7 * (desktop ? 1 : 0.5) }, { yPercent: 7 * (desktop ? 1 : 0.5), ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(card, "top bottom", "bottom top") });
-      if (desktop) inertia?.add(img, "y", -0.9, "px", 14);
+      gsap.set(img, { scale: 1.12 });
+      gsap.fromTo(img, { yPercent: -3 * (desktop ? 1 : 0.5) }, { yPercent: 3 * (desktop ? 1 : 0.5), ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(card, "top bottom", "bottom top") });
+      if (desktop) inertia?.add(img, "y", -0.9, "px", 6);
     });
 
     /* RESEÑAS · caída con perspectiva; las estrellas se encienden una a una. */
