@@ -1889,3 +1889,27 @@ html body #nosotros.fr .fr-cta .btn{display:inline-flex;width:auto!important;min
  html body #nosotros.fr .fr-card:nth-child(2){margin-top:clamp(28px,4vw,64px)}
 }
 @media(prefers-reduced-motion:reduce){html body #nosotros.fr .fr-ph img{transition:none}html body #nosotros.fr .fr-card:hover .fr-ph img{transform:none}}
+
+/* ═══ CHITA · v55 — DÓNDE ESTAMOS ═══
+   1) El mapa ocupa toda la pantalla de la sección (no solo el 66 % de la derecha).
+   2) El panel («Dónde estamos») queda pegado al borde izquierdo de la pantalla.
+   3) El fondo azul plano de la izquierda pasa a ser el MISMO degradado del hero (azul 1,20,59 que se disuelve hacia la derecha).
+   4) Sin lag: se sacó el filtro grayscale + mix-blend-mode sobre el iframe y todos los efectos de scroll (clip-path, escala, desplazamiento) del mapa y del panel.
+   5) El cartel «CHITA 1712» del pin se lee: heredaba color casi blanco sobre fondo claro. */
+html body #contacto{background:#01143B!important}
+html body #contacto .mp iframe{filter:none!important;transform:none!important}
+html body #contacto .mp::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:rgba(10,44,140,.16)}
+html body #contacto .mp::after{display:block!important;content:"";position:absolute;inset:0 auto 0 0;width:100%;z-index:1;pointer-events:none;mix-blend-mode:normal!important;opacity:1!important;background:rgba(1,20,59,.62)}
+html body #contacto .mp .mpp{color:var(--ink)!important;width:122px;border-width:4px;box-shadow:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.45))}
+html body #contacto .mp .mpp i{color:#fff!important;font-size:11px;padding:7px 0}
+html body #contacto .mp .mpp b{color:var(--ink)!important;background:#fff;font-size:38px;line-height:1;padding:8px 0 9px;text-shadow:none}
+@media(min-width:900px){
+ html body #contacto{min-height:100svh;display:flex;align-items:center}
+ html body #contacto>.w{width:100%!important;max-width:none!important;margin:0!important;padding-inline:0!important;padding-block:clamp(40px,7vh,88px);align-items:flex-start;pointer-events:none}
+ html body #contacto>.w>*{pointer-events:auto}
+ html body #contacto :is(.lc,.xt){width:min(560px,100%)!important}
+ html body #contacto .mp::after{width:clamp(560px,62vw,980px);background:linear-gradient(90deg,rgba(1,20,59,.88) 0%,rgba(1,20,59,.72) 55%,rgba(1,20,59,.26) 88%,rgba(1,20,59,0) 100%)}
+ html body #contacto .mp iframe{inset:0!important;width:calc(100% + 560px)!important;max-width:none!important;height:100%!important}
+ html body #contacto .mp .mpp{left:calc(50% + 280px)!important;top:50%}
+}
+@media(prefers-contrast:more){html body #contacto .mp::before{background:none}}
