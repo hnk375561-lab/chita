@@ -436,11 +436,7 @@ html body #financiacion .xt::after{color:var(--ink)}
  html body :is(#financiacion,#guia,#visita) .xt::after{right:auto;left:0;top:auto;bottom:0;width:100%;height:auto;writing-mode:horizontal-tb;border-left:0;border-top:3px dashed currentColor;padding-top:10px;justify-content:flex-start;letter-spacing:.24em}
  html body :is(#financiacion,#guia,#visita) .w>.xt{padding-bottom:58px}
 }
-/* — EL CURSOR — */
-.cu{position:fixed;left:0;top:0;z-index:80;pointer-events:none;will-change:transform}
-.cu b{display:block;margin:20px 0 0 20px;padding:9px 16px 9px 1.9em;background:var(--plate);color:var(--ink);font:800 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;clip-path:var(--cut-sm);box-shadow:inset 0 0 0 2px var(--ink);white-space:nowrap;opacity:0;scale:.6;transform-origin:0 0;transition:opacity .22s var(--ease),scale .34s var(--ease-i)}
-.cu.on b{opacity:1;scale:1}
-html body :is(.hx-btn,.btn){transition:background var(--t) var(--ease),color var(--t) var(--ease),translate .3s var(--ease-i)}
+/* — EL CURSOR — eliminado: no hay cursor custom ni magnetismo. — */
 /* — limpieza de capas heredadas — */
 html body main>section :is(h2,h3,p,li,summary,span,small){text-shadow:none}
 @media(max-width:899px){html body .hx-copy .hx-logo{display:none!important}html body .hx-copy{padding-top:22px}}
@@ -1489,3 +1485,43 @@ html body :is(#unidades span.chita-state,#unidades p.tg.series-note,#local small
 /* Ronda 7 · foco visible por teclado en controles que solo cambiaban de color u opacidad */
 html body :is(#nosotros .svc-action,#como-comprar .step-action):focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 html body .mdf .mdb:focus-visible{opacity:1;outline:2px solid #fff;outline-offset:-4px;box-shadow:inset 0 -4px 0 var(--rojo)}
+
+/* CHITA · pasada final de identidad: paleta única y contraste explícito. */
+:root{
+  --rojo:#C1121F;
+  --rojo-claro:#EE4B55;
+  --chapa:#0A2C8C;
+  --chapa-d:#01143B;
+  --papel:#ECEDEA;
+  --tinta:#0A1020;
+  --plata:#B9BEC4;
+}
+html body{background:var(--papel);color:var(--tinta)}
+html body :is(.ey,.pde,.xk,.vde,.kicker,.mc-state,.series-note){color:var(--rojo-claro)!important}
+html body :is(.btn,.hx-btn){position:relative;translate:none!important;transform:none!important}
+html body :is(.btn,.hx-btn):hover,html body :is(.btn,.hx-btn):focus-visible{translate:none!important;transform:none!important}
+html body :is(.btn,.hx-btn),html body :is(.btn,.hx-btn):active{transition-property:background-color,color,border-color,box-shadow,opacity!important}
+html body .cu,html body .cur{display:none!important}
+html body :is(#entregas,#contacto,#local,#guia,#catalogo-comparador,#financiacion,#visita) :is(p,li,small,span,.ep,.xp,.sub){color:#F4F7F8}
+html body :is(#entregas,#contacto,#local,#guia,#catalogo-comparador,#financiacion,#visita) :is(.plata,.mute,.rm,.vq span,.vdq small){color:#D6E0E6}
+html body :is(#unidades,#operaciones,#nosotros,#como-comprar,#preguntas,#opiniones) :is(.meta,.rm,.sub,.plata,.mute){color:#344554}
+html body #unidades .car,html body #operaciones .oc,html body #preguntas .fa details{background:var(--papel);color:var(--tinta)}
+html body #unidades .car h3,html body #operaciones .oc h3,html body #preguntas .fa summary{color:var(--tinta)}
+html body #unidades .car .vf,html body #operaciones .oc .ob a,html body #como-comprar .step-action{color:var(--rojo)!important}
+html body :is(#unidades,#operaciones,#como-comprar,#preguntas) :is(a,button):focus-visible{outline-color:var(--chapa)!important}
+
+/* Jerarquía de lectura: el papel usa tinta; las secciones de archivo usan blanco sobre azul/tinta. */
+html body :is(#entregas,#catalogo-comparador,#contacto,#local,#guia,#financiacion,#visita){color:#F4F7F8}
+html body :is(#entregas,#catalogo-comparador,#contacto,#local,#guia,#financiacion,#visita) :is(h1,h2,h3,.xl,.hx-h1,.hx-name){color:#fff!important}
+html body :is(#entregas,#catalogo-comparador,#contacto,#local,#guia,#financiacion,#visita) :is(a,button){color:#fff}
+html body :is(#unidades,#operaciones,#nosotros,#como-comprar,#preguntas,#opiniones) :is(h1,h2,h3,.xl,.hx-h1,.hx-name){color:var(--tinta)}
+/* Contraste final del hero: el panel actual es tinta profunda, por eso toda su lectura es blanca. */
+html body main>.hero.hx .hx-copy{background:var(--chapa-d)!important;color:#fff!important}
+html body main>.hero.hx .hx-copy :is(.hx-h1,.hx-lead,.hx-proof,.hx-proof span,.hx-proof b){color:#fff!important}
+html body main>.hero.hx .hx-copy .hx-h1 em{color:#fff!important}
+html body main>.hero.hx .hx-copy .hx-btn:not(.hx-p){background:transparent!important;color:#fff!important;box-shadow:inset 0 0 0 2px #fff!important}
+html body main>.hero.hx .hx-copy .hx-btn.hx-p{background:var(--rojo)!important;color:#fff!important}
+html body main>.hero.hx .hx-info{color:#fff!important}
+html body main>.hero.hx .hx-info :is(.hx-name,.hx-meta,.hx-count,.hx-foot){color:#fff!important}
+html body main>.hero.hx .hx-info .hx-spec dt{color:#D6E0E6!important}
+html body main>.hero.hx .hx-info .hx-spec dd{color:#fff!important}

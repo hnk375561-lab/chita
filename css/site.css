@@ -74,7 +74,6 @@ header{transition:box-shadow .35s}header.s{box-shadow:0 10px 30px -22px rgba(14,
 @media(hover:hover){.btn.p:active{box-shadow:0 10px 22px -12px rgba(14,27,38,.55)}.car .ct img{transition:transform 1s cubic-bezier(.16,1,.3,1)}}
 @media(max-width:899px){.m header{position:sticky;top:0;z-index:20;transition:box-shadow .35s,transform .5s cubic-bezier(.16,1,.3,1)}.m header.h{transform:translateY(-100%)}}
 .m dialog[open]:not(.gx){animation:dIn .45s cubic-bezier(.16,1,.3,1)}.m dialog[open]::backdrop{animation:dB .35s ease-out}.m dialog.out::backdrop{opacity:0;transition:opacity .4s cubic-bezier(.7,0,.84,0)}
-.m .btn{translate:var(--mx) var(--my)}.m :is(.btn,.g-a,.fcx,.g-t button){scale:var(--ps)}
 @keyframes dIn{from{opacity:0;transform:translate(calc(var(--fx,0px)*.06),calc(var(--fy,0px)*.06 + 14px)) scale(.97)}}@keyframes dB{from{opacity:0}}
 .ph{overflow:hidden}.pr{transition:border-color .4s}.car:active .pr{border-color:var(--cy)}.car .vf{transition:transform .35s cubic-bezier(.16,1,.3,1)}
 .wl{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}.wl>span{display:inline-block}@media(hover:hover){}
@@ -156,7 +155,7 @@ header .mark{color:#fff}header .mark small{color:#8fa9b6}
 .hv::before{width:22%}
 }
 /* ==== v6b: catálogo y fotos: segmentos, cursor, lupa, vuelo a la ficha ==== */
-.cur{position:fixed;left:0;top:0;z-index:40;width:88px;height:88px;margin:-44px 0 0 -44px;border-radius:50%;background:var(--cyd);color:#fff;display:grid;place-items:center;font:600 14.8px var(--b);pointer-events:none;opacity:0;transform:scale(0)}
+
 /* ==== v7: franja de datos, comparador, FAQ en dos columnas, marca en el pie ==== */
 .cs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
 .cl{list-style:none;margin:0;padding:0;border-top:1px solid var(--stone)}.cl li{border-bottom:1px solid var(--stone)}.rm{color:var(--mute);font-size:16px}
@@ -372,7 +371,7 @@ footer,footer .w{text-align:center}footer .lg{display:flex;justify-content:cente
 .pd .stp,.pd .gd,.pd form,.pdn{margin-inline:auto}.pd form{margin-top:28px;width:100%}.pdn{text-align:center;max-width:760px}
 .rvc{flex-wrap:wrap;gap:24px}
 .faq .w>.fin{grid-column:1/-1;width:100%;max-width:760px;margin:24px auto 0}
-.cur{width:auto;height:28px;padding:0 12px;margin:16px 0 0 16px;border-radius:999px;font-size:14.5px;letter-spacing:.02em;white-space:nowrap}
+
 @media(hover:hover){
 .btn:active,.btn.p:active{box-shadow:none}.btn:not(.p):active{background:var(--cy);border-color:var(--cy);color:var(--ink)}.btn.p:active{background:var(--cy);border-color:var(--cy);color:var(--ink)}
 .oc:active{box-shadow:inset 0 0 0 2px var(--cy)}
@@ -1465,3 +1464,41 @@ main>.hero.hx{grid-template-columns:minmax(380px,.7fr) minmax(0,1.3fr);height:cl
   #contacto .xt,#contacto .xb{width:min(100%,560px);padding:24px 28px;background:rgba(6,17,26,.94);border:1px solid rgba(143,211,228,.3);box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
   #contacto .xt p.xp,#contacto .xb p.xp{padding-left:18px}
 }
+
+/* CHITA · pasada final: cromática intencional, contraste y controles estables.
+   No modifica geometría ni arquitectura; solo consolida la jerarquía de marca. */
+:root{
+  --ink:#0A1020;
+  --paper:#ECEDEA;
+  --stone:#C8D0D6;
+  --mute:#344554;
+  --cy:#0A2C8C;
+  --cyd:#0A2C8C;
+  --deep:#01143B;
+  --lux:#C1121F;
+  --luxl:#EE4B55;
+}
+body{background:var(--paper);color:var(--ink)}
+header{background:var(--paper);border-bottom-color:var(--ink)}
+header nav a[aria-current],header nav a:hover,header .ic:hover{color:var(--cy)}
+header nav a::after,.ni{background:var(--lux)}
+.hero,.hero figure,.hero figure{background:var(--deep)}
+.hero p{color:#F3F6F8}
+.hero .lk,.soc a:hover,.lk:hover{color:#FF9FA6}
+.btn.p,.hero .btn.p,.loc .btn.p{background:var(--lux);border-color:var(--lux);color:#fff}
+.btn.p:hover,.btn.p:focus-visible,.hero .btn.p:hover,.hero .btn.p:focus-visible{background:var(--luxl);border-color:var(--luxl);color:#fff}
+.btn:not(.p){border-color:var(--ink);color:var(--ink)}
+.hero .btn:not(.p),.loc .btn:not(.p){border-color:#fff;color:#fff}
+.sub,.meta,.pl,details p,.oc p,.stp span{color:var(--mute)}
+.tg,.vf,.fs,.fs a,form .meta a,.oc a,details a{color:var(--cy)}
+.pr,.cl,.cl li,.stp li{border-color:var(--stone)}
+.car,.oc,form{border-color:var(--stone)}
+.car .im,.oi{background:var(--deep)}
+.loc,footer{background:var(--deep);color:#fff}
+.loc .meta,footer{color:#E1E8ED}
+.loc address .k{color:#D6E0E6}
+.sr:focus,.skip:focus{background:var(--deep);color:#fff}
+/* Ningún botón se desplaza con el puntero: sin translate/magnetismo/cursor custom. */
+.m .btn,.m :is(.btn,.g-a,.fcx,.g-t button){translate:none!important;transform:none!important}
+.btn,.btn:active,.car .vf,.oc a{transition-property:background-color,color,border-color,box-shadow,opacity!important}
+.cu,

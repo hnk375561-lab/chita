@@ -77,31 +77,17 @@ addEventListener("scroll",q,{passive:true});addEventListener("resize",q);q();
 /* CHITA · v5 — Entregas: rótulo con la cantidad real de fotos publicadas. */
 (function(){var g=document.querySelector("#entregas .eg");if(!g)return;var n=g.children.length;if(!n||document.querySelector(".ec"))return;
 var c=document.createElement("p");c.className="ec";c.textContent=n+" entregas · fotos publicadas en redes";g.parentNode.insertBefore(c,g)})();
-/* CHITA · v7 — EL SELLO, LA PERFORACIÓN y EL CURSOR. Sin dependencias; 1 IntersectionObserver, 1 listener de puntero pasivo (solo mouse), transform/opacity. */
+/* CHITA · v7 — EL SELLO y LA PERFORACIÓN.
+   El puntero no altera botones, tarjetas ni agrega cursor visual: la interacción queda estable. */
 (function(){
 var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,main=d.querySelector("main");if(!main)return;
-/* LA PERFORACIÓN: borde de talonario entre secciones. La mordida lleva el color de la sección anterior. */
 function bg(e){while(e){var c=getComputedStyle(e).backgroundColor;if(c&&c!=="rgba(0, 0, 0, 0)"&&c!=="transparent")return c;e=e.previousElementSibling}return"#ECEDEA"}
 [].slice.call(main.querySelectorAll(":scope>section[id]")).forEach(function(s){
- var i=d.createElement("i");i.className="pf";i.setAttribute("aria-hidden","true");i.style.setProperty("--pv",bg(s.previousElementSibling));s.appendChild(i)});
-/* EL SELLO: cada entrega publicada recibe su sello; golpea una vez, escalonado. */
+ var i=document.createElement("i");i.className="pf";i.setAttribute("aria-hidden","true");i.style.setProperty("--pv",bg(s.previousElementSibling));s.appendChild(i)});
 var eg=d.querySelector("#entregas .eg");
 if(eg){[].forEach.call(eg.children,function(li,k){var b=d.createElement("b");b.className="sl";b.setAttribute("aria-hidden","true");b.textContent="Entregado";b.style.setProperty("--i",k);li.appendChild(b)});
  if(RM||!("IntersectionObserver" in window))eg.classList.add("st");
  else new IntersectionObserver(function(e,o){if(e[0].isIntersecting){eg.classList.add("st");o.disconnect()}},{threshold:.2}).observe(eg)}
-/* EL CURSOR: etiqueta-chapa que sigue al mouse y dice qué hace cada pieza. Magnetismo leve en botones. Solo mouse. */
-if(RM||!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
-var cu=d.createElement("div");cu.className="cu";cu.setAttribute("aria-hidden","true");cu.innerHTML="<b></b>";d.body.appendChild(cu);
-var lb=cu.firstChild,x=-99,y=-99,tx=-99,ty=-99,raf=0,txt="",mg=null,T=".car,.eg li,.hx-reel,.oc";
-function say(t){var e=t&&t.closest?t.closest(T):null,s="";
- if(e){if(e.matches(".car"))s="Ver ficha";else if(e.matches(".eg li"))s="Entrega E·"+("0"+([].indexOf.call(e.parentNode.children,e)+1)).slice(-2)+(e.getAttribute("data-m")?" · "+e.getAttribute("data-m"):"");else if(e.matches(".oc"))s="Consultar";else s="Recorrido"}
- if(s!==txt){txt=s;if(s)lb.textContent=s;cu.classList.toggle("on",!!s)}}
-function loop(){raf=0;x+=(tx-x)*.24;y+=(ty-y)*.24;cu.style.transform="translate3d("+x.toFixed(1)+"px,"+y.toFixed(1)+"px,0)";if(Math.abs(tx-x)>.4||Math.abs(ty-y)>.4)raf=requestAnimationFrame(loop)}
-function mag(t,px,py){var b=t&&t.closest?t.closest(".btn,.hx-btn"):null;
- if(mg&&mg!==b){mg.style.translate="";mg=null}
- if(b){var r=b.getBoundingClientRect();mg=b;b.style.translate=Math.max(-7,Math.min(7,(px-r.left-r.width/2)*.12))+"px "+Math.max(-5,Math.min(5,(py-r.top-r.height/2)*.18))+"px"}}
-d.addEventListener("pointermove",function(e){if(e.pointerType!=="mouse")return;tx=e.clientX;ty=e.clientY;if(x<0&&y<0){x=tx;y=ty}say(e.target);mag(e.target,e.clientX,e.clientY);if(!raf)raf=requestAnimationFrame(loop)},{passive:true});
-d.addEventListener("pointerleave",function(){say(null);mag(null)},{passive:true});
 })();
 /* CHITA · v8 — El corte en tarjetas: un observador, una sola vez, escalonado por fila. Si falla IntersectionObserver, todo queda visible. */
 (function(){
