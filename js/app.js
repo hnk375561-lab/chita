@@ -8,7 +8,7 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){retur
 function wa(t){return /^\d{8,}$/.test(N.whatsapp)?"https://wa.me/"+N.whatsapp+"?text="+encodeURIComponent(t||"Hola! Quiero consultar por las unidades disponibles."):"tel:"+N.telefonoTel}
 function isWebContact(u){return /^https:\/\/wa\.me\//.test(u)}
 function callFallback(s,t){s.textContent="";s.appendChild(document.createTextNode("Consulta lista: llamá al "+NEGOCIO.telefono+" o copiá el mensaje para pegarlo donde prefieras. "));var c=document.createElement("button");c.type="button";c.className="btn";c.textContent="Copiar mensaje";c.addEventListener("click",function(){var ok=function(){c.textContent="Mensaje copiado"};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){c.textContent="Copialo manualmente: "+t})}else{c.textContent="Copialo manualmente: "+t}});s.appendChild(c);var a=document.createElement("a");a.className="btn p";a.href="tel:"+NEGOCIO.telefonoTel;a.textContent="Llamar";s.appendChild(document.createTextNode(" "));s.appendChild(a)}
-function ask(c){return "Hola! Vi el "+c.titulo+" "+c.anio+" en la página y quisiera consultar si sigue disponible."}
+function ask(c){return "Hola! Vi la unidad U·"+String(STOCK.indexOf(c)+1).padStart(2,"0")+" · "+c.titulo+" "+c.anio+" en la página y quisiera consultar si sigue disponible. ¿Me confirman también precio y condiciones vigentes?"}
 var IW={};
 var CSZ="(min-width:900px) 380px,(min-width:640px) 50vw,100vw";
 function SSET(s){return String(s)}
@@ -16,13 +16,13 @@ var EQ=[["Aire acondicionado",/aire/i],["Dirección",/direcci[oó]n/i],["Cierre 
 function eqs(c){var n=c.nota||"";return EQ.filter(function(q){return q[1].test(n)}).map(function(q){return q[0]})}
 function ph(c){return c.fotos||(c.foto?[c.foto]:[])}
 var ES={disponible:"Disponible",reservado:"Reservado",vendido:"Vendido"};
-function est(c){var k=ES[c.estado]?c.estado:"consultar";return '<p class="est e-'+k+'"><i aria-hidden="true"></i>'+(ES[k]||"Consultar disponibilidad")+'</p>'}
+function est(c){var k=ES[c.estado]?c.estado:"consultar";return '<p class="est e-'+k+'"><i aria-hidden="true"></i>'+(ES[k]||"La agencia confirma si sigue disponible")+'</p>'}
 var CHV={l:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',r:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>'};
 function garr(){return '<button type="button" class="g-a l" data-d="-1" aria-label="Foto anterior" disabled>'+CHV.l+'</button><button type="button" class="g-a r" data-d="1" aria-label="Foto siguiente">'+CHV.r+'</button>'}
 function card(c){var i=STOCK.indexOf(c),f=ph(c),t=[],n=c.nota||"";if(/única mano/i.test(n))t.push("Única mano");if(/permuta/i.test(n))t.push("Permuta");
 var im=f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+f.map(function(s,k){return '<img src="'+esc(s)+'" srcset="'+ss(s)+'" sizes="'+CSZ+'" alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" loading="'+(k?'lazy':'eager')+'" decoding="async" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")+'</div></div>'+(f.length>1?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos: consultar</span>';
 var e=eqs(c),eh=e.slice(0,4).map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+(e.length>4?'<li class="mas">+'+(e.length-4)+' más en la ficha</li>':"");
-return '<article class="car" data-i="'+i+'"><div class="im" data-gal>'+im+'</div><h3><button type="button" class="st" data-i="'+i+'">'+esc(c.titulo)+'</button></h3><p class="meta">'+esc(c.anio||"")+' · '+esc(c.km||"Km: consultar")+(c.combustible?' · '+esc(c.combustible):'')+'</p>'+est(c)+(t.length?'<p class="tg">'+t.join(" · ")+'</p>':'')+(eh?'<ul class="eqp" aria-label="Equipamiento">'+eh+'</ul>':'')+'<div class="pr"><button type="button" class="st vf" data-i="'+i+'" aria-label="Ver ficha completa de '+esc(c.titulo)+'">Ver ficha completa ›</button></div><a class="btn wab" href="'+wa(ask(c))+'"'+(isWebContact(wa(ask(c)))?' target="_blank" rel="noopener noreferrer"':'')+' aria-label="Consultar esta unidad: '+esc(c.titulo)+'">Consultar</a></article>'}
+return '<article class="car" data-i="'+i+'"><div class="im" data-gal>'+im+'</div><h3><button type="button" class="st" data-i="'+i+'">'+esc(c.titulo)+'</button></h3><p class="meta">'+esc(c.anio||"")+' · '+esc(c.km||"Km: consultar")+(c.combustible?' · '+esc(c.combustible):'')+'</p>'+est(c)+(t.length?'<p class="tg">'+t.join(" · ")+'</p>':'')+(/Serie 2/i.test(c.titulo)?'<p class="tg series-note">Serie 2 · diferencia editorial; confirmar detalles con la agencia.</p>':"")+(eh?'<ul class="eqp" aria-label="Equipamiento">'+eh+'</ul>':'')+'<div class="pr"><button type="button" class="st vf" data-i="'+i+'" aria-label="Ver ficha completa de '+esc(c.titulo)+'">Ver ficha completa ›</button></div><a class="btn wab" href="'+wa(ask(c))+'"'+(isWebContact(wa(ask(c)))?' target="_blank" rel="noopener noreferrer"':'')+' aria-label="Consultar esta unidad: '+esc(c.titulo)+'">Consultar</a></article>'}
 /*PRE:end*/
 window.SSET=SSET;window.wa=wa;window.ask=ask;
 document.querySelectorAll("[data-wa]").forEach(function(a){var u=wa(a.getAttribute("data-wa"));a.href=u;if(isWebContact(u)){a.target="_blank";a.rel="noopener noreferrer";if(/^Llamar?(nos)?$/.test(a.textContent.trim()))a.textContent="Escribinos"}else{a.removeAttribute("target");a.removeAttribute("rel")}});
@@ -47,7 +47,7 @@ function gLoad(ct){ct.querySelectorAll("img").forEach(function(m){if(m.getAttrib
 function gGo(ct,k){var n=gN(ct);if(!n)return;k=Math.max(0,Math.min(n-1,k));ct.setAttribute("data-k",k);ct.firstElementChild.style.setProperty("--k",k);
 ct.querySelectorAll("img").forEach(function(m,q){m.setAttribute("aria-hidden",q===k?"false":"true")});
 var r=gRoot(ct);if(!r)return;gLoad(ct);
-var c=r.querySelector(".g-c");if(c)c.textContent=(k+1)+"/"+n;
+var c=r.querySelector(".g-c");if(c)c.textContent="Detalle "+String(k+1).padStart(2,"0")+"/"+String(n).padStart(2,"0");
 r.querySelectorAll(".g-s i").forEach(function(x,q){x.classList.toggle("on",q===k)});
 var l=r.querySelector(".g-a.l"),rr=r.querySelector(".g-a.r");if(l)l.disabled=k===0;if(rr)rr.disabled=k===n-1;
 r.querySelectorAll(".g-t button").forEach(function(b){var on=+b.getAttribute("data-t")===k;b.classList.toggle("on",on);if(on){b.setAttribute("aria-current","true");var row=b.parentNode;row.scrollTo({left:b.offsetLeft-(row.clientWidth-b.offsetWidth)/2,behavior:RM?"auto":"smooth"})}else b.removeAttribute("aria-current")})}
@@ -224,7 +224,7 @@ function waForm(f,build){var s=f.querySelector(".fs");f.addEventListener("submit
 /* Pase de visita: las unidades se numeran en el orden en que se eligen; ese orden va también en el mensaje */
 var visOrd=[];(function(){var f=$("visitaForm"),box=$("pase");if(!f||!box)return;
 function render(){var w=f.cuando.value.trim(),was=box.hidden;if(!visOrd.length&&!w){box.hidden=true;return}
- box.innerHTML='<div class="pase-m"><b class="pase-h">Pase de visita</b>'+(visOrd.length?'<ol>'+visOrd.map(function(v,i){var c=STOCK[+v];return '<li><i>'+(i+1)+'</i>'+esc(c.titulo+" "+c.anio)+'</li>'}).join("")+'</ol>':'')+(w?'<p class="pase-w">Día y horario: '+esc(w)+'</p>':'')+'</div><div class="pase-t"><b>Chita</b><span>Gral. Galarza 1712</span><span>Se confirma con la agencia</span></div>';
+ box.innerHTML='<div class="pase-m"><b class="pase-h">Pase de visita</b>'+(visOrd.length?'<ol>'+visOrd.map(function(v,i){var c=STOCK[+v];return '<li><i>'+(i+1)+'</i>'+esc(c.titulo+" "+c.anio)+'</li>'}).join("")+'</ol>':'')+(w?'<p class="pase-w">Día y horario: '+esc(w)+'</p>':'')+'</div><div class="pase-t"><b>Chita</b><span>Gral. Galarza 1712</span><span class="pase-state">Pendiente de confirmación</span></div>';
  box.hidden=false;if(was){box.classList.remove("nv");void box.offsetWidth;box.classList.add("nv")}}
 $("vsU").addEventListener("change",function(e){var t=e.target;if(!t||t.name!=="u")return;var i=visOrd.indexOf(t.value);if(t.checked&&i<0)visOrd.push(t.value);if(!t.checked&&i>=0)visOrd.splice(i,1);render()});
 f.cuando.addEventListener("input",render)})();

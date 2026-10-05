@@ -1309,3 +1309,53 @@ html body #preguntas .bqm .fl::before{content:"PREGUNTAS DE REFERENCIA";display:
   html body #operaciones .oc::before{top:8px;right:8px;font-size:9px}
   html body #guia .pdl::after,html body #visita .pdl::after{font-size:9px;line-height:1.35}
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA · IDENTIDAD MADRE V3 — jerarquía documental aplicada
+   Estados y acciones no son decoración: distinguen publicado, pendiente y próximo expediente.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #stockGrid .chita-state{display:inline-flex;align-items:center;width:max-content;margin:7px 22px 0;padding:6px 10px 6px 9px;border-left:5px solid var(--rojo);background:var(--paper,#fff);color:var(--ink);font:800 10px/1 var(--font-display);letter-spacing:.15em;text-transform:uppercase;clip-path:var(--cut-sm)}
+html body #stockGrid .chita-state::before{content:"";width:6px;height:6px;margin-right:7px;background:currentColor;border-radius:50%}
+html body #stockGrid .car:has(.chita-state[title*="confirm"]){--state-color:var(--rojo)}
+html body #stockGrid .chita-state[title*="confirm"]{border-left-color:var(--rojo);color:var(--rojo)}
+html body #stockGrid .chita-state[title*="publicado"]{border-left-color:var(--chapa);color:var(--chapa)}
+html body #contacto .hrs strong{display:inline-block;margin-right:.35em;color:#fff;font:800 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase}
+html body #opiniones .rvh::after{content:"Fuente externa · Google · fecha y cifra visibles · Chita no selecciona testimonios";display:block;margin-top:18px;padding:10px 14px;border-left:5px solid var(--chapa);background:rgba(255,255,255,.08);color:var(--plata);font:700 11px/1.35 var(--font-display);letter-spacing:.08em;text-transform:uppercase}
+html body #operaciones .oc{transition:opacity .35s var(--ease),transform .35s var(--ease),box-shadow .35s var(--ease)}
+html body #operaciones .og:has(.oc.is-selected) .oc:not(.is-selected){opacity:.62}
+html body #operaciones .oc.is-selected{box-shadow:inset 0 0 0 4px var(--rojo);transform:translateY(-4px)}
+html body #operaciones .oc.is-selected::after{background:var(--rojo)}
+html body .e13-preview{margin:10px 0 0;padding:12px 14px;border-left:5px solid var(--rojo);background:rgba(193,18,31,.09);color:var(--ink);font:800 11px/1.35 var(--font-display);letter-spacing:.09em;text-transform:uppercase;clip-path:var(--cut-sm)}
+html body #visita #visitaForm h3::before{content:"P·13";display:inline-block;margin-right:.7em;color:var(--rojo);font:800 11px/1 var(--font-display);letter-spacing:.14em;vertical-align:middle}
+@media(max-width:899px){html body #stockGrid .chita-state{margin-left:16px;margin-right:16px}html body #opiniones .rvh::after{font-size:10px}html body .e13-preview{font-size:10px}}
+@media(prefers-reduced-motion:reduce){html body #operaciones .oc.is-selected{transform:none}}
+
+/* CHITA · V3 — índice, regla y puertas de servicio */
+html body #modelos .mc-state{display:block;margin-top:4px;color:var(--rojo);font:800 9px/1 var(--font-display);letter-spacing:.08em;text-transform:uppercase}
+html body #modelos .mdl a:hover .mc-state,html body #modelos .mdl a:focus-visible .mc-state{color:var(--ink)}
+html body #stockGrid .series-note{color:var(--rojo);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+html body #nosotros .svc-action{display:inline-block;margin-top:13px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:4px}
+html body #nosotros .svc-action:hover,html body #nosotros .svc-action:focus-visible{color:var(--ink);outline:0}
+html body #entregas .eg li[title]{cursor:help}
+
+html body #versus .vq{display:flex;align-items:center;gap:16px;margin:24px 0 0;padding:14px 0;border-top:1px dashed rgba(255,255,255,.35)}
+html body #versus .vq span{color:var(--plata);font:700 11px/1.3 var(--font-display);letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:640px){html body #versus .vq{align-items:flex-start;flex-direction:column;gap:9px}}
+
+/* CHITA · V4 — continuidad entre documentos */
+html body #contacto #rqh .origin-mark{display:block;margin-bottom:8px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em}
+html body #como-comprar .step-action{display:inline-block;margin-top:12px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:4px}
+html body #como-comprar .step-action:hover,html body #como-comprar .step-action:focus-visible{color:var(--ink);outline:0}
+html body #guia .gquestions{margin:0 0 0 auto;max-width:58%;color:var(--plata);font:700 10px/1.35 var(--font-display);letter-spacing:.08em;text-transform:uppercase}
+html body #financiacion .fin-ticket{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;align-items:end;gap:12px;margin:0 0 20px;padding:16px;border-top:3px dashed var(--ink);background:var(--paper);color:var(--ink);clip-path:var(--cut-sm);text-align:left}
+html body #financiacion .fin-ticket>b{grid-column:1/-1;color:var(--rojo);font:800 11px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #financiacion .fin-ticket label{font:800 10px/1.2 var(--font-display);letter-spacing:.08em;text-transform:uppercase}
+html body #financiacion .fin-ticket select{display:block;width:100%;margin-top:7px;padding:10px;border:0;border-bottom:2px solid var(--ink);background:#fff;color:var(--ink);font:600 13px/1.2 var(--font-body,inherit)}
+html body #financiacion .fin-ticket .fin-used{display:flex;align-items:center;gap:7px;min-height:38px}
+html body #financiacion .fin-ticket .fin-used input{accent-color:var(--rojo)}
+html body #financiacion .fin-ticket a{white-space:nowrap}
+html body #financiacion .fin-ticket small{grid-column:1/-1;color:#5b6270;font:700 10px/1.3 var(--font-display);letter-spacing:.06em;text-transform:uppercase}
+html body #preguntas .faq-route{display:inline-block;margin-left:10px;color:inherit;font:800 10px/1 var(--font-display);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+@media(max-width:760px){html body #guia .gquestions{max-width:none;margin:8px 0 0}html body #financiacion .fin-ticket{grid-template-columns:1fr}html body #financiacion .fin-ticket>b,html body #financiacion .fin-ticket small{grid-column:auto}html body #financiacion .fin-ticket a{justify-self:start}html body #preguntas .faq-route{display:block;margin:12px 0 0}}
+
+html body #visita .pase-state{color:#fff!important;font-weight:800;text-transform:uppercase;letter-spacing:.14em}
