@@ -1,7 +1,7 @@
 {
-  "name": "Chita Automotores (demo)",
+  "name": "Chita Automotores",
   "short_name": "Chita Automotores",
-  "description": "Propuesta de sitio web independiente: autos usados en Concepción del Uruguay.",
+  "description": "Autos usados y 0 km en Concepción del Uruguay, Entre Ríos.",
   "lang": "es-AR",
   "start_url": "./",
   "scope": "./",

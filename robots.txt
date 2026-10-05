@@ -1,3 +1,6 @@
-# DEMO: no indexar. Al salir a producción ver golive/PRODUCCION.md
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /golive/
+Disallow: /data/
+Disallow: /scripts/
+Sitemap: https://hnk375561-lab.github.io/chita/sitemap.xml

@@ -13,7 +13,7 @@ h2{font-size:clamp(31.4px,4.5vw,49.3px)}.sub{color:var(--mute);max-width:56ch;ma
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font:600 18.2px var(--b);text-decoration:none;cursor:pointer;border-radius:3px;transition:background .2s,color .2s,border-color .2s}
 .btn:active{background:var(--ink);color:var(--paper)}
 .btn.p{background:var(--cyd);border-color:var(--cyd);color:#fff}.btn.p:active{background:var(--ink);border-color:var(--ink)}
-.demo{background:var(--ink);color:#c9d4da;font-size:14.8px;text-align:center;padding:6px 12px}.demo a{color:#fff;display:inline-block;padding:4px 2px}
+
 header{background:var(--paper);border-bottom:1px solid var(--stone)}
 header .w{display:flex;flex-wrap:wrap;align-items:center;column-gap:24px;min-height:56px}
 .mark{font:700 20.5px var(--h);text-decoration:none;letter-spacing:-.01em;margin-right:auto;min-height:44px;display:inline-flex;align-items:center}.mark img{width:32px;height:32px;margin-right:10px;border-radius:3px}.mark small{font:500 14.5px var(--b);color:var(--mute);margin-left:8px;letter-spacing:.06em}
@@ -290,7 +290,7 @@ details p{font-size:18.2px;line-height:1.65;padding-right:44px}
 .car .eqp .mas{color:var(--cyd);font-weight:600}.car .eqp .mas::before{content:""}
 .no h2,.no .pl b{font:400 26.9px/1.2 var(--serif);letter-spacing:0}
 @media(max-width:899px){.lc{padding:28px 22px 36px}}
-.demo{padding:2px 12px}.demo a{padding:10px 6px}
+
 form .meta a,.ci a{display:inline-block;padding:11px 4px;margin:-11px 0}
 .fx a{display:flex;align-items:center;min-height:44px}
 @media(min-width:420px) and (max-width:899px){.ic{min-width:44px}}
@@ -1056,9 +1056,9 @@ footer p{margin-bottom:6px;line-height:1.5}
 .vt button:active em::before{border-color:#fff}
 .vt button.on em::before,.vt button.done em::before{background:var(--luxl);border-color:var(--luxl)}/* Tipografía unificada en 2 familias: DM Serif Display (títulos y texto; solo existe en peso 400, por eso se anula el negrita sintético)
    e Instrument Sans (interfaz del hero, más abajo). Un solo bloque reemplaza los 21 parches por sección y sus variables --h/--b/--serif. */
-.demo,.demo *,.demo *::before,.demo *::after,header,header *,header *::before,header *::after,.skip,.skip *,.skip *::before,.skip *::after,.bar,.bar *,.bar *::before,.bar *::after,.cur,.cur *,.cur *::before,.cur *::after,.hero,.hero *,.hero *::before,.hero *::after,#unidades,#unidades *,#unidades *::before,#unidades *::after,#modelos,#modelos *,#modelos *::before,#modelos *::after,#versus,#versus *,#versus *::before,#versus *::after,#como-comprar,#como-comprar *,#como-comprar *::before,#como-comprar *::after,#visita,#visita *,#visita *::before,#visita *::after,#busco,#busco *,#busco *::before,#busco *::after,#bd,#bd *,#bd *::before,#bd *::after,#operaciones,#operaciones *,#operaciones *::before,#operaciones *::after,#guia,#guia *,#guia *::before,#guia *::after,#nosotros,#nosotros *,#nosotros *::before,#nosotros *::after,#historia,#historia *,#historia *::before,#historia *::after,#local,#local *,#local *::before,#local *::after,#equipo,#equipo *,#equipo *::before,#equipo *::after,#financiacion,#financiacion *,#financiacion *::before,#financiacion *::after,#opiniones,#opiniones *,#opiniones *::before,#opiniones *::after,#contacto,#contacto *,#contacto *::before,#contacto *::after,#preguntas,#preguntas *,#preguntas *::before,#preguntas *::after,footer,footer *,footer *::before,footer *::after,#dlg,#dlg *,#dlg *::before,#dlg *::after
+header,header *,header *::before,header *::after,.skip,.skip *,.skip *::before,.skip *::after,.bar,.bar *,.bar *::before,.bar *::after,.cur,.cur *,.cur *::before,.cur *::after,.hero,.hero *,.hero *::before,.hero *::after,#unidades,#unidades *,#unidades *::before,#unidades *::after,#modelos,#modelos *,#modelos *::before,#modelos *::after,#versus,#versus *,#versus *::before,#versus *::after,#como-comprar,#como-comprar *,#como-comprar *::before,#como-comprar *::after,#visita,#visita *,#visita *::before,#visita *::after,#busco,#busco *,#busco *::before,#busco *::after,#bd,#bd *,#bd *::before,#bd *::after,#operaciones,#operaciones *,#operaciones *::before,#operaciones *::after,#guia,#guia *,#guia *::before,#guia *::after,#nosotros,#nosotros *,#nosotros *::before,#nosotros *::after,#historia,#historia *,#historia *::before,#historia *::after,#local,#local *,#local *::before,#local *::after,#equipo,#equipo *,#equipo *::before,#equipo *::after,#financiacion,#financiacion *,#financiacion *::before,#financiacion *::after,#opiniones,#opiniones *,#opiniones *::before,#opiniones *::after,#contacto,#contacto *,#contacto *::before,#contacto *::after,#preguntas,#preguntas *,#preguntas *::before,#preguntas *::after,footer,footer *,footer *::before,footer *::after,#dlg,#dlg *,#dlg *::before,#dlg *::after
 {font-synthesis:none}/* identidad: se retiró la regla que forzaba peso 400/sin mayúsculas/serif en todo el sitio; ahora manda css/identidad.css */
-.demo,.demo *,.demo *::before,.demo *::after,header,header *,header *::before,header *::after,.skip,.skip *,.skip *::before,.skip *::after,.bar,.bar *,.bar *::before,.bar *::after,.cur,.cur *,.cur *::before,.cur *::after,footer,footer *,footer *::before,footer *::after
+header,header *,header *::before,header *::after,.skip,.skip *,.skip *::before,.skip *::after,.bar,.bar *,.bar *::before,.bar *::after,.cur,.cur *,.cur *::before,.cur *::after,footer,footer *,footer *::before,footer *::after
 {letter-spacing:normal}
 
 /* Botón «Abrir en Google Maps»: siempre legible (reposo y hover) */
@@ -1121,7 +1121,7 @@ a.pdc:hover .pds::after{transform:translateX(4px)}
 /* ==== v10: micro-interacciones. Todos los botones y enlaces responden al pasar el mouse y al presionar (solo estilo) ==== */
 /* Transiciones base, cortas y suaves */
 header .mark{transition:color .25s}header .mark img{transition:transform .35s cubic-bezier(.16,1,.3,1)}
-.lk,.soc a,.oc a,.demo a,.fx a,.ci a{transition:color .25s,text-decoration-color .25s,text-underline-offset .25s}
+.lk,.soc a,.oc a,.fx a,.ci a{transition:color .25s,text-decoration-color .25s,text-underline-offset .25s}
 summary{transition:color .25s}
 .fcbr a,.fcu button{transition:color .25s,text-decoration-color .25s,text-underline-offset .25s}
 #local .vqb{transition:background-color .25s,border-color .25s,color .25s,transform .3s cubic-bezier(.16,1,.3,1)}
@@ -1139,7 +1139,6 @@ button.st.vf{transition:transform .35s cubic-bezier(.16,1,.3,1),color .2s}
 header .ic:hover,header .mark:hover{color:var(--luxl)}
 .lk:hover,.soc a:hover,.vi .lk:hover{color:#fff;text-decoration:underline;text-decoration-color:#fff;text-underline-offset:.34em}
 .oc a:hover,.ci a:hover{color:var(--ink);text-decoration-color:var(--ink);text-underline-offset:.34em}
-.demo a:hover{color:var(--luxl);text-underline-offset:.3em}
 .fx a:hover{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);text-underline-offset:.3em}
 #local .vqb:hover{background-color:rgba(143,211,228,.14);border-color:var(--luxl)}
 #local .vqb:hover span{color:#d4ebf2}
@@ -1179,7 +1178,6 @@ details:not([open]) summary:hover::after{transform:scale(1.25)}
 /* Al presionar (también en celular): mismo lenguaje, para lo que no tenía respuesta */
 .lk:active,.soc a:active,.fx a:active{color:#fff;text-decoration:underline;text-decoration-color:#fff}
 .oc a:active,.ci a:active{color:var(--ink);text-underline-offset:.34em}
-.demo a:active{color:var(--luxl)}
 header .mark:active{color:var(--luxl)}
 .car h3 button:active{color:var(--cyd);text-decoration:underline}
 .mdb:active{opacity:1;border-color:var(--luxl)}

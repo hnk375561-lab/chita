@@ -7,12 +7,13 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const d = JSON.parse(fs.readFileSync(path.join(root, 'data/dealership.json'), 'utf8'));
 const errors = [];
-if (d.demo.official !== false) errors.push('demo.official debe ser false');
+if (d.publicacion.official !== true) errors.push('publicacion.official debe ser true');
 if (d.identity.cuit !== null) errors.push('CUIT debe ser null hasta confirmación');
 if (d.hours.display && d.hours.status === 'not-found') errors.push('hours.display cargado pero status sigue en not-found');
-for (const page of ['index.html', '404.html', 'privacidad.html']) {
+for (const page of ['index.html', 'privacidad.html', 'reserva.html', 'viaje.html']) {
   const h = fs.readFileSync(path.join(root, page), 'utf8');
-  if (d.demo.publicIndexing === false && !h.includes('noindex')) errors.push(`${page}: falta noindex mientras sea demo`);
+  if (/noindex/.test(h)) errors.push(`${page}: no debe tener noindex`);
+  if (/\b(demo|propuesta|prototipo|preview)\b/i.test(h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|max-image-preview/g, ''))) errors.push(`${page}: lenguaje de demo/propuesta`);
 }
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 // La lógica vive en js/app.js y los estilos en css/site.css; se valida junto con index.html como si fuera un solo documento.
@@ -83,6 +84,6 @@ for (const page of ['404.html', 'privacidad.html']) {
   if (!h.includes(`tel:${d.contact.phoneTel}`) && page === 'privacidad.html') errors.push(`${page}: teléfono no coincide con dealership.json`);
 }
 if (!/<base href="https:\/\/[^"]+\/">/.test(fs.readFileSync(path.join(root, '404.html'), 'utf8'))) errors.push('404.html: falta <base href> absoluto');
-if (!/Disallow:\s*\/\s*$/m.test(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8'))) errors.push('robots.txt debe tener Disallow: / mientras sea demo');
+if (/Disallow:\s*\/\s*$/m.test(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8'))) errors.push('robots.txt bloquea todo el sitio');
 if (errors.length) { console.error(errors.map((e) => 'ERROR: ' + e).join('\n')); process.exit(1); }
 console.log('Datos de Chita válidos y consistentes con index.html.');

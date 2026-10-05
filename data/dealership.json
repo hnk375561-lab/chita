@@ -1,8 +1,8 @@
 {
-  "demo": {
-    "status": "independent-demo",
-    "official": false,
-    "publicIndexing": false
+  "publicacion": {
+    "status": "official",
+    "official": true,
+    "publicIndexing": true
   },
   "identity": {
     "tradeName": "Chita Automotores",
@@ -73,7 +73,7 @@
   "hours": {
     "display": null,
     "status": "conflicting-sources",
-    "note": "Tres versiones públicas sin convergencia (ver versions). El sitio muestra \"a confirmar\" hasta que Chita confirme.",
+    "note": "Tres versiones públicas sin convergencia (ver versions). El sitio no publica horario hasta que Chita lo defina.",
     "versions": [
       {
         "source": "Cylex (horario cargado 27/12/2022, actualizado 18/07/2024)",

@@ -1,6 +1,6 @@
-# Chita Automotores · sitio demo
+# Chita Automotores
 
-Sitio estático (HTML/CSS/JS; el movimiento usa GSAP + ScrollTrigger + Lenis, servidos desde `js/vendor/`) de propuesta para Chita Automotores, Concepción del Uruguay. **No es el sitio oficial ni está aprobado por el negocio.**
+Sitio oficial de Chita Automotores, Concepción del Uruguay. Sitio estático (HTML/CSS/JS; el movimiento usa GSAP + ScrollTrigger + Lenis, servidos desde `js/vendor/`).
 
 ## Archivos
 - `js/motion.js`: capa de movimiento en un solo archivo (GSAP = motor, ScrollTrigger = narrativa, Lenis = scroll), cargada como módulo desde `index.html`. `js/motion/core.js` y `js/motion/vendor.js` los comparten `viaje.js` y `reserva.js`. Ver `docs/MOTION.md`.
@@ -14,7 +14,7 @@ Sitio estático (HTML/CSS/JS; el movimiento usa GSAP + ScrollTrigger + Lenis, se
 - `privacidad.html`: política de privacidad preliminar, aviso sobre la información de las unidades y aviso de demo.
 - `fonts/`: tipografías autoalojadas (`.woff2`, subconjunto latino; solo las 3 familias que usa el CSS: DM Serif Display, Instrument Sans y Bricolage Grotesque; ver `@font-face` en `css/`). No hay pedidos a Google Fonts. `site.webmanifest`: nombre e íconos del sitio.
 - `404.html`: página de error (usa `<base href>` absoluto porque GitHub Pages la sirve desde cualquier ruta).
-- `robots.txt`, `preview.png` (imagen para compartir), `images/<unidad>-N.webp` (la primera foto es la portada). Cada foto de unidad tiene dos variantes para `srcset`: `<unidad>-N-480.webp` y `<unidad>-N-800.webp` (mismo nombre, ancho 480 y 800 px); al sumar una foto hay que generar las dos.
+- `robots.txt`, `og-chita.png` (imagen para compartir), `images/<unidad>-N.webp` (la primera foto es la portada). Cada foto de unidad tiene dos variantes para `srcset`: `<unidad>-N-480.webp` y `<unidad>-N-800.webp` (mismo nombre, ancho 480 y 800 px); al sumar una foto hay que generar las dos.
 - `scripts/prerender.mjs` (`npm run prerender`): escribe en `index.html` el HTML de las tarjetas de unidades (entre `<!--PRE:cards-->` y `<!--/PRE:cards-->`) con la misma función que usa el navegador, para que el stock se vea sin JavaScript. Correrlo cada vez que cambie `STOCK`; `npm test` avisa si quedó desactualizado.
 - `data/dealership.json`: datos confirmados y su fuente. `data/sources.json` (hechos, conflictos y descartes con fecha) y `data/vehicles.json` (referencias de unidades y su nivel de confianza). `golive/`: pendientes y pasos a producción; incluye `sitemap.xml` y `json-ld-autodealer.html` preparados y **sin activar**.
 
@@ -25,4 +25,4 @@ Sitio estático (HTML/CSS/JS; el movimiento usa GSAP + ScrollTrigger + Lenis, se
 GitHub > Settings > Pages > Deploy from a branch > main / (root). URL esperada: https://hnk375561-lab.github.io/chita/
 
 ## Estado
-Demo: `noindex`, aviso visible y `robots.txt` con `Disallow: /`. Para pasar a producción seguir `golive/PRODUCCION.md`.
+Publicado: indexable, con `sitemap.xml`, JSON-LD y metadatos sociales (`og-chita.png`).

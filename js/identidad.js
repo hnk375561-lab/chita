@@ -209,7 +209,7 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   cards.forEach(function(card,i){
     card.setAttribute("data-chita-id","U·"+("0"+(i+1)).slice(-2));
     var text=(card.textContent||"").toLowerCase();
-    if(/consultar|a confirmar|no informado/.test(text)) card.setAttribute("data-chita-state","consultar");
+    if(/consultar|no informado/.test(text)) card.setAttribute("data-chita-state","consultar");
     else card.setAttribute("data-chita-state","publicado");
   });
   var hero=d.getElementById("hero");
@@ -264,19 +264,13 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   var reel=d.getElementById("reelv"), rb=d.getElementById("reelb");
   if(reel&&rb){function rl(){rb.textContent=reel.paused?"Escuchá el salón":(reel.muted?"Activar sonido":"Silenciar")} reel.addEventListener("play",rl);reel.addEventListener("pause",rl);rl()}
   /* Cada unidad expone el estado documental sin convertirlo en una promesa de stock. */
-  [].slice.call(d.querySelectorAll("#stockGrid .car")).forEach(function(card,i){
-    if(card.querySelector(".chita-state"))return;
-    var p=card.querySelector(".est"), state=(card.getAttribute("data-chita-state")==="consultar"||!p||/consultar/i.test(p.textContent))?"A confirmar":"Publicado";
-    var b=d.createElement("span");b.className="chita-state";b.textContent=state;b.setAttribute("title",state==="Publicado"?"Dato publicado; confirmá disponibilidad con la agencia.":"La agencia confirma este dato al consultar.");
-    if(p)p.insertAdjacentElement("afterend",b);else card.appendChild(b);
-  });
   /* Operaciones: una selección cambia el encabezado del talón y hace visible la consecuencia. */
   var ops=d.querySelector("#operaciones .og"), label=d.getElementById("opLabel"), title=d.getElementById("opTitle"), lead=d.getElementById("opLead");
   var copy={
     Comprar:["Talón de operación · comprar","Abrí una unidad publicada","Elegí una ficha en Unidades y consultá si sigue disponible. Este formulario es para tu usado."],
-    Vender:["Talón de operación · vender","Prepará la evaluación de tu usado","Sumá marca, modelo, año y kilometraje; la agencia lo evalúa."],
+    Vender:["Talón de operación · vender","Prepará la evaluación de tu usado","Sumá marca, modelo, año y kilometraje; lo evaluamos."],
     Permutar:["Talón de operación · permutar","Cruce entre dos autos","Contanos qué tenés y por cuál unidad te interesa consultar."],
-    Consignar:["Talón de operación · consignar","Consulta de publicación","Enviá los datos de tu auto y la agencia te cuenta cómo funciona."]
+    Consignar:["Talón de operación · consignar","Consulta de publicación","Enviá los datos de tu auto y te contamos cómo funciona."]
   };
   var sel=d.querySelector("#canjeForm select[name=interes]"), opVal={Comprar:"consulta",Vender:"vender",Permutar:"permutar",Consignar:"consignar"}, opKey={vender:"Vender",permutar:"Permutar",consignar:"Consignar"};
   function opShow(key,fromSelect){
@@ -291,7 +285,7 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   window.CHITA_OP=opShow;
   /* E·13: muestra la pieza que se está abriendo sin guardar datos. */
   var bf=d.getElementById("buscoForm");
-  if(bf){var p=d.createElement("p");p.className="e13-preview";p.setAttribute("role","status");p.setAttribute("aria-live","polite");p.textContent="E·13 · casilla vacante · completá los datos para abrir el pedido";var meta=bf.querySelector(".meta");if(meta)meta.parentNode.insertBefore(p,meta);var fields=[].slice.call(bf.querySelectorAll("input,select"));function preview(){var model=bf.modelo&&bf.modelo.value.trim(),year=bf.anio&&bf.anio.value.trim(),fuel=bf.comb&&bf.comb.value,pres=bf.presu&&bf.presu.value.trim();var bits=[model,year&&"desde "+year,fuel,pres&&"presupuesto "+pres].filter(Boolean);p.textContent=bits.length?"E·13 · consulta lista · "+bits.join(" · ")+" · la agencia confirma":"E·13 · casilla vacante · completá los datos para abrir el pedido"}fields.forEach(function(x){x.addEventListener("input",preview);x.addEventListener("change",preview)});bf.addEventListener("submit",function(){window.setTimeout(function(){p.textContent="E·13 · pedido listo para enviar · la agencia confirma stock y precio"},0)});}
+  if(bf){var p=d.createElement("p");p.className="e13-preview";p.setAttribute("role","status");p.setAttribute("aria-live","polite");p.textContent="E·13 · completá los datos y abrí tu pedido";var meta=bf.querySelector(".meta");if(meta)meta.parentNode.insertBefore(p,meta);var fields=[].slice.call(bf.querySelectorAll("input,select"));function preview(){var model=bf.modelo&&bf.modelo.value.trim(),year=bf.anio&&bf.anio.value.trim(),fuel=bf.comb&&bf.comb.value,pres=bf.presu&&bf.presu.value.trim();var bits=[model,year&&"desde "+year,fuel,pres&&"presupuesto "+pres].filter(Boolean);p.textContent=bits.length?"E·13 · consulta lista · "+bits.join(" · ")+" · te confirmamos por WhatsApp":"E·13 · completá los datos y abrí tu pedido"}fields.forEach(function(x){x.addEventListener("input",preview);x.addEventListener("change",preview)});bf.addEventListener("submit",function(){window.setTimeout(function(){p.textContent="E·13 · pedido listo para enviar · te confirmamos stock y precio"},0)});}
 })();
 
 /* CHITA · V3 — cada columna abre una consecuencia de servicio y cada entrega declara su fuente. */
@@ -309,7 +303,7 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
 /* CHITA · V3 — La Regla prepara una sola consulta con las hojas abiertas. */
 (function(){
   var d=document, v=d.getElementById("versus"), t=d.getElementById("vt"); if(!v||!t||!window.wa)return;
-  var q=d.createElement("p");q.className="vq";q.innerHTML='<a class="btn p" href="#">Abrir consulta comparativa ↗</a><span>La agencia responde sobre las unidades que elegiste.</span>';
+  var q=d.createElement("p");q.className="vq";q.innerHTML='<a class="btn p" href="#">Abrir consulta comparativa ↗</a><span>Te respondemos sobre las unidades que elegiste.</span>';
   var w=q.querySelector("a");function sync(){var names=[].slice.call(t.querySelectorAll(".vdc h3")).map(function(x){return x.textContent.trim()});w.href=window.wa("Hola! Quiero comparar estas unidades: "+(names.length?names.join(" · "):"todavía no elegí unidades")+". ¿Me confirman disponibilidad, precio y diferencias relevantes?")}sync();v.querySelector("#vp").addEventListener("click",function(){window.setTimeout(sync,0)});q.addEventListener("click",function(){window.setTimeout(sync,0)});t.parentNode.insertBefore(q,t.nextSibling);
 })();
 
@@ -321,16 +315,16 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   if(buy){var links=[["Abrir unidades","#unidades"],["Preparar consulta","#contacto"],["Coordinar visita","#visita"],["Ver entregas","#entregas"]];[].slice.call(buy.querySelectorAll("li")).forEach(function(li,i){if(li.querySelector(".step-action"))return;var a=d.createElement("a");a.className="step-action";a.href=links[i][1];a.textContent=links[i][0]+" ↗";li.appendChild(a)})}
   /* Guía: las casillas sin marcar se convierten en preguntas accionables; no se persisten. */
   var gd=d.querySelector("#guia .gd"), tools=d.querySelector("#guia .gtools");
-  if(gd&&tools){var q=d.createElement("p");q.className="gquestions";q.setAttribute("role","status");q.setAttribute("aria-live","polite");tools.appendChild(q);function updateQuestions(){var left=[].slice.call(gd.querySelectorAll("details:first-child input:not(:checked)"));var names=left.slice(0,3).map(function(x){return x.getAttribute("aria-label")||"revisar este punto"});q.textContent=left.length?("Para preguntar en la visita: "+names.join(" · ")+(left.length>3?" · y "+(left.length-3)+" más":"")):"Planilla completa · igual confirmá los datos con la agencia"}gd.addEventListener("change",updateQuestions);updateQuestions()}
+  if(gd&&tools){var q=d.createElement("p");q.className="gquestions";q.setAttribute("role","status");q.setAttribute("aria-live","polite");tools.appendChild(q);function updateQuestions(){var left=[].slice.call(gd.querySelectorAll("details:first-child input:not(:checked)"));var names=left.slice(0,3).map(function(x){return x.getAttribute("aria-label")||"revisar este punto"});q.textContent=left.length?("Para preguntar en la visita: "+names.join(" · ")+(left.length>3?" · y "+(left.length-3)+" más":"")):"Planilla completa"}gd.addEventListener("change",updateQuestions);updateQuestions()}
   /* Financiación: talón de condiciones contextual, sin simulador ni importe inventado. */
   var fin=d.querySelector("#financiacion .pdr");
-  if(fin&&window.STOCK&&window.wa&&!fin.querySelector(".fin-ticket")){var box=d.createElement("div");box.className="fin-ticket";box.innerHTML='<b>Talón de condiciones</b><label>Unidad a consultar<select><option value="">Elegí una unidad (opcional)</option>'+window.STOCK.map(function(c,i){return'<option value="'+i+'">U·'+String(i+1).padStart(2,"0")+' · '+String(c.titulo).replace(/&/g,"&amp;")+'</option>'}).join("")+'</select></label><label class="fin-used"><input type="checkbox"> Tengo un usado para evaluar</label><a class="btn p" href="#">Abrir consulta de condiciones ↗</a><small>La agencia confirma precio, cuota y condiciones vigentes.</small>';fin.insertBefore(box,fin.firstChild);var sel=box.querySelector("select"),used=box.querySelector("input"),a=box.querySelector("a");function syncFin(){var c=sel.value!==""?window.STOCK[+sel.value]:null;var m="Hola! Quiero consultar condiciones de pago"+(c?" para U·"+String(+sel.value+1).padStart(2,"0")+" · "+c.titulo:"")+(used.checked?" y evaluar mi usado":"")+". ¿Me confirman precio, cuota y requisitos vigentes?";a.href=window.wa(m)}sel.addEventListener("change",syncFin);used.addEventListener("change",syncFin);syncFin()}
+  if(fin&&window.STOCK&&window.wa&&!fin.querySelector(".fin-ticket")){var box=d.createElement("div");box.className="fin-ticket";box.innerHTML='<b>Talón de condiciones</b><label>Unidad a consultar<select><option value="">Elegí una unidad (opcional)</option>'+window.STOCK.map(function(c,i){return'<option value="'+i+'">U·'+String(i+1).padStart(2,"0")+' · '+String(c.titulo).replace(/&/g,"&amp;")+'</option>'}).join("")+'</select></label><label class="fin-used"><input type="checkbox"> Tengo un usado para evaluar</label><a class="btn p" href="#">Abrir consulta de condiciones ↗</a><small>Te confirmamos precio, cuota y condiciones.</small>';fin.insertBefore(box,fin.firstChild);var sel=box.querySelector("select"),used=box.querySelector("input"),a=box.querySelector("a");function syncFin(){var c=sel.value!==""?window.STOCK[+sel.value]:null;var m="Hola! Quiero consultar condiciones de pago"+(c?" para U·"+String(+sel.value+1).padStart(2,"0")+" · "+c.titulo:"")+(used.checked?" y evaluar mi usado":"")+". ¿Me confirman precio, cuota y requisitos vigentes?";a.href=window.wa(m)}sel.addEventListener("change",syncFin);used.addEventListener("change",syncFin);syncFin()}
   /* FAQ: la respuesta conserva su prudencia, pero deja de ser un callejón sin salida. */
   var routes=[[/0 km|unidad/,"#unidades","Ver unidades"],[/usado/,"#operaciones","Abrir talón de operación"],[/financiación/,"#financiacion","Ver talón de condiciones"],[/consignación/,"#operaciones","Preparar consignación"],[/cuándo|cuando|visita/ ,"#visita","Coordinar visita"],[/cuánto|cuanto|precio/ ,"#unidades","Consultar una unidad"]];
   [].slice.call(d.querySelectorAll("#preguntas .fa details")).forEach(function(det){if(det.querySelector(".faq-route"))return;var text=(det.querySelector("summary")||{}).textContent||"",r=routes.find(function(x){return x[0].test(text.toLowerCase())});if(!r)return;var a=d.createElement("a");a.className="faq-route";a.href=r[1];a.textContent=r[2]+" ↗";var p=det.querySelector("p");if(p)p.appendChild(d.createTextNode(" "));(p||det).appendChild(a)})
 })();
 
-/* CHITA · v38 · Visita: almanaque de taco. Escribe el día (y la franja) en «Día y horario»; el pase y el mensaje de WhatsApp lo leen de ahí. Sin JS queda el campo de texto. No es una reserva: la agencia confirma. */
+/* CHITA · v38 · Visita: almanaque de taco. Escribe el día (y la franja) en «Día y horario»; el pase y el mensaje de WhatsApp lo leen de ahí. Sin JS queda el campo de texto. No es una reserva: confirmamos por WhatsApp. */
 (function(){
 var f=document.getElementById("visitaForm");if(!f||!f.cuando)return;var inp=f.cuando,lab=inp.closest("label");if(!lab)return;
 var M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],SL=["Mañana","Tarde"],t=new Date(),T=new Date(t.getFullYear(),t.getMonth(),t.getDate());
@@ -343,7 +337,7 @@ var y=st.m.getFullYear(),mo=st.m.getMonth(),n=new Date(y,mo+1,0).getDate(),lead=
 h+='<div class="alm-h"><button type="button" class="alm-n" data-nav="-1" aria-label="Mes anterior"'+(cur?" disabled":"")+'>←</button><b aria-live="polite">'+M[mo]+" "+y+'</b><button type="button" class="alm-n" data-nav="1" aria-label="Mes siguiente">→</button></div><div class="alm-w" aria-hidden="true"><i>L</i><i>M</i><i>M</i><i>J</i><i>V</i><i>S</i><i>D</i></div><div class="alm-g">';
 for(var i=0;i<lead;i++)h+='<span aria-hidden="true"></span>';
 for(var d=1;d<=n;d++){var dt=new Date(y,mo,d),ok=dt>=T,on=st.d&&st.d.getTime()===dt.getTime();h+='<button type="button" class="alm-d" data-d="'+d+'" aria-pressed="'+(on?"true":"false")+'"'+(ok?"":" disabled")+(dt.getTime()===T.getTime()?' data-hoy="1"':"")+">"+(d<10?"0":"")+d+"</button>"}
-h+='</div><div class="alm-s" role="group" aria-label="Franja (opcional)">'+SL.map(function(s){return'<button type="button" class="alm-f" data-s="'+s+'" aria-pressed="'+(st.s===s?"true":"false")+'"'+(st.d?"":" disabled")+">"+s+"</button>"}).join("")+'</div><p class="alm-m">La agencia confirma día y horario.</p>';
+h+='</div><div class="alm-s" role="group" aria-label="Franja (opcional)">'+SL.map(function(s){return'<button type="button" class="alm-f" data-s="'+s+'" aria-pressed="'+(st.s===s?"true":"false")+'"'+(st.d?"":" disabled")+">"+s+"</button>"}).join("")+'</div><p class="alm-m">Te confirmamos día y horario.</p>';
 box.innerHTML=h;if(fk){var e=box.querySelector(fk);if(e)e.focus()}}
 box.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b.disabled)return;
 if(b.dataset.nav){st.m=new Date(st.m.getFullYear(),st.m.getMonth()+(+b.dataset.nav),1);draw('[data-nav="'+b.dataset.nav+'"]');return}

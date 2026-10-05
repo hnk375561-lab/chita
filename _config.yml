@@ -1,0 +1,16 @@
+exclude:
+  - golive
+  - data
+  - scripts
+  - docs
+  - chita-cambios
+  - CLAUDE.md
+  - README.md
+  - package.json
+  - netlify.toml
+  - plan.md
+  - manus-routes.json
+  - AUDITORIA-IMPLEMENTACION.md
+  - AUDITORIA-CHITA-PRE-PRODUCCION.md
+  - LEEME*.txt
+  - LICENSE
