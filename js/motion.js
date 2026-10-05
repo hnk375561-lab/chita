@@ -877,7 +877,6 @@ function initOdometer() {
    Delegación de eventos (las tarjetas se repintan con los filtros). Sin cursor custom ni magnetismo.
    Touch: solo feedback de presión.
    ════════════════════════════════════════════════════════════════════════════════════════ */
-const TILT = ".oc, .pdc, .rvc, .vqb";
 const ICON = "header .ic";
 
 function initInteractions({ desktop, fine }) {
@@ -887,12 +886,12 @@ function initInteractions({ desktop, fine }) {
   const closest = (event, selector) => event.target.closest?.(selector);
 
   const ctx = gsap.context(() => {
-    /* Presión: todos los botones, también en touch. */
+    /* Presión: todos los botones, también en touch (escala mínima, sin rebote ni desplazamiento). */
     on(document, "pointerdown", (event) => {
       const button = closest(event, "button:not(:disabled), .btn");
       if (!button) return;
-      gsap.to(button, { scale: 0.955, duration: 0.12, ease: "power2.out", overwrite: "auto" });
-      const release = () => gsap.to(button, { scale: 1, duration: 0.8, ease: "elastic.out(1, 0.45)", overwrite: "auto" });
+      gsap.to(button, { scale: 0.98, duration: 0.12, ease: "power2.out", overwrite: "auto" });
+      const release = () => gsap.to(button, { scale: 1, duration: 0.25, ease: "power2.out", overwrite: "auto" });
       ["pointerup", "pointercancel", "pointerleave"].forEach((type) => button.addEventListener(type, release, { once: true }));
     }, true);
 
@@ -921,15 +920,7 @@ function initInteractions({ desktop, fine }) {
       const img = qs(".oi img", card); if (img) gsap.to(img, { scale: 1.22, duration: 1, ease: EASE.settle, overwrite: "auto" });
     }, { passive: true });
 
-    /* Flechas de galería / carrusel: la flecha «empuja» hacia su sentido. */
-    on(document, "pointerover", (event) => {
-      const arrow = closest(event, ".g-a:not(:disabled)"); if (!arrow || arrow.contains(event.relatedTarget)) return;
-      const svg = qs("svg", arrow); if (svg) gsap.to(svg, { x: arrow.classList.contains("l") ? -4 : 4, duration: 0.35, ease: EASE.soft, overwrite: "auto" });
-    }, { passive: true });
-    on(document, "pointerout", (event) => {
-      const arrow = closest(event, ".g-a"); if (!arrow || arrow.contains(event.relatedTarget)) return;
-      const svg = qs("svg", arrow); if (svg) gsap.to(svg, { x: 0, duration: 0.7, ease: "elastic.out(1, 0.5)", overwrite: "auto" });
-    }, { passive: true });
+    /* Flechas de galería / carrusel: estáticas (sin empuje ni desplazamiento al apuntar). */
 
     /* ROLL del menú: al apuntar, cada letra sube y es reemplazada por su copia que entra desde abajo (escalonado).
        La copia es aria-hidden y el enlace conserva su nombre accesible; al limpiar se restituye el texto original. */
@@ -956,17 +947,13 @@ function initInteractions({ desktop, fine }) {
       undo.push(() => { roll.kill(); link.textContent = original; if (!hadLabel) link.removeAttribute("aria-label"); });
     });
 
-    /* Enlaces del pie: empujan hacia la derecha y vuelven con rebote. */
-    qsa("footer .fx a").forEach((link) => {
-      on(link, "pointerenter", () => gsap.to(link, { x: 8, duration: 0.45, ease: EASE.soft, overwrite: "auto" }));
-      on(link, "pointerleave", () => gsap.to(link, { x: 0, duration: 0.9, ease: "elastic.out(1, 0.5)", overwrite: "auto" }));
-    });
+    /* Enlaces del pie: estáticos (el cambio de color lo resuelve el CSS). */
 
-    /* Iconos del header: giro corto con rebote. */
+    /* Iconos del header: escala mínima, sin giro ni desplazamiento. */
     qsa(ICON).forEach((icon) => {
       const svg = qs("svg", icon); if (!svg) return;
-      on(icon, "pointerenter", () => gsap.to(svg, { scale: 1.18, rotate: -9, duration: 0.5, ease: EASE.spring, overwrite: "auto" }));
-      on(icon, "pointerleave", () => gsap.to(svg, { scale: 1, rotate: 0, duration: 0.6, ease: EASE.settle, overwrite: "auto" }));
+      on(icon, "pointerenter", () => gsap.to(svg, { scale: 1.08, duration: 0.25, ease: "power2.out", overwrite: "auto" }));
+      on(icon, "pointerleave", () => gsap.to(svg, { scale: 1, duration: 0.25, ease: "power2.out", overwrite: "auto" }));
     });
 
   });

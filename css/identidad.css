@@ -1531,3 +1531,65 @@ html body main>.hero.hx .hx-copy .hx-proof span{color:var(--tinta)!important}
 html body main>.hero.hx .hx-copy .hx-proof b{color:var(--rojo)!important}
 /* El dato Google debe estar siempre presente y legible; no depende de la animación de entrada. */
 html body main>.hero.hx .hx-copy .hx-proof{visibility:visible!important;opacity:1!important;scale:1!important;rotate:0deg!important;animation:none!important}
+
+/* ═══ CHITA · v49 · identidad cromática + legibilidad + botones estáticos ═══
+   Jerarquía: ROJO = acción/énfasis · CHAPA (azul) = información/estructura · TINTA = base · PLATA = texto secundario sobre oscuro. */
+:root{--chita-focus-l:#0A2C8C;--chita-focus-d:#fff}
+::selection{background:var(--rojo);color:#fff}
+html{scrollbar-color:var(--rojo) var(--ink)}
+html body :focus-visible{outline:3px solid var(--chita-focus-l)!important;outline-offset:3px}
+html body :is(#entregas,#catalogo-comparador,#contacto,#local,#guia,#financiacion,#visita,header,footer,.hero) :focus-visible{outline-color:var(--chita-focus-d)!important}
+html body :is(input,select,textarea):focus{border-color:var(--rojo)!important;box-shadow:0 0 0 3px rgba(193,18,31,.28)!important;outline:none}
+
+/* — Botones: texto siempre legible sobre su fondo (site.css ponía tinta sobre tinta) — */
+html body :is(.btn,.hx-btn):not(.p):not(.hx-p){color:#fff}
+html body :is(.btn,.hx-btn):not(.p):not(.hx-p):is(:hover,:focus-visible){background:var(--chapa);color:#fff}
+html body :is(.btn.p,.hx-btn.hx-p,header .btn):is(:hover,:focus-visible){background:var(--rojo-d);color:#fff}
+html body #unidades .car .btn.wab{background:var(--ink);color:#fff}
+html body #unidades .car .btn.wab:is(:hover,:focus-visible){background:var(--rojo);color:#fff}
+html body #operaciones .oc .ob a{background:var(--rojo)!important;color:#fff!important}
+html body #operaciones .oc .ob a:is(:hover,:focus-visible){background:var(--chapa)!important;color:#fff!important}
+html body #preguntas .fa summary{color:#fff!important}
+html body #preguntas .fa summary *{color:inherit}
+html body :is(#preguntas,#como-comprar,#nosotros,#entregas,#operaciones) .btn.p{background:var(--rojo)!important;color:#fff!important}
+html body #financiacion .btn.p{color:var(--ink)!important}
+html body #financiacion .pdr .btn.p:is(:hover,:focus-visible){background:var(--ink)!important;color:#fff!important}
+
+/* — Botones y tarjetas ESTÁTICOS: ningún desplazamiento al apuntar (sin mouse-follow, sin imán, sin translate) — */
+html body :is(.btn,.hx-btn,button,header .ic,#local .vqb,#contacto a.mpl,.vdp,#financiacion a.pdc,button.st.vf,#operaciones .oc .ob a,.g-a,footer .fx a):is(:hover,:focus-visible,:active){translate:none!important}
+html body :is(.btn,.hx-btn,header .ic,#local .vqb,#contacto a.mpl,.vdp,#financiacion a.pdc,button.st.vf,#operaciones .oc .ob a,footer .fx a):is(:hover,:focus-visible){transform:none!important}
+html body :is(.g-a,footer .fx a) svg{transform:none!important;translate:none!important}
+html body a.pdc:hover .pds::after{transform:none!important}
+
+/* — Etiquetas (.ey/.pde): rojo sobre papel, blanco sobre azul/rojo, rojo claro sobre tinta — */
+html body :is(#unidades,#nosotros,#opiniones,#como-comprar,#operaciones,#preguntas) :is(.ey,.pde,.xk,.vde,.kicker){color:var(--rojo)!important}
+html body :is(#entregas,#financiacion,#visita) :is(.ey,.pde,.xk,.vde,.kicker,.ec,.sl,.egn-n,.egn-c,.rst,.rts,.fin-used,.cup-d){color:#fff!important}
+html body :is(#catalogo-comparador,#contacto,#local,#guia) :is(.ey,.pde,.xk,.vde,.kicker){color:var(--rojo-claro)!important}
+
+/* — Textos secundarios y datos — */
+html body :is(#unidades,#operaciones,#nosotros,#como-comprar,#preguntas,#opiniones) :is(p,small,.meta,.sub,.rm,.mute,.plata,.rv45t){color:#2B3544}
+html body :is(#unidades,#operaciones,#nosotros,#como-comprar,#preguntas,#opiniones) #stockGrid~p,html body #unidades .w>p{color:#2B3544}
+html body #unidades .car .meta{color:var(--ink)!important;font-weight:700}
+html body #opiniones .rv45 i{color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(10,16,32,.55);font-weight:800}
+html body #opiniones .rv45 i:last-child{color:var(--rojo)}
+html body #opiniones :is(.rvt,.rvl,.rvx,.rv45h,.rv45g){color:var(--ink)!important}
+html body :is(#entregas,#catalogo-comparador,#contacto,#local,#guia,#financiacion,#visita) :is(.sub,.vdz,.vdn,.vdy,small,.gcount,.origin-mark,.mc-a,.mc-k){color:#fff!important}
+html body :is(#catalogo-comparador,#contacto,#local,#guia) :is(p,li,span,b,dt,dd,small){color:#fff}
+html body :is(#catalogo-comparador,#contacto,#local,#guia) :is(.plata,.mute,.rm){color:var(--plata)}
+html body :is(#entregas,#visita) .btn.p{background:var(--rojo)!important;color:#fff!important;box-shadow:inset 0 0 0 2px #fff}
+html body #entregas .sl{background:var(--ink);padding:.35em .6em}
+html body #entregas .eg li i,html body .hx-rail i{background:var(--ink);color:#fff;opacity:1;padding:.35em .6em;font-weight:800}
+html body footer :is(a,p,span,small,.fin7){color:#fff}
+html body footer .fin7{color:var(--plata)}
+/* Comparador: el panel heredaba papel claro con texto blanco; vuelve a tinta CHITA. */
+html body #catalogo-comparador .catalogo-panel{background:var(--ink)!important;color:#fff}
+/* Visita: el talón es papel claro → texto tinta; el encabezado del calendario (tinta) conserva blanco. */
+html body #visita #visitaForm :is(h3,span,small,label,p,.alm-d,.alm-f,.alm-m,.ck){color:var(--ink)!important}
+html body #visita #visitaForm :is(.alm-d,.alm-f).on,html body #visita #visitaForm :is(.alm-d,.alm-f)[aria-pressed="true"],html body #visita #visitaForm :is(.alm-d,.alm-f)[aria-selected="true"]{background:var(--rojo);color:#fff!important}
+html body #visita #visitaForm :is(.alm-n,.btn.p){color:#fff!important}
+html body #visita #visitaForm .alm-h,html body #visita #visitaForm .alm-h *{color:#fff!important}
+html body #catalogo-comparador h2::before{color:var(--ink)!important}
+html body #catalogo-comparador .vdp:not([aria-pressed="true"]){background:transparent!important;border:1px solid rgba(255,255,255,.55)!important}
+html body #catalogo-comparador .vdp:not([aria-pressed="true"]) *{color:#fff!important}
+html body #catalogo-comparador .vdp:not([aria-pressed="true"]):is(:hover,:focus-visible){background:var(--chapa)!important;border-color:#fff!important}
+html body #visita #visitaForm :is(.alm-d,.alm-f):disabled{opacity:.6}
