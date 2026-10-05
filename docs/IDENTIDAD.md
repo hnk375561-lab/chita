@@ -80,3 +80,10 @@ No se agregó ningún dato: el sello y las etiquetas usan solo lo ya publicado (
 - **T1** `js/app.js`: nota de «Serie 2» sin «diferencia editorial». Tarjetas regeneradas con `npm run prerender`.
 - **Audit** `scripts/audit-copy.mjs`: segunda lista «VOZ» con las frases que el documento madre pide evitar.
 
+
+## v49 · cierre de brechas de identidad (privacidad, metadatos, voz)
+- **`privacidad.html`**: era la única página con la base vieja (barra `#0E1B26`, logo circular metálico, enlaces cian). Ahora usa el encabezado del sitio (papel, filete de tinta, wordmark), la columna roja en el título, el corte en el aviso y en los botones, y enlaces azul chapa. No cambió ninguna palabra del contenido legal.
+- **`theme-color` y `site.webmanifest`**: `#0E1B26` (fuera de paleta) pasa a tinta `#0A1020`. La 404 conserva `#022061` porque es el fondo de esa página.
+- **Voz**: la bajada de la Guía deja la frase intercambiable («es una decisión importante») por «Un usado se revisa con calma…»; la de Visita usa el mismo lenguaje del Comparador («se mira de cerca, se revisa cada detalle y se pregunta lo que falte»); el rótulo de Visita deja de repetir el nombre de la marca y dice «Pasá por Galarza» (igual que `viaje.html`: «Galarza 1712»).
+- **Metadescripciones**: `index.html` (description, og, twitter) abre con la frase de marca y sigue diciendo que es una propuesta no oficial; `reserva.html` ya no dice «Reservá» (el sitio aclara que no es una reserva automática); `viaje.html` deja de repetir su título.
+- Sin datos nuevos, sin verbos de movimiento nuevos, sin cambios de estructura.

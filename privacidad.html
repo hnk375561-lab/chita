@@ -6,32 +6,35 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Privacidad y avisos · Chita Automotores (demo)</title>
 <meta name="description" content="Política de privacidad preliminar, aviso sobre la información de las unidades y aviso de demo.">
-<meta name="theme-color" content="#0E1B26">
+<meta name="theme-color" content="#0A1020">
 <link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <style>
 @font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:200 800;font-display:swap;src:url(fonts/bricolage-grotesque-latin.woff2) format("woff2")}
 @font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/instrument-sans-latin.woff2) format("woff2")}
-:root{--ink:#0E1B26;--paper:#F3F5F6;--stone:#DCE2E6;--mute:#5B6b76;--cyd:#146F88;--h:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;--b:"Instrument Sans",system-ui,sans-serif}
+:root{--ink:#0A1020;--paper:#ECEDEA;--plata:#B9BEC4;--mute:#4A5360;--chapa:#0A2C8C;--rojo:#C1121F;--rojo-t:#A00F1A;--cut:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);--h:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;--b:"Instrument Sans",system-ui,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:16px}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--b);-webkit-font-smoothing:antialiased}
-a{color:var(--cyd)}:focus-visible{outline:3px solid #1B8CAB;outline-offset:3px}
+a{color:var(--chapa)}a:hover{color:var(--rojo-t)}:focus-visible{outline:3px solid var(--chapa);outline-offset:3px}
 .w{width:min(760px,100% - 40px);margin-inline:auto}
-header{background:var(--ink)}header .w{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px}
-header a{color:#fff;font-weight:600;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;transition:color .25s,text-decoration-color .25s,text-underline-offset .25s}header a:hover,header a:active{color:#8fd3e4;text-decoration:underline;text-underline-offset:.34em}
-h1,h2{font-family:var(--h);letter-spacing:-.02em;line-height:1.1;margin:0}
-h1{font-size:clamp(32px,6vw,48px);margin:40px 0 12px}h2{font-size:clamp(24px,4vw,30px);margin:0 0 12px}
-section{padding:28px 0;border-top:1px solid var(--stone)}
+/* mismo encabezado que el sitio: papel, filete de tinta, wordmark */
+header{background:var(--paper);border-bottom:2px solid var(--ink)}header .w{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:58px}
+header a{color:var(--ink);font:800 14px var(--h);letter-spacing:.04em;text-transform:uppercase;text-decoration:none;min-height:44px;display:inline-flex;align-items:center;transition:color .25s,text-decoration-color .25s,text-underline-offset .25s}header a:hover,header a:active{color:var(--rojo-t);text-decoration:underline;text-underline-offset:.34em}
+header img{display:block;height:36px;width:auto}
+h1,h2{font-family:var(--h);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin:0}
+/* la columna roja del local, como marca de lectura */
+h1{font-size:clamp(32px,6vw,48px);margin:40px 0 12px;text-transform:uppercase;border-left:10px solid var(--rojo);padding-left:16px}h2{font-size:clamp(24px,4vw,30px);margin:0 0 12px}
+section{padding:28px 0;border-top:1px solid var(--plata)}
 p,ul{margin:0 0 12px}ul{padding-left:22px}li{margin-bottom:6px}
-.lead{color:var(--mute)}.note{background:#fff;border:1px solid var(--stone);padding:14px 16px;font-size:15px;color:var(--mute)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;background:var(--cyd);color:#fff;font:600 16px var(--b);text-decoration:none;border-radius:3px;margin:8px 12px 8px 0}.btn:hover{background:var(--ink)}
-.btn.s{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}.btn.s:hover{background:var(--ink);color:#fff}
+.lead{color:var(--mute)}.note{background:#fff;border:1px solid var(--plata);border-left:6px solid var(--rojo);clip-path:var(--cut);padding:14px 16px;font-size:15px;color:var(--mute)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 26px;background:var(--rojo);color:#fff;font:800 15px var(--h);letter-spacing:.05em;text-transform:uppercase;text-decoration:none;border-radius:0;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);margin:8px 12px 8px 0}.btn:hover{background:var(--chapa);color:#fff}
+.btn.s{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}.btn.s:hover{background:var(--ink);color:#fff}
 footer{padding:24px 0 48px;font-size:14px;color:var(--mute)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<header><div class="w"><a href="./">← Volver al inicio</a><a href="./"><img src="images/logo-claro.webp" alt="Chita Automotores" width="722" height="287" style="height:40px;width:auto"></a></div></header>
+<header><div class="w"><a href="./">← Volver al inicio</a><a href="./" aria-label="Chita Automotores, inicio"><img src="images/logo-chita-wordmark.webp" alt="" width="480" height="143"></a></div></header>
 <main class="w">
 <h1>Privacidad y avisos</h1>
 <p class="lead">Chita Automotores · Gral. Galarza 1712, Concepción del Uruguay, Entre Ríos.</p>
