@@ -1,0 +1,23 @@
+CHITA · PASO · Financiación (2 archivos, misma ruta que en el repo; reemplazar)
+  index.html          (solo la sección #financiacion)
+  css/identidad.css   (bloque v30 agregado AL FINAL; no se borró nada de lo anterior)
+No tocar nada más. Los JS quedan igual.
+
+Qué se aplicó
+  - Un solo titular: se quita la declaración gigante repetida («Un valor claro, hablado de frente…»); queda el h2.
+  - El botón «Consultar financiación y tu usado» deja de ser texto oscuro sobre rojo: ahora es un botón de papel con el corte.
+  - La cinta de «CUOTA FIJA» ×14 pasa a libreta de cupones: 5 cupones «Cuota fija · a consultar» (sin números inventados)
+    + un último cupón rojo con perforación («Desprendé y consultá»), que reemplaza al «Consultar» de la tarjeta F·01
+    y se inclina al pasar el mouse (quieto con prefers-reduced-motion). Toda la tarjeta sigue abriendo WhatsApp.
+  - En móvil la libreta muestra 3 cupones + el desprendible.
+  - Bug previo: en móvil la tarjeta F·01 medía 1180 px y se salía de la pantalla; ahora entra (grid minmax(0,1fr)).
+
+Estado del análisis (CHITA-analisis-identidad.md) al revisar el zip 31
+  Ya aplicado: 1 fotos del Clio · 2 numeración nav/N°13 · 3 Quiénes somos (columnas = pestañas) · 4 Modelos (v21, v29) y chapa de Unidades (v22)
+               6 La Regla en Comparador, Dónde estamos y Ficha · pase de visita · Preguntas como chat · footer
+  Pendiente:   Unidades (filtros → chips) · Visita (video como ventanilla, 11 casillas) · Hero/Entregas (alternar auto/dueño)
+               Reserva (almanaque) · Viaje (css/viaje.css del zip NO tiene el bloque v27 que describe LEEME-viaje.txt) · pulido (Guía, Reseñas)
+
+Verificado: npm test OK; 0 errores de JS en Chromium (1440 y 390 px).
+No verificado: Safari/Firefox.
+Volver atrás: restaurar index.html y css/identidad.css desde git.

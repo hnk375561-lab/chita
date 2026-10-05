@@ -1088,3 +1088,24 @@ html body .mdf{top:96px}
 @keyframes mdcorte{from{clip-path:polygon(0 0,0 0,0 0,-40% 100%,0 100%)}to{clip-path:var(--cut)}}
 html body .mdf .mdp.on>img,html body .mdf .mdp>img.sw{animation:mdcorte .7s var(--ease) both}
 @media(prefers-reduced-motion:reduce){html body .mdf .mdp.on>img,html body .mdf .mdp>img.sw{animation:none}}
+
+/* CHITA · v30 — FINANCIACIÓN: un solo titular, CTA con forma de botón, libreta de cupones (sin números inventados)
+   Se va     la declaración gigante repetida (queda el h2) y 9 de los 14 cupones «CUOTA FIJA».
+   Queda     cada cupón dice «Cuota fija · a consultar»; el último, con perforación en rojo, es el desprendible de la tarjeta.
+   Volver atrás: borrar este bloque y restaurar index.html. */
+html body #financiacion .pdl{padding-top:clamp(56px,7vw,104px)!important}
+html body #financiacion .pdr{padding:0;margin-top:clamp(24px,3vw,40px)}
+html body #financiacion .pdr .btn.p{background:#fff!important;color:var(--ink)!important;border:0!important;border-left:10px solid var(--ink)!important;border-radius:0!important;padding:1.1em 2.6em 1.1em 1.5em;font:800 clamp(13px,1.1vw,15px)/1.1 var(--font-display);letter-spacing:.12em;text-transform:uppercase;clip-path:var(--cut);transition:background .25s var(--ease),color .25s var(--ease)}
+html body #financiacion .pdr .btn.p:hover,html body #financiacion .pdr .btn.p:focus-visible{background:var(--ink)!important;color:#fff!important}
+html body #financiacion .pdr .btn.p:active{background:var(--ink)!important;color:#fff!important}
+html body #financiacion .pdc .cup{margin-top:auto;margin-bottom:18px}
+html body #financiacion .pdc .cup i{flex:1 1 0;min-width:0;width:auto;padding:11px 6px 10px 8px;font-size:9px;letter-spacing:.05em;white-space:nowrap}
+html body #financiacion .pdc .cup i small{display:block;margin-top:6px;font:700 8px/1.2 var(--font-display);letter-spacing:.04em;color:#5b6270}
+html body #financiacion .pdc .cup i.cup-d{background:var(--rojo);color:#fff;border-left:3px dashed #fff;transform-origin:0 100%;transition:transform .35s var(--ease)}
+html body #financiacion .pdc .cup i.cup-d small{color:rgba(255,255,255,.88)}
+html body #financiacion .pdc:hover .cup i.cup-d,html body #financiacion .pdc:focus-visible .cup i.cup-d{transform:rotate(5deg) translateY(2px)}
+@media(prefers-reduced-motion:reduce){html body #financiacion .pdc .cup i.cup-d{transition:none}html body #financiacion .pdc:hover .cup i.cup-d{transform:none}}
+html body #financiacion .pdc{min-width:0}
+html body #financiacion .pdc:has(.cup)>p{margin-bottom:16px!important}
+@media(max-width:899px){html body #financiacion .pdg{grid-template-columns:minmax(0,1fr)!important}}
+@media(max-width:600px){html body #financiacion .pdc .cup i:nth-child(-n+2){display:none}html body #financiacion .pdc .cup i:nth-child(3){border-left:0}}
