@@ -7,7 +7,7 @@ var lab=c.firstChild,raf=0,cur="";
 function upd(){raf=0;var d=document.documentElement,m=d.scrollHeight-innerHeight;
  var y=innerHeight*.4,k=-1;for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.top<=y&&r.bottom>y){k=i;break}}
  if(k<0){lab.hidden=true;cur="";return}
- var id=S[k].id;if(id!==cur){cur=id;lab.hidden=false;lab.innerHTML="<span>"+("0"+(k+1)).slice(-2)+"/"+S.length+"</span>"+(N[id]||id)}
+ var id=S[k].id;if(id!==cur){cur=id;lab.hidden=false;lab.textContent=N[id]||id}
  var a=document.querySelectorAll("header nav a");for(var j=0;j<a.length;j++){var al={"catalogo-comparador":"versus",local:"contacto"},on=a[j].getAttribute("href")==="#"+id||a[j].getAttribute("href")==="#"+al[id];a[j].classList.toggle("on",on);if(on&&a[j].parentNode.scrollWidth>a[j].parentNode.clientWidth+4){var n=a[j].parentNode;n.scrollTo({left:a[j].offsetLeft-n.clientWidth/2+a[j].offsetWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}}
 function q(){if(!raf)raf=requestAnimationFrame(upd)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q);addEventListener("load",q);upd();
@@ -59,17 +59,13 @@ else T.forEach(function(s){s.classList.add("in")});
 /* CHITA · v4 — El Talón (numeral calado), Riel vivo (la pasada de fotos del hero acelera con el scroll) y salida del hero. 1 rAF, 1 listener pasivo. */
 (function(){
 var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,S=[].slice.call(d.querySelectorAll("main>section[id]"));if(!S.length)return;
-S.forEach(function(s,i){var g=d.createElement("span");g.className="gn";g.setAttribute("aria-hidden","true");g.textContent=("0"+(i+1)).slice(-2);s.insertBefore(g,s.firstChild);
- var t=d.createElement("i");t.className="tl";t.setAttribute("aria-hidden","true");s.appendChild(t);s._g=g});
+S.forEach(function(s){var t=d.createElement("i");t.className="tl";t.setAttribute("aria-hidden","true");s.appendChild(t)});
 if(RM)return;
 var hr=d.querySelector(".hx-reel"),hs=d.querySelector(".hx .hx-show"),hero=d.getElementById("hero"),big=matchMedia("(min-width:900px)"),
 tape=null,ly=scrollY,v=0,raf=0,pr=1;
 function anim(){if(tape)return tape;var t=d.querySelector(".hx-trk");if(t&&t.getAnimations){var a=t.getAnimations()[0];if(a)tape=a}return tape}
 function tick(){raf=0;var y=scrollY,vh=innerHeight,dy=y-ly;ly=y;v+=(Math.abs(dy)-v)*.18;
- for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.bottom<-vh||r.top>vh*2)continue;
-  var p=(vh-r.top)/(vh+r.height);S[i]._g.style.translate=((S[i]._g.parentNode.matches("main>section:nth-of-type(even)")?1:-1)*(p-.5)*14)+"vw 0"}
  if(hero&&big.matches){var k=Math.max(0,Math.min(1,y/Math.max(1,hero.offsetHeight)));if(hr)hr.style.setProperty("--hr",(-k*46)+"px");if(hs){hs.style.setProperty("--hs",(k*34)+"px");hs.style.setProperty("--hx",(Math.pow(k,1.7)*innerWidth*.62).toFixed(1)+"px")}}
- var a=anim();if(a){var pb=1+Math.min(v*.25,4);if(Math.abs(pb-pr)>.05){a.playbackRate=pb;pr=pb}}
  if(v>.05)raf=requestAnimationFrame(tick)}
 function q(){if(!raf)raf=requestAnimationFrame(tick)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q);q();
@@ -139,7 +135,7 @@ for(var i=0;i<3;i++)(function(i){
  var bt=d.createElement("button"),w=d.createElement("span"),n=d.createElement("i"),c=d.createElement("span");
  n.setAttribute("aria-hidden","true");n.textContent="0"+(i+1);
  bt.type="button";bt.className="nb";bt.id="nsb"+i;bt.setAttribute("aria-expanded","false");bt.setAttribute("aria-controls","nsp"+i);
- bt.appendChild(n);bt.appendChild(b);
+ bt.appendChild(b);
  w.className="np";w.id="nsp"+i;w.setAttribute("role","region");w.setAttribute("aria-labelledby",bt.id);
  p.className="nq";r.insertBefore(bt,r.firstChild);r.insertBefore(w,p);w.appendChild(p);
  /* T13: cada columna abierta termina en una acción real (sin animación nueva) */
@@ -147,7 +143,7 @@ for(var i=0;i<3;i++)(function(i){
  a.className="nl";a.href=L[0];a.textContent=L[1];a.setAttribute("data-op",["","Permutar","Consignar"][i]);
  a.addEventListener("click",function(){var k=a.getAttribute("data-op");if(k&&window.CHITA_OP)window.CHITA_OP(k,false)});
  p.appendChild(a);
- c.className="nc";c.setAttribute("aria-hidden","true");c.textContent="0"+(i+1);
+ c.className="nc";c.setAttribute("aria-hidden","true");c.textContent="";
  c.style.left=(Z[i][0]+Z[i][2]/2)+"%";c.style.top=Z[i][4]+"%";ph.appendChild(c);
  btns[i]=bt;chips[i]=c;
  bt.addEventListener("click",function(){go(i)});
@@ -271,13 +267,13 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   window.CHITA_OP=opShow;
   /* E·13: muestra la pieza que se está abriendo sin guardar datos. */
   var bf=d.getElementById("buscoForm");
-  if(bf){var p=d.createElement("p");p.className="e13-preview";p.setAttribute("role","status");p.setAttribute("aria-live","polite");p.textContent="E·13 · completá los datos y abrí tu pedido";var meta=bf.querySelector(".meta");if(meta)meta.parentNode.insertBefore(p,meta);var fields=[].slice.call(bf.querySelectorAll("input,select"));function preview(){var model=bf.modelo&&bf.modelo.value.trim(),year=bf.anio&&bf.anio.value.trim(),fuel=bf.comb&&bf.comb.value,pres=bf.presu&&bf.presu.value.trim();var bits=[model,year&&"desde "+year,fuel,pres&&"presupuesto "+pres].filter(Boolean);p.textContent=bits.length?"E·13 · consulta lista · "+bits.join(" · ")+" · te confirmamos por WhatsApp":"E·13 · completá los datos y abrí tu pedido"}fields.forEach(function(x){x.addEventListener("input",preview);x.addEventListener("change",preview)});bf.addEventListener("submit",function(){window.setTimeout(function(){p.textContent="E·13 · pedido listo para enviar · te confirmamos stock y precio"},0)});}
+  if(bf){var p=d.createElement("p");p.className="e13-preview";p.setAttribute("role","status");p.setAttribute("aria-live","polite");p.textContent="Completá los datos y abrí tu pedido";var meta=bf.querySelector(".meta");if(meta)meta.parentNode.insertBefore(p,meta);var fields=[].slice.call(bf.querySelectorAll("input,select"));function preview(){var model=bf.modelo&&bf.modelo.value.trim(),year=bf.anio&&bf.anio.value.trim(),fuel=bf.comb&&bf.comb.value,pres=bf.presu&&bf.presu.value.trim();var bits=[model,year&&"desde "+year,fuel,pres&&"presupuesto "+pres].filter(Boolean);p.textContent=bits.length?"E·13 · consulta lista · "+bits.join(" · ")+" · te confirmamos por WhatsApp":"E·13 · completá los datos y abrí tu pedido"}fields.forEach(function(x){x.addEventListener("input",preview);x.addEventListener("change",preview)});bf.addEventListener("submit",function(){window.setTimeout(function(){p.textContent="E·13 · pedido listo para enviar · te confirmamos stock y precio"},0)});}
 })();
 
 /* CHITA · V3 — cada columna abre una consecuencia de servicio y cada entrega declara su fuente. */
 (function(){
   var d=document, eg=d.querySelector("#entregas .eg");
-  if(eg){[].slice.call(eg.children).forEach(function(li,k){var seal=li.querySelector(".sl");if(seal)seal.textContent=k===0?"Entregado":"Foto publicada";li.setAttribute("title","E·"+String(k+1).padStart(2,"0")+" · foto publicada por Chita")})}
+  if(eg){[].slice.call(eg.children).forEach(function(li,k){var seal=li.querySelector(".sl");if(seal)seal.textContent=k===0?"Entregado":"Foto publicada";li.setAttribute("title","Foto publicada por Chita")})}
   var pl=d.querySelector("#nosotros .pl");
   if(pl){var actions=[
     ["Ver unidades publicadas","#unidades"],

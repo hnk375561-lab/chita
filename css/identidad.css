@@ -1593,3 +1593,79 @@ html body #catalogo-comparador .vdp:not([aria-pressed="true"]){background:transp
 html body #catalogo-comparador .vdp:not([aria-pressed="true"]) *{color:#fff!important}
 html body #catalogo-comparador .vdp:not([aria-pressed="true"]):is(:hover,:focus-visible){background:var(--chapa)!important;border-color:#fff!important}
 html body #visita #visitaForm :is(.alm-d,.alm-f):disabled{opacity:.6}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v49 · SIN NUMERACIÓN Y HERO MÁS ABIERTO
+   (1) Se eliminan en todo el sitio los números, códigos (E·, U·, T·, F·, G·, O·, P·, R·, N°), puntos y barras de paso:
+       menú, numeral gigante de cada sección, rótulos de tarjetas, listas de pasos, contadores de fotos, casillas de reseñas.
+   (2) Hero: el panel de texto deja de tapar la pasada de vehículos (degradado en vez de bloque macizo, velo más liviano),
+       la pasada va más rápido (95 s → 60 s) y su velocidad ya no depende del scroll (ver identidad.js).
+   (3) Legibilidad: se corrige el contador de Entregas (blanco sobre blanco) y se agrandan rótulos mínimos.
+   Para volver atrás, borrar este bloque y restaurar identidad.js / index.html.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* — menú y numerales de sección — */
+html body header nav a::before{content:none!important;display:none!important}
+html body main>section h2::before,html body main>section h2[data-sub]::before{content:none!important;display:none!important}
+.gn,main>section>.gn,main>section:nth-of-type(even)>.gn{display:none!important}
+
+/* — rótulos con código — */
+html body #hero .hx-reel::after{content:none!important;display:none!important}
+html body #entregas .eg li::after{content:none!important;display:none!important}
+html body #entregas .eg li[data-m]::after,html body #entregas .eg li[data-m]:nth-child(1)::after{content:attr(data-m)!important;display:block!important}
+html body #entregas .eg-next::before{content:none!important;display:none!important}
+html body #entregas .eh::before{content:none!important;display:none!important}
+html body #stockGrid .car::after{content:none!important;display:none!important}
+html body #operaciones .oc::after{content:none!important;display:none!important}
+html body #financiacion .pdg .pdc::before{content:none!important;display:none!important}
+html body #financiacion .pdg .pdc{padding-top:24px!important}
+html body #dlg .fch::before{content:"Ficha de la unidad"!important}
+html body #preguntas #buscoForm::before,html body #preguntas .bqf::after{content:none!important;display:none!important}
+html body #local .vh::before{content:"PROTOCOLO DE RECONOCIMIENTO"!important}
+
+/* — listas de pasos y preguntas — */
+html body .stp li::before,html body #operaciones .stp li::before,html body #como-comprar .stp li::before{content:none!important;display:none!important}
+html body .stp li,html body #como-comprar .stp li,html body #operaciones .stp li{grid-template-columns:minmax(0,1fr)!important}
+html body #preguntas .fa summary::before{content:none!important;display:none!important}
+html body #preguntas .fa summary{grid-template-columns:minmax(0,1fr) auto!important}
+html body #preguntas .fa details[open]>:not(summary){padding-inline:8px 16px!important}
+html body #guia .gd summary::before{content:none!important;display:none!important}
+html body #guia .gd details>:not(summary){padding-left:8px!important}
+html body #contacto .rgl li::before{content:none!important;display:none!important}
+
+/* — Modelos: tablero sin columna de número — */
+html body #mdl a::before{content:none!important;display:none!important}
+html body #modelos{--mc:minmax(0,1fr) 54px clamp(76px,7vw,92px) 42px}
+html body #mdl b{grid-column:1!important}
+html body #mdl small .mc-a{grid-column:2!important}
+html body #mdl small .mc-k{grid-column:3!important}
+html body #mdl small .mc-f{grid-column:4!important}
+html body #modelos .mdcols span:nth-child(n+2){text-align:right}
+@media(max-width:699px){
+ html body #mdl a{grid-template-columns:minmax(0,1fr)!important}
+ html body #mdl b,html body #mdl small{grid-column:1!important}
+}
+
+/* — nosotros, recorrido, carruseles y reseñas: sin puntos ni contadores — */
+html body #nosotros .nc{display:none!important}
+html body .vnw,html body #rn,html body .vt button i,html body .vt button em{display:none!important}
+html body .g-c,html body .g-s{display:none!important}
+html body .rv45c,html body .rv45,html body .rv45t{display:none!important}
+
+/* — HUD de sección: queda el nombre, sin «01/13» — */
+html body .cl b span{display:none!important}
+
+/* — Hero: la pasada de vehículos se ve — */
+html body main>.hero.hx .hx-copy{background:linear-gradient(90deg,rgba(1,20,59,.88) 0%,rgba(1,20,59,.72) 55%,rgba(1,20,59,.26) 88%,rgba(1,20,59,0) 100%)!important}
+html body main>.hero.hx .hx-pn::after{opacity:.3}
+html body main>.hero.hx .hx-trk{animation-duration:60s}
+html body main>.hero.hx .hx-copy :is(.hx-h1,.hx-lead,.hx-foot){text-shadow:0 2px 16px rgba(1,20,59,.9),0 1px 3px rgba(1,20,59,.8)}
+@media(max-width:899px){html body main>.hero.hx .hx-copy{background:rgba(1,20,59,.62)!important}}
+
+/* — Legibilidad — */
+html body #entregas .ec{color:var(--ink)!important;font-size:13px!important;letter-spacing:.1em!important}
+html body #hero .hx-reel figcaption{font-size:12px!important;letter-spacing:.08em!important}
+html body #hero .hx-proof::before{font-size:11px!important}
+html body #local .vi .vfoto,html body #local #rqh .origin-mark{font-size:12px!important;color:#fff!important}
+html body #local .vh::before,html body #opiniones .rvh::before,html body #operaciones .fm::before,html body #visita #visitaForm::before{font-size:12px!important}
+html body #unidades .car::before,html body #operaciones .oc::before{content:none!important;display:none!important}

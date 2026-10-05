@@ -1,0 +1,9 @@
+CHITA · v49 · sin numeración + hero abierto (3 archivos, misma ruta que en el repo; reemplazar)
+  index.html          (se quitan data-n del menú, E·00, E·13, <em>01..04</em> de los pasos del recorrido y las 45 casillas de reseñas)
+  css/identidad.css   (bloque v49 al final: apaga todos los contadores/códigos y rearma las grillas que los usaban)
+  js/identidad.js     (sin numeral gigante por sección, sin «01/13» en el rótulo fijo, sin números en Nosotros,
+                       y la pasada del hero ya NO acelera con el scroll)
+Hero: velocidad 95 s -> 60 s por vuelta; panel de texto con degradado (antes bloque macizo); velo de fotos .8 -> .3.
+Legibilidad: el contador «13 entregas…» era blanco sobre blanco; ahora tinta. Rótulos mínimos de 10-11 px -> 12-13 px.
+Volver atrás: borrar el bloque v49 y restaurar los 3 archivos desde git.
+No tocado: calendario de reserva.html (los números del calendario son datos) y la carpeta chita-cambios/ (parche viejo).
