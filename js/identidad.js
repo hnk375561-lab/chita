@@ -137,3 +137,40 @@ function upd(){raf=0;if(!h.classList.contains("dsp"))return;
 function q(){if(!raf)raf=requestAnimationFrame(upd)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",fit);fit();
 })();
+
+/* CHITA · v28 — Quiénes somos: las tres columnas rojas del frente son las pestañas (Usados, Permutas, Consignaciones).
+   No agrega datos: reutiliza los tres textos ya publicados. Medidas [x, y, ancho, alto, y del rótulo] en % de la foto 900×581 (columnas reales: centro y las dos de la derecha). */
+(function(){
+var d=document,s=d.getElementById("nosotros"),ph=d.getElementById("nph"),pl=s&&s.querySelector(".pl");
+if(!s||!ph||!pl)return;
+var rows=[].slice.call(pl.children);if(rows.length!==3)return;
+var Z=[[35.56,36.32,2.56,27.54,36.32],[85,33.74,2.67,49.74,33.74],[94.56,36.32,2.11,30.64,52]],
+ lit=d.createElement("span"),btns=[],chips=[],cap=null,cur=-1,tm=0;
+lit.className="nz";lit.setAttribute("aria-hidden","true");ph.appendChild(lit);
+function mouse(e){return !e.pointerType||e.pointerType==="mouse"}
+function go(i){clearTimeout(tm);if(i===cur)return;cur=i;
+ rows.forEach(function(r,k){r.classList.toggle("on",k===i);btns[k].setAttribute("aria-expanded",String(k===i));chips[k].classList.toggle("on",k===i)});
+ if(cap){cap.firstChild.textContent=btns[i].querySelector("b").textContent;cap.lastChild.textContent=rows[i].querySelector(".nq").textContent}
+ var z=Z[i];lit.style.left=z[0]+"%";lit.style.top=z[1]+"%";lit.style.width=z[2]+"%";lit.style.height=z[3]+"%"}
+function intent(i,e){if(!mouse(e))return;clearTimeout(tm);tm=setTimeout(function(){go(i)},90)}
+for(var i=0;i<3;i++)(function(i){
+ var r=rows[i],b=r.querySelector("b"),p=r.querySelector("span");if(!b||!p)return;
+ var bt=d.createElement("button"),w=d.createElement("span"),n=d.createElement("i"),c=d.createElement("span");
+ n.setAttribute("aria-hidden","true");n.textContent="0"+(i+1);
+ bt.type="button";bt.className="nb";bt.id="nsb"+i;bt.setAttribute("aria-expanded","false");bt.setAttribute("aria-controls","nsp"+i);
+ bt.appendChild(n);bt.appendChild(b);
+ w.className="np";w.id="nsp"+i;w.setAttribute("role","region");w.setAttribute("aria-labelledby",bt.id);
+ p.className="nq";r.insertBefore(bt,r.firstChild);r.insertBefore(w,p);w.appendChild(p);
+ c.className="nc";c.setAttribute("aria-hidden","true");c.textContent="0"+(i+1);
+ c.style.left=(Z[i][0]+Z[i][2]/2)+"%";c.style.top=Z[i][4]+"%";ph.appendChild(c);
+ btns[i]=bt;chips[i]=c;
+ bt.addEventListener("click",function(){go(i)});
+ r.addEventListener("pointerenter",function(e){intent(i,e)});
+ c.addEventListener("pointerenter",function(e){intent(i,e)});
+ c.addEventListener("click",function(){go(i)});
+})(i);
+if(btns.length!==3||chips.length!==3)return;
+/* en móvil el texto de la pestaña queda lejos de la foto: una leyenda bajo la foto muestra la columna activa */
+cap=d.createElement("p");cap.className="ncap";cap.setAttribute("aria-hidden","true");cap.appendChild(d.createElement("b"));cap.appendChild(d.createElement("span"));ph.parentNode.insertBefore(cap,ph.nextSibling);
+pl.classList.add("nt");ph.classList.add("nz-on");go(0);
+})();
