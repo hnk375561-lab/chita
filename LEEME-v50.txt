@@ -1,0 +1,16 @@
+CHITA · v50 · animación del riel, fondo de Entregas y fotos de entrega en mayor resolución
+Reemplazar / agregar (misma ruta que en el repo):
+  index.html             (riel y grilla de Entregas apuntan a entrega-NN-hd*.webp con srcset; <div class="ent-bg"> nuevo en #entregas)
+  css/identidad.css      (bloque v50 al final)
+  images/entrega-NN-hd.webp (1020x855) y entrega-NN-hd-510.webp (510x428) para NN = 01..12  (24 archivos nuevos)
+Los entrega-NN.webp originales (340x285) quedan sin uso; se pueden borrar.
+
+1) Riel junto al reel: los 3 recuadros entran escalonados (destape izquierda->derecha con el corte de la marca, zoom
+   que asienta y etiqueta que desliza). Solo con movimiento permitido; con prefers-reduced-motion quedan fijos.
+2) Entregas: fondo con los frentes de 9 modelos publicados (portadas assets/w800, fotos propias de Chita) entre columnas
+   rojas, con velo azul. Se recortan los rótulos grabados en las portadas (object-view-box). Aparece con fundido.
+   Para ver más o menos foto: opacidades del degradado en `.ent-bg::after` (.86 / .74 / .88).
+3) Fotos de entrega: super-resolución EDSR x4 (OpenCV) y reducción a 3x. Mejora bordes y quita bloques de compresión;
+   no agrega detalle real. Para calidad real hacen falta los originales de Instagram/Facebook (ver nota abajo).
+No usado a propósito: images/bg/stock-*.webp (2400 px) son fotos de Mercedes/Audi, no autos de Chita.
+Volver atrás: borrar bloque v50, quitar <div class="ent-bg"> y restaurar index.html.

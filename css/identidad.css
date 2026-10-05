@@ -1669,3 +1669,28 @@ html body #hero .hx-proof::before{font-size:11px!important}
 html body #local .vi .vfoto,html body #local #rqh .origin-mark{font-size:12px!important;color:#fff!important}
 html body #local .vh::before,html body #opiniones .rvh::before,html body #operaciones .fm::before,html body #visita #visitaForm::before{font-size:12px!important}
 html body #unidades .car::before,html body #operaciones .oc::before{content:none!important;display:none!important}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v50 · RIEL DEL HERO CON ENTRADA + FONDO DE ENTREGAS CON LOS FRENTES REALES
+   (1) Los tres recuadros junto al reel entran escalonados: la fotografía se destapa de izquierda a derecha con el corte
+       de la marca, y la imagen asienta desde un zoom leve. Solo con movimiento permitido (.m); sin él, quedan fijos.
+   (2) Entregas: detrás de las fotos de entrega van los frentes de los modelos publicados (portadas de assets/, 800 px,
+       fotos propias de Chita) entre columnas rojas, bajo un velo azul de la marca. Se ve la foto y el texto sigue leyéndose.
+   (3) Las 12 fotos de entrega se reescalaron con super-resolución (EDSR x4) a 1020 px: archivos images/entrega-NN-hd.webp.
+   Para volver atrás: borrar este bloque, el <div class="ent-bg"> de index.html y volver a entrega-NN.webp.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@keyframes rail-wipe{from{clip-path:polygon(0 0,0 0,0 10px,0 100%,0 100%);opacity:.2}to{clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);opacity:1}}
+@keyframes rail-zoom{from{transform:scale(1.28)}to{transform:scale(1)}}
+@keyframes rail-tag{from{translate:-100% 0}to{translate:0 0}}
+.hx-rt:nth-child(1){--k:0}.hx-rt:nth-child(2){--k:1}.hx-rt:nth-child(3){--k:2}
+.m .hx-rt{animation:rail-wipe .95s var(--ease) calc(.45s + var(--k,0)*.2s) both}
+.m .hx-rt .hx-rs:first-child img{animation:rail-zoom 1.7s cubic-bezier(.16,1,.3,1) calc(.45s + var(--k,0)*.2s) both}
+.m .hx-rt .hx-rs:first-child i{animation:rail-tag .6s var(--ease) calc(1.05s + var(--k,0)*.2s) both}
+
+html body #entregas .ent-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr;background:var(--chapa)}
+html body #entregas .ent-bg img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%;object-view-box:inset(19% 0 20% 0);filter:grayscale(.3) contrast(1.04)}
+html body #entregas .ent-bg::before{content:"";position:absolute;inset:0;z-index:2;background:repeating-linear-gradient(90deg,var(--rojo) 0 8px,transparent 8px 25%)}
+html body #entregas .ent-bg::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,44,140,.86) 0%,rgba(10,44,140,.74) 40%,rgba(7,28,94,.88) 100%)}
+@media(max-width:899px){html body #entregas .ent-bg{grid-template-columns:repeat(2,minmax(0,1fr))}html body #entregas .ent-bg::before{background:repeating-linear-gradient(90deg,var(--rojo) 0 6px,transparent 6px 50%)}}
+.m #entregas .ent-bg{opacity:0;transition:opacity 1.4s var(--ease)}
+.m #entregas.in .ent-bg{opacity:1}
