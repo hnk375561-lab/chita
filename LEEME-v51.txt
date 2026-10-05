@@ -1,0 +1,12 @@
+CHITA · v51 · fotos de las fichas de Unidades centradas en el auto
+Reemplazar (misma ruta que en el repo):
+  css/identidad.css   (bloque "v51 · encuadre", dentro de la sección "3 · Unidades")
+
+Qué cambia: cada foto de cada ficha (portada y galería) tiene su propio encuadre vertical (object-position),
+calculado a partir de dónde está el auto en esa foto. Antes todas usaban 50% y varias portadas 0%/100% fijo,
+y por eso el auto quedaba pegado arriba o cortado abajo.
+- El centro se calcula sobre la zona visible de la tarjeta (el rótulo con el nombre tapa el borde inferior).
+- Los carteles impresos en las portadas (nombre/año/km) quedan fuera del recorte.
+- Fotos de interior y las horizontales de la Tracker 1.2T no se tocan (siguen centradas / enteras).
+Si se agrega una foto nueva, añadir su regla al bloque (mismo formato: [src$="w800/N.webp"]).
+Volver atrás: restaurar css/identidad.css anterior.

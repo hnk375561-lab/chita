@@ -1,0 +1,19 @@
+CHITA · v52 · Índice de unidades: texto mínimo a la izquierda, fotos grandes a la derecha
+Reemplazar (misma ruta que en el repo):
+  index.html          (script del bloque #modelos: visor con TODAS las fotos, contador "Foto N de M", clic/teclado/hover, precarga en alta, aria-current)
+  css/identidad.css   (bloque "v52" al final; incluye lo de v51)
+
+Qué cambia (escritorio, >= 900 px):
+- Encabezado "Índice de unidades publicadas" y filas de la lista mucho más chicos; la lista ocupa ~25% del ancho.
+- La foto se muestra ENTERA, sin recortar y con su proporción real (portada 4:5 con el cartel de año/km; horizontales
+  de la Tracker 1.2T a ancho completo). Tamaño según la altura de la pantalla: ~630x790 px en 1600x900 (antes 558x540 recortada),
+  hasta 752x940 en pantallas grandes.
+- Junto a la foto: nombre, año · km · combustible, nota y botón "Ver ficha completa".
+- Todas las fotos de la unidad como miniaturas (antes solo 5); se cambia con hover, clic o teclado. Cada foto lleva su
+  texto alternativo "Modelo, foto N de M".
+- Pantallas de 900 a 1279 px: la ficha y las miniaturas pasan debajo de la foto.
+- Móvil (< 900 px): sin cambios.
+
+Calidad: las fotos fuente son de 800x1000 px (es el máximo que hay en el repo; no se agregó resolución artificial).
+Para mejorarlas de verdad hacen falta los originales (Instagram/Facebook o cámara).
+Volver atrás: restaurar index.html y css/identidad.css anteriores.
