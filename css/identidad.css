@@ -1446,3 +1446,46 @@ html body main>.hero.hx .hx-trk{animation-duration:95s}
  html body .hx-rail{grid-column:1/-1;order:3;flex-direction:row;height:clamp(96px,22vw,170px);padding:14px 0 22px;box-sizing:content-box}
 }
 @media(max-width:899px){html body .hx-rail{padding:14px 20px 22px;gap:8px}}
+
+/* CHITA · pulido pre-producción (05/10/2026): solo contraste y recortes, sin cambios de diseño */
+:root{--rojo-claro:#EE4B55}
+/* P2-01 · comparador sobre papel: texto tinta, no blanco */
+html body #versus .vq,html body #versus .vq p{color:var(--ink)}
+html body #versus .vq span{color:rgba(10,16,32,.72)}
+html body #versus .vq{border-top-color:rgba(10,16,32,.35)}
+/* P2-02 · rojo de texto sobre fondos oscuros (≥4,5:1) */
+html body :is(#contacto,#guia) :is(.ey,.pde,.xk),html body #modelos .ey,html body :is(#contacto,#local) #rqh .origin-mark,html body #modelos .mc-state{color:var(--rojo-claro)!important}
+html body #modelos .mc-state{font-size:11px}
+html body :is(#contacto,#local) #rqh .origin-mark{font-size:11px}
+/* P2-03 · botones rojos: texto blanco */
+html body :is(#modelos,#entregas) a.btn.p{color:#fff}
+/* P2-04 · etiquetas sobre la foto del local */
+html body #local .vpn b{color:#fff}
+/* P2-05 · enlaces de acción del talón */
+html body :is(#nosotros .svc-action,#como-comprar .step-action){color:#A00F1A;font-size:11px}
+/* P1-04 · hero móvil: la prueba social baja de renglón en vez de cortarse */
+@media(max-width:899px){html body #hero .hx-proof{max-width:100%;box-sizing:border-box;flex-wrap:wrap}html body #hero .hx-proof span{min-width:0;white-space:normal;overflow-wrap:anywhere}}
+/* P1-05 · botón de Maps dentro del viewport */
+html body #contacto a.mpl{right:12px;left:auto;max-width:calc(100% - 24px)}
+/* P1-07 · talón de compra en móvil: el texto respeta el margen derecho */
+@media(max-width:899px){html body #como-comprar .ccA>*{min-width:0;overflow-wrap:anywhere}}
+/* P3-02 · "1 foto" en singular */
+@media(max-width:899px){html body #mdl small .mc-f.un::after{content:" foto"}}
+/* P3-01 · índice de unidades (escritorio): el nombre rompe entre palabras, nunca dentro de ellas */
+@media(min-width:900px){
+ html body #mdl b{overflow-wrap:normal;word-break:normal;hyphens:none;grid-row:1}
+ html body #mdl small span{grid-row:1}
+ html body #mdl small .mc-state{grid-column:2;grid-row:2;align-self:start;text-align:left;font-size:11px;margin-top:6px}
+}
+/* P3-05 · Coordiná tu visita (escritorio): el formulario no pisa el borde del video */
+@media(min-width:900px){html body #visita .vvid{margin-left:calc(clamp(18px,3vw,48px) + 34px)!important}}
+/* Ronda 4 · contraste: bloque real del comparador (.vdx), rojo claro en #local y E·00, estado activo del índice */
+html body #versus .vdx,html body #versus .vdx p{color:var(--ink)}
+html body #local :is(.ey,.pde,.xk),html body #reel figcaption b{color:var(--rojo-claro)!important}
+html body #modelos .mdl a:is(:hover,:focus-visible,.act) .mc-state{color:#fff!important}
+/* Ronda 5 · tamaño mínimo 11 px en etiquetas y textos informativos (P2-07), solo donde estaba por debajo */
+html body :is(#unidades span.chita-state,#unidades p.tg.series-note,#local small.vfoto,#como-comprar small.stp-seal,#guia p.gquestions,#preguntas a.faq-route,#preguntas p.e13-preview,#opiniones .rv45>i,#financiacion .cup>i,#financiacion small,#financiacion i.cup-d,#financiacion .cup-d>small,#financiacion .fin-ticket>label,#financiacion label.fin-used,#financiacion .fin-ticket>small,#visita .vvid>figcaption){font-size:11px!important}
+@media(max-width:899px){html body :is(#entregas b.sl,#unidades button.fm-chip,#guia button.gprint,#visita .ck>span){font-size:11px!important}}
+/* Ronda 7 · foco visible por teclado en controles que solo cambiaban de color u opacidad */
+html body :is(#nosotros .svc-action,#como-comprar .step-action):focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+html body .mdf .mdb:focus-visible{opacity:1;outline:2px solid #fff;outline-offset:-4px;box-shadow:inset 0 -4px 0 var(--rojo)}
