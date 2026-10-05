@@ -31,7 +31,7 @@ html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) :is(.pdl,.xb) :
 /* 4 · Guía general: 4 pasos en orden, planilla a la izquierda, pasos a la derecha */
 html body #guia#guia#guia .pdl::after{content:none!important}
 html body #guia#guia#guia .gcount::before{content:none!important}
-html body #guia#guia#guia .gd summary::before{content:"Paso " counter(g)!important;letter-spacing:.1em!important;white-space:nowrap}
+html body #guia#guia#guia .gd summary::before{content:"Paso " counter(g)!important;display:inline-block!important;flex:none;padding:.5em .9em .5em .7em;background:var(--rojo);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.1em!important;text-transform:uppercase;white-space:nowrap}
 html body #guia#guia#guia .gd summary>span{display:block;min-width:0}
 html body #guia#guia#guia .gd summary small{display:block;margin-top:6px;font:500 14px/1.3 var(--font-body,inherit);letter-spacing:0;text-transform:none;opacity:.78}
 html body #guia#guia#guia .gd details{transform:none!important}
@@ -48,3 +48,17 @@ html body #guia#guia#guia .w>.pdr{grid-column:1;grid-row:5;margin:16px 0 0!impor
 html body #guia#guia#guia .w>.xb{grid-column:1/-1;grid-row:6}
 }
 @media(prefers-reduced-motion:reduce){html body #guia#guia#guia .gd details{transition:none}}
+
+/* Planilla: sin viñetas sueltas y casillas visibles */
+html body #guia#guia#guia .gd li{list-style:none!important;margin-left:0!important}
+html body #guia#guia#guia .gd ul{padding-left:clamp(16px,2vw,28px)!important;margin-left:0!important}
+html body #guia#guia#guia .gcheck input{border-color:#fff!important;background:rgba(255,255,255,.08)!important}
+html body #guia#guia#guia .gcheck input:checked{background:var(--rojo)!important;border-color:var(--rojo)!important}
+html body #guia#guia#guia .gcheck input{width:22px!important;height:22px!important;min-width:22px;align-self:flex-start;flex:none}
+html body #guia#guia#guia .gcheck input{min-height:22px!important;padding:0!important;box-sizing:border-box}
+html body #visita#visita#visita .xt .xl em,html body #visita#visita#visita .xt .xl em *{color:#0b1220!important;-webkit-text-fill-color:#0b1220!important;opacity:1!important}
+/* Titulares siempre legibles (sin palabras apagadas por el scroll) */
+html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl,html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl :not(em):not(em *){color:#fff!important;-webkit-text-fill-color:#fff!important;opacity:1!important;-webkit-mask-image:none!important;mask-image:none!important}
+html body #visita#visita#visita .xt .xl em,html body #visita#visita#visita .xt .xl em *{color:#0b1220!important;-webkit-text-fill-color:#0b1220!important;opacity:1!important}
+html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl,html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl *{clip-path:none!important;overflow:visible!important}
+html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl *{font-weight:800!important;font-variation-settings:normal!important;font-size:inherit!important;letter-spacing:inherit!important;transform:none!important}
