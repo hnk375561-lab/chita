@@ -192,3 +192,10 @@ items.forEach(function(li,i){var text=li.textContent.trim(),label=d.createElemen
 function update(){var done=items.filter(function(li){return li.querySelector("input").checked}).length;count.textContent=done+" de "+total+" revisados";s.dataset.checked=String(done)}
 d.getElementById("guiaPrint").addEventListener("click",function(){window.print()});update();
 })();
+
+/* CHITA · RESEÑAS · cada casilla es un recuento, no un testimonio.
+   El texto identifica la posición en Google sin reproducir opiniones no autorizadas. */
+(function(){
+var tiles=[].slice.call(document.querySelectorAll("#opiniones .rv45 i"));if(!tiles.length)return;
+tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles.length;tile.title=tile.dataset.review+" · Leela en Google";});
+})();
