@@ -1808,3 +1808,45 @@ html body #unidades #stockGrid .car-cta:is(:hover,:focus-visible){background:var
 html body #unidades #stockGrid .car-cta:focus-visible{outline:3px solid var(--rojo);outline-offset:3px}
 @media(max-width:1180px){html body #unidades #stockGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:700px){html body #unidades #stockGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}}
+
+/* ===== v52 · Modelos: texto mínimo a la izquierda, la foto manda a la derecha ===== */
+@media(min-width:900px){
+ html body #modelos{--mh:clamp(520px,calc(100svh - 108px),940px);--mc:minmax(0,1fr) 44px 62px 34px;--mg:8px}
+ html body #modelos.modelos-panel{padding-block:clamp(32px,3.4vw,52px)!important}
+ html body #modelos .w{width:min(100% - 56px,1560px)!important}
+ /* encabezado compacto */
+ html body #modelos .mdh{margin-bottom:clamp(12px,1.4vw,20px)!important}
+ html body #modelos .mdh .ey{margin-bottom:6px;font-size:11px}
+ html body #modelos .mdh h2{font-size:clamp(22px,2vw,30px)!important;line-height:1.05!important;margin:0 0 4px!important;hyphens:none!important;word-break:normal!important}
+ html body #modelos .mdh .sub{font-size:13px!important;line-height:1.35;margin:0!important}
+ /* columnas: lista angosta + visor */
+ html body #modelos .mdg{grid-template-columns:clamp(330px,25vw,400px) minmax(0,1fr)!important;gap:clamp(24px,2.6vw,44px)!important;align-items:start}
+ html body #modelos .mdcols{font-size:9.5px;padding-bottom:6px}
+ html body #mdl a{padding:9px 10px!important}
+ html body #mdl b{font-size:clamp(13px,1.02vw,15px)!important;line-height:1.1!important}
+ html body #mdl small span{font-size:clamp(12px,.92vw,14px)!important}
+ html body #modelos .mc-state{font-size:9px!important;margin-top:3px;letter-spacing:.06em}
+ /* visor */
+ html body #modelos .mdf{position:sticky!important;top:58px!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;display:block}
+ html body #modelos .mdf .mdp.on{display:grid!important;position:relative!important;overflow:visible!important;
+  grid-template-columns:minmax(0,calc(var(--mh)*.8)) minmax(240px,1fr);grid-template-rows:auto 1fr;column-gap:clamp(18px,2vw,32px);align-items:start}
+ html body #modelos .mdf .mdp>img{grid-area:1/1/3/2;width:100%!important;height:auto!important;aspect-ratio:auto!important;max-height:none!important;min-height:0!important;
+  object-fit:contain!important;object-position:50% 50%!important;border:0!important;border-left:8px solid var(--rojo)!important;background:#0d1626!important;--c:34px}
+ html body #modelos .mdf .mdn{grid-area:1/1;z-index:5;align-self:start;justify-self:start;margin:14px 0 0 22px;padding:6px 14px 6px 10px;background:var(--ink);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+ html body #modelos .mdf .mdpt{grid-area:1/2;max-width:none!important;padding:0 0 16px!important;margin:0!important;gap:6px}
+ html body #modelos .mdf .mdpt b{font-size:clamp(18px,1.5vw,24px)!important;line-height:1.05!important}
+ html body #modelos .mdf .mdpt span{font-size:12px!important}
+ html body #modelos .mdf .mdpt p{font-size:14px!important;line-height:1.45;max-width:46ch;color:var(--plata)!important}
+ html body #modelos .mdf .mdth{grid-area:2/2;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px;margin:0!important;padding:0!important;align-content:start;flex-wrap:nowrap}
+ html body #modelos .mdf .mdb{width:100%!important;height:auto!important;aspect-ratio:4/5;padding:0;opacity:.62;box-shadow:none!important;cursor:pointer}
+ html body #modelos .mdf .mdb img{width:100%!important;height:100%!important;object-fit:cover}
+ html body #modelos .mdf .mdb:is(.on,:hover,:focus-visible){opacity:1;outline:3px solid var(--rojo);outline-offset:-3px}
+}
+/* pantallas medianas: la ficha pasa debajo de la foto */
+@media(min-width:900px) and (max-width:1279px){
+ html body #modelos .mdf .mdp.on{grid-template-columns:minmax(0,calc(var(--mh)*.8));grid-template-rows:auto auto auto;row-gap:12px}
+ html body #modelos .mdf .mdp>img{grid-area:1/1}
+ html body #modelos .mdf .mdpt{grid-area:2/1}
+ html body #modelos .mdf .mdth{grid-area:3/1;grid-template-columns:repeat(auto-fill,minmax(64px,1fr))}
+ html body #modelos .mdf{--mh:clamp(420px,calc(100svh - 260px),800px)}
+}
