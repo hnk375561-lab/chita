@@ -43,3 +43,9 @@ body{font-family:"Instrument Sans",system-ui,sans-serif}
 
 /* Alias explícito del display del sitio para evitar fallback tipográfico en Viaje. */
 @font-face{font-family:"Bricolage Grotesque";src:url('../fonts/bricolage-grotesque-latin.woff2') format('woff2');font-weight:100 900;font-display:swap}
+
+/* Cierre v29 · escenas con material real ya verificado en el repositorio. */
+.scene--city .scene-photo{background-image:url('../images/local-frente.webp');background-position:center;background-size:cover}
+.scene--road .scene-photo{background-image:url('../images/local-calle.webp');background-position:center;background-size:cover}
+.scene--destination .scene-photo{background-image:url('../images/entrega-12.webp');background-position:center;background-size:cover}
+.scene-photo{background-repeat:no-repeat}

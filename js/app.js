@@ -84,9 +84,9 @@ function fimgs(c,f){return f.map(function(s,k){return '<img src="'+esc(s)+'" src
 /* Carril de km (v19): cada unidad es una pista; la barra es su kilometraje frente al máximo de la flota publicada */
 function kmN(c){return parseInt(String(c.km==null?"":c.km).replace(/\D/g,""),10)||0}
 function kl(c){var k=kmN(c),mx=Math.max.apply(null,STOCK.map(kmN));if(!mx)return"";
-if(!k)return'<div class="kl nd"><span class="kl-t">Kilometraje</span><span class="kl-r" aria-hidden="true"></span><span class="kl-n">Se completa con la agencia</span></div>';
+if(!k)return'<div class="kl nd"><span class="kl-t">La Regla · kilometraje</span><span class="kl-r" aria-hidden="true"></span><span class="kl-n">Se completa con la agencia</span></div>';
 var p=Math.max(2,Math.round(k/mx*100));
-return'<div class="kl" role="img" aria-label="'+esc(c.km)+'. La unidad con más km de las '+STOCK.length+' publicadas tiene '+mx.toLocaleString("es-AR")+' km."><span class="kl-t">Km frente a la flota</span><span class="kl-r" aria-hidden="true"><i data-p="'+p+'"></i></span><span class="kl-n"><b data-k="'+k+'">'+k.toLocaleString("es-AR")+'</b> km<small> · tope de la flota: '+mx.toLocaleString("es-AR")+' km</small></span></div>'}
+return'<div class="kl" role="img" aria-label="'+esc(c.km)+'. La unidad con más km de las '+STOCK.length+' publicadas tiene '+mx.toLocaleString("es-AR")+' km."><span class="kl-t">La Regla · km frente a la flota</span><span class="kl-r" aria-hidden="true"><i data-p="'+p+'"></i></span><span class="kl-n"><b data-k="'+k+'">'+k.toLocaleString("es-AR")+'</b> km<small> · tope de la flota: '+mx.toLocaleString("es-AR")+' km</small></span></div>'}
 function klGo(root){var l=root.querySelector(".kl:not(.nd)");if(!l)return;var i=l.querySelector("i"),b=l.querySelector("b"),k=+b.getAttribute("data-k"),p=i.getAttribute("data-p")+"%";
 if(matchMedia("(prefers-reduced-motion:reduce)").matches){i.style.width=p;return}
 var t0=0,D=900;requestAnimationFrame(function(){i.style.width=p});
@@ -98,7 +98,7 @@ D.innerHTML='<button class="fcx" type="button" data-x aria-label="Cerrar ficha">
 '<div class="fc"><div class="fcg" data-gal><div class="fcs">'+(f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+fimgs(c,f)+'</div></div>'+(multi?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos: consultar</span>')+'</div>'+
 (multi?'<div class="g-t" role="group" aria-label="Miniaturas de fotos">'+fthumbs(c,f)+'</div>':'')+BRAND+'</div>'+
 '<div class="fci"><div class="fcb"><div class="fcu"><button type="button" data-n="'+(i-1)+'" data-k="p" aria-label="Unidad anterior">← Anterior</button><span>Unidad '+(i+1)+' de '+n+'</span><button type="button" data-n="'+(i+1)+'" data-k="s" aria-label="Unidad siguiente">Siguiente →</button></div>'+
-'<h3 class="fch">'+esc(c.titulo)+'</h3>'+est(c)+
+'<h3 class="fch" data-remito="Remito U·'+String(i+1).padStart(2,"0")+'">'+esc(c.titulo)+'</h3>'+est(c)+
 '<dl class="fcd"><div><dt>Año</dt><dd>'+esc(c.anio||"—")+'</dd></div><div><dt>Km</dt>'+(c.km?'<dd>'+esc(c.km)+'</dd>':'<dd class="bl">Se completa con la agencia</dd>')+'</div><div><dt>Combustible</dt><dd>'+esc(c.combustible||"—")+'</dd></div><div><dt>Precio</dt><dd>'+esc(c.precio||"Consultar")+'</dd></div>'+ext(c)+'</dl>'+kl(c)+eqm(c)+
 (c.nota?'<p class="fcn">'+esc(c.nota)+'</p>':'')+
 '<p class="fcn s">Confirmá precio, disponibilidad y estado con nosotros antes de decidir.</p>'+

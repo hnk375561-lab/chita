@@ -36,3 +36,8 @@
 .scene--confirm .confirm-actions .primary,.scene--confirm .confirm-actions .secondary{clip-path:var(--cut);--c:12px}
 @media(max-width:760px){.scene--month::before{display:none}.calendar-shell{margin-top:clamp(34px,7vh,62px);padding:18px 12px;box-shadow:7px 7px 0 rgba(10,16,32,.28)}.calendar-shell::before{left:14px;right:14px}.calendar-head{grid-template-columns:40px 1fr 40px}.day-cell{min-height:58px;padding:6px}.day-cell span{font-size:24px}}
 @media(prefers-reduced-motion:reduce){.calendar-shell{box-shadow:4px 4px 0 rgba(10,16,32,.28)}}
+
+/* Cierre v33 · la hoja del día conserva el gesto físico del almanaque de taco. */
+.scene--day::after{content:"";position:absolute;z-index:0;top:18px;right:var(--pad);width:min(260px,34vw);height:14px;background:radial-gradient(circle at 7px 7px,var(--red) 0 3px,transparent 3.5px) 0 0/28px 14px repeat-x;opacity:.8;pointer-events:none}
+.scene--day .day-copy,.scene--day .giant-day,.scene--day .next-step{z-index:1}
+@media(max-width:760px){.scene--day::after{right:var(--pad);width:150px}}

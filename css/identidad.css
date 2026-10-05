@@ -1183,3 +1183,17 @@ html body #guia .gd details li:has(input:checked) span{text-decoration:line-thro
 
 /* CHITA v35 · FOOTER: wordmark plano en vez del logo circular metálico. */
 html body footer .lg img{width:min(360px,100%);height:auto;filter:brightness(0) invert(1);}
+
+/* CHITA v36 · CÓMO COMPRAR: cada paso queda identificado como un sello del remito.
+   No agrega datos: solo transforma la secuencia existente en ELEGIDO → ENTREGADO. */
+html body #como-comprar .stp-seal{display:inline-flex!important;align-items:center;min-height:24px;margin:0 0 10px;padding:5px 10px 5px 8px;background:var(--rojo);color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.16em;clip-path:var(--cut-sm);transition:transform .35s var(--ease),background .25s var(--ease)}
+html body #como-comprar .stp li:hover .stp-seal,html body #como-comprar .stp li:focus-within .stp-seal{transform:translateX(8px) rotate(-2deg);background:var(--ink)}
+@media(prefers-reduced-motion:reduce){html body #como-comprar .stp-seal{transition:none}}
+
+/* CHITA v37 · FICHA: remito numerado y foto a sangre con entrada por CORTE.
+   El número sigue el orden real de STOCK (U·01, U·02…); no inventa una numeración comercial. */
+@keyframes ficha-corte{from{clip-path:polygon(0 0,0 0,0 100%,0 100%)}to{clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}}
+html body #dlg .fch::before{content:attr(data-remito)!important}
+html body #dlg .fcs .ct img{object-fit:cover!important;object-position:50% 50%!important}
+html body #dlg[open] .fcs .ctk{animation:ficha-corte .65s var(--ease) both}
+@media(prefers-reduced-motion:reduce){html body #dlg[open] .fcs .ctk{animation:none}}

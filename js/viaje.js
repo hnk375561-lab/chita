@@ -9,7 +9,7 @@ const CONFIG = {
     { id: "destination", title: "DESTINO", range: [.67, 1] }
   ],
   units: [
-    ["Renault Clio Dynamique 1.2N", 2016, "123.000 km", "city", "compacto"], ["Chevrolet Tracker Premier 1.8N", 2018, "98.000 km", "road", "SUV"], ["Fiat Palio Attractive 1.4N", 2017, "128.000 km", "city", "compacto"], ["Kia K3 EX Cross 1.6N", 2025, "11.400 km", "road", "crossover"], ["Renault Kangoo Comfort 1.6N", 2022, "87.000 km", "destination", "utilitario"], ["Renault Kangoo Authentique 1.6N", 2018, "108.000 km", "destination", "utilitario"], ["Peugeot 301 Allure 1.6 HDI", 2018, "119.000 km", "road", "sedán"], ["Peugeot Partner Patagónica 1.4N", 2014, "112.000 km", "destination", "utilitario"]
+    ["Renault Clio Dynamique 1.2N", 2016, "123.000 km", "city", "compacto"], ["Chevrolet Tracker Premier 1.8N", 2018, "98.000 km", "road", "SUV"], ["Kia K3 EX Cross 1.6N", 2025, "11.400 km", "road", "crossover"], ["Renault Kangoo Comfort 1.6N", 2022, "87.000 km", "destination", "utilitario"], ["Renault Kangoo Authentique 1.6N", 2018, "108.000 km", "destination", "utilitario"], ["Peugeot 301 Allure 1.6 HDI", 2018, "119.000 km", "road", "sedán"], ["Peugeot Partner Patagónica 1.4N", 2014, "112.000 km", "destination", "utilitario"]
   ].map(([name, year, km, scene, criterion]) => ({ name, year, km, scene, criterion }))
 };
 
