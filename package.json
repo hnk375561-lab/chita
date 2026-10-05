@@ -9,13 +9,16 @@
     "prerender": "node scripts/prerender.mjs",
     "images": "node scripts/make-images.mjs",
     "audit": "node scripts/audit-copy.mjs",
-    "rebrand": "node scripts/rebrand.mjs"
+    "rebrand": "node scripts/rebrand.mjs",
+    "check:all": "node scripts/check-all.mjs",
+    "check:mobile": "node scripts/check-all.mjs --mobile",
+    "check:desktop": "node scripts/check-all.mjs --desktop"
   },
   "devDependencies": {
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "playwright": "^1.48.0"
   },
   "engines": {
     "node": ">=20"
   }
 }
- 
