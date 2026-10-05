@@ -307,26 +307,28 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   [].slice.call(d.querySelectorAll("#preguntas .fa details")).forEach(function(det){if(det.querySelector(".faq-route"))return;var text=(det.querySelector("summary")||{}).textContent||"",r=routes.find(function(x){return x[0].test(text.toLowerCase())});if(!r)return;var a=d.createElement("a");a.className="faq-route";a.href=r[1];a.textContent=r[2]+" ↗";var p=det.querySelector("p");if(p)p.appendChild(d.createTextNode(" "));(p||det).appendChild(a)})
 })();
 
-/* CHITA · v38 · Visita: almanaque de taco. Escribe el día (y la franja) en «Día y horario»; el pase y el mensaje de WhatsApp lo leen de ahí. Sin JS queda el campo de texto. No es una reserva: confirmamos por WhatsApp. */
+/* CHITA · v56 · Visita: calendario propio (clases vc-*). Escribe el día (y la franja) en «Cuándo te queda cómodo»; el resumen y el mensaje de WhatsApp lo leen de ahí. Sin JS queda el campo de texto. No es una reserva: confirmamos por WhatsApp. */
 (function(){
 var f=document.getElementById("visitaForm");if(!f||!f.cuando)return;var inp=f.cuando,lab=inp.closest("label");if(!lab)return;
 var M=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],SL=["Mañana","Tarde"],t=new Date(),T=new Date(t.getFullYear(),t.getMonth(),t.getDate());
 var st={m:new Date(T.getFullYear(),T.getMonth(),1),d:null,s:""};
-var box=document.createElement("div");box.className="alm";box.setAttribute("role","group");box.setAttribute("aria-label","Almanaque: elegí un día (opcional)");lab.parentNode.insertBefore(box,lab);
+var box=document.createElement("div");box.className="vc";box.setAttribute("role","group");box.setAttribute("aria-label","Calendario: elegí un día (opcional)");lab.parentNode.insertBefore(box,lab);
 function fmt(d){return d.toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long"})}
 function sync(){inp.value=st.d?fmt(st.d)+(st.s?", por la "+st.s.toLowerCase():""):"";inp.dispatchEvent(new Event("input",{bubbles:true}))}
 function draw(fk){
 var y=st.m.getFullYear(),mo=st.m.getMonth(),n=new Date(y,mo+1,0).getDate(),lead=(new Date(y,mo,1).getDay()+6)%7,cur=y===T.getFullYear()&&mo===T.getMonth(),h="";
-h+='<div class="alm-h"><button type="button" class="alm-n" data-nav="-1" aria-label="Mes anterior"'+(cur?" disabled":"")+'>←</button><b aria-live="polite">'+M[mo]+" "+y+'</b><button type="button" class="alm-n" data-nav="1" aria-label="Mes siguiente">→</button></div><div class="alm-w" aria-hidden="true"><i>L</i><i>M</i><i>M</i><i>J</i><i>V</i><i>S</i><i>D</i></div><div class="alm-g">';
+h+='<div class="vc-h"><button type="button" class="vc-n" data-nav="-1" aria-label="Mes anterior"'+(cur?" disabled":"")+'>←</button><b aria-live="polite">'+M[mo]+' <i>'+y+'</i></b><button type="button" class="vc-n" data-nav="1" aria-label="Mes siguiente">→</button></div><div class="vc-w" aria-hidden="true"><i>L</i><i>M</i><i>M</i><i>J</i><i>V</i><i>S</i><i>D</i></div><div class="vc-g">';
 for(var i=0;i<lead;i++)h+='<span aria-hidden="true"></span>';
-for(var d=1;d<=n;d++){var dt=new Date(y,mo,d),ok=dt>=T,on=st.d&&st.d.getTime()===dt.getTime();h+='<button type="button" class="alm-d" data-d="'+d+'" aria-pressed="'+(on?"true":"false")+'"'+(ok?"":" disabled")+(dt.getTime()===T.getTime()?' data-hoy="1"':"")+">"+(d<10?"0":"")+d+"</button>"}
-h+='</div><div class="alm-s" role="group" aria-label="Franja (opcional)">'+SL.map(function(s){return'<button type="button" class="alm-f" data-s="'+s+'" aria-pressed="'+(st.s===s?"true":"false")+'"'+(st.d?"":" disabled")+">"+s+"</button>"}).join("")+'</div><p class="alm-m">Te confirmamos día y horario.</p>';
+for(var d=1;d<=n;d++){var dt=new Date(y,mo,d),ok=dt>=T,on=st.d&&st.d.getTime()===dt.getTime();h+='<button type="button" class="vc-d" data-d="'+d+'" aria-label="'+fmt(dt)+'" aria-pressed="'+(on?"true":"false")+'"'+(ok?"":" disabled")+(dt.getTime()===T.getTime()?' data-hoy="1"':"")+">"+d+"</button>"}
+h+='</div><div class="vc-s" role="group" aria-label="Franja del día (opcional)">'+SL.map(function(s){return'<button type="button" class="vc-f" data-s="'+s+'" aria-pressed="'+(st.s===s?"true":"false")+'"'+(st.d?"":" disabled")+"><b>"+s+"</b></button>"}).join("")+'</div><p class="vc-m">'+(st.d?"Te confirmamos el horario exacto por WhatsApp.":"Tocá un día para elegir la franja.")+"</p>";
 box.innerHTML=h;if(fk){var e=box.querySelector(fk);if(e)e.focus()}}
 box.addEventListener("click",function(e){var b=e.target.closest("button");if(!b||b.disabled)return;
 if(b.dataset.nav){st.m=new Date(st.m.getFullYear(),st.m.getMonth()+(+b.dataset.nav),1);draw('[data-nav="'+b.dataset.nav+'"]');return}
 if(b.dataset.d){var d=new Date(st.m.getFullYear(),st.m.getMonth(),+b.dataset.d);if(st.d&&st.d.getTime()===d.getTime()){st.d=null;st.s=""}else{st.d=d}sync();draw('[data-d="'+b.dataset.d+'"]');return}
 if(b.dataset.s){st.s=st.s===b.dataset.s?"":b.dataset.s;sync();draw('[data-s="'+b.dataset.s+'"]')}});
 inp.addEventListener("input",function(e){if(e.isTrusted&&st.d){st.d=null;st.s="";draw()}});
+var vs=document.getElementById("vsU"),cnt=f.querySelector(".vx-count");
+if(vs&&cnt)vs.addEventListener("change",function(){var k=vs.querySelectorAll("input:checked").length;cnt.textContent=k?k+(k===1?" elegida":" elegidas"):"Opcional";cnt.classList.toggle("on",!!k)});
 draw()})();
 
 /* CHITA · v51 — fotos apaisadas con marca, tarjeta final de la grilla de Unidades y sello Entregado en todas las fotos.

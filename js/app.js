@@ -230,10 +230,10 @@ if(isWebContact(u)){FS.textContent="Abriendo WhatsApp con tu consulta. Si no se 
 /* Visita y búsqueda: arman un mensaje de contacto que envía la persona; no se guarda nada */
 $("vsU").insertAdjacentHTML("beforeend",STOCK.map(function(c,i){return '<label class="ck"><input type="checkbox" name="u" value="'+i+'"><span>'+esc((c.corto||c.titulo)+" "+c.anio)+'</span></label>'}).join(""));
 function waForm(f,build){var s=f.querySelector(".fs");f.addEventListener("submit",function(e){e.preventDefault();if(!f.reportValidity())return;var m=build(f),u=wa(m);if(isWebContact(u)){s.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";s.appendChild(l);s.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(s,m)}})}
-/* Pase de visita: las unidades se numeran en el orden en que se eligen; ese orden va también en el mensaje */
+/* Lo que vas a consultar: las unidades se numeran en el orden en que se eligen; ese orden va también en el mensaje */
 var visOrd=[];(function(){var f=$("visitaForm"),box=$("pase");if(!f||!box)return;
 function render(){var w=f.cuando.value.trim(),was=box.hidden;if(!visOrd.length&&!w){box.hidden=true;return}
- box.innerHTML='<div class="pase-m"><b class="pase-h">Pase de visita</b>'+(visOrd.length?'<ol>'+visOrd.map(function(v,i){var c=STOCK[+v];return '<li><i>'+(i+1)+'</i>'+esc(c.titulo+" "+c.anio)+'</li>'}).join("")+'</ol>':'')+(w?'<p class="pase-w">Día y horario: '+esc(w)+'</p>':'')+'</div><div class="pase-t"><b>Chita</b><span>Gral. Galarza 1712</span><span class="pase-state">Te confirmamos por WhatsApp</span></div>';
+ box.innerHTML='<div class="pase-m"><b class="pase-h">Lo que vas a consultar</b>'+(visOrd.length?'<ol>'+visOrd.map(function(v,i){var c=STOCK[+v];return '<li><i>'+(i+1)+'</i>'+esc(c.titulo+" "+c.anio)+'</li>'}).join("")+'</ol>':'')+(w?'<p class="pase-w">Día y horario: '+esc(w)+'</p>':'')+'</div><div class="pase-t"><b>Chita</b><span>Gral. Galarza 1712</span><span class="pase-state">Te confirmamos por WhatsApp</span></div>';
  box.hidden=false;if(was){box.classList.remove("nv");void box.offsetWidth;box.classList.add("nv")}}
 $("vsU").addEventListener("change",function(e){var t=e.target;if(!t||t.name!=="u")return;var i=visOrd.indexOf(t.value);if(t.checked&&i<0)visOrd.push(t.value);if(!t.checked&&i>=0)visOrd.splice(i,1);render()});
 f.cuando.addEventListener("input",render)})();

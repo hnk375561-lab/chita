@@ -1,0 +1,177 @@
+/* CHITA · v56 — Quiénes somos (equilibrada, panel azul del hero), Financiación (texto sobre panel azul) y Visita (rehecha: «Agendá tu visita»).
+   Se carga al final. Volver atrás: quitar el <link> y restaurar index.html / js/identidad.js / js/app.js. */
+/* Prefijos con id repetido: ganan a las reglas heredadas sin tocar identidad.css */
+
+/* ═════════════ 1 · QUIÉNES SOMOS ═════════════ */
+html body #nosotros#nosotros#nosotros.fr{position:relative;overflow:hidden;isolation:isolate}
+/* las columnas rojas del salón, apenas insinuadas detrás del titular */
+html body #nosotros#nosotros#nosotros.fr::before{content:"";display:block!important;position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:repeating-linear-gradient(90deg,rgba(193,18,31,.2) 0 20px,transparent 20px 25%) 12.5% 0/100% 100% no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 52%);mask-image:linear-gradient(180deg,#000,transparent 52%)}
+html body #nosotros#nosotros#nosotros .fr-h2{max-width:15ch}
+/* el párrafo vive sobre el mismo panel azul del hero, con la barra roja y el corte */
+html body #nosotros#nosotros#nosotros .fr-lead{
+  position:relative;margin:clamp(22px,3vw,30px) 0 0;max-width:none;padding:clamp(22px,2.2vw,32px) clamp(24px,2.4vw,36px) clamp(22px,2.2vw,32px) clamp(28px,2.6vw,40px);
+  background:linear-gradient(150deg,var(--chapa) 0%,var(--chapa-d) 100%);color:#fff!important;
+  font:500 clamp(17px,1.4vw,20px)/1.55 var(--b)!important;
+  clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%)}
+html body #nosotros#nosotros#nosotros .fr-lead::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--rojo)}
+html body #nosotros#nosotros#nosotros .fr-cards{counter-reset:none}
+html body #nosotros#nosotros#nosotros .fr-card{position:relative;background:linear-gradient(170deg,var(--chapa) 0%,var(--chapa-d) 100%)!important;border-left:8px solid var(--rojo)}
+html body #nosotros#nosotros#nosotros .fr-card:nth-child(2){margin-top:0!important}
+html body #nosotros#nosotros#nosotros .fr-n{position:absolute;top:0;right:0;z-index:2;padding:.3em .75em .34em .9em;background:var(--rojo);color:#fff!important;-webkit-text-stroke:0;
+  font:800 clamp(20px,1.8vw,26px)/1 var(--font-display);clip-path:polygon(0 0,100% 0,100% 100%,12px 100%)}
+html body #nosotros#nosotros#nosotros .fr-m{display:none}
+html body #nosotros#nosotros#nosotros .fr-tx{padding:clamp(20px,2vw,28px) clamp(20px,2vw,26px) clamp(22px,2.2vw,30px)}
+html body #nosotros#nosotros#nosotros .fr-tx h3{margin:0;font-size:clamp(22px,1.9vw,29px)!important;overflow-wrap:normal;hyphens:none}
+html body #nosotros#nosotros#nosotros .fr-tx p{margin:12px 0 0;color:rgba(255,255,255,.9)!important}
+html body #nosotros#nosotros#nosotros .fr-act{margin-top:auto!important;align-self:flex-start;padding-top:0!important}
+html body #nosotros#nosotros#nosotros .fr-tx p+.fr-act{margin-top:22px!important}
+@media(min-width:900px){
+  html body #nosotros#nosotros#nosotros .fr-hd{grid-template-columns:minmax(0,7fr) minmax(0,5fr)!important;align-items:end}
+  html body #nosotros#nosotros#nosotros .fr-lead{margin:0 0 6px}
+  html body #nosotros#nosotros#nosotros .fr-cards{align-items:stretch!important}
+  html body #nosotros#nosotros#nosotros .fr-tx p{flex:1}
+}
+/* franja de datos reales + llamada: cierra la sección en una sola línea */
+html body #nosotros#nosotros#nosotros .fr-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:22px clamp(24px,4vw,56px);
+  margin-top:clamp(30px,3.6vw,52px);padding-top:clamp(22px,2.4vw,32px);border-top:1px solid rgba(255,255,255,.2)}
+html body #nosotros#nosotros#nosotros .fr-facts{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:20px clamp(28px,4vw,64px)}
+html body #nosotros#nosotros#nosotros .fr-facts li{display:grid;gap:3px;padding-left:16px;border-left:4px solid var(--rojo)}
+html body #nosotros#nosotros#nosotros .fr-facts small{font:800 11px/1 var(--font-display)!important;letter-spacing:.18em;text-transform:uppercase;color:#EE4B55!important}
+html body #nosotros#nosotros#nosotros .fr-facts b{font:800 clamp(22px,2vw,29px)/1.05 var(--font-display);text-transform:uppercase;letter-spacing:-.01em;color:#fff}
+html body #nosotros#nosotros#nosotros .fr-facts span{font:500 15px/1.35 var(--b);color:rgba(255,255,255,.78)!important}
+
+/* ═════════════ 2 · FINANCIACIÓN: titular y bajada sobre panel azul (ya no flotan sobre las fotos) ═════════════ */
+html body #financiacion#financiacion#financiacion .pdl{position:relative;max-width:min(880px,100%);padding:clamp(24px,2.6vw,38px) clamp(26px,3vw,44px) clamp(26px,2.8vw,40px)!important;
+  background:linear-gradient(150deg,rgba(10,44,140,.97) 0%,rgba(7,28,94,.97) 100%)!important;border-left:0!important;
+  clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%)}
+html body #financiacion#financiacion#financiacion .pdl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--rojo)}
+html body #financiacion#financiacion#financiacion .pdl :is(h2,p){text-shadow:none!important;color:#fff!important}
+html body #financiacion#financiacion#financiacion .pdl p{max-width:52ch;color:rgba(255,255,255,.92)!important}
+
+/* ═════════════ 3 · VISITA ═════════════ */
+html body #visita#visita#visita.vx{background:#0b2c8c!important;padding:clamp(60px,7vw,108px) 0!important}
+html body #visita#visita#visita .vx-w{--pad:clamp(16px,4vw,64px);position:relative;z-index:2;width:min(1240px,calc(100% - 2*var(--pad)));margin-inline:auto;display:block;padding:0;max-width:none}
+html body #visita#visita#visita .vx-head{position:relative;max-width:min(840px,100%);padding:clamp(24px,2.8vw,40px) clamp(26px,3.2vw,46px) clamp(26px,3vw,42px);
+  background:linear-gradient(150deg,rgba(10,44,140,.97),rgba(7,28,94,.97));clip-path:polygon(0 0,calc(100% - 26px) 0,100% 26px,100% 100%,0 100%)}
+html body #visita#visita#visita .vx-head::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--rojo)}
+html body #visita#visita#visita .vx-head h2{margin:0!important;font-size:clamp(40px,5.8vw,86px)!important;line-height:.93!important;color:#fff!important;text-shadow:none!important;text-transform:uppercase}
+html body #visita#visita#visita .vx-head h2::before{content:none!important;display:none!important}
+html body #visita#visita#visita .vx-lead{margin:18px 0 0;max-width:46ch;font:500 clamp(17px,1.4vw,20px)/1.55 var(--b);color:rgba(255,255,255,.93)!important;text-shadow:none!important}
+html body #visita#visita#visita .vx-grid{display:grid;gap:clamp(20px,2.4vw,32px);margin-top:clamp(24px,3vw,40px);align-items:start}
+@media(min-width:1000px){
+  html body #visita#visita#visita .vx-grid{grid-template-columns:minmax(0,1fr) 340px}
+  html body #visita#visita#visita .vx-side{position:sticky;top:92px}
+}
+/* tarjeta */
+html body #visita#visita#visita .vx-card{margin:0!important;padding:0!important;background:var(--paper)!important;color:var(--ink);border:0!important;box-shadow:none!important;
+  clip-path:polygon(0 0,calc(100% - 30px) 0,100% 30px,100% 100%,0 100%);max-width:none}
+html body #visita#visita#visita .vx-top{padding:clamp(20px,2.2vw,30px) clamp(22px,2.8vw,40px);background:var(--ink);border-left:8px solid var(--rojo)}
+html body #visita#visita#visita .vx-top h3{margin:0;font:800 clamp(22px,2.3vw,32px)/1.05 var(--font-display)!important;letter-spacing:-.01em;text-transform:uppercase;color:#fff!important}
+html body #visita#visita#visita .vx-top p{margin:9px 0 0;max-width:60ch;font:500 15.5px/1.5 var(--b);color:rgba(255,255,255,.82)!important}
+html body #visita#visita#visita .vx-body{display:grid;gap:clamp(20px,2.2vw,28px);padding:clamp(20px,2.4vw,32px) clamp(20px,2.8vw,40px) clamp(22px,2.6vw,36px)}
+@media(min-width:780px){
+  html body #visita#visita#visita .vx-body{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);column-gap:clamp(24px,3vw,44px);align-items:start}
+  html body #visita#visita#visita .vx-s1{grid-column:1/-1}
+  html body #visita#visita#visita .vx-s2{grid-column:1;grid-row:2}
+  html body #visita#visita#visita .vx-sum{grid-column:2;grid-row:2;position:sticky;top:92px}
+}
+html body #visita#visita#visita .vx-s1{padding-bottom:clamp(20px,2.2vw,28px);border-bottom:2px dashed rgba(10,16,32,.28)}
+html body #visita#visita#visita .vx-sh{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+html body #visita#visita#visita .vx-sh i{flex:none;display:grid;place-items:center;width:34px;height:34px;background:var(--rojo);color:#fff;font:800 18px/1 var(--font-display);font-style:normal;
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+html body #visita#visita#visita .vx-sh h4{margin:0;font:800 clamp(17px,1.5vw,21px)/1.1 var(--font-display)!important;letter-spacing:.01em;text-transform:uppercase;color:var(--ink)!important}
+html body #visita#visita#visita .vx-sh span{margin-left:auto;font:700 12px/1 var(--b);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)!important}
+html body #visita#visita#visita .vx-sh span.on{color:var(--rojo)!important}
+/* unidades */
+html body #visita#visita#visita .vu{display:flex;flex-wrap:wrap;gap:8px;min-width:0;margin:0;padding:0;border:0}
+html body #visita#visita#visita .vx-card .ck{background:#fff;color:var(--ink)!important;border:2px solid var(--ink)}
+html body #visita#visita#visita .vx-card .ck:has(input:checked){background:var(--chapa)!important;border-color:var(--chapa)!important;color:#fff!important}
+html body #visita#visita#visita .vx-card .ck:has(input:checked) span{color:#fff!important}
+html body #visita#visita#visita .vx-card .ck:hover{border-color:var(--chapa)}
+/* campo libre */
+html body #visita#visita#visita .vx-free{display:grid;gap:6px;margin:18px 0 0}
+html body #visita#visita#visita .vx-free span{font:600 14px/1.3 var(--b);color:var(--mute)!important}
+html body #visita#visita#visita .vx-free input{height:48px;padding:0 14px;border:0;border-bottom:2px solid var(--ink);border-radius:0;background:#fff;color:var(--ink);font:500 16px var(--b)}
+html body #visita#visita#visita .vx-free input:focus-visible{outline:3px solid var(--chapa);outline-offset:2px}
+/* calendario */
+html body #visita#visita#visita .vc{border:2px solid var(--ink);background:#fff}
+html body #visita#visita#visita .vc-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;background:var(--ink)}
+html body #visita#visita#visita .vc-h b{font:800 15px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:#fff!important}
+html body #visita#visita#visita .vc-h b i{font-style:normal;color:#EE4B55}
+html body #visita#visita#visita .vc-n{width:40px;height:40px;padding:0;border:1px solid rgba(255,255,255,.4);border-radius:0;background:transparent;color:#fff!important;font-size:18px;line-height:1;cursor:pointer;transition:background .2s,border-color .2s}
+html body #visita#visita#visita .vc-n:hover:not(:disabled){background:var(--rojo);border-color:var(--rojo)}
+html body #visita#visita#visita .vc-n:disabled{opacity:.3;cursor:default}
+html body #visita#visita#visita :is(.vc-w,.vc-g){display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding:0 8px}
+html body #visita#visita#visita .vc-w{padding-top:12px}
+html body #visita#visita#visita .vc-w i{text-align:center;font:800 11px/1 var(--font-display);font-style:normal;letter-spacing:.1em;color:var(--mute)}
+html body #visita#visita#visita .vc-g{padding-top:8px;padding-bottom:10px}
+html body #visita#visita#visita .vc-d{position:relative;aspect-ratio:1;min-height:38px;padding:0;border:1px solid rgba(10,16,32,.25);border-radius:0;background:#fff;color:var(--ink)!important;
+  font:800 14px/1 var(--font-display);cursor:pointer;transition:background .2s,border-color .2s}
+html body #visita#visita#visita .vc-d:hover:not(:disabled):not([aria-pressed="true"]){background:#E4EBFB;border-color:var(--chapa)}
+html body #visita#visita#visita .vc-d[data-hoy]::after{content:"";position:absolute;left:50%;bottom:5px;width:14px;height:3px;background:var(--rojo);transform:translateX(-50%)}
+html body #visita#visita#visita .vc-d[aria-pressed="true"]{background:var(--rojo);border-color:var(--rojo);color:#fff!important}
+html body #visita#visita#visita .vc-d[aria-pressed="true"][data-hoy]::after{background:#fff}
+html body #visita#visita#visita .vc-d:disabled{opacity:.35;cursor:default;background:#F2F2F0}
+html body #visita#visita#visita .vc-s{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 8px 8px}
+html body #visita#visita#visita .vc-f{min-height:50px;padding:0;border:2px solid var(--ink);border-radius:0;background:#fff;color:var(--ink)!important;font:800 13px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s}
+html body #visita#visita#visita .vc-f b{font:inherit;color:inherit!important}
+html body #visita#visita#visita .vc-f:hover:not(:disabled):not([aria-pressed="true"]){background:#E4EBFB}
+html body #visita#visita#visita .vc-f[aria-pressed="true"]{background:var(--chapa);border-color:var(--chapa);color:#fff!important}
+html body #visita#visita#visita .vc-f:disabled{opacity:.4;cursor:default}
+html body #visita#visita#visita .vc-m{margin:0;padding:2px 12px 12px;font:600 13px/1.35 var(--b);color:var(--mute)!important}
+html body #visita#visita#visita :is(.vc-n,.vc-d,.vc-f):focus-visible{outline:3px solid var(--rojo);outline-offset:2px}
+/* resumen: panel azul con lo elegido y el envío */
+html body #visita#visita#visita .vx-sum{display:flex;flex-direction:column;gap:14px;padding:clamp(20px,2vw,26px) clamp(20px,2vw,26px) clamp(22px,2.2vw,28px) clamp(24px,2.2vw,30px);position:relative;
+  background:linear-gradient(160deg,var(--chapa) 0%,var(--chapa-d) 100%);color:#fff;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+html body #visita#visita#visita .vx-sum::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--rojo)}
+html body #visita#visita#visita .vx-sum .vx-sh{margin:0}
+html body #visita#visita#visita .vx-sum .vx-sh h4{color:#fff!important}
+html body #visita#visita#visita #visitaForm .pase{display:block;margin:0;background:none;border:0;clip-path:none!important;animation:none!important;color:#fff}
+html body #visita#visita#visita #visitaForm .pase[hidden]{display:none}
+html body #visita#visita#visita #visitaForm .pase-m{padding:0}
+html body #visita#visita#visita #visitaForm .pase-h{display:block;margin:0 0 10px;font:800 11px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase;color:#A9BEF7!important}
+html body #visita#visita#visita #visitaForm .pase ol{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+html body #visita#visita#visita #visitaForm .pase li{display:flex;align-items:center;gap:10px;font:800 15px/1.2 var(--font-display);letter-spacing:.01em;text-transform:uppercase;color:#fff!important}
+html body #visita#visita#visita #visitaForm .pase li i{flex:none;display:inline-grid;place-items:center;width:24px;height:24px;margin:0;background:var(--rojo);color:#fff!important;font:800 13px/1 var(--font-display);font-style:normal}
+html body #visita#visita#visita #visitaForm .pase-w{margin:14px 0 0;padding-top:14px;border-top:1px dashed rgba(255,255,255,.4);font:600 15px/1.4 var(--b);color:#fff!important}
+html body #visita#visita#visita #visitaForm .pase-t{display:none!important}
+html body #visita#visita#visita .vx-empty{margin:0;font:500 15px/1.5 var(--b);color:rgba(255,255,255,.85)!important}
+html body #visita#visita#visita #pase:not([hidden])~.vx-empty{display:none}
+html body #visita#visita#visita .vx-sum .btn.p{width:100%;min-height:54px;justify-content:center;margin-top:4px;background:var(--rojo)!important;color:#fff!important}
+html body #visita#visita#visita .vx-sum .btn.p:hover{background:#fff!important;color:var(--ink)!important}
+html body #visita#visita#visita .vx-sum .btn.p:focus-visible{outline:3px solid #fff;outline-offset:3px}
+html body #visita#visita#visita .vx-sum .fs{margin:0;min-height:0;font:600 14px/1.4 var(--b);color:#fff!important}
+html body #visita#visita#visita .vx-sum .fs a{color:#fff!important;text-decoration:underline}
+html body #visita#visita#visita .vx-sum .meta{margin:0;font:500 13px/1.45 var(--b);color:rgba(255,255,255,.78)!important}
+/* columna lateral: video + dónde */
+html body #visita#visita#visita .vx-side{display:grid;gap:16px;min-width:0}
+html body #visita#visita#visita .vx-side .vvid{margin:0!important;max-width:none!important;padding:0!important;width:100%}
+html body #visita#visita#visita .vx-where{position:relative;padding:20px 22px 22px 28px;background:linear-gradient(160deg,var(--chapa),var(--chapa-d));
+  clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+html body #visita#visita#visita .vx-where::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--rojo)}
+html body #visita#visita#visita .vx-where b{display:block;font:800 22px/1.05 var(--font-display);text-transform:uppercase;letter-spacing:-.01em;color:#fff!important}
+html body #visita#visita#visita .vx-where span{display:block;margin-top:5px;font:600 14px/1.3 var(--b);color:rgba(255,255,255,.8)!important}
+html body #visita#visita#visita .vx-where p{margin:14px 0 0;font:500 15px/1.5 var(--b);color:rgba(255,255,255,.92)!important;text-shadow:none!important}
+html body #visita#visita#visita .vx-where a{display:inline-block;margin-top:14px;padding-bottom:4px;border-bottom:3px solid var(--rojo);font:800 12px/1.2 var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:#fff!important;text-decoration:none}
+html body #visita#visita#visita .vx-where a:hover{background:var(--rojo)}
+html body #visita#visita#visita .vx-where a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media(max-width:999px){html body #visita#visita#visita .vx-side{max-width:440px}}
+@media(prefers-reduced-motion:reduce){html body #visita#visita#visita :is(.vc-n,.vc-d,.vc-f){transition:none}}
+
+/* Posición en la grilla: anula las reglas viejas de #visitaForm y .vvid (grid-row, max-width, sticky propio) */
+html body #visita#visita#visita #visitaForm.vx-card{grid-column:1;grid-row:1;max-width:none!important;width:auto}
+html body #visita#visita#visita .vx-side{grid-template-columns:minmax(0,1fr);grid-column:1;grid-row:auto}
+html body #visita#visita#visita .vx-side .vvid{grid-column:auto;grid-row:auto;position:relative;top:auto;border-top:0;align-self:auto}
+@media(min-width:1000px){html body #visita#visita#visita .vx-side{grid-column:2;grid-row:1}}
+html body #visita#visita#visita #visitaForm::before,html body #visita#visita#visita #visitaForm::after,html body #visita#visita#visita #visitaForm :is(h3,h4)::before,html body #visita#visita#visita #visitaForm :is(h3,h4)::after{content:none!important;display:none!important}
+html body #visita#visita#visita .vx-step{margin:0;padding:0;min-height:0;background:none;border:0}
+html body #visita#visita#visita .vx-s1{padding-bottom:clamp(20px,2.2vw,28px)}
+html body #visita#visita#visita .vx-sh{min-width:0}
+html body #visita#visita#visita .vx-sh h4{min-width:0}
+html body #visita#visita#visita .vx-sum{position:relative;top:auto}
+@media(min-width:780px){html body #visita#visita#visita .vx-sum{position:sticky;top:92px;align-self:start}}
+
+/* Financiación: el panel azul se alinea con la grilla de tarjetas */
+@media(min-width:900px){html body #financiacion#financiacion#financiacion .pdl{margin-left:58px!important;max-width:min(880px,calc(100% - 58px))}}
