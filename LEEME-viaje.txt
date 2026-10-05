@@ -1,0 +1,17 @@
+CHITA · PASO · Viaje alineado al sistema (2 archivos, misma ruta que en el repo; reemplazar)
+  viaje.html      (1 cambio: el wordmark en texto «CHITA» pasa a ser el logo real)
+  css/viaje.css   (tokens corregidos + bloque v27 al final; no se borró nada)
+No tocar nada más. js/viaje.js queda igual.
+
+Qué se aplicó
+  - Colores: #b3122b/#1636a8/#101114 pasan a #C1121F/#0A2C8C/#0A1020 (los del sitio).
+  - Header: sin mix-blend-mode:difference; logo real sobre chapa de papel con el corte; botón con corte.
+  - Tipografía: Instrument Sans + Bricolage en 800 recto (antes cursiva 900 + monoespaciada).
+  - Marcador arrastrable = Chapa CHITA (mismo ancho de 62 px: el cálculo del JS no cambia).
+  - Bug previo: la fuente «Jet» nunca se cargó y las líneas chicas caían a serif; corregido.
+  - Móvil: header sin apretura (se oculta el eyebrow bajo 560 px).
+
+Verificado: npm test OK; 0 errores de JS en Chromium (1440 y 390 px).
+Pendiente en Viaje (pasos siguientes): escenas con fotos reales, narrativa circular, ruta por km reales,
+  y en móvil la tarjeta de la unidad se superpone al título (ya pasaba en el original).
+Volver atrás: restaurar los 2 archivos desde git.
