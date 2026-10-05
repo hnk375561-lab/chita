@@ -2,7 +2,8 @@
 //                                           node scripts/check-links.mjs --external (además prueba los externos por red)
 import fs from 'node:fs';
 import path from 'node:path';
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+import { fileURLToPath } from 'node:url';
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const external = process.argv.includes('--external');
 const pages = ['index.html', 'reserva.html', 'viaje.html', 'privacidad.html', '404.html'].filter((f) => fs.existsSync(path.join(root, f)));
 const jsFiles = fs.readdirSync(path.join(root, 'js')).filter((f) => f.endsWith('.js')).map((f) => 'js/' + f);
