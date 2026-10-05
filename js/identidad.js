@@ -174,3 +174,8 @@ if(btns.length!==3||chips.length!==3)return;
 cap=d.createElement("p");cap.className="ncap";cap.setAttribute("aria-hidden","true");cap.appendChild(d.createElement("b"));cap.appendChild(d.createElement("span"));ph.parentNode.insertBefore(cap,ph.nextSibling);
 pl.classList.add("nt");ph.classList.add("nz-on");go(0);
 })();
+
+/* CHITA · v29 — Modelos: al cambiar de miniatura la foto se revela con el CORTE (reinicia la animación de css v29). Solo mouse; con reduced-motion el CSS la anula. */
+(function(){var f=document.getElementById("mdf");if(!f)return;
+f.addEventListener("pointerover",function(v){var b=v.target.closest(".mdb");if(!b)return;var im=b.closest(".mdp").firstChild;if(!im||im.tagName!=="IMG")return;
+ im.classList.remove("sw");void im.offsetWidth;im.classList.add("sw")})})();

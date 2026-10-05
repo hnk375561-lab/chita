@@ -1072,3 +1072,19 @@ html body #nosotros .pl.nt>div.on .np>.nq{visibility:visible;transition-delay:0s
 html body #nosotros .ncap{display:none}
 @media(max-width:859px){html body #nosotros .ncap{display:block;margin:-22px 0 0;padding:12px 16px 12px 18px;background:var(--ink);border-left:10px solid var(--rojo);font-size:14px;line-height:1.35;color:var(--plata)}html body #nosotros .ncap b{display:block;margin-bottom:4px;font:800 15px/1.1 var(--font-display);letter-spacing:.06em;text-transform:uppercase;color:#fff}html body #nosotros .ncap span{color:var(--plata)}}
 @media(prefers-reduced-motion:reduce){html body #nosotros .nz,html body #nosotros .nc,html body #nosotros .np,html body #nosotros .pl.nt>div,html body #nosotros .pl.nt>div::before{transition:none}}
+
+/* CHITA · v29 — Modelos: el panel deja de ser una columna angosta. La unidad se ve en un vano entre dos columnas rojas;
+   el texto ocupa todo el ancho; la foto cambia con el CORTE diagonal (no con fade). No agrega datos.
+   Causa del panel roto: css/motion.css:59 limitaba .mdpt a min(340px,38%) (resto del diseño anterior, con el texto sobre la foto). */
+html body .modelos-panel .mdf .mdpt{max-width:none!important;width:100%;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;justify-items:start;padding:16px 0 0 10px!important}
+html body .mdf .mdpt b{font:800 clamp(22px,2.3vw,34px)/1.02 var(--font-display)!important;letter-spacing:-.01em;text-transform:uppercase}
+html body .mdf .mdpt span{font:700 13px/1.2 var(--font-display)!important;letter-spacing:.12em;text-transform:uppercase;color:var(--plata)!important}
+html body .mdf .mdpt p{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;margin:0 0 6px!important;max-width:52ch;font:500 16px/1.45 "Instrument Sans",system-ui,sans-serif;color:#fff!important}
+/* el vano: columna roja a cada lado de la foto */
+html body .mdf .mdp>img{aspect-ratio:1/1!important;max-height:calc(100svh - 360px);min-height:300px;object-position:50% 100%!important;border-right:10px solid var(--rojo)!important}
+html body .mdf .mdth{margin-left:10px;margin-right:10px;flex-wrap:wrap}
+html body .mdf{top:96px}
+/* el CORTE: al mostrarse un modelo (o cambiar de miniatura) la foto se revela con un barrido diagonal */
+@keyframes mdcorte{from{clip-path:polygon(0 0,0 0,0 0,-40% 100%,0 100%)}to{clip-path:var(--cut)}}
+html body .mdf .mdp.on>img,html body .mdf .mdp>img.sw{animation:mdcorte .7s var(--ease) both}
+@media(prefers-reduced-motion:reduce){html body .mdf .mdp.on>img,html body .mdf .mdp>img.sw{animation:none}}
