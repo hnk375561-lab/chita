@@ -12,9 +12,21 @@ html body #operaciones#operaciones#operaciones .og .oc{position:relative;z-index
 }
 html body #operaciones#operaciones#operaciones .oc{will-change:auto}
 
-/* 3 · Guía (titular): plano de ingeniería con auto visto desde arriba */
-html body #guia#guia#guia .chita-section-backdrop{display:none!important}
-html body #guia#guia#guia{background-color:#0a1630!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 420' fill='none' stroke='%239db8ff' stroke-width='1.4'%3E%3Cpath d='M100 6C140 6 160 30 164 80L168 170C170 220 170 300 166 350C162 395 140 414 100 414C60 414 38 395 34 350C30 300 30 220 32 170L36 80C40 30 60 6 100 6Z'/%3E%3Cpath d='M52 118h96l-8 52H60zM62 296h76l10 42H52zM56 170h88v126H56z'/%3E%3Cpath d='M44 46q56-18 112 0M60 14l-6 18M140 14l6 18M100 6v112M34 150h-12M166 150h12' /%3E%3Crect x='20' y='70' width='15' height='52' rx='5'/%3E%3Crect x='165' y='70' width='15' height='52' rx='5'/%3E%3Crect x='20' y='300' width='15' height='52' rx='5'/%3E%3Crect x='165' y='300' width='15' height='52' rx='5'/%3E%3Cpath d='M10 6v408M4 6h12M4 414h12M190 6v408M184 6h12M184 414h12' stroke-dasharray='3 4'/%3E%3C/svg%3E"),radial-gradient(60% 55% at 85% 20%,rgba(30,64,175,.5),transparent 70%),linear-gradient(rgba(147,180,255,.17) 1px,transparent 1px) 0 0/120px 120px,linear-gradient(90deg,rgba(147,180,255,.17) 1px,transparent 1px) 0 0/120px 120px,linear-gradient(rgba(147,180,255,.07) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,rgba(147,180,255,.07) 1px,transparent 1px) 0 0/24px 24px!important;background-repeat:no-repeat,no-repeat,repeat,repeat,repeat,repeat!important;background-position:right 5% top 140px,0 0,0 0,0 0,0 0,0 0!important;background-size:min(30vw,380px) auto,auto,120px 120px,120px 120px,24px 24px,24px 24px!important}
+/* 3 · Guía y Visita: mosaico de unidades como en el hero de Financiación */
+html body :is(#guia,#visita)#guia#guia .chita-section-backdrop,html body #visita#visita#visita .chita-section-backdrop{display:none!important}
+html body #guia#guia#guia{background:#0a1630!important;background-image:none!important}
+html body #visita#visita#visita{background:#0b2c8c!important;background-image:none!important}
+html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .fin-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:1fr}
+html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .fin-bg img{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.04)}
+html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .fin-bg::before{content:"";position:absolute;inset:0;z-index:2;background:repeating-linear-gradient(90deg,var(--chapa) 0 8px,transparent 8px 25%)}
+html body #guia#guia#guia .fin-bg::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,22,48,.8),rgba(10,22,48,.66) 45%,rgba(10,22,48,.88))}
+html body #visita#visita#visita .fin-bg::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(11,44,140,.74),rgba(11,44,140,.6) 45%,rgba(7,28,96,.86))}
+@media(max-width:899px){html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .fin-bg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Legibilidad */
+html body #visita#visita#visita .xt .xl em{color:var(--ink)!important;background:#fff!important;border-color:var(--ink)!important}
+html body #guia#guia#guia .gd{background:rgba(8,16,36,.82)!important}
+html body #guia#guia#guia .gd summary small{font-size:14px!important;font-weight:500!important;line-height:1.3!important;text-transform:none!important;letter-spacing:0!important;text-decoration:none!important;color:rgba(255,255,255,.82)!important;font-family:inherit!important}
+html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) :is(.pdl,.xb) :is(h2,p,.xp){text-shadow:0 1px 14px rgba(0,0,0,.55)!important}
 
 /* 4 · Guía general: 4 pasos en orden, planilla a la izquierda, pasos a la derecha */
 html body #guia#guia#guia .pdl::after{content:none!important}
