@@ -286,7 +286,7 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
 (function(){
   var d=document, v=d.getElementById("versus"), t=d.getElementById("vt"); if(!v||!t||!window.wa)return;
   var q=d.createElement("p");q.className="vq";q.innerHTML='<a class="btn p" href="#">Abrir consulta comparativa ↗</a><span>Te respondemos sobre las unidades que elegiste.</span>';
-  var w=q.querySelector("a");function sync(){var names=[].slice.call(t.querySelectorAll(".vdc h3")).map(function(x){return x.textContent.trim()});w.href=window.wa("Hola! Quiero comparar estas unidades: "+(names.length?names.join(" · "):"todavía no elegí unidades")+". ¿Me confirman disponibilidad, precio y diferencias relevantes?")}sync();v.querySelector("#vp").addEventListener("click",function(){window.setTimeout(sync,0)});q.addEventListener("click",function(){window.setTimeout(sync,0)});t.parentNode.insertBefore(q,t.nextSibling);
+  var w=q.querySelector("a");function sync(){var names=[].slice.call(t.querySelectorAll(".vdc h3,.c5-card h3")).map(function(x){return x.textContent.trim()});w.href=window.wa("Hola! Quiero comparar estas unidades: "+(names.length?names.join(" · "):"todavía no elegí unidades")+". ¿Me confirman disponibilidad, precio y diferencias relevantes?")}sync();v.querySelector("#vp").addEventListener("click",function(){window.setTimeout(sync,0)});q.addEventListener("click",function(){window.setTimeout(sync,0)});t.parentNode.insertBefore(q,t.nextSibling);
 })();
 
 /* CHITA · V4 — continuidad entre talones: comprar, condiciones, planilla, visita y preguntas. */

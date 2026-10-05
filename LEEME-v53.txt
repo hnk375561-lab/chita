@@ -1,0 +1,24 @@
+CHITA · v53 · Comparador "La Regla" de 5 columnas
+Archivos (misma ruta que en el repo):
+  index.html          (link a css/comparador.css, clase cmp5 en #versus, textos "hasta cinco", script del comparador nuevo)
+  css/comparador.css  (NUEVO; se carga después de identidad.css; todo con prefijo c5-)
+  js/identidad.js     (1 cambio: el resumen de consulta lee también ".c5-card h3")
+  golive/AFIRMACIONES-A-CONFIRMAR.md (aclara "hasta 5 unidades")
+
+Qué cambia
+- 5 columnas iguales en pantallas >= 1340 px; debajo, carril deslizable con snap (móvil: 82% de ancho por tarjeta).
+- Arranca con las 5 unidades con más datos publicados y carrocerías distintas: Clio Dynamique, Tracker Premier 1.8N,
+  Kangoo Comfort, K3 EX Cross y 301 Allure. Se cambia con el selector (9 unidades) o editando FEAT en el script.
+- Tablero "podio" (más nuevo, menos km, menor uso anual, mayor cilindrada, más fotos) + regla decorativa.
+- Cada tarjeta: foto 4:5 entera (con el cartel de la unidad), galería por miniaturas (hover/clic/teclado),
+  marca, modelo, motor, insignias "se destaca en", Año / Km / Km por año con barra y ranking (1.º de 5),
+  motor, combustible, carrocería, antigüedad, fotos, estado, equipamiento (9 ítems), WhatsApp y ficha.
+- Orden: del stock / más nuevo / menos km. Atajo "Los 5 con más datos". Con 5 abiertas, la próxima reemplaza a la más antigua.
+- Las filas quedan alineadas entre columnas (CSS subgrid).
+
+Datos (CLAUDE.md, regla 1): todo sale de STOCK. Lo derivado usa las mismas cuentas que la ficha (antigüedad y km por año).
+Sin dato = "Sin informar: preguntanos" (ej. Palio sin km mientras no se concilie). Equipamiento: hoy 0/9 confirmados porque
+`nota` no lo registra; cuando Chita confirme, se escribe en `nota` y se tilda solo. Para sumar transmisión, potencia, etc.
+hacen falta datos confirmados por escrito (no se infieren de la versión).
+
+Volver atrás: restaurar index.html y js/identidad.js anteriores y borrar css/comparador.css.

@@ -140,7 +140,7 @@ Precios: todos "Consultar". El validador falla si aparece otro valor sin confirm
 - Rendimiento: se quitaron el filtro CSS del mapa, el blur del panel y la animación de escala/máscara sobre el iframe.
 
 ## Buscador, comparador, "Quiénes somos" y banner (2026-09-30)
-- Búsqueda por marca/modelo, comparador de hasta 3 unidades y chips de marcas: salen de `STOCK`. Sin datos nuevos.
+- Búsqueda por marca/modelo, comparador de hasta 5 unidades y chips de marcas: salen de `STOCK`. Sin datos nuevos.
 - "Quiénes somos" solo dice lo respaldado: atiende en Gral. Galarza 1712, usados, permutas ("Vendo–Permuto") y consignaciones (cartel del local). No repite "39 años" ni promete condiciones.
 - Banner de venta/permuta sin promesas de precio ("mejor precio del mercado" no se usa: sin respaldo).
 - No se agregaron precios, estrellas, "oportunidades del mes", marcas oficiales ni campos de patente/chasis: no hay datos ni respaldo.
