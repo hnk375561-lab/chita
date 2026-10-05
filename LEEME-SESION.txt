@@ -1,0 +1,16 @@
+CHITA · Entrega acumulada de la sesión (pasos 6 a 10)
+Subir al repo respetando las rutas (reemplazar):
+  css/identidad.css                 (bloques nuevos v22 a v26 al final; no se borró nada anterior)
+  images/local-frente-480.webp      (era un placeholder "FOTO A CARGAR"; ahora sale de la foto real)
+  images/local-frente-800.webp      (idem)
+No tocar nada más. index.html y los JS quedan igual.
+
+Qué se aplicó
+  v22 Unidades    chapa CHITA como rótulo de datos; se quita U·NN y el "Consultar disponibilidad" repetido
+  v23 Preguntas   FAQ en formato chat (corte como cola, "escribiendo…"); se ocultan las 2 fotos de abajo
+  v24 Cinta       la cinta de inauguración se corta en la costura con el scroll
+  v25 Footer      teléfono en un renglón, navegación sin duplicados del header, sello "Fin del talonario"
+  v26 Columna     chapa de sección con "CHITA" fijo; foto de Nosotros sin barra roja colgando en móvil
+
+Probar: npm run dev -> http://localhost:8080 · npm test
+Volver atrás: borrar cada bloque vNN de identidad.css y restaurar las imágenes desde git.

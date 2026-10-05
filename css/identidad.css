@@ -931,3 +931,118 @@ html body #mdl a:is(:hover,:focus-visible,.act) small .mc-f{color:#fff}
  html body #mdl a:is(:hover,:focus-visible,.act) small span{color:#fff}
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v22 · UNIDADES: la Chapa CHITA como rótulo de datos de cada tarjeta
+   - El dato (año · km · combustible) pasa a una chapa de paralelogramo con la banda azul «CHITA».
+   - Se quita U·NN (numeración sin información) y el «Consultar disponibilidad» repetido en las 11 tarjetas:
+     el subtítulo de la sección ya lo dice una vez. Los estados reales (disponible, reservado, vendido) se siguen mostrando.
+   Solo CSS: no cambia index.html ni js/app.js. Para volver atrás, borrar este bloque.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #stockGrid .car::after{content:none!important}
+html body #stockGrid .car .est.e-consultar{display:none}
+html body #stockGrid .car .meta{
+ --sl:9px;
+ position:relative;isolation:isolate;display:block;width:fit-content;max-width:100%;
+ margin:10px 0 0;padding:8px calc(var(--sl) + 14px) 8px 78px;
+ font:800 14px/1.1 var(--font-display);letter-spacing:.05em;text-transform:uppercase;font-variant-numeric:tabular-nums;
+ color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+ background:var(--ink);clip-path:polygon(var(--sl) 0,100% 0,calc(100% - var(--sl)) 100%,0 100%)}
+/* cuerpo de papel de la chapa (el borde de tinta es el fondo que asoma 2 px) */
+html body #stockGrid .car .meta::before{content:"";position:absolute;inset:2px;z-index:-2;background:var(--paper);clip-path:polygon(calc(var(--sl) - 1px) 0,100% 0,calc(100% - var(--sl) + 1px) 100%,0 100%)}
+/* banda azul con «CHITA» fijo, como en la patente de las fotos */
+html body #stockGrid .car .meta::after{content:"CHITA";position:absolute;z-index:-1;left:2px;top:2px;bottom:2px;width:62px;display:grid;place-items:center;padding-left:6px;
+ background:var(--chapa);color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.26em;text-indent:.26em;
+ clip-path:polygon(calc(var(--sl) - 1px) 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+@media(max-width:420px){html body #stockGrid .car .meta{font-size:13px;letter-spacing:.03em;padding-left:72px}}
+@media(forced-colors:active){html body #stockGrid .car .meta{border:2px solid CanvasText;clip-path:none;background:Canvas;color:CanvasText}html body #stockGrid .car .meta::before,html body #stockGrid .car .meta::after{display:none}}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v23 · PREGUNTAS: la lista es una conversación
+   - La pregunta es la burbuja del cliente (derecha, tinta); la respuesta es la de Chita (izquierda, azul chapa).
+   - La cola de cada burbuja es el corte del logotipo (esquina inferior del lado de quien habla).
+   - Al abrir, «···» (escribiendo) una sola vez y después aparece el texto. Con movimiento reducido: texto directo.
+   - Se quita el P·NN y el relleno rojo; se ocultan las dos fotos de abajo (repetían la dirección por cuarta vez).
+   Solo CSS. Sigue siendo <details>: teclado y lectores de pantalla no cambian. Para volver atrás, borrar este bloque.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body #preguntas .fa{border-top:0;display:grid;gap:12px}
+html body #preguntas .fa details,html body #preguntas .fa details[open]{border:0!important;background:transparent;clip-path:none;color:var(--ink)}
+/* burbuja del cliente */
+html body #preguntas .fa summary{display:flex!important;align-items:center;gap:14px;width:fit-content;max-width:min(92%,560px);margin-left:auto;padding:12px 14px 12px 18px!important;
+ background:var(--ink);color:#fff;font:800 clamp(15px,1.3vw,18px)/1.2 var(--font-display)!important;text-transform:none;letter-spacing:0;
+ clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);transition:background .3s var(--ease)}
+html body #preguntas .fa summary::before{content:none}
+html body #preguntas .fa summary:hover,html body #preguntas .fa details[open] summary{background:var(--chapa-d)}
+html body #preguntas .fa details[open] summary{color:#fff}
+html body #preguntas .fa summary::after{flex:none;width:24px;height:24px;font-size:17px;background:var(--rojo);margin:0!important}
+html body #preguntas .fa details:is([open],:hover) summary::after,html body #preguntas .fa details[open] summary::after{background:var(--rojo)}
+/* burbuja de Chita */
+html body #preguntas .fa details[open]>p{position:relative;width:fit-content;max-width:min(92%,560px);margin:8px auto 4px 0;padding:14px 20px 16px 18px;
+ background:var(--chapa);color:#fff;font:400 clamp(16px,1.2vw,18px)/1.5 var(--b);
+ clip-path:polygon(0 0,100% 0,100% 100%,14px 100%,0 calc(100% - 14px));animation:fa-say 1.1s linear both}
+html body #preguntas .fa details[open]>p a{color:inherit;text-decoration:underline}
+/* «escribiendo…»: tres puntos encima de la burbuja ya dimensionada, hasta que aparece el texto */
+html body #preguntas .fa details[open]>p::before{content:"";position:absolute;left:22px;top:50%;width:42px;height:10px;margin-top:-5px;
+ background:radial-gradient(circle,#fff 3.5px,transparent 4px) 0 0/14px 10px repeat-x;animation:fa-dots 1.1s linear both}
+@keyframes fa-say{0%,62%{color:transparent}64%,100%{color:#fff}}
+@keyframes fa-dots{0%{opacity:.3}14%{opacity:1}28%{opacity:.3}42%{opacity:1}60%{opacity:1}62%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){html body #preguntas .fa details[open]>p{animation:none;color:#fff}html body #preguntas .fa details[open]>p::before{display:none}}
+@media(max-width:699px){html body #preguntas .fa summary,html body #preguntas .fa details[open]>p{max-width:94%}}
+/* las dos fotos de abajo: relleno */
+html body #preguntas .bqp{display:none!important}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v24 · LA CINTA SE CORTA
+   Es una cinta de inauguración: en la costura hero → Entregas se parte con el corte diagonal del logotipo.
+   El hueco (máscara diagonal, ~15° como el corte) se abre con el scroll (verbo RIEL) mientras la cinta cruza la pantalla;
+   el texto sigue corriendo por debajo y se ve pasar por el hueco. Las dos tiras (papel y roja) se cortan en el mismo punto.
+   Sin soporte de animation-timeline, o con movimiento reducido: la cinta queda cortada y quieta.
+   Solo CSS. Para volver atrás, borrar este bloque.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@property --cg{syntax:"<length>";inherits:false;initial-value:0px}
+.cin i,.cin div{--cg:clamp(18px,2.6vw,40px);
+ -webkit-mask-image:linear-gradient(105deg,#000 calc(50% - var(--cg)),transparent calc(50% - var(--cg)) calc(50% + var(--cg)),#000 calc(50% + var(--cg)));
+ mask-image:linear-gradient(105deg,#000 calc(50% - var(--cg)),transparent calc(50% - var(--cg)) calc(50% + var(--cg)),#000 calc(50% + var(--cg)))}
+@keyframes cin-cut{from{--cg:0px}to{--cg:clamp(18px,2.6vw,40px)}}
+@supports (animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  .cin i,.cin div{animation:cin-cut linear both;animation-timeline:view();animation-range:cover 26% cover 62%}
+ }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v25 · FOOTER: el último gesto del sitio
+   - Corrige el teléfono: la patente partía el número en dos renglones («03442 44-» / «2782»).
+   - Navegación: se quitan los enlaces que ya están en el header (Inicio, Unidades, Vender o permutar, Preguntas);
+     los demás pasan a un renglón corrido en vez de una columna de 11.
+   - Coordenadas centradas; aviso de demo en letra chica (el texto no cambia).
+   - El sello «Fin del talonario» golpea al entrar (mismo SELLO del sitio). Sin soporte o con movimiento reducido: queda puesto.
+   Solo CSS. Para volver atrás, borrar este bloque.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body footer a.fpl{width:fit-content;min-width:min(300px,100%);margin-inline:auto}
+html body footer a.fpl b{white-space:nowrap;font-size:clamp(24px,2.5vw,32px);letter-spacing:.03em;padding-inline:20px}
+html body footer .fx>div:first-child{display:flex;flex-wrap:wrap;justify-content:center;align-content:flex-start;gap:0 22px}
+html body footer .fx>div:first-child h3{flex:0 0 100%}
+html body footer .fx>div:first-child :is(a[href="#top"],a[href="#unidades"],a[href="#operaciones"],a[href="#preguntas"]){display:none}
+html body footer .fco{max-width:none;margin:22px auto 8px;text-align:center}
+html body footer .w>p:last-child{max-width:64ch;margin:14px auto 0;font:400 12.5px/1.55 var(--b);opacity:.7}
+@keyframes fin-sello{0%{opacity:0;scale:1.9;rotate:-14deg}60%{opacity:1;scale:.94;rotate:-2deg}100%{opacity:1;scale:1;rotate:-4deg}}
+html body footer .fin7{rotate:-4deg;margin-bottom:30px}
+@supports (animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  html body footer .fin7{animation:fin-sello linear both;animation-timeline:view();animation-range:entry 10% entry 100%}
+ }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v26 · LA COLUMNA: la chapa de sección lleva «CHITA» fijo en la banda azul
+   La banda azul dice siempre CHITA (como la patente de las fotos y la del footer); el cuerpo blanco lleva el número y la sección.
+   Los 13 pilares y su encendido con el corte ya estaban (v anterior). Solo CSS. Para volver atrás, borrar este bloque.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body .cl b{--cb:50px;position:fixed;padding:8px 16px 8px calc(var(--cb) + 12px)!important;
+ background:linear-gradient(90deg,var(--chapa) 0 var(--cb),#fff var(--cb))!important}
+html body .cl b::before{content:"CHITA";position:absolute;left:0;top:0;bottom:0;width:var(--cb);display:grid;place-items:center;color:#fff;
+ font:800 9px/1 var(--font-display);letter-spacing:.26em;text-indent:.26em}
+@media(max-width:899px){html body .cl b{--cb:44px;padding-left:calc(var(--cb) + 10px)!important}html body .cl b::before{font-size:8px;letter-spacing:.2em;text-indent:.2em}}
+/* Nosotros en móvil: el marco forzaba 4:5 y la foto apaisada del frente dejaba la barra roja colgando sin foto debajo */
+@media(max-width:899px){html body #nosotros .ph{aspect-ratio:auto!important}}
