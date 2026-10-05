@@ -1525,3 +1525,9 @@ html body main>.hero.hx .hx-info{color:#fff!important}
 html body main>.hero.hx .hx-info :is(.hx-name,.hx-meta,.hx-count,.hx-foot){color:#fff!important}
 html body main>.hero.hx .hx-info .hx-spec dt{color:#D6E0E6!important}
 html body main>.hero.hx .hx-info .hx-spec dd{color:#fff!important}
+/* Corrección de regresión: la chapa Google es blanca y su lectura interna debe ser tinta/rojo. */
+html body main>.hero.hx .hx-copy .hx-proof{color:var(--tinta)!important;background:linear-gradient(90deg,var(--chapa) 0 1.1em,#fff 1.1em)!important}
+html body main>.hero.hx .hx-copy .hx-proof span{color:var(--tinta)!important}
+html body main>.hero.hx .hx-copy .hx-proof b{color:var(--rojo)!important}
+/* El dato Google debe estar siempre presente y legible; no depende de la animación de entrada. */
+html body main>.hero.hx .hx-copy .hx-proof{visibility:visible!important;opacity:1!important;scale:1!important;rotate:0deg!important;animation:none!important}
