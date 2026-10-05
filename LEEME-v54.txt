@@ -4,3 +4,5 @@ Archivos: css/chita-v54.css (NUEVO) · css/resenas-compra.css · js/motion.js ·
 - Operaciones: quitado el scroll-scrub (rotación del contenedor, de cada tarjeta y de cada foto) que causaba el lag. Fondo nuevo: piso de hormigón con plazas de estacionamiento pintadas (solo CSS).
 - Guía: mosaico de unidades en Guía y Visita; Visita: "en persona" legible; guía en 4 pasos ("Paso 1..4"), planilla a la izquierda y pasos a la derecha; acordeones alineados (ya no se desplazan solos). Textos de la planilla en lenguaje directo. Contenido y datos sin cambios.
 Volver atrás: restaurar los archivos anteriores y borrar css/chita-v54.css.
+
+v54b: sin rótulos decorativos (TALÓN N°, eyebrows, "Paso N", sellos). Financiación, Guía y Visita ya no animan con el scroll (recorte de la sección, tarjetas, titular) y sus fondos son UNA imagen cada uno (images/bg-fin.webp, bg-guia.webp, bg-visita.webp) en vez de 12 fotos sueltas.

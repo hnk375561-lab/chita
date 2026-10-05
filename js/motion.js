@@ -429,6 +429,7 @@ function initTypography({ desktop }, inertia) {
 
     /* Declaraciones (.xl): el scroll las «lee»: cada palabra sube dentro de su máscara y se enciende. */
     qsa(".xl, .xb .xp").forEach((statement) => {
+      if (statement.closest("#financiacion, #guia, #visita")) return;
       const words = split(statement);
       if (!words.length) return;
       gsap.set(words, { opacity: 0.12, yPercent: 46 });
@@ -510,7 +511,7 @@ function initBanner({ desktop }) {
 function initSectionBackdrops({ desktop }) {
   /* Secciones en color sólido (sin foto): unidades, modelos, trayectoria, contacto (lo cubre el mapa), local, como-comprar, operaciones, equipo, preguntas.
      El resto lleva una foto de interior; con 6 fotos y 9 secciones se reutilizan, nunca en secciones contiguas. */
-  const sources = { versus:"images/bg/stock-1.webp", entregas:"images/bg/stock-2.webp", nosotros:"images/bg/stock-3.webp", opiniones:"images/bg/stock-5.webp", bd:"images/bg/stock-6.webp", financiacion:"images/bg/stock-1.webp", guia:"images/bg/stock-4.webp", visita:"images/bg/stock-3.webp" };
+  const sources = { versus:"images/bg/stock-1.webp", entregas:"images/bg/stock-2.webp", nosotros:"images/bg/stock-3.webp", opiniones:"images/bg/stock-5.webp", bd:"images/bg/stock-6.webp" };
   const dark = new Set(["versus","entregas","contacto","bd","financiacion","guia","visita"]);
   const veil = (id) => dark.has(id) ? "linear-gradient(rgba(6,17,26,.74),rgba(6,17,26,.74))" : "linear-gradient(rgba(243,245,246,.82),rgba(243,245,246,.82))";
   const mobile = !desktop, clean = [];
@@ -547,7 +548,7 @@ function initMapExperience() {
 }
 
 function initSeams({ desktop }) {
-  const SHEET = new Set(["versus", "financiacion", "guia", "visita"]); /* contacto fuera: recortar una sección con un iframe de mapa en cada frame genera lag */
+  const SHEET = new Set(["versus"]); /* contacto fuera: recortar una sección con un iframe de mapa en cada frame genera lag */
   const ctx = gsap.context(() => {
     qsa("main > section").forEach((section) => {
       if (section.id === "unidades" || section.id === "bd" || section.id === "contacto" || section.classList.contains("bd")) return;
@@ -600,10 +601,7 @@ function initSectionEntrances({ desktop }) {
     opiniones:(s,i)=>gsap.fromTo(i,{y:-70*k,rotateX:desktop?-8:0,transformPerspective:1000},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
     bd:(s,i)=>gsap.fromTo(i,{scale:.7,opacity:.1,rotate:desktop?-3:0},{scale:1,opacity:1,rotate:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 102%","top 46%")}),
     "como-comprar":(s,i)=>gsap.fromTo(i,{x:90*k,clipPath:"inset(0 0 0 100%)"},{x:0,clipPath:"inset(0 0 0 0%)",ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
-    financiacion:(s,i)=>gsap.fromTo(i,{scale:.9,y:60*k},{scale:1,y:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
-    guia:(s,i)=>gsap.fromTo(i,{clipPath:"circle(10% at 50% 50%)",scale:1.12},{clipPath:"circle(76% at 50% 50%)",scale:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 40%")}),
     equipo:(s,i)=>gsap.fromTo(i,{x:-65*k,y:55*k,opacity:.15},{x:0,y:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
-    visita:(s,i)=>gsap.fromTo(i,{y:110*k,clipPath:"inset(100% 0 0 0)"},{y:0,clipPath:"inset(0% 0 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 98%","top 42%")}),
     preguntas:(s,i)=>gsap.fromTo(i,{scale:.94,y:45*k,opacity:.35},{scale:1,y:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 44%")})
   };
   ctx.add(() => {
@@ -813,11 +811,6 @@ function initParallax({ desktop }) {
     });
 
     /* PRECIO Y PAGO · columna de texto y de tarjetas a distinta velocidad (solo desktop). */
-    if (desktop) {
-      const text = qs("#financiacion .pdl"), cards = qs("#financiacion .pdg");
-      if (text) gsap.fromTo(text, { yPercent: 5 }, { yPercent: -5, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub("#financiacion", "top bottom", "bottom top") });
-      if (cards) gsap.fromTo(cards, { yPercent: -3 }, { yPercent: 3, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub("#financiacion", "top bottom", "bottom top") });
-    }
 
     /* Líneas verticales decorativas: se «dibujan» con el avance. */
     qsa(".xr").forEach((line) => {
@@ -1038,12 +1031,11 @@ function initSceneChoreography({ desktop }) {
     });
     /* Financiación: profundidad de tarjetas y una declaración que se estira con el scroll. */
     scene("financiacion", (s) => {
-      qsa(".pdc", s).forEach((card, i) => gsap.fromTo(card, { z: -80 * k, yPercent: (i - 1) * 3 * k, scale: .96 }, { z: 40 * k, yPercent: (1 - i) * 3 * k, scale: 1.015, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") }));
-      const statement = qs(".xl", s); if (statement) gsap.fromTo(statement, { xPercent: -3 * k, scaleX: .97, transformOrigin: "0 50%" }, { xPercent: 3 * k, scaleX: 1.03, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 88%", "bottom 20%") });
+
     });
     /* Guía: acordeones como hojas que se abren desde el centro, manteniendo lectura estable. */
     scene("guia", (s) => {
-      const intro = qs(".xl", s); if (intro) gsap.fromTo(intro, { yPercent: 5 * k, scale: .97 }, { yPercent: -5 * k, scale: 1.02, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+
     });
     /* Equipo: la foto es la profundidad; la lista sigue una diagonal suave. */
     scene("equipo", (s) => {
@@ -1052,9 +1044,7 @@ function initSceneChoreography({ desktop }) {
     });
     /* Visita: formulario y declaración se aproximan desde lados opuestos. */
     scene("visita", (s) => {
-      const form = qs("#visitaForm", s), quote = qs(".xl", s);
-      if (form) gsap.fromTo(form, { yPercent: 8 * k, scale: .96, rotateZ: -.6 }, { yPercent: -8 * k, scale: 1.015, rotateZ: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
-      if (quote) gsap.fromTo(quote, { xPercent: 4 * k }, { xPercent: -4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+
     });
     /* Preguntas: el cierre se expande en abanico, sin fade genérico. */
     scene("preguntas", (s) => {

@@ -62,3 +62,16 @@ html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl,html bo
 html body #visita#visita#visita .xt .xl em,html body #visita#visita#visita .xt .xl em *{color:#0b1220!important;-webkit-text-fill-color:#0b1220!important;opacity:1!important}
 html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl,html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl *{clip-path:none!important;overflow:visible!important}
 html body :is(#guia,#visita):is(#guia,#visita):is(#guia,#visita) .xt .xl *{font-weight:800!important;font-variation-settings:normal!important;font-size:inherit!important;letter-spacing:inherit!important;transform:none!important}
+
+/* Sin rótulos decorativos (talón N°, eyebrows, "Paso N", sellos) y fotos más livianas */
+html body :is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita) .xt::after{content:none!important;display:none!important}
+html body :is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita) :is(.xk,.pde,.pdt,.xb .xs){display:none!important}
+html body #guia#guia#guia .gd summary::before{content:none!important;display:none!important}
+html body #guia#guia#guia .gd summary{gap:0!important}
+html body :is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita) .fin-bg img{filter:none!important}
+html body :is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita) .w>.xt{padding-right:clamp(18px,3vw,48px)!important}
+
+/* Fondo de una sola imagen (mucho más liviano que 12 fotos sueltas) */
+html body #guia#guia#guia .fin-bg.mos{display:block!important;background:url(../images/bg-guia.webp) center/cover no-repeat}
+html body #visita#visita#visita .fin-bg.mos{display:block!important;background:url(../images/bg-visita.webp) center/cover no-repeat}
+html body #financiacion#financiacion#financiacion .fin-bg.mos{display:block!important;background:url(../images/bg-fin.webp) center/cover no-repeat}
