@@ -1,0 +1,20 @@
+CHITA · PASO · Visita (3 archivos, misma ruta que en el repo; reemplazar)
+  css/identidad.css   (bloque v31 agregado AL FINAL; no se borró nada de lo anterior)
+  js/app.js           (1 línea: el rótulo de cada casilla usa el nombre corto, ej. «Clio Dynamique 2016»)
+No tocar nada más. index.html queda igual al del paso Financiación.
+
+Qué se aplicó
+  - El video de la oficina pasa a ser la ventanilla: a la derecha del formulario, con el corte y fija al scrollear (escritorio).
+    Se acabó el vacío lateral y el video perdido al final de la sección.
+  - Las 11 casillas apiladas pasan a chips con tilde (3 renglones en escritorio, 2 columnas en móvil). Los chips tildados
+    se pintan de tinta; el pase de visita sigue numerando en el orden elegido y el mensaje de WhatsApp no cambia.
+  - Contraste: «ANTES DE IR» pasa de rojo sobre azul a blanco; «Enviar consulta» pasa de texto oscuro a blanco sobre rojo.
+  - Sin textos nuevos con datos: no se promete confirmación ni horario (siguen «se confirma con la agencia»).
+
+NO incluido (a propósito): integrar el calendario de reserva.html en esta sección. Es un cambio grande y conviene hacerlo junto
+con el paso de Reserva (almanaque de taco), para no duplicar trabajo.
+
+Verificado: npm test OK; 0 errores de JS en Chromium (1440, 1024 y 390 px); chips -> pase -> mensaje de WhatsApp probados.
+No verificado: Safari/Firefox (los chips usan :has(), soportado en las versiones actuales; sin soporte, el chip tildado
+no cambia de color pero el tilde y el pase siguen funcionando).
+Volver atrás: restaurar css/identidad.css y js/app.js desde git.

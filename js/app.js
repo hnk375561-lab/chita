@@ -216,7 +216,7 @@ FM.addEventListener("submit",function(e){e.preventDefault();check();if(!FM.repor
 var u=wa(msgText());
 if(isWebContact(u)){FS.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";FS.appendChild(l);FS.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(FS,msgText())}});
 /* Visita y búsqueda: arman un mensaje de contacto que envía la persona; no se guarda nada */
-$("vsU").insertAdjacentHTML("beforeend",STOCK.map(function(c,i){return '<label class="ck"><input type="checkbox" name="u" value="'+i+'"><span>'+esc(c.titulo+" "+c.anio)+'</span></label>'}).join(""));
+$("vsU").insertAdjacentHTML("beforeend",STOCK.map(function(c,i){return '<label class="ck"><input type="checkbox" name="u" value="'+i+'"><span>'+esc((c.corto||c.titulo)+" "+c.anio)+'</span></label>'}).join(""));
 function waForm(f,build){var s=f.querySelector(".fs");f.addEventListener("submit",function(e){e.preventDefault();if(!f.reportValidity())return;var m=build(f),u=wa(m);if(isWebContact(u)){s.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";s.appendChild(l);s.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(s,m)}})}
 /* Pase de visita: las unidades se numeran en el orden en que se eligen; ese orden va también en el mensaje */
 var visOrd=[];(function(){var f=$("visitaForm"),box=$("pase");if(!f||!box)return;

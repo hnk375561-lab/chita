@@ -1109,3 +1109,34 @@ html body #financiacion .pdc{min-width:0}
 html body #financiacion .pdc:has(.cup)>p{margin-bottom:16px!important}
 @media(max-width:899px){html body #financiacion .pdg{grid-template-columns:minmax(0,1fr)!important}}
 @media(max-width:600px){html body #financiacion .pdc .cup i:nth-child(-n+2){display:none}html body #financiacion .pdc .cup i:nth-child(3){border-left:0}}
+
+/* CHITA · v31 — VISITA: el video es la ventanilla; las unidades son chips
+   Se va     la columna vacía a la derecha, el video perdido al final y las 11 casillas apiladas (una por renglón).
+   Queda     escritorio: formulario a la izquierda y, a la derecha, la ventanilla (video vertical con el corte, fija al scrollear).
+             Las unidades son chips con tilde; el pase de visita numera igual que antes y el mensaje de WhatsApp no cambia.
+   Móvil     una columna, como antes; los chips envuelven.
+   Volver atrás: borrar este bloque y restaurar js/app.js. */
+html body #visita #vsU{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+html body #visita #vsU legend{width:100%;flex:none}
+html body #visita .ck{position:relative;display:inline-flex;align-items:center;min-height:40px;padding:0 14px 0 12px;gap:8px;background:#fff;border:2px solid var(--ink);font:800 12px/1.1 var(--font-display);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
+html body #visita .ck input{position:absolute;opacity:0;width:100%;height:100%;inset:0;margin:0;cursor:pointer}
+html body #visita .ck span::before{content:"";display:inline-block;width:.9em;height:.9em;margin-right:.6em;vertical-align:-.1em;border:2px solid var(--ink);background:#fff}
+html body #visita .ck:has(input:checked){background:var(--ink);color:#fff}
+html body #visita .ck:has(input:checked) span::before{background:var(--rojo);border-color:#fff;box-shadow:inset 0 0 0 2px var(--ink)}
+html body #visita .ck:has(input:focus-visible){outline:3px solid var(--rojo);outline-offset:2px}
+@media(min-width:900px){
+ html body #visita .w{display:grid!important;grid-template-columns:minmax(0,1fr) clamp(260px,24vw,340px);column-gap:clamp(24px,3vw,56px);align-items:start}
+ html body #visita .w>.xt{grid-column:1/-1;margin-right:0}
+ html body #visita .w>:is(.pdl,#visitaForm,.xb){grid-column:1;max-width:none!important}
+ html body #visita .pdl{grid-row:2}
+ html body #visita #visitaForm{grid-row:3}
+ html body #visita .xb{grid-row:4}
+ html body #visita .vvid{grid-column:2;grid-row:2/span 3;align-self:start;position:sticky;top:96px;max-width:none;width:100%;margin:clamp(28px,4vw,56px) 0 0!important;border-top:10px solid var(--rojo)}
+}
+html body #visita .vvid figcaption{padding:10px 12px 12px 14px;background:var(--ink);color:#fff;font:700 13px/1.3 var(--font-body,inherit)}
+html body #visita .pdl .pde{color:#fff!important}
+html body #visita #visitaForm .btn.p{color:#fff!important;font-weight:800;letter-spacing:.12em}
+@media(max-width:600px){html body #visita .ck{min-height:38px;padding:0 10px 0 9px;font-size:10.5px;letter-spacing:.03em;gap:6px}html body #visita .ck span::before{margin-right:.45em}html body #visita #vsU{gap:6px}}
+html body #visita #visitaForm .ck:has(input:checked){color:#fff!important}
+html body #visita #visitaForm .ck:has(input:checked) span{color:#fff!important}
+@media(max-width:600px){html body #visita #vsU{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}html body #visita #vsU legend{grid-column:1/-1}html body #visita .ck{min-height:46px;padding:6px 8px;line-height:1.15}}
