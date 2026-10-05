@@ -208,6 +208,7 @@ var vp=$("vp"),sel=[0,1,2].filter(function(i){return S[i]});
 function wl(c){return wa(ask(c))}
 function sg(c){return String((c.corto||c.titulo)+"-"+c.anio).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")}
 function vpk(){vp.innerHTML='<div class="vdk" role="group" aria-label="Elegir unidades para comparar">'+S.map(function(c,j){var on=sel.indexOf(j)>-1;return'<button type="button" class="vdp" data-j="'+j+'" aria-pressed="'+(on?"true":"false")+'"><img src="'+esc((c.fotos||[c.foto])[0])+'" alt="" width="56" height="44" loading="lazy"><span><b>'+esc(c.corto||c.titulo)+'</b><small>'+c.anio+'</small></span></button>'}).join("")+'</div><p class="vdn" role="status">Comparando '+sel.length+' de 3. Tocá otra hoja para sumarla; con tres abiertas, la próxima reemplaza la más antigua.</p>'}
+function cmpQ(u,K){var n=u.map(function(c){return c.titulo+" "+c.anio}),q=u.filter(function(c){return!K(c)}).map(function(c){return"¿Cuántos km tiene el "+(c.corto||c.titulo)+"?"}),t="Hola! Estoy comparando "+(n.length>2?n.slice(0,-1).join(", ")+" y "+n[n.length-1]:n.join(" y "))+". ¿Me confirman si siguen disponibles y qué diferencias hay entre ellas?"+(q.length?" "+q.join(" "):"");return'<div class="vdx"><p>¿Ya tenés a tus favoritas? Consultalas juntas.</p><a class="btn p" href="'+wa(t)+'">Consultar las '+u.length+' juntas</a></div>'}
 function vr(){var u=sel.map(function(i){return S[i]}),m=u.length>1;vpk();
  if(!u.length){$("vt").innerHTML='<p class="vsx">Elegí al menos una unidad para compararla.</p>';return}
  var K=function(c){return km(c)},mx=Math.max.apply(null,S.map(K)),ys=S.map(function(c){return c.anio}),y0=Math.min.apply(null,ys),y1=Math.max.apply(null,ys);
@@ -222,16 +223,16 @@ function vr(){var u=sel.map(function(i){return S[i]}),m=u.length>1;vpk();
   +'<dl class="vdm"><div class="'+(wa?"win":"")+'"><dt>Año</dt><dd><b>'+c.anio+'</b><span class="vbr"><u style="width:'+(28+72*(c.anio-y0)/(y1-y0||1))+'%"></u></span></dd></div>'
   +'<div class="'+(wk?"win":"")+'"><dt>Kilómetros <small>menos es mejor</small></dt>'+(K(c)?'<dd><b data-k="'+K(c)+'">'+esc(c.km)+'</b><span class="vbr" aria-hidden="true"><u data-w="'+Math.max(3,Math.round(100*K(c)/mx))+'"></u></span></dd>':'<dd class="bl">Se completa con la agencia</dd>')+'</div></dl>'
   +'<div class="vdq"><p class="vdt"><span>Equipamiento</span><b>'+ue[i]+" de "+EQ.length+'</b></p>'+(ue[i]?'<ul>'+EQ.filter(function(q){return(c.nota||"").toLowerCase().indexOf(q[0])>-1}).map(function(q){return'<li class="y"><span aria-hidden="true">✓</span>'+q[1]+'</li>'}).join("")+'</ul>':'')+'<p class="vdz">Qué preguntar: '+EQ.filter(function(q){return(c.nota||"").toLowerCase().indexOf(q[0])<0}).map(function(q){return q[1].toLowerCase()}).join(", ")+'.</p></div>'
-  +'<div class="vda"><a class="btn p" href="'+wl(c)+'">Consultar esta unidad</a><a class="btn" href="#unidad-'+sg(c)+'">Ver ficha</a></div></article>'}).join("")+"</div>"+(m?'<p class="vdy" aria-hidden="true">Deslizá para ver las demás unidades →</p>':"");
+  +'<div class="vda"><a class="btn p" href="'+wl(c)+'">Consultar esta unidad</a><a class="btn" href="#unidad-'+sg(c)+'">Ver ficha</a></div></article>'}).join("")+"</div>"+(m?cmpQ(u,K):"")+(m?'<p class="vdy" aria-hidden="true">Deslizá para ver las demás unidades →</p>':"");
  $("vt").innerHTML=h;
  var rm=matchMedia("(prefers-reduced-motion:reduce)").matches,bs=[].slice.call($("vt").querySelectorAll(".vdm b[data-k]")),us=[].slice.call($("vt").querySelectorAll(".vbr u[data-w]"));
  us.forEach(function(x){x.style.width=rm?x.getAttribute("data-w")+"%":"0"});
  if(!rm){requestAnimationFrame(function(){requestAnimationFrame(function(){us.forEach(function(x,j){x.style.transitionDelay=(j*85)+"ms";x.style.width=x.getAttribute("data-w")+"%"})})});
   bs.forEach(function(b,j){var k=+b.getAttribute("data-k"),t0=0;(function st(t){if(!t0)t0=t+j*85;var u=Math.max(0,Math.min(1,(t-t0)/900)),e=1-Math.pow(1-u,3);b.textContent=Math.round(k*e).toLocaleString("es-AR")+" km";if(u<1)requestAnimationFrame(st)})(performance.now())})}
 }
-vp.addEventListener("click",function(e){var b=e.target.closest(".vdp");if(!b)return;var j=+b.getAttribute("data-j"),k=sel.indexOf(j);
- if(k>-1){if(sel.length>1)sel.splice(k,1)}else{sel.push(j);if(sel.length>3)sel.shift()}
- vr();var f=vp.querySelector('[data-j="'+j+'"]');if(f)f.focus()});
+vp.addEventListener("click",function(e){var b=e.target.closest(".vdp");if(!b)return;var rp=null,j=+b.getAttribute("data-j"),k=sel.indexOf(j);
+ if(k>-1){if(sel.length>1)sel.splice(k,1)}else{sel.push(j);if(sel.length>3)rp=sel.shift()}
+ vr();if(rp!==null){var n=vp.querySelector(".vdn"),o=S[rp];if(n)n.textContent="Sumaste "+(S[j].corto||S[j].titulo)+" "+S[j].anio+". Reemplaza a "+(o.corto||o.titulo)+" "+o.anio+", la más antigua de las tres."}var f=vp.querySelector('[data-j="'+j+'"]');if(f)f.focus()});
 function late(){vr()}
 vr();if(document.readyState==="complete")late();else window.addEventListener("load",late);
 })();

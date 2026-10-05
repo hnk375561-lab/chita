@@ -36,6 +36,20 @@ Archivos: `css/identidad.css` (se carga al final) y `js/identidad.js`. Núcleo: 
 - **v30 · Alineación con `docs/IDENTIDAD-MADRE.md`**: el mensaje de consulta pide el kilometraje cuando la unidad no lo publica; el copy de «Cómo comprar» dice «WhatsApp o por teléfono»; el `aria-label` de `#catalogo-comparador` pasa a «Índice de unidades publicadas y comparador»; se regeneró el HTML estático de las tarjetas (`npm run prerender`). Sin datos nuevos.
 
 - **v31 · Limpieza de consola y Financiación**: `initHero()` (`js/motion.js`) ya no crea tweens para `.hx-veil`, `.hx-logo` ni `.hx-info` cuando no existen (0 avisos GSAP). En Financiación el talón de condiciones es la única acción primaria (el botón anterior queda como respaldo sin JS), no se sale de la pantalla en móvil y el selector usa todo el ancho. Solo CSS y una guarda en JS; sin datos nuevos.
+- **v32 · Unidades**: filtros reducidos a búsqueda, chips de modelo (generados desde `STOCK`) y orden. También Guía v32 (planilla tildable y hoja para llevar) y Reserva v32 (almanaque de taco).
+- **v33 · Hero**: la pasada de fondo alterna portada de unidad y foto de entrega publicada (decorativa; falta la autorización final de uso en hero). Reserva v33: perforación en la hoja del día.
+- **v34 · Coordenadas**: línea final legible, sin cambiar el dato aproximado.
+- **v35 · Footer**: wordmark plano en lugar del logo circular metálico.
+- **v36 · Cómo comprar**: cada paso es un sello del remito.
+- **v37 · Ficha**: remito numerado y foto a sangre con entrada por CORTE.
+- **v38 · Visita, Reseñas y Viaje**: (1) Visita: almanaque de taco dentro del talón; escribe el día y la franja (Mañana/Tarde) en «Día y horario» y de ahí lo leen el pase y el mensaje de WhatsApp; sin JS queda el campo de texto; no es una reserva y la agencia confirma. (2) Reseñas: la línea de fuente y la cifra de casillas pasan a tinta para tener contraste sobre papel. (3) Viaje: las unidades se ordenan por su kilometraje ya publicado y se reparten en tercios (ciudad, ruta, destino), el viaje cierra donde empezó (Gral. Galarza 1712). Sin datos nuevos.
+- **v39 · Guía → Visita (T18)**: lo que se tilda en la Guía se suma al mensaje de WhatsApp de Visita («Quiero revisar: …») y el contador dice «Marcaste N de M · van en tu consulta de visita». Sin guardar datos ni texto nuevo con cifras.
+- **v40 · Comparador (T5)**: con 2 o 3 unidades comparadas aparece un talón «Consultar las N juntas» que abre WhatsApp con las unidades nombradas y, para las que no publican km, la pregunta «¿Cuántos km tiene…?». Con una sola unidad no aparece. Sin cifras ni datos nuevos.
+- **v41 · Reseñas (T16)**: las 45 casillas pasan de rojo macizo con numeral grande a regla de recuento (contorno de tinta, numeral mínimo; la 45 en rojo). El 4,7 es el único numeral grande y no se leen como reseñas individuales. Solo CSS; sin texto ni datos nuevos.
+- **v42 · Hero (T10)**: la pasada de fondo baja contraste (velo .66 → .8; fotos de entregas .18 → .34) y velocidad (130 s → 190 s por vuelta) para que el reel sea el protagonista. Solo CSS; sin elementos nuevos.
+- **v43 · Entregas (T11)**: el sello grande queda solo en la primera entrega; en las otras 11 aparece al pasar el mouse o con foco. En reposo se ve 1 de 12 (límite del documento madre: 30 %). El código `E·NN` sigue en todas. Solo CSS; sin estados nuevos.
+- **v44 · E·13 / Preguntas (T20)**: el pedido E·13 queda como bloque propio con perforación arriba y abajo; las Preguntas dejan la numeración `P·NN` (el título de sección y el rótulo «Preguntas de referencia» no cambian). Una sola acción primaria en el cierre del pedido. Solo CSS.
+- **v45 · Comparador (T12)**: al elegir una cuarta unidad, el aviso dice cuál reemplaza («Sumaste X. Reemplaza a Y, la más antigua de las tres.») en lugar de reemplazar en silencio. Solo JS en `index.html`; sin datos nuevos.
 
 ## Color
 Azul chapa `#0A2C8C`, rojo `#C1121F` (logotipo y columnas del local), papel `#ECEDEA`, tinta `#0A1020`, plata `#B9BEC4`. Sin cian, sin dorado, sin vidrio.

@@ -1369,3 +1369,52 @@ html body #financiacion .pdr .fin-ticket~a.btn{display:none}
   html body #financiacion .fin-ticket label:not(.fin-used){grid-column:auto}
   html body #financiacion .fin-ticket a{justify-self:stretch;white-space:normal;text-align:center}
 }
+
+/* CHITA v38 · VISITA: almanaque de taco dentro del talón (cabecera de tinta con perforación, días en cuadrícula, franja opcional).
+   RESEÑAS: la línea de fuente y la cifra de casillas pasan a tinta para leerse sobre papel. Solo CSS. */
+html body #visita .alm{margin:2px 0 4px;border:2px solid var(--ink);background:#fff;color:var(--ink)}
+html body #visita .alm-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 10px 10px;background:var(--ink);color:#fff;background-image:radial-gradient(circle at 7px 6px,var(--rojo) 0 3px,transparent 3.5px);background-size:28px 12px;background-repeat:repeat-x;background-position:0 0}
+html body #visita .alm-h b{font:800 13px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase}
+html body #visita .alm-n{width:40px;height:40px;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;font:800 16px/1 var(--font-display);cursor:pointer;border-radius:0}
+html body #visita .alm-n:hover:not(:disabled),html body #visita .alm-n:focus-visible{background:var(--rojo);border-color:var(--rojo);outline:0}
+html body #visita .alm-n:disabled{opacity:.3;cursor:default}
+html body #visita .alm-w,html body #visita .alm-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding:0 8px}
+html body #visita .alm-w{padding-top:10px}
+html body #visita .alm-w i{font:800 10px/1 var(--font-display);letter-spacing:.12em;text-align:center;font-style:normal;opacity:.6}
+html body #visita .alm-g{padding-top:6px;padding-bottom:8px}
+html body #visita .alm-d,html body #visita .alm-f{min-height:40px;border:1px solid rgba(10,16,32,.3);background:transparent;color:var(--ink);font:800 12px/1 var(--font-display);letter-spacing:.06em;cursor:pointer;border-radius:0}
+html body #visita .alm-d[data-hoy]{box-shadow:inset 0 -3px 0 var(--rojo)}
+html body #visita .alm-d:hover:not(:disabled),html body #visita .alm-f:hover:not(:disabled){border-color:var(--ink)}
+html body #visita .alm-d:focus-visible,html body #visita .alm-f:focus-visible,html body #visita .alm-n:focus-visible{outline:3px solid var(--rojo);outline-offset:2px}
+html body #visita .alm-d[aria-pressed="true"],html body #visita .alm-f[aria-pressed="true"]{background:var(--rojo);border-color:var(--rojo);color:#fff}
+html body #visita .alm-d:disabled,html body #visita .alm-f:disabled{opacity:.28;cursor:default}
+html body #visita .alm-s{display:flex;gap:8px;padding:0 8px 8px}
+html body #visita .alm-f{flex:1;letter-spacing:.1em;text-transform:uppercase}
+html body #visita .alm-m{margin:0;padding:0 10px 10px;font:600 12px/1.4 var(--font-text,inherit);opacity:.75}
+@media(max-width:560px){html body #visita .alm-w,html body #visita .alm-g{gap:3px;padding-inline:6px}}
+@media(prefers-reduced-motion:reduce){html body #visita .alm *{transition:none!important}}
+html body #opiniones :is(.rvd,.rv45t){color:var(--ink)!important;opacity:1!important}
+
+/* CHITA v40 · COMPARADOR: consulta comparativa. Con 2 o 3 unidades, un talón único abre WhatsApp con las unidades juntas (y pregunta el km de las que no lo publican). Solo CSS. */
+html body #versus .vdx{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:clamp(18px,2.4vw,28px) 0 0;padding:14px 16px;border:2px dashed currentColor;border-left:10px solid var(--rojo)}
+html body #versus .vdx p{margin:0;font:800 13px/1.3 var(--font-display);letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:560px){html body #versus .vdx .btn{width:100%;text-align:center}}
+
+/* CHITA v41 · RESEÑAS (T16): las 45 casillas dejan de ser rojas macizas con números grandes; quedan como regla de recuento (contorno de tinta, numeral mínimo) para que el 4,7 sea el único numeral grande y no se lean como reseñas individuales. Solo CSS. */
+html body #opiniones .rv45 i{background:transparent;color:rgba(10,16,32,.6);box-shadow:inset 0 0 0 1.5px rgba(10,16,32,.3);font-size:clamp(7px,.7vw,10px);cursor:default}
+html body #opiniones .rv45 i:nth-child(-n+45):last-child{box-shadow:inset 0 0 0 1.5px var(--rojo);color:var(--rojo)}
+
+/* CHITA v42 · HERO (T10): la pasada de fondo baja contraste y velocidad para que el protagonista sea un solo recorrido (el reel). Velo de tinta .66 -> .8 (entregas .18 -> .34) y vuelta de 130 s -> 190 s. Solo CSS; sin elementos nuevos. */
+html body main>.hero.hx .hx-trk{animation-duration:190s}
+html body main>.hero.hx .hx-pn::after{opacity:.8}
+html body main>.hero.hx .hx-pn-delivery::after{opacity:.34}
+
+/* CHITA v43 · ENTREGAS (T11): el sello grande queda solo en la primera entrega («Entregado»); en las demás aparece al pasar el mouse o con foco. El resto sigue mostrando su código E·NN. Sin estados nuevos. Solo CSS. */
+html body #entregas .eg li:not(:first-child) .sl{opacity:0!important;animation:none!important;transition:opacity .2s linear}
+html body #entregas .eg li:not(:first-child):is(:hover,:focus-within) .sl{opacity:1!important}
+@media(prefers-reduced-motion:reduce){html body #entregas .eg li .sl{transition:none}}
+
+/* CHITA v44 · E·13 / PREGUNTAS (T20): el pedido E·13 queda como bloque propio con perforación arriba y abajo; las Preguntas van debajo como bloque aparte, sin la numeración P·NN. Una sola acción primaria en el cierre del pedido. Solo CSS. */
+html body #preguntas .bqf{padding-block:clamp(22px,3vw,40px);border-block:3px dotted var(--rojo);margin-bottom:clamp(36px,5vw,72px)}
+html body #preguntas .bqm{padding-top:clamp(8px,1.5vw,20px)}
+html body #preguntas .fa summary::before{content:none;min-width:0}

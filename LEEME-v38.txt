@@ -1,0 +1,30 @@
+CHITA · v38 a v45 (zip 39) · ACUMULADO sobre el zip 38: todos los cambios de la sesión; solo archivos modificados (rutas iguales al repo; copiar encima y reemplazar)
+
+  index.html               v40: consulta comparativa en el Comparador («Consultar las N juntas»)
+  css/identidad.css        bloque v38 al final (almanaque de Visita; contraste y casillas de Reseñas v41; comparador v40; hero más quieto v42; sello de Entregas v43; E·13/Preguntas v44)
+  index.html tambien: v45, el Comparador avisa cual unidad reemplaza al sumar una cuarta. No se borró nada.
+  js/identidad.js          v39: contador de la Guía + lista de marcados; almanaque de taco en Visita (escribe en «Día y horario»; pase y WhatsApp no cambian)
+  js/app.js                v39: lo marcado en la Guía se suma al mensaje de Visita («Quiero revisar: …»)
+  js/viaje.js              unidades ordenadas por km publicados y repartidas en 3 escenas; cierre circular
+  viaje.html               nota de la escena final: «llegada / otra vez Galarza 1712»
+  docs/IDENTIDAD.md        entradas v32 a v38 (estaba en v31)
+  docs/IDENTIDAD-MADRE.md  v2.3: estado de Unidades, Hero, Reseñas, Guía y Visita al día; tabla de aplicación cerrada
+
+Qué se aplicó
+  Visita   Almanaque: mes, días desde hoy, franja Mañana/Tarde opcional. Elegir un día vuelve a tocarlo = lo quita.
+           Si la persona escribe a mano, el almanaque se limpia. El texto sigue siendo «la agencia confirma día y horario».
+  Reseñas  Línea «Google muestra…» y «Cada casilla es una de las 45…» en tinta (antes gris claro sobre papel).
+  Viaje    Ruta por km reales: de menos a más kilómetros (Kia 11.400 km → Clio 123.000 km). Narrativa circular:
+           el último tramo dice que llegaste a Gral. Galarza 1712, el punto de partida. Sin datos nuevos.
+
+HACER A MANO (un zip no puede borrar archivos)
+  Borrar del repo la carpeta chita-cambios/ (entrega vieja: index.html, site.css, motion.js, cartel-chita.webp).
+  No está en el árbol real y puede pisar archivos si alguien la copia por error.
+
+Verificado: npm test OK; Chromium 1440 y 390 px: almanaque -> campo -> pase de visita probado, sin desborde horizontal,
+  0 errores de JS en index y en viaje (el 404 que se ve en pruebas locales sin /video es solo de los .mp4).
+No verificado: Safari/Firefox, dispositivos reales, la superposición título/tarjeta de Viaje en las escenas 2 y 3 en móvil,
+  Reseñas en móvil.
+Sigue pendiente (no es código): horarios, email, autorización de fotos de entregas (también en el hero y en Viaje),
+  si Tracker 2018 y Palio 1.4N «Serie 2» son unidades distintas.
+Volver atrás: restaurar esos archivos desde git.

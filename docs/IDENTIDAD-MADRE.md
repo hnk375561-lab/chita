@@ -1,11 +1,11 @@
-# CHITA / DOCUMENTO MADRE DE IDENTIDAD — v2.2 aplicable
+# CHITA / DOCUMENTO MADRE DE IDENTIDAD — v2.3 aplicable
 
 > **CHITA no debe parecer una concesionaria que aprendió a decorar una web.**
 > Debe sentirse como el lugar donde un auto pasa de estar publicado a irse con su dueño.
 
-**Ubicación sugerida en el repo:** `docs/IDENTIDAD-MADRE.md`. Complementa a `docs/IDENTIDAD.md` (que es el registro técnico de lo implementado, v7–v29) y no lo reemplaza.
-**Base de esta versión:** lectura del código de `chita-main (37)` el 05/10/2026 (`index.html`, `css/identidad.css`, `js/app.js`, `js/identidad.js`, `docs/IDENTIDAD.md`, `CLAUDE.md`, `AUDITORIA-IMPLEMENTACION.md`, `golive/AFIRMACIONES-A-CONFIRMAR.md`).
-**Qué no se hizo:** no se abrió el sitio en un navegador ni se corrió `npm test`. Todo lo marcado «verificado» sale de leer el código; lo marcado «verificar» hay que comprobarlo en pantalla antes de tocar nada.
+**Ubicación sugerida en el repo:** `docs/IDENTIDAD-MADRE.md`. Complementa a `docs/IDENTIDAD.md` (que es el registro técnico de lo implementado, v7–v38) y no lo reemplaza.
+**Base de esta versión:** lectura del código de `chita-main (38)` más los cambios v38 (Visita, Reseñas, Viaje), el 05/10/2026 (`index.html`, `css/identidad.css`, `js/app.js`, `js/identidad.js`, `docs/IDENTIDAD.md`, `CLAUDE.md`, `AUDITORIA-IMPLEMENTACION.md`, `golive/AFIRMACIONES-A-CONFIRMAR.md`).
+**Qué se verificó y qué no:** los cambios v38 se probaron con `npm test` y Chromium (1440 y 390 px). El resto de lo marcado «verificado» sale de leer el código; lo marcado «verificar» hay que comprobarlo en pantalla antes de tocar nada. Sin probar: Safari/Firefox, dispositivos reales, Lighthouse.
 
 ---
 
@@ -28,6 +28,7 @@
 | Se agregaron los bloqueos por datos pendientes del dueño (fotos de clientes, reseñas, Tracker/Palio «Serie 2», km, horarios). | Hay propuestas que no se pueden aplicar hasta que el dueño confirme. |
 | Se agregaron `F·NN`, `G·NN`, `N°` y `N°·B` a la tabla de códigos. | Existen en el código y faltaban. |
 | Se quitaron las puntuaciones /10. | Eran opinión sin criterio medible. Se reemplazan por estado y brecha. |
+| **v2.3:** se actualizó el estado de Unidades, Hero, Reseñas, Guía y Visita al código v32–v38 y se cerró la tabla de aplicación. | El documento describía el zip 37 y quedó atrasado. |
 | ~~Se agregó la deuda de `viaje.html` y `reserva.html` (otra paleta, tipografías sueltas).~~ **Retirado en v2.2.** | Se comprobó en navegador: ambas páginas ya se ven con la paleta y las dos tipografías de Chita (`viaje.css` las redefine más abajo en el mismo archivo). Queda solo código viejo sin efecto al inicio de `viaje.css`. |
 
 ---
@@ -198,7 +199,7 @@ Cada verbo es único. Si dos secciones comparten verbo, una está duplicando fun
 Formato: **Estado** (lo que existe hoy, verificado en código) · **Brecha** · **Acción** (con archivo) · **Aceptación** · **No tocar**.
 
 ### 00 · Hero — Despachar
-- **Estado:** titular «Autos que se van con sus dueños»; bloque rojo en «sus dueños»; video del salón; control «Escuchá el salón»; rótulo `E·00 · Parte de salida · Recorrido por el salón`; 4,7 · 45 reseñas en Google; dos CTA («Ver unidades», «Vender o permutar mi auto»). Despacho implementado (v10): el hero queda fijo, el auto se va a la derecha y Entregas lo cubre con su borde perforado (solo ≥900 px, sin reduced-motion). La pasada de portadas usa `STOCK` + `HCOVER`.
+- **Estado:** titular «Autos que se van con sus dueños»; bloque rojo en «sus dueños»; video del salón; control «Escuchá el salón»; rótulo `E·00 · Parte de salida · Recorrido por el salón`; 4,7 · 45 reseñas en Google; dos CTA («Ver unidades», «Vender o permutar mi auto»). Despacho implementado (v10): el hero queda fijo, el auto se va a la derecha y Entregas lo cubre con su borde perforado (solo ≥900 px, sin reduced-motion). La pasada de portadas usa `STOCK` + `HCOVER` y desde v33 alterna con fotos de entregas ya publicadas (decorativas; falta la autorización final de uso en el hero).
 - **Brecha:** muchas señales simultáneas (pasada, titular, video, dirección, score, CTA, columna). Riesgo de recordarse como «apertura intensa de autos».
 - **Acción (T10, P2):** bajar el contraste/velocidad de la pasada de portadas para que el protagonista sea un solo recorrido; no agregar elementos.
 - **Aceptación:** en 390 px y 1440 px hay una sola jerarquía clara (titular → CTA primario); el video sigue pausándose al salir.
@@ -215,7 +216,7 @@ Formato: **Estado** (lo que existe hoy, verificado en código) · **Brecha** · 
 - **Verificar:** el dato de Facebook (100 % / 22 opiniones) debe estar en `data/sources.json` con fuente y fecha. Si no está, registrarlo en `golive/AFIRMACIONES-A-CONFIRMAR.md` o retirarlo.
 
 ### 02 · Unidades — Registrar
-- **Estado:** búsqueda, filtros, orden, galerías con teclado y arrastre, fichas con hash, `U·NN`, remito v13. Cada tarjeta muestra «Consultar disponibilidad», «Ver ficha completa ›» y «Consultar». Texto de apoyo: «La agencia te confirma si sigue disponible y qué falta conversar» (ya cumple la promesa de servicio).
+- **Estado:** búsqueda, chips de modelo (v32, generados desde `STOCK`), orden, galerías con teclado y arrastre, fichas con hash, `U·NN`, remito v13. Cada tarjeta muestra «Consultar disponibilidad», «Ver ficha completa ›» y «Consultar». Texto de apoyo: «La agencia te confirma si sigue disponible y qué falta conversar» (ya cumple la promesa de servicio).
 - **Brechas:**
   1. ~~«Consultar disponibilidad» ×12 y doble CTA.~~ **Corregido en la v2.1:** era HTML estático desactualizado (el prerender no se había regenerado). `js/app.js` ya renderiza una sola CTA («Consultar») y el estado «La agencia confirma si sigue disponible». Se regeneró con `npm run prerender`.
   2. Las tres condiciones (publicado / a confirmar / no informado) no están diferenciadas visualmente.
@@ -270,6 +271,7 @@ Formato: **Estado** (lo que existe hoy, verificado en código) · **Brecha** · 
 ### 08 · Reseñas — Citar
 - **Estado:** «Reseñas en Google · Registro público de quienes pasaron»; «Chita no reescribe ni selecciona estas opiniones»; 4,7 de 5 · 45 reseñas «(puede variar)»; «Ver opiniones en Google» primero y «Cómo llegar» después; 45 casillas («Cada casilla es una de las 45 reseñas que Google muestra hoy»).
 - **Bloqueo (dueño):** autorización para usar reseñas.
+- **Aplicado (v38):** la línea de fuente y la de las 45 casillas pasan a tinta (contraste sobre papel). Sin textos ni datos nuevos.
 - **Brecha:** las 45 casillas son recuento visual, no registros con fuente propia. Riesgo de leerse como relleno.
 - **Acción (T16, P2, opcional):** mantener la cuadrícula pero que **no** parezca reseñas individuales; que el 4,7 sea el único numeral grande. No insertar texto de reseñas.
 - **Aceptación:** fecha y atribución siempre visibles; ningún texto de usuario reproducido.
@@ -304,14 +306,14 @@ Formato: **Estado** (lo que existe hoy, verificado en código) · **Brecha** · 
 - **No tocar:** WhatsApp, fallback de copiar/llamar, privacidad, ausencia de tasación automática.
 
 ### 12 · Guía — Revisar
-- **Estado:** «Antes de comprar o permutar un usado»; ya agrupa «Mirar» (qué revisar) y «Preguntar» (documentación); contador «0 de N revisados»; aclaración «Los requisitos los define el Registro Seccional».
+- **Estado:** «Antes de comprar o permutar un usado»; ya agrupa «Mirar» (qué revisar) y «Preguntar» (documentación); contador «0 de N revisados» (v32: planilla tildable y «hoja para llevar» con impresión); aclaración «Los requisitos los define el Registro Seccional».
 - **Brecha:** «0 de N revisados» se lee como estado de componente.
 - **Acción (T18, P2):** cambiar el contador a lenguaje de visita: «Marcaste N · llevalos anotados» y que lo marcado alimente el mensaje de Visita como «Para preguntar». Sin guardar datos.
 - **Aceptación:** nada se persiste; si no hay marcas, el mensaje de Visita no cambia.
 - **No tocar:** advertencia de información general, aclaración sobre normas/costos (agregar fecha de revisión si el dueño la define; **verificar** si hoy existe).
 
 ### 13 · Visita — Coordinar
-- **Estado:** «Coordiná tu visita»; «Talón de visita»; unidades y día/horario opcionales; «Preparar consulta»; cartel **«No es una reserva automática. El sitio no guarda estos datos»**; calendario multistep (`reserva.html`, constante `CONFIG.whatsapp` en `js/reserva.js`).
+- **Estado:** «Coordiná tu visita»; «Talón de visita»; unidades y día/horario opcionales; «Preparar consulta»; cartel **«No es una reserva automática. El sitio no guarda estos datos»**; calendario multistep (`reserva.html`, constante `CONFIG.whatsapp` en `js/reserva.js`). Desde v38 el talón incluye un almanaque de taco (día y franja Mañana/Tarde opcionales) que escribe en «Día y horario»; el pase y el mensaje de WhatsApp lo leen de ahí. `reserva.html` conserva el almanaque multistep (v32/v33).
 - **Brecha (corregida en v2.2):** una lectura rápida de `css/viaje.css` sugería paleta y tipografías sueltas (`#101114`, `Archivo`, `Jet`, `monospace`). Es código viejo **sobrescrito** por reglas posteriores del mismo archivo. Medido en navegador (390 y 1440 px): `viaje.html` y `reserva.html` usan `--ink #0A1020`, `--bone #ECEDEA`, `--red #C1121F`, `--blue #0A2C8C` y solo Bricolage Grotesque + Instrument Sans; sin errores de JS ni desborde horizontal.
 - **Acciones:**
   - **T2 — no aplicable.** Ya está unificado. Opcional (P3, sin efecto visual): borrar la primera línea de `css/viaje.css` y las referencias muertas a `Archivo`/`Jet`/`monospace`, solo con prueba visual.
@@ -380,7 +382,19 @@ Todo dato nuevo se registra en `golive/AFIRMACIONES-A-CONFIRMAR.md` y en `data/d
 | T7 | Hecho | CTA única, talón dentro de pantalla, selector completo |
 | T21 | Hecho | 0 avisos GSAP en 1440 y 390 px |
 | T2 | No aplicable | Ya estaba unificado |
-| T1, T5, T10–T20 | Pendiente | T1 depende del dueño |
+| Unidades (filtros) | Hecho | v32: chips de modelo, búsqueda y orden |
+| Hero / Entregas | Hecho | v33: la pasada alterna autos y entregas (autorización de fotos pendiente) |
+| Reserva (almanaque) | Hecho | `reserva.html` v32/v33; en Visita v38 |
+| Visita | Hecho | v38: almanaque dentro del talón |
+| Viaje | Hecho | fotos reales, km publicados, cierre circular (v38) |
+| Reseñas (T16) | Hecho | v38: contraste. v41: las 45 casillas pasan a regla de recuento (contorno de tinta, numeral mínimo); el 4,7 queda como único numeral grande |
+| Guía (T18) | Hecho | tildable e imprimible (v32); lo marcado se suma al mensaje de Visita como «Quiero revisar: …» (v39) |
+| T5 | Hecho | «Qué preguntar» ya estaba por tarjeta; v40 suma la consulta comparativa: con 2 o 3 unidades, un talón abre WhatsApp con todas juntas y pregunta el km de las que no lo publican |
+| T10 | Hecho | v42: velo de la pasada .66 → .8 (entregas .18 → .34) y vuelta de 130 s → 190 s |
+| T11 | Hecho | v43: sello solo en la primera entrega (1 de 12 en reposo); en las demás al hover/foco. El rótulo `E·NN` queda en todas |
+| T20 | Hecho | v44: E·13 con perforación arriba y abajo; Preguntas como bloque aparte, sin numeración `P·NN` |
+| T12 | Hecho | v45: al sumar una cuarta unidad el aviso dice cuál reemplaza («Sumaste X. Reemplaza a Y, la más antigua de las tres.»); se usa el nombre porque `U·NN` ya no existe |
+| T1, T13–T15, T17, T19 | Pendiente | T1 depende del dueño |
 
 **Alerta T1:** `js/app.js` imprime en las tarjetas «Serie 2 · diferencia editorial; confirmar detalles con la agencia». Eso afirma una diferencia que el dueño todavía no confirmó (Tracker 1.8N y su «Serie 2» comparten año y km). No se tocó para no cambiar datos sin confirmación.
 

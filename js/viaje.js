@@ -12,9 +12,13 @@ const CONFIG = {
     ["Renault Clio Dynamique 1.2N", 2016, "123.000 km", "city", "compacto"], ["Chevrolet Tracker Premier 1.8N", 2018, "98.000 km", "road", "SUV"], ["Kia K3 EX Cross 1.6N", 2025, "11.400 km", "road", "crossover"], ["Renault Kangoo Comfort 1.6N", 2022, "87.000 km", "destination", "utilitario"], ["Renault Kangoo Authentique 1.6N", 2018, "108.000 km", "destination", "utilitario"], ["Peugeot 301 Allure 1.6 HDI", 2018, "119.000 km", "road", "sedán"], ["Peugeot Partner Patagónica 1.4N", 2014, "112.000 km", "destination", "utilitario"]
   ].map(([name, year, km, scene, criterion]) => ({ name, year, km, scene, criterion }))
 };
+/* Ruta por km reales: las unidades se ordenan por su kilometraje publicado y se reparten en tercios (ciudad, ruta, destino). */
+CONFIG.units.forEach((u) => { u.kmN = parseInt(u.km.replace(/\D/g, ""), 10) || 0; });
+CONFIG.units.sort((x, y) => x.kmN - y.kmN).forEach((u, i, all) => { u.scene = CONFIG.scenes[Math.min(CONFIG.scenes.length - 1, Math.floor(i * CONFIG.scenes.length / all.length))].id; });
+
 
 const $ = (selector) => document.querySelector(selector);
-const route = $("#route");
+const route = $("#route"), routeIntro = $(".route-intro"), introBase = routeIntro ? routeIntro.textContent : "";
 if (route) {
   const token = $("#token"), bar = $("#route-progress"), odometer = $("#odometer"), sceneLabel = $("#scene-label"), progressLabel = $("#progress-label"), unitLayer = $("#unit-layer"), arrival = $("#arrival");
   const sceneEls = [...document.querySelectorAll(".scene")];
@@ -40,7 +44,7 @@ if (route) {
     const progress = state.p, index = sceneIndex(progress), scene = CONFIG.scenes[index]; state.scene = index;
     const percent = Math.round(progress * 100), max = route.clientWidth - parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pad")) * 2 - 62;
     const activeUnit = renderUnits(progress);
-    sceneLabel.textContent = scene.title; progressLabel.textContent = `${percent}%`; odometer.innerHTML = `<strong>${activeUnit.km}</strong><small>${activeUnit.name}</small>`; odometer.setAttribute("aria-label", `Kilometraje publicado de ${activeUnit.name}: ${activeUnit.km}`);
+    sceneLabel.textContent = scene.title; if (routeIntro) routeIntro.textContent = index === 2 ? "Llegaste al punto de partida: Gral. Galarza 1712." : introBase; progressLabel.textContent = `${percent}%`; odometer.innerHTML = `<strong>${activeUnit.km}</strong><small>${activeUnit.name}</small>`; odometer.setAttribute("aria-label", `Kilometraje publicado de ${activeUnit.name}: ${activeUnit.km}`);
     token.style.transform = `translate3d(${Math.round(max * progress)}px,0,0)`; bar.style.width = `${percent}%`;
     token.setAttribute("aria-valuenow", String(percent)); token.setAttribute("aria-valuetext", `Escena: ${scene.title}, ${percent}%`);
     sceneEls.forEach((element, i) => { element.style.opacity = i === index ? "1" : String(Math.max(0, 1 - Math.abs(i - index) * 2)); element.setAttribute("aria-hidden", String(i !== index)); const photo = element.querySelector(".scene-photo"); if (photo) photo.style.setProperty("--scene-offset", `${Math.round((progress - i * .5) * -22)}px`); });
