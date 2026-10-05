@@ -1851,47 +1851,41 @@ html body #unidades #stockGrid .car-cta:focus-visible{outline:3px solid var(--ro
  html body #modelos .mdf{--mh:clamp(420px,calc(100svh - 260px),800px)}
 }
 
-/* ═══ CHITA · v54 — QUIÉNES SOMOS «Frente a frente» ═══
-   Un frente real por servicio (Usados · Permutas · Consignaciones). Escenario fijo a la izquierda, servicios que se leen a la derecha.
-   Markup propio (.fr-*): no hereda las capas anteriores de #nosotros. Solo fotos de frentes de unidades publicadas. */
-html body #nosotros.fr{background:var(--ink)!important;color:#fff;padding:clamp(56px,8vw,112px) 0;position:relative}
-html body #nosotros.fr .fr-w{width:min(1180px,calc(100% - 2*clamp(20px,4vw,64px)));margin-inline:auto;display:block;text-align:left}
+/* ═══ CHITA · v54 — QUIÉNES SOMOS «Frentes» ═══
+   Tres frentes reales de unidades publicadas, uno por servicio. Foto entera (sin recortes raros) + panel oscuro con el texto debajo: nada se tapa.
+   Markup propio (.fr-*). Ojo: nunca usar <header> acá, el sitio le aplica la barra fija. */
+html body #nosotros.fr{background:var(--ink)!important;color:#fff;padding:clamp(56px,8vw,112px) 0;position:relative;--fp:clamp(20px,4vw,64px)}
+html body #nosotros.fr .fr-w{width:min(1180px,calc(100% - 2*var(--fp)));margin-inline:auto;display:block;text-align:left}
 html body #nosotros.fr .fr-hd{max-width:46rem}
 html body #nosotros.fr .fr-k{display:inline-flex;align-items:center;gap:10px;font:800 12px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase;color:#EE4B55!important}
 html body #nosotros.fr .fr-k::before{content:"";width:10px;height:22px;background:var(--rojo)}
 html body #nosotros.fr .fr-k::after{content:none!important}
-html body #nosotros.fr .fr-h2{margin:18px 0 0;font-family:var(--font-display)!important;font-weight:800!important;font-size:clamp(34px,5vw,72px)!important;line-height:.98!important;letter-spacing:-.02em;text-transform:uppercase;text-wrap:balance;hyphens:none!important;overflow-wrap:normal!important;color:#fff!important}
+html body #nosotros.fr .fr-h2{margin:18px 0 0;font-family:var(--font-display)!important;font-weight:800!important;font-size:clamp(34px,5vw,68px)!important;line-height:1!important;letter-spacing:-.02em;text-transform:uppercase;text-wrap:balance;hyphens:none!important;overflow-wrap:normal!important;color:#fff!important}
 html body #nosotros.fr .fr-h2 em{font-style:normal;color:#EE4B55!important}
 html body #nosotros.fr .fr-lead{margin:20px 0 0;max-width:36rem;font-size:clamp(16px,1.3vw,19px)!important;line-height:1.55;color:var(--plata)!important}
-html body #nosotros.fr .fr-grid{display:grid;gap:clamp(24px,4vw,64px);margin-top:clamp(36px,5vw,64px);align-items:start}
-html body #nosotros.fr .fr-stage{position:sticky;top:76px;z-index:2;margin:0;width:100%;height:42svh;overflow:hidden;background:#050A16;box-shadow:-12px 0 0 var(--rojo)}
-html body #nosotros.fr .fr-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;opacity:0;transform:scale(1.08);transition:opacity .6s var(--ease) .15s,transform 1.4s var(--ease)}
-html body #nosotros.fr .fr-img.on{opacity:1;transform:scale(1)}
-html body #nosotros.fr .fr-sweep{position:absolute;inset:0;z-index:2;background:var(--rojo);transform:scaleX(0);transform-origin:left;pointer-events:none}
-html body #nosotros.fr .fr-sweep.go{animation:frsw .8s var(--ease)}
-@keyframes frsw{0%{transform:scaleX(0);transform-origin:left}45%{transform:scaleX(1);transform-origin:left}55%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
-html body #nosotros.fr .fr-plate{position:absolute;left:0;bottom:16px;z-index:3;display:flex;max-width:calc(100% - 28px);background:#fff;color:var(--ink);font:800 11px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;clip-path:var(--cut-sm)}
-html body #nosotros.fr .fr-plate i{font-style:normal;background:var(--chapa);color:#fff;padding:.85em .9em}
-html body #nosotros.fr .fr-plate b{padding:.85em 1.3em .85em 1em;font-weight:800;color:var(--ink)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-html body #nosotros.fr .fr-dots{position:absolute;right:16px;bottom:22px;z-index:3;display:flex;gap:6px}
-html body #nosotros.fr .fr-dots u{display:block;width:26px;height:4px;background:rgba(255,255,255,.45);text-decoration:none;transition:background .4s var(--ease)}
-html body #nosotros.fr .fr-dots u.on{background:var(--rojo)}
-html body #nosotros.fr .fr-steps{list-style:none;margin:0;padding:0;position:relative;z-index:1}
-html body #nosotros.fr .fr-step{min-height:46svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,3vw,40px) 0 clamp(20px,3vw,40px) clamp(20px,3vw,40px);border-left:6px solid rgba(255,255,255,.14);opacity:.4;transition:opacity .5s var(--ease),border-color .5s var(--ease)}
-html body #nosotros.fr .fr-step.on{opacity:1;border-left-color:var(--rojo)}
-html body #nosotros.fr .fr-n{font:800 clamp(56px,7vw,104px)/1 var(--font-display);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.4);transition:-webkit-text-stroke-color .5s var(--ease)}
-html body #nosotros.fr .fr-step.on .fr-n{-webkit-text-stroke-color:#EE4B55}
-html body #nosotros.fr .fr-step h3{margin:6px 0 0;font:800 clamp(28px,3.2vw,48px)/1 var(--font-display)!important;letter-spacing:-.01em;text-transform:uppercase;color:#fff!important}
-html body #nosotros.fr .fr-step p{margin:14px 0 0;max-width:30rem;font-size:clamp(16px,1.3vw,18px)!important;line-height:1.5;color:var(--plata)!important}
-html body #nosotros.fr .fr-act{align-self:flex-start;margin-top:20px;padding-bottom:5px;border-bottom:3px solid var(--rojo);color:#fff!important;font:800 12px/1.2 var(--font-display)!important;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:background .3s var(--ease)}
+html body #nosotros.fr .fr-cards{list-style:none;margin:clamp(36px,5vw,64px) 0 0;padding:0;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1*var(--fp));padding-inline:var(--fp);padding-bottom:12px;scroll-padding-inline:var(--fp)}
+html body #nosotros.fr .fr-card{flex:0 0 78%;scroll-snap-align:start;background:#0F1830;border-left:10px solid var(--rojo);display:flex;flex-direction:column}
+html body #nosotros.fr .fr-ph{margin:0;aspect-ratio:4/5;overflow:hidden;background:#050A16}
+html body #nosotros.fr .fr-ph img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+html body #nosotros.fr .fr-card:hover .fr-ph img{transform:scale(1.05)}
+html body #nosotros.fr .fr-tx{display:flex;flex-direction:column;flex:1;padding:20px 20px 24px}
+html body #nosotros.fr .fr-n{font:800 clamp(48px,5vw,72px)/1 var(--font-display);color:transparent;-webkit-text-stroke:1.5px #EE4B55}
+html body #nosotros.fr .fr-m{margin-top:8px;font:800 11px/1.3 var(--font-display)!important;letter-spacing:.14em;text-transform:uppercase;color:var(--plata)!important}
+html body #nosotros.fr .fr-tx h3{margin:10px 0 0;font:800 clamp(26px,2.6vw,38px)/1 var(--font-display)!important;letter-spacing:-.01em;text-transform:uppercase;color:#fff!important}
+html body #nosotros.fr .fr-tx p{margin:12px 0 0;font-size:16px!important;line-height:1.5;color:#D5D9DE!important}
+html body #nosotros.fr .fr-act{align-self:flex-start;margin-top:auto;padding-top:18px;color:#fff!important;font:800 12px/1.2 var(--font-display)!important;letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
+html body #nosotros.fr .fr-act::before{content:"";display:block;width:100%}
+html body #nosotros.fr .fr-act{border-bottom:3px solid var(--rojo);padding-bottom:5px;margin-top:18px}
 html body #nosotros.fr .fr-act:hover{background:var(--rojo)}
 html body #nosotros.fr .fr-act:focus-visible,html body #nosotros.fr .btn:focus-visible{outline:3px solid #fff;outline-offset:4px}
-html body #nosotros.fr .fr-cta{margin-top:clamp(20px,3vw,40px)}
+html body #nosotros.fr .fr-cta{margin-top:clamp(24px,3vw,44px)}
+html body #nosotros.fr .fr-cta .btn{display:inline-flex;width:auto!important;min-width:min(100%,280px);justify-content:center}
 @media(min-width:900px){
- html body #nosotros.fr .fr-grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}
- html body #nosotros.fr .fr-stage{top:84px;height:auto;aspect-ratio:4/5;max-height:calc(100svh - 108px);width:min(100%,calc((100svh - 108px)*.8))}
- html body #nosotros.fr .fr-step{min-height:64svh}
- html body #nosotros.fr .fr-step:last-child{min-height:56svh}
+ html body #nosotros.fr .fr-hd{max-width:none;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);column-gap:clamp(24px,5vw,72px);align-items:end}
+ html body #nosotros.fr .fr-hd .fr-k{grid-column:1/-1}
+ html body #nosotros.fr .fr-hd .fr-lead{margin:0 0 6px}
+ html body #nosotros.fr .fr-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,28px);overflow:visible;margin-inline:0;padding-inline:0;align-items:start}
+ html body #nosotros.fr .fr-card{flex:none}
+ html body #nosotros.fr .fr-card:nth-child(2){margin-top:clamp(28px,4vw,64px)}
 }
-@media(max-width:899px){html body #nosotros.fr .fr-stage{top:8px}html body #nosotros.fr .fr-step:first-child{padding-top:clamp(28px,6vw,48px)}}
-@media(prefers-reduced-motion:reduce){html body #nosotros.fr .fr-img,html body #nosotros.fr .fr-step,html body #nosotros.fr .fr-dots u,html body #nosotros.fr .fr-n{transition:none}html body #nosotros.fr .fr-sweep.go{animation:none}html body #nosotros.fr .fr-img{transform:none}}
+@media(prefers-reduced-motion:reduce){html body #nosotros.fr .fr-ph img{transition:none}html body #nosotros.fr .fr-card:hover .fr-ph img{transform:none}}
