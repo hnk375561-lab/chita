@@ -1774,8 +1774,20 @@ html body #unidades #stockGrid .car .im{flex:none;aspect-ratio:1.05/1!important;
 html body #unidades #stockGrid .car .ct img{object-fit:cover!important;object-position:50% 50%!important;background:transparent!important}
 html body #unidades #stockGrid .car .ct img.land{object-fit:contain!important}
 /* los carteles de nombre/año/km vienen impresos en la portada: se recortan y el nombre pasa a la esquina */
-html body #unidades #stockGrid .car .ct img:is([src$="w800/8.webp"],[src$="w800/22.webp"],[src$="w800/47.webp"]){object-position:50% 100%!important}
-html body #unidades #stockGrid .car .ct img:is([src$="w800/27.webp"],[src$="w800/41.webp"],[src$="w800/53.webp"],[src$="w800/57.webp"],[src$="w800/61.webp"]){object-position:50% 0%!important}
+/* v51 · encuadre: cada foto se centra en el auto, dentro de la zona visible (el rótulo del nombre tapa el borde inferior). Valores calculados por foto; los carteles impresos de las portadas quedan fuera del recorte. */
+html body #unidades #stockGrid .car .ct img:is([src$="w800/9.webp"],[src$="w800/27.webp"],[src$="w800/41.webp"],[src$="w800/53.webp"],[src$="w800/57.webp"],[src$="w800/61.webp"]){object-position:50% 0%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/15.webp"]){object-position:50% 53%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/12.webp"]){object-position:50% 62%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/13.webp"],[src$="w800/14.webp"]){object-position:50% 66%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/44.webp"],[src$="w800/62.webp"]){object-position:50% 68%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/4.webp"],[src$="w800/23.webp"],[src$="w800/24.webp"],[src$="w800/25.webp"]){object-position:50% 72%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/48.webp"],[src$="w800/49.webp"]){object-position:50% 74%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/50.webp"],[src$="w800/54.webp"]){object-position:50% 77%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/43.webp"]){object-position:50% 81%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/2.webp"],[src$="w800/7.webp"],[src$="w800/22.webp"],[src$="w800/58.webp"]){object-position:50% 83%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/47.webp"]){object-position:50% 89%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/5.webp"],[src$="w800/8.webp"]){object-position:50% 91%!important}
+html body #unidades #stockGrid .car .ct img:is([src$="w800/1.webp"],[src$="w800/42.webp"]){object-position:50% 93%!important}
 html body #unidades #stockGrid .car .im::after{left:8px!important;top:8px!important;width:58px!important;height:24px!important;padding:3px 6px!important}
 html body #unidades #stockGrid .car h3{position:absolute;z-index:6;left:0;top:calc(100cqw / 1.05);transform:translateY(-100%);margin:0!important;max-width:90%;background:var(--ink);border-left:4px solid var(--rojo);color:#fff!important;font-size:10.5px;clip-path:polygon(0 0,100% 0,calc(100% - 9px) 100%,0 100%)}
 html body #unidades #stockGrid .car h3 button{display:block;padding:6px 16px 6px 8px!important;color:#fff!important;font:800 10.5px/1.15 var(--font-display);letter-spacing:.07em;text-transform:uppercase;text-align:left}
