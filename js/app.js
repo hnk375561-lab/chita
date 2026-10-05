@@ -122,14 +122,17 @@ var HCOVER={"Renault Clio Dynamique 1.2N":"assets/w800/8.webp","Chevrolet Tracke
 var HTHUMB={"assets/w800/8.webp":"assets/hero/t-8.webp","assets/w800/27.webp":"assets/hero/t-27.webp","assets/w800/22.webp":"assets/hero/t-22.webp","assets/w800/35.webp":"assets/hero/t-35.webp","assets/w800/41.webp":"assets/hero/t-41.webp","assets/w800/47.webp":"assets/hero/t-47.webp","assets/w800/53.webp":"assets/hero/t-53.webp","assets/w800/57.webp":"assets/hero/t-57.webp","assets/w800/61.webp":"assets/hero/t-61.webp","assets/w800/9.webp":"assets/hero/t-9.webp"};
 /* Hero · fondo: una pasada con la portada de cada modelo (una foto por auto; Chita ya les grabó marca, modelo, año y km).
    Sale de STOCK + HCOVER: un auto nuevo o uno que se va se refleja solo. Es decorativo (aria-hidden): las unidades reales están en #unidades.
-   Dos vueltas iguales de paneles para que el bucle (-50 %) no tenga costura. Pausa fuera de pantalla; con movimiento reducido queda quieta. */
+   Dos vueltas iguales de paneles para que el bucle (-50 %) no tenga costura. Pausa fuera de pantalla; con movimiento reducido queda quieta.
+   Las entregas son las mismas fotos ya publicadas en #entregas; se usan de forma decorativa mientras queda pendiente la autorización final de uso en hero. */
 (function(){var hero=$("hero");if(!hero||hero.querySelector(".hx-pass"))return;
 var seen={},L=[];STOCK.forEach(function(c){var s=Object.prototype.hasOwnProperty.call(HCOVER,c.titulo)?HCOVER[c.titulo]:ph(c)[0];if(s&&!seen[s]){seen[s]=1;L.push(s)}});
 if(!L.length)return;
+var DELIVERIES=["images/entrega-01.webp","images/entrega-02.webp","images/entrega-03.webp","images/entrega-04.webp","images/entrega-05.webp","images/entrega-06.webp","images/entrega-07.webp","images/entrega-08.webp","images/entrega-09.webp","images/entrega-10.webp","images/entrega-11.webp","images/entrega-12.webp"],P=[];
+L.forEach(function(s,i){P.push({src:s,delivery:false});P.push({src:DELIVERIES[i%DELIVERIES.length],delivery:true})});
 function small(s){return /^assets\/w800\//.test(s)?s.replace("w800","w480"):s.replace(/\.webp$/,"-480.webp")}
-function pan(s,i,dup){var big=/^assets\/w800\//.test(s)||/-800\.webp$/.test(s)?s:s.replace(/\.webp$/,"-800.webp");
-return'<div class="hx-pn"><img src="'+esc(s)+'" srcset="'+esc(small(s))+' 480w, '+esc(big)+' 800w" sizes="(min-width:900px) 560px,60vw" alt="" width="800" height="1000" decoding="async" '+(!dup&&i<3?'fetchpriority="low"':'loading="lazy"')+' draggable="false"></div>'}
-var set=L.map(function(s,i){return pan(s,i,0)}).join(""),dup=L.map(function(s,i){return pan(s,i,1)}).join("");
+function pan(x,i,dup){var s=x.src,big=/^assets\/w800\//.test(s)||/-800\.webp$/.test(s)?s:s.replace(/\.webp$/,"-800.webp"),attrs=x.delivery?'':'srcset="'+esc(small(s))+' 480w, '+esc(big)+' 800w" sizes="(min-width:900px) 560px,60vw"';
+return'<div class="hx-pn'+(x.delivery?' hx-pn-delivery':'')+'"><img src="'+esc(s)+'" '+attrs+' alt="" width="'+(x.delivery?'340':'800')+'" height="'+(x.delivery?'285':'1000')+'" decoding="async" '+(!dup&&i<3?'fetchpriority="low"':'loading="lazy"')+' draggable="false"></div>'}
+var set=P.map(function(x,i){return pan(x,i,0)}).join(""),dup=P.map(function(x,i){return pan(x,i,1)}).join("");
 var el=document.createElement("div");el.className="hx-pass";el.setAttribute("aria-hidden","true");el.innerHTML='<div class="hx-trk">'+set+dup+'</div>';
 hero.insertBefore(el,hero.firstChild);
 if("IntersectionObserver" in window)new IntersectionObserver(function(e){el.classList.toggle("off",!e[0].isIntersecting)},{threshold:0}).observe(hero)})();

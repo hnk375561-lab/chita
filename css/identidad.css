@@ -1151,3 +1151,24 @@ html body #unidades .fm-chip:hover,html body #unidades .fm-chip:focus-visible{bo
 html body #unidades .fm-chip:focus-visible{outline:2px solid var(--luxl);outline-offset:2px}
 @media(max-width:640px){html body #unidades .ff{grid-template-columns:minmax(0,1fr)!important}html body #unidades .fm-chip{min-height:40px;padding-inline:10px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){html body #unidades .fm-chip{transition:none}}
+/* CHITA v33 · HERO: el recorrido alterna portada de unidad y entrega publicada.
+   Las fotos apaisadas de personas se muestran completas; el velo no tapa sus rostros. */
+html body main>.hero.hx .hx-pn-delivery{background:var(--paper);border-left-color:var(--rojo)}
+html body main>.hero.hx .hx-pn-delivery img{object-fit:contain;padding:12px;background:var(--paper)}
+html body main>.hero.hx .hx-pn-delivery::after{opacity:.18}
+@media(max-width:899px){html body main>.hero.hx .hx-pn-delivery img{padding:8px}}
+
+/* CHITA · GUÍA v32 · planilla tildable y hoja para llevar */
+html body #guia .gtools{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:min(920px,100%)!important;margin:clamp(22px,3vw,38px) 0 0 calc(clamp(18px,3vw,48px) + 10px)!important;padding:12px 0;border-top:2px solid rgba(255,255,255,.35);border-bottom:2px dashed rgba(255,255,255,.35)}
+html body #guia .gcount{margin:0;color:#fff;font:800 12px/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase}
+html body #guia .gprint{padding:12px 16px;background:var(--rojo);color:#fff;clip-path:var(--cut);font:800 12px/1 var(--font-display);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+html body #guia .gprint:hover,html body #guia .gprint:focus-visible{background:var(--ink)}
+html body #guia .gcheck{display:flex;align-items:flex-start;gap:12px;cursor:pointer;color:inherit;line-height:1.5}
+html body #guia .gcheck input{appearance:none;flex:none;width:22px;height:22px;margin:0;border:2px solid currentColor;background:transparent;position:relative;cursor:pointer}
+html body #guia .gcheck input:checked{background:var(--rojo);border-color:var(--rojo)}
+html body #guia .gcheck input:checked::after{content:"";position:absolute;left:5px;top:1px;width:7px;height:12px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+html body #guia .gcheck input:focus-visible{outline:3px solid var(--rojo);outline-offset:3px}
+html body #guia .gd details li:has(input:checked) span{text-decoration:line-through;text-decoration-color:var(--rojo);text-decoration-thickness:2px;opacity:.7}
+@media(max-width:899px){html body #guia .gtools{margin-left:0!important;margin-right:0!important;padding-inline:16px}html body #guia .gprint{padding-inline:12px;font-size:10px}}
+@media print{
+ body>*{visibility:hidden!important}html body #guia,html body #guia *{visibility:visible!important}html body #guia{position:absolute!important;inset:0!important;width:100%!important;margin:0!important;padding:28px!important;background:#fff!important;color:#0A1020!important;clip-path:none!important}html body #guia .xt,html body #guia .xb,html body #guia .pdr,html body #guia .gtools{display:none!important}html body #guia .pdl{margin:0!important;padding:0 0 18px!important;border-left:0!important;color:#0A1020!important}html body #guia .pdl h2,html body #guia .pdl p{color:#0A1020!important}html body #guia .pdl h2::before{color:#0A1020!important;box-shadow:inset 0 0 0 2px #0A1020!important}html body #guia .gd{margin:0!important;padding:0!important;color:#0A1020!important}html body #guia .gd details{border-color:#0A1020!important;background:#fff!important;box-shadow:none!important;color:#0A1020!important;break-inside:avoid}html body #guia .gd details[open]{box-shadow:none!important}html body #guia .gd summary{color:#0A1020!important;padding-left:0!important}html body #guia .gd details>:not(summary){padding-left:0!important;color:#0A1020!important}html body #guia .gcheck input{print-color-adjust:exact;-webkit-print-color-adjust:exact}}

@@ -179,3 +179,16 @@ pl.classList.add("nt");ph.classList.add("nz-on");go(0);
 (function(){var f=document.getElementById("mdf");if(!f)return;
 f.addEventListener("pointerover",function(v){var b=v.target.closest(".mdb");if(!b)return;var im=b.closest(".mdp").firstChild;if(!im||im.tagName!=="IMG")return;
  im.classList.remove("sw");void im.offsetWidth;im.classList.add("sw")})})();
+
+/* CHITA · GUÍA v32 · planilla de inspección
+   Convierte los 8 puntos del primer acordeón en controles tildables; no agrega recomendaciones nuevas. */
+(function(){
+var d=document,s=d.getElementById("guia"),gd=s&&s.querySelector(".gd"),list=gd&&gd.querySelector("details:first-child ul");if(!s||!gd||!list||gd.dataset.checklist)return;gd.dataset.checklist="1";
+var items=[].slice.call(list.querySelectorAll("li")),total=items.length;if(!total)return;
+var tools=d.createElement("div");tools.className="gtools";tools.innerHTML='<p class="gcount" id="guiaCount" role="status" aria-live="polite">0 de '+total+' revisados</p><button type="button" class="gprint" id="guiaPrint">Llevá esta planilla <span aria-hidden="true">↗</span></button>';
+gd.parentNode.insertBefore(tools,gd);
+var count=d.getElementById("guiaCount");
+items.forEach(function(li,i){var text=li.textContent.trim(),label=d.createElement("label"),input=d.createElement("input"),copy=d.createElement("span");label.className="gcheck";input.type="checkbox";input.id="guia-check-"+(i+1);input.setAttribute("aria-label",text);copy.textContent=text;label.appendChild(input);label.appendChild(copy);li.textContent="";li.appendChild(label);input.addEventListener("change",update)});
+function update(){var done=items.filter(function(li){return li.querySelector("input").checked}).length;count.textContent=done+" de "+total+" revisados";s.dataset.checked=String(done)}
+d.getElementById("guiaPrint").addEventListener("click",function(){window.print()});update();
+})();

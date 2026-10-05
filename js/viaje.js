@@ -33,16 +33,17 @@ if (route) {
       element.innerHTML = `<strong>${unit.name}</strong><small>${unit.year} · ${unit.km} · ${unit.criterion}</small><a target="_blank" rel="noopener" href="https://wa.me/${CONFIG.contact.whatsapp}?text=${encodeURIComponent(`Hola, quiero consultar por el ${unit.name} ${unit.year}.`)}">Consultar ↗</a>`;
       unitLayer.appendChild(element);
     });
+    return local[Math.min(local.length - 1, Math.max(0, Math.floor(within * local.length)))] || CONFIG.units[0];
   }
 
   function render() {
     const progress = state.p, index = sceneIndex(progress), scene = CONFIG.scenes[index]; state.scene = index;
     const percent = Math.round(progress * 100), max = route.clientWidth - parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pad")) * 2 - 62;
-    sceneLabel.textContent = scene.title; progressLabel.textContent = `${percent}%`; odometer.textContent = `${String(Math.round(progress * 999)).padStart(3, "0")} km`;
+    const activeUnit = renderUnits(progress);
+    sceneLabel.textContent = scene.title; progressLabel.textContent = `${percent}%`; odometer.innerHTML = `<strong>${activeUnit.km}</strong><small>${activeUnit.name}</small>`; odometer.setAttribute("aria-label", `Kilometraje publicado de ${activeUnit.name}: ${activeUnit.km}`);
     token.style.transform = `translate3d(${Math.round(max * progress)}px,0,0)`; bar.style.width = `${percent}%`;
     token.setAttribute("aria-valuenow", String(percent)); token.setAttribute("aria-valuetext", `Escena: ${scene.title}, ${percent}%`);
     sceneEls.forEach((element, i) => { element.style.opacity = i === index ? "1" : String(Math.max(0, 1 - Math.abs(i - index) * 2)); element.setAttribute("aria-hidden", String(i !== index)); const photo = element.querySelector(".scene-photo"); if (photo) photo.style.setProperty("--scene-offset", `${Math.round((progress - i * .5) * -22)}px`); });
-    renderUnits(progress);
     const atEnd = progress >= .995 && !reduceMotion.matches; arrival.hidden = !atEnd; route.setAttribute("aria-hidden", String(atEnd));
   }
 
