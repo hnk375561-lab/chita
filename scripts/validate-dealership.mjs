@@ -10,7 +10,7 @@ const errors = [];
 if (d.publicacion.official !== true) errors.push('publicacion.official debe ser true');
 if (d.identity.cuit !== null) errors.push('CUIT debe ser null hasta confirmación');
 if (d.hours.display && d.hours.status === 'not-found') errors.push('hours.display cargado pero status sigue en not-found');
-for (const page of ['index.html', 'privacidad.html', 'reserva.html', 'viaje.html']) {
+for (const page of ['index.html', 'privacidad.html', 'reserva.html']) {
   const h = fs.readFileSync(path.join(root, page), 'utf8');
   if (/noindex/.test(h)) errors.push(`${page}: no debe tener noindex`);
   if (/\b(demo|propuesta|prototipo|preview)\b/i.test(h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|max-image-preview/g, ''))) errors.push(`${page}: lenguaje de demo/propuesta`);

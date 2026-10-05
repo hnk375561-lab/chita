@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const external = process.argv.includes('--external');
-const pages = ['index.html', 'reserva.html', 'viaje.html', 'privacidad.html', '404.html'].filter((f) => fs.existsSync(path.join(root, f)));
+const pages = ['index.html', 'reserva.html', 'privacidad.html', '404.html'].filter((f) => fs.existsSync(path.join(root, f)));
 const jsFiles = fs.readdirSync(path.join(root, 'js')).filter((f) => f.endsWith('.js')).map((f) => 'js/' + f);
 const problems = [], review = [], extUrls = new Map();
 const add = (list, where, url, why) => list.push({ where, url: url.length > 110 ? url.slice(0, 107) + '…' : url, why });
