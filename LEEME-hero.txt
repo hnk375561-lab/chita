@@ -1,0 +1,24 @@
+CHITA · HERO · la pasada de modelos y sin cinta (4 archivos, misma ruta que en el repo; reemplazar)
+  css/identidad.css   (se borra la cinta v24 y su CSS; bloque v27 nuevo al final)
+  js/app.js           (arma la pasada de fotos desde STOCK + HCOVER)
+  js/identidad.js     (se borra la creación de la cinta; la velocidad de scroll ahora acelera la pasada)
+  docs/IDENTIDAD.md   (1 línea)
+No tocar nada más: index.html y las imágenes quedan igual (se usan las portadas que ya están en assets/).
+
+Qué se aplicó
+  - La cinta de inauguración desaparece por completo (JS y CSS, 0 referencias). El hero cae directo en Entregas.
+  - Detrás de todo el hero pasan, en bucle, las portadas de los 10 modelos publicados (una foto por auto).
+    Cada foto es un vano entre columnas rojas, como la fachada del local. Las portadas ya traen marca, modelo,
+    año y km grabados, así que no se repite ningún dato en HTML. Decorativo (aria-hidden).
+  - Legibilidad: velo plano de tinta sobre cada foto (sin degradados ni vidrio), texto blanco. Las columnas rojas
+    quedan fuera del velo. El reel sigue siendo el protagonista.
+  - Motion (RIEL): deriva lenta y continua que acelera con la velocidad de scroll; pausa fuera de pantalla;
+    quieta con prefers-reduced-motion.
+  - Sale de STOCK: si se agrega o se quita un auto, la pasada se actualiza sola (el Tracker 2018 repetido no se duplica).
+  - Móvil/tablet: la pasada cubre la zona del texto (el reel la tapa de ahí para abajo).
+
+Verificado: npm test OK; 0 errores de JS en Chromium (390, 768, 1440, 1920 px); movimiento reducido sin animación.
+No verificado: otros navegadores (Safari/Firefox); la pasada usa solo CSS y un IntersectionObserver.
+Nota: se probaron 3 tratamientos (duotono azul, velo de tinta, velo de papel). Ganó el velo de tinta: conserva el color
+de los rótulos de las fotos y da el mejor contraste. Para cambiar la intensidad, es el opacity:.66 de .hx-pn::after.
+Volver atrás: restaurar los 4 archivos desde git.

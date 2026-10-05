@@ -48,7 +48,7 @@ v.addEventListener("play",label);v.addEventListener("pause",label);
 if("IntersectionObserver" in window){new IntersectionObserver(function(e){var vis=e[0].isIntersecting;if(vis&&auto&&!manual&&v.paused)play();else if(!vis&&!v.paused)v.pause()},{threshold:.25}).observe(f)}
 label();
 })();
-/* CHITA · v3 — La Cinta, El Riel y El Corte. Sin dependencias, 1 IntersectionObserver, solo datos ya publicados. */
+/* CHITA · v3 — El Riel y El Corte. Sin dependencias, 1 IntersectionObserver, solo datos ya publicados. */
 (function(){
 var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,main=d.querySelector("main");if(!main)return;
 if(!RM)d.documentElement.classList.add("cj");
@@ -56,18 +56,12 @@ function tx(s){var e=d.querySelector(s);return e?e.textContent.replace(/\s+/g," 
 /* EL RIEL */
 var hero=d.getElementById("hero");
 if(hero){var r=d.createElement("div");r.className="rl";r.setAttribute("aria-hidden","true");r.textContent="Chita Automotores · Entre Ríos";hero.appendChild(r)}
-/* LA CINTA DE INAUGURACIÓN: lleva los modelos ya entregados (se leen de la sección Entregas; no se inventa ningún dato) */
-var f=[].slice.call(d.querySelectorAll("#entregas .eg li[data-m]")).map(function(li,i){return "E·"+("0"+(i+1)).slice(-2)+" · "+li.getAttribute("data-m")});
-if(f.length)f.push("El próximo es el tuyo");else f=["Gral. Galarza 1712","Concepción del Uruguay · Entre Ríos","Escribinos por WhatsApp"];
-var h=f.map(function(x){return "<span>"+x.replace(/[<>&]/g,"")+"</span>"}).join(""),cin=d.createElement("div");
-cin.className="cin";cin.setAttribute("aria-hidden","true");cin.innerHTML="<i></i><div><b class=\"cin-t\">"+h+h+"</b></div>";
-if(hero&&hero.nextSibling)main.insertBefore(cin,hero.nextSibling);else main.appendChild(cin);
-/* EL CORTE: un observador para chapas y cinta */
-var T=[].slice.call(main.querySelectorAll(":scope>section")).concat([cin]);
+/* EL CORTE: un observador para las chapas de sección */
+var T=[].slice.call(main.querySelectorAll(":scope>section"));
 if("IntersectionObserver" in window&&!RM){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.08,rootMargin:"0px 0px -8% 0px"});T.forEach(function(s){io.observe(s)})}
 else T.forEach(function(s){s.classList.add("in")});
 })();
-/* CHITA · v4 — El Talón (numeral calado), Cinta viva (velocidad de scroll) y salida del hero. 1 rAF, 1 listener pasivo. */
+/* CHITA · v4 — El Talón (numeral calado), Riel vivo (la pasada de fotos del hero acelera con el scroll) y salida del hero. 1 rAF, 1 listener pasivo. */
 (function(){
 var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,S=[].slice.call(d.querySelectorAll("main>section[id]"));if(!S.length)return;
 S.forEach(function(s,i){var g=d.createElement("span");g.className="gn";g.setAttribute("aria-hidden","true");g.textContent=("0"+(i+1)).slice(-2);s.insertBefore(g,s.firstChild);
@@ -75,12 +69,12 @@ S.forEach(function(s,i){var g=d.createElement("span");g.className="gn";g.setAttr
 if(RM)return;
 var hr=d.querySelector(".hx-reel"),hs=d.querySelector(".hx .hx-show"),hero=d.getElementById("hero"),big=matchMedia("(min-width:900px)"),
 tape=null,ly=scrollY,v=0,raf=0,pr=1;
-function anim(){if(tape)return tape;var t=d.querySelector(".cin-t");if(t&&t.getAnimations){var a=t.getAnimations()[0];if(a)tape=a}return tape}
+function anim(){if(tape)return tape;var t=d.querySelector(".hx-trk");if(t&&t.getAnimations){var a=t.getAnimations()[0];if(a)tape=a}return tape}
 function tick(){raf=0;var y=scrollY,vh=innerHeight,dy=y-ly;ly=y;v+=(Math.abs(dy)-v)*.18;
  for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.bottom<-vh||r.top>vh*2)continue;
   var p=(vh-r.top)/(vh+r.height);S[i]._g.style.translate=((S[i]._g.parentNode.matches("main>section:nth-of-type(even)")?1:-1)*(p-.5)*14)+"vw 0"}
  if(hero&&big.matches){var k=Math.max(0,Math.min(1,y/Math.max(1,hero.offsetHeight)));if(hr)hr.style.setProperty("--hr",(-k*46)+"px");if(hs){hs.style.setProperty("--hs",(k*34)+"px");hs.style.setProperty("--hx",(Math.pow(k,1.7)*innerWidth*.62).toFixed(1)+"px")}}
- var a=anim();if(a){var pb=1+Math.min(v*.5,7);if(Math.abs(pb-pr)>.05){a.playbackRate=pb;pr=pb}}
+ var a=anim();if(a){var pb=1+Math.min(v*.25,4);if(Math.abs(pb-pr)>.05){a.playbackRate=pb;pr=pb}}
  if(v>.05)raf=requestAnimationFrame(tick)}
 function q(){if(!raf)raf=requestAnimationFrame(tick)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q);q();

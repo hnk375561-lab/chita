@@ -208,32 +208,17 @@ html body header nav a::before{counter-increment:n;content:counter(n,decimal-lea
  .rl{display:block;position:absolute;left:18px;top:50%;z-index:4;writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);font:800 10px/1 var(--font-display);letter-spacing:.34em;text-transform:uppercase;color:var(--ink);white-space:nowrap;pointer-events:none}
  .rl::before{content:"";display:inline-block;width:6px;height:28px;background:var(--rojo);margin-bottom:14px}
 }
-/* LA CINTA · cruza la costura hero → entregas */
-.cin{position:relative;z-index:7;height:clamp(78px,7vw,104px);margin:calc(clamp(78px,7vw,104px)/-2) 0;overflow-x:clip;overflow-y:visible;pointer-events:none}
-.cin i,.cin div{position:absolute;left:-4vw;width:108vw;top:50%;height:clamp(32px,2.8vw,44px);margin-top:calc(clamp(32px,2.8vw,44px)/-2)}
-.cin i{background:var(--paper);box-shadow:0 0 0 2px var(--ink) inset;transform:rotate(1.4deg)}
-.cin div{background:var(--rojo);transform:rotate(-1.4deg);overflow:hidden;display:flex;align-items:center;box-shadow:0 -2px 0 #fff inset,0 2px 0 #fff inset}
-.cin-t{display:flex;flex:none;white-space:nowrap;animation:cin 46s linear infinite;will-change:transform}
-.cin-t span{display:inline-flex;align-items:center;font:800 clamp(11px,.95vw,14px)/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:#fff;padding-right:2.2em}
-.cin-t span::after{content:"";width:6px;height:15px;background:#fff;margin-left:2.2em;transform:skewX(-14deg)}
-@keyframes cin{to{transform:translate3d(-50%,0,0)}}
 /* EL CORTE · único verbo de entrada */
-.cj main>section:not(.in) h2::before,.cj .cin:not(.in) div{clip-path:polygon(0 0,0 0,0 10px,0 100%,0 100%)}
+.cj main>section:not(.in) h2::before{clip-path:polygon(0 0,0 0,0 10px,0 100%,0 100%)}
 .cj main>section h2::before{transition:clip-path var(--t2) var(--ease)}
-.cj .cin div,.cj .cin i{transition:clip-path 1s var(--ease),transform 1s var(--ease)}
-.cj .cin:not(.in) div{clip-path:polygon(0 0,0 0,0 100%,0 100%)}
-.cj .cin:not(.in) i{transform:rotate(0)}
-.cj .cin.in div{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
 /* accesibilidad: foco visible con el mismo vocabulario */
 html body :is(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid var(--rojo);outline-offset:3px}
 html body :is(#entregas,#visita,#catalogo-comparador,#contacto,#local,#guia,#financiacion) :is(a,button,input,select,textarea,summary):focus-visible{outline-color:#fff}
 @media(max-width:899px){
- .cin{height:70px;margin:-35px 0}.cin i,.cin div{height:30px;margin-top:-15px}.cin-t span{font-size:11px;letter-spacing:.16em}
  html body header nav a::before{display:none}
 }
 @media(prefers-reduced-motion:reduce){
- .cin-t{animation:none}.cj main>section:not(.in) h2::before,.cj .cin:not(.in) div{clip-path:var(--cut-sm)}
- .cj .cin:not(.in) div{clip-path:none}.cj .cin:not(.in) i{transform:rotate(1.4deg)}
+ .cj main>section:not(.in) h2::before{clip-path:var(--cut-sm)}
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -992,25 +977,6 @@ html body #preguntas .fa details[open]>p::before{content:"";position:absolute;le
 html body #preguntas .bqp{display:none!important}
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   CHITA v24 · LA CINTA SE CORTA
-   Es una cinta de inauguración: en la costura hero → Entregas se parte con el corte diagonal del logotipo.
-   El hueco (máscara diagonal, ~15° como el corte) se abre con el scroll (verbo RIEL) mientras la cinta cruza la pantalla;
-   el texto sigue corriendo por debajo y se ve pasar por el hueco. Las dos tiras (papel y roja) se cortan en el mismo punto.
-   Sin soporte de animation-timeline, o con movimiento reducido: la cinta queda cortada y quieta.
-   Solo CSS. Para volver atrás, borrar este bloque.
-   ═══════════════════════════════════════════════════════════════════════════════ */
-@property --cg{syntax:"<length>";inherits:false;initial-value:0px}
-.cin i,.cin div{--cg:clamp(18px,2.6vw,40px);
- -webkit-mask-image:linear-gradient(105deg,#000 calc(50% - var(--cg)),transparent calc(50% - var(--cg)) calc(50% + var(--cg)),#000 calc(50% + var(--cg)));
- mask-image:linear-gradient(105deg,#000 calc(50% - var(--cg)),transparent calc(50% - var(--cg)) calc(50% + var(--cg)),#000 calc(50% + var(--cg)))}
-@keyframes cin-cut{from{--cg:0px}to{--cg:clamp(18px,2.6vw,40px)}}
-@supports (animation-timeline:view()){
- @media(prefers-reduced-motion:no-preference){
-  .cin i,.cin div{animation:cin-cut linear both;animation-timeline:view();animation-range:cover 26% cover 62%}
- }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════════
    CHITA v25 · FOOTER: el último gesto del sitio
    - Corrige el teléfono: la patente partía el número en dos renglones («03442 44-» / «2782»).
    - Navegación: se quitan los enlaces que ya están en el header (Inicio, Unidades, Vender o permutar, Preguntas);
@@ -1046,3 +1012,35 @@ html body .cl b::before{content:"CHITA";position:absolute;left:0;top:0;bottom:0;
 @media(max-width:899px){html body .cl b{--cb:44px;padding-left:calc(var(--cb) + 10px)!important}html body .cl b::before{font-size:8px;letter-spacing:.2em;text-indent:.2em}}
 /* Nosotros en móvil: el marco forzaba 4:5 y la foto apaisada del frente dejaba la barra roja colgando sin foto debajo */
 @media(max-width:899px){html body #nosotros .ph{aspect-ratio:auto!important}}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v27 · HERO: la pasada de modelos
+   Qué es   detrás de todo el hero pasan, en bucle, las portadas de los modelos publicados (una por auto). Cada foto es un vano
+            de la fachada: entre una y otra, una columna roja (la misma del local). Las portadas ya traen marca, modelo, año y km
+            grabados por Chita, así que no se repite ningún dato en HTML.
+   Legible  el hero pasa a tinta; sobre cada foto va un velo plano de tinta (sin degradado, sin vidrio) y el texto es blanco.
+            Las columnas rojas quedan fuera del velo: son lo más vivo del fondo y el reel sigue siendo el protagonista.
+   Motion   RIEL: deriva lenta y continua que acelera con la velocidad del scroll (identidad.js). Pausa fuera de pantalla.
+            Con movimiento reducido queda quieta. Se arma en js/app.js desde STOCK + HCOVER.
+   Se va    la cinta de inauguración (v24) y su CSS: el hero cae directo en Entregas.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body main>.hero.hx{position:relative;isolation:isolate;background:var(--ink)!important;color:#fff}
+html body main>.hero.hx>.hx-pass{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:var(--ink)}
+.hx-trk{display:flex;height:100%;width:max-content;animation:hxp 130s linear infinite;will-change:transform}
+.hx-pn{flex:none;position:relative;height:100%;aspect-ratio:4/5;margin:0;border-left:10px solid var(--rojo);overflow:hidden;background:var(--ink)}
+.hx-pn img{display:block;width:100%;height:100%;object-fit:cover}
+.hx-pn::after{content:"";position:absolute;inset:0;background:var(--ink);opacity:.66}
+@keyframes hxp{to{transform:translate3d(-50%,0,0)}}
+.hx-pass.off .hx-trk{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.hx-trk{animation:none}}
+/* texto claro sobre la pasada */
+html body .hx-h1{color:#fff!important}
+html body .hx-lead,html body .hx-foot,html body .hx-copy>p:last-child{color:#fff!important}
+html body .hx-copy .hx-btn:not(.hx-p){color:#fff!important;box-shadow:inset 0 0 0 2px #fff}
+html body .hx-copy .hx-btn:not(.hx-p):hover{background:#fff!important;color:var(--ink)!important}
+html body .hx-proof{border-top-color:#fff}
+html body .hx-proof:hover b{color:var(--rojo)}
+/* móvil/tablet: el hero es una columna de ~1000 px; la pasada cubre la zona del texto (el reel la tapa de ahí para abajo) para que cada auto se reconozca */
+@media(max-width:899px){html body main>.hero.hx>.hx-pass{bottom:auto;height:clamp(500px,135vw,640px)}}
+html body .rl{color:#fff}
+@media(max-width:899px){html body main>.hero.hx>.hx-pass{clip-path:polygon(0 0,100% 0,100% calc(100% - 36px),calc(100% - 36px) 100%,0 100%)}}

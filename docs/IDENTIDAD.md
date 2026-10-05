@@ -6,7 +6,7 @@ Archivos: `css/identidad.css` (se carga al final) y `js/identidad.js`. Núcleo: 
 - **La columna**: barra roja fija a la izquierda = avance de lectura; etiqueta con N.º y nombre de la sección.
 - **La chapa**: la patente es el sistema de rótulos (banda azul + cuerpo blanco): N.º de sección, sección actual, 4,7 de Google, cursor.
 - **El remito**: contador `N° 01…13` por sección, `E·01…E·12` por entrega, numeral calado (el talón) que deriva con el scroll.
-- **La cinta**: cinta de obra torcida entre hero y entregas, con datos ya publicados; acelera con la velocidad de scroll.
+- **La pasada** (v27, reemplaza a la cinta): detrás de todo el hero pasan las portadas de los modelos publicados, una por auto, cada una como un vano entre columnas rojas; velo plano de tinta, texto blanco. Se arma en `js/app.js` desde `STOCK` + `HCOVER` y acelera con la velocidad de scroll. La cinta de inauguración (v24) se retiró.
 - **v7 · La perforación**: borde de talonario entre secciones; la mordida tiene el color de la sección anterior.
 - **v7 · El sello**: cada entrega publicada lleva su sello «ENTREGADO».
 - **v7 · El talón**: las tres declaraciones (Financiación, Guía, Visita) son talones: a la izquierda, display gigante, borde perforado con «TALÓN N° NN».
