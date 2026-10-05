@@ -162,17 +162,21 @@ pl.classList.add("nt");ph.classList.add("nz-on");go(0);
 f.addEventListener("pointerover",function(v){var b=v.target.closest(".mdb");if(!b)return;var im=b.closest(".mdp").firstChild;if(!im||im.tagName!=="IMG")return;
  im.classList.remove("sw");void im.offsetWidth;im.classList.add("sw")})})();
 
-/* CHITA · GUÍA v32 · planilla de inspección
-   Convierte los 8 puntos del primer acordeón en controles tildables; no agrega recomendaciones nuevas. */
+/* CHITA · GUÍA v55 · planilla de revisión
+   Convierte los 8 puntos del primer paso en casillas tildables y muestra el avance. No agrega recomendaciones nuevas.
+   Lo tildado se publica en window.GUIA_MARCADOS (lo lee el formulario de Visita). */
 (function(){
-var d=document,s=d.getElementById("guia"),gd=s&&s.querySelector(".gd"),list=gd&&gd.querySelector("details:first-child ul");if(!s||!gd||!list||gd.dataset.checklist)return;gd.dataset.checklist="1";
+var d=document,s=d.getElementById("guia"),gd=s&&s.querySelector(".gp-steps"),side=s&&s.querySelector(".gp-side"),list=gd&&gd.querySelector("details:first-child ul");if(!s||!gd||!side||!list||gd.dataset.checklist)return;gd.dataset.checklist="1";
 var items=[].slice.call(list.querySelectorAll("li")),total=items.length;if(!total)return;
-var tools=d.createElement("div");tools.className="gtools";tools.innerHTML='<p class="gcount" id="guiaCount" role="status" aria-live="polite">Tildá lo que revisás en el auto: 0 de '+total+'</p><button type="button" class="gprint" id="guiaPrint">Imprimir planilla</button>';
-gd.parentNode.insertBefore(tools,gd);
-var count=d.getElementById("guiaCount");
-items.forEach(function(li,i){var text=li.textContent.trim(),label=d.createElement("label"),input=d.createElement("input"),copy=d.createElement("span");label.className="gcheck";input.type="checkbox";input.id="guia-check-"+(i+1);input.setAttribute("aria-label",text);copy.textContent=text;label.appendChild(input);label.appendChild(copy);li.textContent="";li.appendChild(label);input.addEventListener("change",update)});
-function update(){var on=items.filter(function(li){return li.querySelector("input").checked}),done=on.length;count.textContent=done?"Revisaste "+done+" de "+total+" · van en tu consulta de visita":"Tildá lo que revisás en el auto: 0 de "+total;s.dataset.checked=String(done);window.GUIA_MARCADOS=on.map(function(li){return li.textContent.trim()})}
-d.getElementById("guiaPrint").addEventListener("click",function(){window.print()});update();
+var tools=d.createElement("div");tools.className="gp-tools";
+tools.innerHTML='<p class="gp-count" id="guiaCount" role="status" aria-live="polite"><b id="guiaNum">0</b><span> de '+total+' puntos revisados</span></p><div class="gp-bar" aria-hidden="true"><i id="guiaBar"></i></div><p class="gp-hint" id="guiaHint">Tildá lo que vas comprobando en el auto.</p><button type="button" class="gp-print" id="guiaPrint">Imprimir planilla</button>';
+side.insertBefore(tools,side.querySelector(".gp-help"));
+var num=d.getElementById("guiaNum"),bar=d.getElementById("guiaBar"),hint=d.getElementById("guiaHint");
+items.forEach(function(li,i){var text=li.textContent.trim(),label=d.createElement("label"),input=d.createElement("input"),copy=d.createElement("span");label.className="gp-check";input.type="checkbox";input.id="guia-check-"+(i+1);input.setAttribute("aria-label",text);copy.textContent=text;label.appendChild(input);label.appendChild(copy);li.textContent="";li.appendChild(label);input.addEventListener("change",update)});
+function update(){var on=items.filter(function(li){return li.querySelector("input").checked}),done=on.length;num.textContent=String(done);bar.style.width=Math.round(done/total*100)+"%";hint.textContent=done?(done===total?"Revisaste todo. Los puntos tildados van en tu consulta de visita.":"Los puntos tildados van en tu consulta de visita."):"Tildá lo que vas comprobando en el auto.";s.dataset.checked=String(done);window.GUIA_MARCADOS=on.map(function(li){return li.textContent.trim()})}
+/* Al imprimir se abren los cuatro pasos y después se restituye el estado anterior. */
+d.getElementById("guiaPrint").addEventListener("click",function(){var ds=[].slice.call(gd.querySelectorAll("details")),was=ds.map(function(x){return x.open});ds.forEach(function(x){x.open=true});var back=function(){ds.forEach(function(x,i){x.open=was[i]});window.removeEventListener("afterprint",back)};window.addEventListener("afterprint",back);window.print()});
+update();
 })();
 
 /* CHITA · RESEÑAS · cada casilla es un recuento, no un testimonio.
@@ -295,9 +299,6 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   /* Compra: cada comprobante abre el siguiente documento real del sitio. */
   var buy=d.querySelector("#como-comprar .stp");
   if(buy){var links=[["Abrir unidades","#unidades"],["Preparar consulta","#contacto"],["Coordinar visita","#visita"],["Ver entregas","#entregas"]];[].slice.call(buy.querySelectorAll("li")).forEach(function(li,i){if(li.querySelector(".step-action"))return;var a=d.createElement("a");a.className="step-action";a.href=links[i][1];a.textContent=links[i][0]+" ↗";li.appendChild(a)})}
-  /* Guía: las casillas sin marcar se convierten en preguntas accionables; no se persisten. */
-  var gd=d.querySelector("#guia .gd"), tools=d.querySelector("#guia .gtools");
-  if(gd&&tools){var q=d.createElement("p");q.className="gquestions";q.setAttribute("role","status");q.setAttribute("aria-live","polite");tools.appendChild(q);function updateQuestions(){var left=[].slice.call(gd.querySelectorAll("details:first-child input:not(:checked)"));var names=left.slice(0,3).map(function(x){return x.getAttribute("aria-label")||"revisar este punto"});q.textContent=left.length?("Para preguntar en la visita: "+names.join(" · ")+(left.length>3?" · y "+(left.length-3)+" más":"")):"Planilla completa"}gd.addEventListener("change",updateQuestions);updateQuestions()}
   /* Financiación: talón de condiciones contextual, sin simulador ni importe inventado. */
   var fin=d.querySelector("#financiacion .pdr");
   if(fin&&window.STOCK&&window.wa&&!fin.querySelector(".fin-ticket")){var box=d.createElement("div");box.className="fin-ticket";box.innerHTML='<b>Talón de condiciones</b><label>Unidad a consultar<select><option value="">Elegí una unidad (opcional)</option>'+window.STOCK.map(function(c,i){return'<option value="'+i+'">U·'+String(i+1).padStart(2,"0")+' · '+String(c.titulo).replace(/&/g,"&amp;")+'</option>'}).join("")+'</select></label><label class="fin-used"><input type="checkbox"> Tengo un usado para evaluar</label><a class="btn p" href="#">Abrir consulta de condiciones ↗</a><small>Te confirmamos precio, cuota y condiciones.</small>';fin.insertBefore(box,fin.firstChild);var sel=box.querySelector("select"),used=box.querySelector("input"),a=box.querySelector("a");function syncFin(){var c=sel.value!==""?window.STOCK[+sel.value]:null;var m="Hola! Quiero consultar condiciones de pago"+(c?" para U·"+String(+sel.value+1).padStart(2,"0")+" · "+c.titulo:"")+(used.checked?" y evaluar mi usado":"")+". ¿Me confirman precio, cuota y requisitos vigentes?";a.href=window.wa(m)}sel.addEventListener("change",syncFin);used.addEventListener("change",syncFin);syncFin()}
