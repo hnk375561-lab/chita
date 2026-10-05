@@ -1180,8 +1180,10 @@ html body #como-comprar .stp li:hover .stp-seal,html body #como-comprar .stp li:
 @keyframes ficha-corte{from{clip-path:polygon(0 0,0 0,0 100%,0 100%)}to{clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}}
 html body #dlg .fch::before{content:attr(data-remito)!important}
 html body #dlg .fcs .ct img{object-fit:cover!important;object-position:50% 50%!important}
-html body #dlg[open] .fcs .ctk{animation:ficha-corte .65s var(--ease) both}
-@media(prefers-reduced-motion:reduce){html body #dlg[open] .fcs .ctk{animation:none}}
+/* v51: el corte se anima sobre el marco (.ct, fijo), no sobre el carril .ctk: el carril mide 1 foto de ancho y su clip-path final recortaba todas las fotos desde la 2.ª */
+html body #dlg[open] .fcs .ct{animation:ficha-corte .65s var(--ease) backwards}
+html body #dlg .fcs .ctk{animation:none!important;clip-path:none!important}
+@media(prefers-reduced-motion:reduce){html body #dlg[open] .fcs .ct{animation:none}}
 
 
 /* ==========================================================================\n   CHITA / IDENTIDAD MADRE · V1\n   Primera aplicación: el sitio como archivo vivo de entregas.\n   No agrega contenido factual: sólo hace visible el proceso real.\n   ========================================================================== */
