@@ -85,8 +85,7 @@ html body :is(.ey,.pde,.xk){display:inline-block;color:var(--rojo)!important;tex
 html body #entregas :is(.ey,.ep){color:#fff!important}
 html body :is(input,select,textarea){border-radius:0!important}
 /* — LA COLUMNA (barra de avance + sección) — */
-.cl{position:fixed;left:0;top:0;bottom:0;width:10px;z-index:60;background:rgba(10,16,32,.12);pointer-events:none}
-.cl i{position:absolute;inset:0;background:var(--rojo);transform-origin:top;transform:scaleY(0);will-change:transform}
+.cl{position:fixed;left:0;top:0;bottom:0;width:0;z-index:60;pointer-events:none}
 .cl b{position:fixed;left:18px;bottom:20px;font:800 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--ink);padding:8px 14px 8px 10px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);transition:opacity .4s}
 .cl b span{color:var(--rojo);margin-right:.7em}
 @media(max-width:900px){
@@ -98,7 +97,7 @@ html body :is(input,select,textarea){border-radius:0!important}
  html body .hx-info{border-left:0;border-top:3px dashed var(--paper);margin:0}
  html body .eg{grid-template-columns:repeat(2,minmax(0,1fr))}
  html body h2{font-size:clamp(36px,11vw,64px)!important}
- .cl{width:6px}.cl b{left:12px;bottom:12px;font-size:11px}
+ .cl b{left:12px;bottom:12px;font-size:11px}
 }
 @media(prefers-reduced-motion:reduce){html body header nav a::after,html body .eg li img{transition:none}}
 /* — refuerzos de especificidad sobre capas heredadas — */
@@ -774,12 +773,6 @@ html body #opiniones .rv45 i{position:relative;cursor:help}
 html body #opiniones .rv45 i:hover::after,html body #opiniones .rv45 i:focus-visible::after{content:attr(data-review) " · Leela en Google";position:absolute;z-index:3;left:50%;bottom:calc(100% + 8px);width:max-content;max-width:220px;padding:8px 10px;background:var(--ink);color:#fff;font:800 10px/1.2 var(--font-display);letter-spacing:.08em;text-transform:uppercase;transform:translateX(-50%);clip-path:var(--cut-sm);pointer-events:none}
 @media(max-width:899px){html body #opiniones .rv45 i:hover::after,html body #opiniones .rv45 i:focus-visible::after{left:auto;right:0;transform:none}}
 
-/* CHITA · La Columna como fachada: 13 pilares separados por vidrio; el de la sección actual se enciende con el corte */
-.cl s{position:absolute;left:0;right:0;box-sizing:border-box;border-bottom:3px solid #fff;text-decoration:none}
-.cl s::after{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--rojo);clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),0 100%);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
-.cl s.on::after{transform:scaleX(1.8)}
-@media(max-width:899px){.cl s::after{width:6px}.cl s.on::after{transform:scaleX(2)}}
-@media(prefers-reduced-motion:reduce){.cl s::after{transition:none}}
 
 /* CHITA · cuponera de Financiación: tira de cupones perforados cortada por el borde (sin cantidad: no se informa nº de cuotas) */
 html body #financiacion .pdc .cup{display:flex;margin:4px -22px 18px 0;width:calc(100% + 22px);overflow:hidden}
@@ -1161,10 +1154,6 @@ html body #unidades .fm-chip:focus-visible{outline:2px solid var(--luxl);outline
 @media(prefers-reduced-motion:reduce){html body #unidades .fm-chip{transition:none}}
 /* CHITA v33 · HERO: el recorrido alterna portada de unidad y entrega publicada.
    Las fotos apaisadas de personas se muestran completas; el velo no tapa sus rostros. */
-html body main>.hero.hx .hx-pn-delivery{background:var(--paper);border-left-color:var(--rojo)}
-html body main>.hero.hx .hx-pn-delivery img{object-fit:contain;padding:12px;background:var(--paper)}
-html body main>.hero.hx .hx-pn-delivery::after{opacity:.18}
-@media(max-width:899px){html body main>.hero.hx .hx-pn-delivery img{padding:8px}}
 
 /* CHITA · GUÍA v32 · planilla tildable y hoja para llevar */
 html body #guia .gtools{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:min(920px,100%)!important;margin:clamp(22px,3vw,38px) 0 0 calc(clamp(18px,3vw,48px) + 10px)!important;padding:12px 0;border-top:2px solid rgba(255,255,255,.35);border-bottom:2px dashed rgba(255,255,255,.35)}
@@ -1407,7 +1396,6 @@ html body #opiniones .rv45 i:nth-child(-n+45):last-child{box-shadow:inset 0 0 0 
 /* CHITA v42 · HERO (T10): la pasada de fondo baja contraste y velocidad para que el protagonista sea un solo recorrido (el reel). Velo de tinta .66 -> .8 (entregas .18 -> .34) y vuelta de 130 s -> 190 s. Solo CSS; sin elementos nuevos. */
 html body main>.hero.hx .hx-trk{animation-duration:190s}
 html body main>.hero.hx .hx-pn::after{opacity:.8}
-html body main>.hero.hx .hx-pn-delivery::after{opacity:.34}
 
 /* CHITA v43 · ENTREGAS (T11): el sello grande queda solo en la primera entrega («Entregado»); en las demás aparece al pasar el mouse o con foco. El resto sigue mostrando su código E·NN. Sin estados nuevos. Solo CSS. */
 html body #entregas .eg li:not(:first-child) .sl{opacity:0!important;animation:none!important;transition:opacity .2s linear}
@@ -1435,3 +1423,26 @@ html body #nosotros .np>.nq .nl:focus-visible{outline:3px solid var(--chapa);out
 /* CHITA v47 · T14 (la dirección cambia de función según la sección) y T15 (cada paso de El local nombra su foto). Solo se suma. */
 html body #local .vi .vfoto{display:block;margin:0 0 8px;color:var(--plata);font:800 10px/1.2 var(--font-display);letter-spacing:.16em;text-transform:uppercase}
 html body #local #rqh .origin-mark{display:block;margin-bottom:8px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em}
+
+/* CHITA v48 · HERO. (1) El fondo pasa SOLO los frentes de cada modelo (sin entregas ni interiores). 190 s -> 95 s: mismos px/s con la mitad de paneles.
+   (2) Los tres recuadros .hx-rail junto al reel llevan entregas e interiores con fundido. (3) La barra lateral de avance (.cl i / .cl s) se eliminó. */
+html body main>.hero.hx .hx-trk{animation-duration:95s}
+.hx-rail{position:relative;z-index:3;display:flex;flex-direction:column;gap:12px;min-width:0}
+.hx-rt{position:relative;flex:1 1 0;min-height:0;margin:0;overflow:hidden;background:var(--ink);border-left:6px solid var(--rojo);clip-path:var(--cut-sm)}
+.hx-rs{position:absolute;inset:0;opacity:0;transition:opacity .9s linear}
+.hx-rs.on{opacity:1}
+.hx-rs img{display:block;width:100%;height:100%;object-fit:cover}
+.hx-rs i{position:absolute;left:0;bottom:0;padding:6px 14px 6px 10px;background:#fff;color:var(--ink);font:800 10px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;font-style:normal;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 100%,0 100%)}
+@media(prefers-reduced-motion:reduce){.hx-rs{transition:none}}
+@media(min-width:1100px){
+ html body main>.hero.hx{grid-template-columns:minmax(0,1fr) clamp(150px,14vw,230px) auto;column-gap:clamp(18px,2.4vw,40px)}
+ html body .hx-rail{height:min(calc(100svh - var(--hx-top,110px) - 32px),680px);min-height:420px;align-self:center;margin:16px 0}
+ html body .hx-copy .hx-h1{font-size:clamp(36px,3.9vw,76px)!important}
+ /* la prueba social no puede pisar los recuadros: se queda dentro de la columna del texto y baja a dos renglones si hace falta */
+ html body #hero .hx-proof{max-width:100%;width:auto;display:flex;box-sizing:border-box}
+ html body #hero .hx-proof span{min-width:0;font-size:clamp(10px,.82vw,12px);letter-spacing:.1em}
+}
+@media(max-width:1099px){
+ html body .hx-rail{grid-column:1/-1;order:3;flex-direction:row;height:clamp(96px,22vw,170px);padding:14px 0 22px;box-sizing:content-box}
+}
+@media(max-width:899px){html body .hx-rail{padding:14px 20px 22px;gap:8px}}

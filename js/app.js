@@ -121,21 +121,30 @@ var b=e.target.closest("[data-n]");if(b)open_(+b.getAttribute("data-n"),b.getAtt
 var HCOVER={"Renault Clio Dynamique 1.2N":"assets/w800/8.webp","Chevrolet Tracker Premier 1.8N":"assets/w800/27.webp","Fiat Palio Attractive 1.4N":"assets/w800/22.webp","Chevrolet Tracker Premier 1.8N · Serie 2":null,"Fiat Palio Attractive 1.4N · Serie 2":"assets/w800/35.webp","Renault Kangoo Comfort 1.6N":"assets/w800/41.webp","Renault Kangoo Authentique 1.6N":"assets/w800/47.webp","Kia K3 EX Cross 1.6N":"assets/w800/53.webp","Peugeot 301 Allure 1.6 HDI":"assets/w800/57.webp","Peugeot Partner Patagónica 1.4N":"assets/w800/61.webp","Chevrolet Tracker Premier 1.2T":"assets/tracker-2021-1.webp"};
 var HTHUMB={"assets/w800/8.webp":"assets/hero/t-8.webp","assets/w800/27.webp":"assets/hero/t-27.webp","assets/w800/22.webp":"assets/hero/t-22.webp","assets/w800/35.webp":"assets/hero/t-35.webp","assets/w800/41.webp":"assets/hero/t-41.webp","assets/w800/47.webp":"assets/hero/t-47.webp","assets/w800/53.webp":"assets/hero/t-53.webp","assets/w800/57.webp":"assets/hero/t-57.webp","assets/w800/61.webp":"assets/hero/t-61.webp","assets/w800/9.webp":"assets/hero/t-9.webp"};
 /* Hero · fondo: una pasada con la portada de cada modelo (una foto por auto; Chita ya les grabó marca, modelo, año y km).
+   SOLO frentes: ni entregas ni interiores van acá (esas fotos viven en los tres recuadros .hx-rail, junto al reel).
    Sale de STOCK + HCOVER: un auto nuevo o uno que se va se refleja solo. Es decorativo (aria-hidden): las unidades reales están en #unidades.
    Dos vueltas iguales de paneles para que el bucle (-50 %) no tenga costura. Pausa fuera de pantalla; con movimiento reducido queda quieta.
-   Las entregas son las mismas fotos ya publicadas en #entregas; se usan de forma decorativa mientras queda pendiente la autorización final de uso en hero. */
+   */
 (function(){var hero=$("hero");if(!hero||hero.querySelector(".hx-pass"))return;
 var seen={},L=[];STOCK.forEach(function(c){var s=Object.prototype.hasOwnProperty.call(HCOVER,c.titulo)?HCOVER[c.titulo]:ph(c)[0];if(s&&!seen[s]){seen[s]=1;L.push(s)}});
 if(!L.length)return;
-var DELIVERIES=["images/entrega-01.webp","images/entrega-02.webp","images/entrega-03.webp","images/entrega-04.webp","images/entrega-05.webp","images/entrega-06.webp","images/entrega-07.webp","images/entrega-08.webp","images/entrega-09.webp","images/entrega-10.webp","images/entrega-11.webp","images/entrega-12.webp"],P=[];
-L.forEach(function(s,i){P.push({src:s,delivery:false});P.push({src:DELIVERIES[i%DELIVERIES.length],delivery:true})});
+var P=[];
+L.forEach(function(s){P.push({src:s})});
 function small(s){return /^assets\/w800\//.test(s)?s.replace("w800","w480"):s.replace(/\.webp$/,"-480.webp")}
-function pan(x,i,dup){var s=x.src,big=/^assets\/w800\//.test(s)||/-800\.webp$/.test(s)?s:s.replace(/\.webp$/,"-800.webp"),attrs=x.delivery?'':'srcset="'+esc(small(s))+' 480w, '+esc(big)+' 800w" sizes="(min-width:900px) 560px,60vw"';
-return'<div class="hx-pn'+(x.delivery?' hx-pn-delivery':'')+'"><img src="'+esc(s)+'" '+attrs+' alt="" width="'+(x.delivery?'340':'800')+'" height="'+(x.delivery?'285':'1000')+'" decoding="async" '+(!dup&&i<3?'fetchpriority="low"':'loading="lazy"')+' draggable="false"></div>'}
+function pan(x,i,dup){var s=x.src,big=/^assets\/w800\//.test(s)||/-800\.webp$/.test(s)?s:s.replace(/\.webp$/,"-800.webp");
+return'<div class="hx-pn"><img src="'+esc(s)+'" srcset="'+esc(small(s))+' 480w, '+esc(big)+' 800w" sizes="(min-width:900px) 560px,60vw" alt="" width="800" height="1000" decoding="async" '+(!dup&&i<3?'fetchpriority="low"':'loading="lazy"')+' draggable="false"></div>'}
 var set=P.map(function(x,i){return pan(x,i,0)}).join(""),dup=P.map(function(x,i){return pan(x,i,1)}).join("");
 var el=document.createElement("div");el.className="hx-pass";el.setAttribute("aria-hidden","true");el.innerHTML='<div class="hx-trk">'+set+dup+'</div>';
 hero.insertBefore(el,hero.firstChild);
 if("IntersectionObserver" in window)new IntersectionObserver(function(e){el.classList.toggle("off",!e[0].isIntersecting)},{threshold:0}).observe(hero)})();
+/* Hero · tres recuadros junto al reel (.hx-rail): entregas e interiores, cada recuadro alterna sus fotos con fundido.
+   Escalonados para que no cambien a la vez; pausan fuera de pantalla; con movimiento reducido queda la primera foto fija. */
+(function(){var hero=$("hero"),rail=hero&&hero.querySelector(".hx-rail");if(!rail)return;
+if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+var tiles=[].slice.call(rail.querySelectorAll(".hx-rt")),vis=true,timers=[];
+if("IntersectionObserver" in window)new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(hero);
+tiles.forEach(function(t,k){var sl=[].slice.call(t.querySelectorAll(".hx-rs"));if(sl.length<2)return;var n=0;
+ setTimeout(function(){setInterval(function(){if(!vis||document.hidden)return;sl[n].classList.remove("on");n=(n+1)%sl.length;sl[n].classList.add("on")},5600)},1800*(k+1))})})();
 /* Carrusel de unidades del hero: solo existe si el HTML lo trae (desde v17 el hero es el reel). */
 if($("hs")){
 var HZ=$("hzs"),HN=$("hn"),HM=$("hm"),HW=$("hw"),HF=$("hf"),HC=$("hcount"),HR=$("hrail"),HV=$("hv"),HNAV=$("hnav"),hi=0,SL=[],hsl,hAnim=null;

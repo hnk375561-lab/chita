@@ -1,21 +1,16 @@
-/* CHITA · v12: «Comparar» y «Dónde estamos» también se marcan en Modelos y Local. La Columna: avance de lectura + sección actual (transform only, 1 listener pasivo). */
+/* CHITA · v12: «Comparar» y «Dónde estamos» también se marcan en Modelos y Local. Rótulo de sección actual (la barra lateral de avance se eliminó) (transform only, 1 listener pasivo). */
 (function(){
 var S=[].slice.call(document.querySelectorAll("main>section[id]"));if(!S.length)return;
 var N={entregas:"Entregas",unidades:"Unidades","catalogo-comparador":"Modelos",nosotros:"Nosotros",contacto:"Dónde estamos",local:"El local",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
-var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<i></i><b hidden></b>";document.body.appendChild(c);
-var bar=c.firstChild,lab=c.lastChild,raf=0,cur="";
-/* 13 pilares: un segmento por sección; el relleno rojo los atraviesa y el de la sección actual se enciende */
-var seg=S.map(function(){var s=document.createElement("s");c.insertBefore(s,lab);return s});
-function lay(){var d=document.documentElement,m=d.scrollHeight-innerHeight;if(m<=0)return;var f=S.map(function(s){return Math.max(0,Math.min(1,(s.getBoundingClientRect().top+scrollY-innerHeight*.4)/m))});
- seg.forEach(function(s,i){var a=f[i],b=i<S.length-1?f[i+1]:1;s.style.top=a*100+"%";s.style.height=Math.max(0,b-a)*100+"%"})}
-function lit(k){seg.forEach(function(s,i){s.classList.toggle("on",i===k)})}
-function upd(){raf=0;var d=document.documentElement,m=d.scrollHeight-innerHeight;bar.style.transform="scaleY("+(m>0?Math.min(1,scrollY/m):0)+")";
+var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<b hidden></b>";document.body.appendChild(c);
+var lab=c.firstChild,raf=0,cur="";
+function upd(){raf=0;var d=document.documentElement,m=d.scrollHeight-innerHeight;
  var y=innerHeight*.4,k=-1;for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.top<=y&&r.bottom>y){k=i;break}}
- if(k<0){lab.hidden=true;cur="";lit(-1);return}
- var id=S[k].id;if(id!==cur){cur=id;lay();lit(k);lab.hidden=false;lab.innerHTML="<span>"+("0"+(k+1)).slice(-2)+"/"+S.length+"</span>"+(N[id]||id)}
+ if(k<0){lab.hidden=true;cur="";return}
+ var id=S[k].id;if(id!==cur){cur=id;lab.hidden=false;lab.innerHTML="<span>"+("0"+(k+1)).slice(-2)+"/"+S.length+"</span>"+(N[id]||id)}
  var a=document.querySelectorAll("header nav a");for(var j=0;j<a.length;j++){var al={"catalogo-comparador":"versus",local:"contacto"},on=a[j].getAttribute("href")==="#"+id||a[j].getAttribute("href")==="#"+al[id];a[j].classList.toggle("on",on);if(on&&a[j].parentNode.scrollWidth>a[j].parentNode.clientWidth+4){var n=a[j].parentNode;n.scrollTo({left:a[j].offsetLeft-n.clientWidth/2+a[j].offsetWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}}
 function q(){if(!raf)raf=requestAnimationFrame(upd)}
-addEventListener("scroll",q,{passive:true});addEventListener("resize",function(){lay();q()});addEventListener("load",function(){lay();q()});lay();upd();
+addEventListener("scroll",q,{passive:true});addEventListener("resize",q);addEventListener("load",q);upd();
 })();
 /* CHITA · Recorrido en video del hero: carga diferida, pausa fuera de pantalla, sonido a pedido. */
 (function(){

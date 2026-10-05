@@ -1,0 +1,20 @@
+CHITA · v48 · HERO (4 archivos, mismas rutas que el repo; copiar encima y reemplazar)
+
+  index.html          +3 recuadros (.hx-rail) entre el texto y el reel
+  js/app.js           fondo del hero: solo portadas (frentes); rotación de los 3 recuadros
+  js/identidad.js     se elimina la barra lateral de avance (pista, relleno rojo y marcas)
+  css/identidad.css   bloque «v48» al final; se borra el CSS de la barra y de las entregas en el fondo
+
+Qué cambia
+  - Fondo del hero: solo el frente de cada modelo (10 portadas). Sin entregas ni interiores.
+  - Tres recuadros junto al reel: entregas e interiores, con fundido cada ~5,6 s y escalonados.
+    Para cambiar fotos: editar las <img> dentro de .hx-rail en index.html.
+  - Barra lateral izquierda eliminada por completo. Se mantiene el rótulo de sección («01/13 Entregas»)
+    abajo a la izquierda, y el resaltado del menú.
+  - Título del hero un poco más chico (3,9 vw) para que entren los recuadros; en pantallas < 1100 px los
+    recuadros pasan a una tira de 3 bajo el reel.
+
+Verificado: npm test OK; 0 errores/avisos de consola en 1600, 1280, 1100, 1000 y 390 px; sin desborde horizontal.
+No verificado: Safari/Firefox, dispositivos reales.
+Pendiente (ya estaba): autorización de uso de las fotos de entregas en el hero.
+Volver atrás: restaurar esos 4 archivos desde git.
