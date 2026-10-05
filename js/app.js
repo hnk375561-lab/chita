@@ -8,7 +8,7 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){retur
 function wa(t){return /^\d{8,}$/.test(N.whatsapp)?"https://wa.me/"+N.whatsapp+"?text="+encodeURIComponent(t||"Hola! Quiero consultar por las unidades disponibles."):"tel:"+N.telefonoTel}
 function isWebContact(u){return /^https:\/\/wa\.me\//.test(u)}
 function callFallback(s,t){s.textContent="";s.appendChild(document.createTextNode("Consulta lista: llamá al "+NEGOCIO.telefono+" o copiá el mensaje para pegarlo donde prefieras. "));var c=document.createElement("button");c.type="button";c.className="btn";c.textContent="Copiar mensaje";c.addEventListener("click",function(){var ok=function(){c.textContent="Mensaje copiado"};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){c.textContent="Copialo manualmente: "+t})}else{c.textContent="Copialo manualmente: "+t}});s.appendChild(c);var a=document.createElement("a");a.className="btn p";a.href="tel:"+NEGOCIO.telefonoTel;a.textContent="Llamar";s.appendChild(document.createTextNode(" "));s.appendChild(a)}
-function ask(c){return "Hola! Vi la unidad U·"+String(STOCK.indexOf(c)+1).padStart(2,"0")+" · "+c.titulo+" "+c.anio+" en la página y quisiera consultar si sigue disponible. ¿Me confirman también precio y condiciones vigentes?"}
+function ask(c){return "Hola! Vi la unidad U·"+String(STOCK.indexOf(c)+1).padStart(2,"0")+" · "+c.titulo+" "+c.anio+" en la página y quisiera consultar si sigue disponible. ¿Me confirman también precio y condiciones vigentes?"+(c.km?"":" ¿Y el kilometraje?")}
 var IW={};
 var CSZ="(min-width:900px) 380px,(min-width:640px) 50vw,100vw";
 function SSET(s){return String(s)}

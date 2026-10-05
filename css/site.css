@@ -932,7 +932,7 @@ section#unidades{padding-top:clamp(44px,4.4vw,64px);padding-bottom:clamp(36px,3.
 #unidades .car .vf{min-height:40px}
 #unidades .car .wab{margin-top:4px;margin-bottom:16px;min-height:44px}
 
-/* Nuestros modelos */
+/* Índice de unidades publicadas (#modelos) */
 section#modelos{padding-block:var(--cp-y)}
 #modelos .mdh{margin-bottom:clamp(16px,2vw,24px)}
 #modelos .mdh h2{font-size:clamp(33.6px,4vw,51.5px);margin-bottom:8px}

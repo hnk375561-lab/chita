@@ -33,6 +33,10 @@ Archivos: `css/identidad.css` (se carga al final) y `js/identidad.js`. Núcleo: 
 - **v28 · Numeración**: la nav usa el N° real de su sección (`data-n`); los segundos bloques de una sección llevan `N° 03·B` / `N° 13·B` (`data-sub`).
 - **v29 · Modelos**: el panel de vista previa ya no queda en una columna angosta (`css/motion.css:59` lo limitaba a `min(340px,38%)`). La unidad se ve en un vano entre dos columnas rojas, el texto ocupa todo el ancho y la foto se revela con el CORTE diagonal al cambiar de modelo o de miniatura (`mdcorte`). Sin datos nuevos.
 
+- **v30 · Alineación con `docs/IDENTIDAD-MADRE.md`**: el mensaje de consulta pide el kilometraje cuando la unidad no lo publica; el copy de «Cómo comprar» dice «WhatsApp o por teléfono»; el `aria-label` de `#catalogo-comparador` pasa a «Índice de unidades publicadas y comparador»; se regeneró el HTML estático de las tarjetas (`npm run prerender`). Sin datos nuevos.
+
+- **v31 · Limpieza de consola y Financiación**: `initHero()` (`js/motion.js`) ya no crea tweens para `.hx-veil`, `.hx-logo` ni `.hx-info` cuando no existen (0 avisos GSAP). En Financiación el talón de condiciones es la única acción primaria (el botón anterior queda como respaldo sin JS), no se sale de la pantalla en móvil y el selector usa todo el ancho. Solo CSS y una guarda en JS; sin datos nuevos.
+
 ## Color
 Azul chapa `#0A2C8C`, rojo `#C1121F` (logotipo y columnas del local), papel `#ECEDEA`, tinta `#0A1020`, plata `#B9BEC4`. Sin cian, sin dorado, sin vidrio.
 

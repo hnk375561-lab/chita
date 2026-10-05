@@ -1,0 +1,15 @@
+CHITA · v31 · solo archivos modificados (rutas iguales al repo; copiar encima y reemplazar)
+
+  index.html                     aria-label del índice; copy de «Cómo comprar»; tarjetas estáticas regeneradas (npm run prerender)
+  js/app.js                      ask(): «¿Y el kilometraje?» si la unidad no publica km
+  js/motion.js                   initHero(): sin tweens a .hx-veil/.hx-logo/.hx-info inexistentes (0 avisos GSAP)
+  css/identidad.css              bloque «T7» al final (Financiación): CTA única, talón dentro de pantalla, selector completo
+  css/site.css                   solo un comentario
+  docs/IDENTIDAD-MADRE.md        NUEVO · documento madre v2.2
+  docs/IDENTIDAD.md              entradas v30 y v31
+  AUDITORIA-IMPLEMENTACION.md    tipografía y GSAP corregidos
+
+Verificado: npm test OK; 0 errores y 0 avisos de consola en 1440 y 390 px; sin desborde horizontal.
+No verificado: Safari/Firefox, dispositivos reales, Lighthouse.
+Antes de subir: correr npm run prerender si se cambia STOCK.
+Volver atrás: restaurar esos archivos desde git.

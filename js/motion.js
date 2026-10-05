@@ -387,22 +387,23 @@ function initHero() {
     gsap.set(words, { yPercent: 118, rotate: 4, transformOrigin: "0% 100%" });
     gsap.set(lead, { opacity: 0, y: 18 });
     gsap.set(goItems, { opacity: 0, y: 16 });
-    gsap.set(infoItems, { opacity: 0, y: 16 });
+    if (infoItems.length) gsap.set(infoItems, { opacity: 0, y: 16 });
     if (veil) gsap.set(veil, { display: "block", yPercent: 0 });
     root.classList.remove("mh");
 
     const clean = [logo, lead, ...words, ...goItems, ...infoItems, veil, ...headerItems].filter(Boolean);
-    gsap.timeline({
+    const intro = gsap.timeline({
       defaults: { ease: EASE.soft },
       onComplete: () => { gsap.set(clean, { clearProps: "all" }); ScrollTrigger.refresh(); }
     })
       .to(headerItems, { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: EASE.expo }, 0)
-      .to(veil || [], { yPercent: -100, duration: 1.25, ease: EASE.mask }, 0.1)
-      .to(logo || [], { opacity: 1, y: 0, duration: 0.8 }, 0.3)
       .to(words, { yPercent: 0, rotate: 0, duration: 1.05, ease: EASE.expo, stagger: 0.055 }, 0.4)
       .to(lead, { opacity: 1, y: 0, duration: 0.9 }, 0.85)
-      .to(goItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0)
-      .to(infoItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0);
+      .to(goItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0);
+    /* Solo se animan los elementos que existen en el hero actual (.hx-veil, .hx-logo y .hx-info ya no están en el HTML). */
+    if (veil) intro.to(veil, { yPercent: -100, duration: 1.25, ease: EASE.mask }, 0.1);
+    if (logo) intro.to(logo, { opacity: 1, y: 0, duration: 0.8 }, 0.3);
+    if (infoItems.length) intro.to(infoItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0);
   });
 
   return () => { ctx.revert(); };

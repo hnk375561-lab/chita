@@ -12,7 +12,7 @@ Medido con Chromium headless (móvil 390 px, escritorio 1440 px, y anchos de 320
 | Datos del local | Dirección única (Gral. Galarza 1712). Sin «1337», sin antigüedad publicada. |
 | Secciones | De 17 a 13. Sin `#trayectoria`, `#equipo` ni `#historia`. |
 | CSS | `!important` de 232 a 115. Hojas externas en `css/`. |
-| Tipografía | 2 familias (DM Serif Display, Instrument Sans) + Bricolage en reserva/viaje. `@font-face` rotos corregidos. |
+| Tipografía | Vigente: Bricolage Grotesque (cargada como «Chita Display» en `css/identidad.css`) + Instrument Sans. DM Serif Display ya no se usa (el `.woff2` sigue en `fonts/`). `viaje.css` aún mezcla alias `Archivo`, `Jet` (sin cargar) y `monospace`. |
 | Imágenes | `srcset` con 480w/800w en todas las fotos de unidades. Fondos CSS en WebP. |
 | Repo | Archivos sin uso eliminados. `canonical`, `og:*` y `404.html` apuntan a `/chita/`. `npm run prerender` reparado. |
 
@@ -23,7 +23,7 @@ Medido con Chromium headless (móvil 390 px, escritorio 1440 px, y anchos de 320
 | Alto de la página en móvil | 66.418 px | 38.071 px |
 | `#catalogo-comparador` en móvil | 32.208 px (11 paneles apilados e invisibles) | 3.872 px |
 | Descarga inicial en móvil (sin scroll) | 7.197 KB · 103 requests | 1.778 KB · 41 requests |
-| Avisos de consola (GSAP «target not found») | 2 | 0 |
+| Avisos de consola (GSAP «target not found») | 2 | 0. Reaparecieron 4 el 5/10 por tweens a elementos del hero que ya no existen; corregido en v31 (medido: 0 en 1440 y 390 px) |
 
 Causa del primer punto: `.modelos-panel .mdf{display:block}` estaba fuera del `@media (hover:hover) and (min-width:900px)` que contiene las reglas del panel, así que en móvil y tablet se mostraba sin ellas. Escritorio no cambia.
 

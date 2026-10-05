@@ -1359,3 +1359,13 @@ html body #preguntas .faq-route{display:inline-block;margin-left:10px;color:inhe
 @media(max-width:760px){html body #guia .gquestions{max-width:none;margin:8px 0 0}html body #financiacion .fin-ticket{grid-template-columns:1fr}html body #financiacion .fin-ticket>b,html body #financiacion .fin-ticket small{grid-column:auto}html body #financiacion .fin-ticket a{justify-self:start}html body #preguntas .faq-route{display:block;margin:12px 0 0}}
 
 html body #visita .pase-state{color:#fff!important;font-weight:800;text-transform:uppercase;letter-spacing:.14em}
+
+/* T7 · Financiación: el talón de condiciones es la única acción primaria; no se sale de la pantalla ni corta el selector */
+html body #financiacion .fin-ticket{grid-template-columns:minmax(0,1fr) auto;max-width:100%;box-sizing:border-box}
+html body #financiacion .fin-ticket label:not(.fin-used){grid-column:1/-1}
+html body #financiacion .pdr .fin-ticket~a.btn{display:none}
+@media(max-width:760px){
+  html body #financiacion .fin-ticket{grid-template-columns:minmax(0,1fr)}
+  html body #financiacion .fin-ticket label:not(.fin-used){grid-column:auto}
+  html body #financiacion .fin-ticket a{justify-self:stretch;white-space:normal;text-align:center}
+}
