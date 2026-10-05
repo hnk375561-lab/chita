@@ -167,11 +167,11 @@ f.addEventListener("pointerover",function(v){var b=v.target.closest(".mdb");if(!
 (function(){
 var d=document,s=d.getElementById("guia"),gd=s&&s.querySelector(".gd"),list=gd&&gd.querySelector("details:first-child ul");if(!s||!gd||!list||gd.dataset.checklist)return;gd.dataset.checklist="1";
 var items=[].slice.call(list.querySelectorAll("li")),total=items.length;if(!total)return;
-var tools=d.createElement("div");tools.className="gtools";tools.innerHTML='<p class="gcount" id="guiaCount" role="status" aria-live="polite">0 de '+total+' revisados</p><button type="button" class="gprint" id="guiaPrint">Llevá esta planilla <span aria-hidden="true">↗</span></button>';
+var tools=d.createElement("div");tools.className="gtools";tools.innerHTML='<p class="gcount" id="guiaCount" role="status" aria-live="polite">Tildá lo que revisás en el auto: 0 de '+total+'</p><button type="button" class="gprint" id="guiaPrint">Imprimir planilla</button>';
 gd.parentNode.insertBefore(tools,gd);
 var count=d.getElementById("guiaCount");
 items.forEach(function(li,i){var text=li.textContent.trim(),label=d.createElement("label"),input=d.createElement("input"),copy=d.createElement("span");label.className="gcheck";input.type="checkbox";input.id="guia-check-"+(i+1);input.setAttribute("aria-label",text);copy.textContent=text;label.appendChild(input);label.appendChild(copy);li.textContent="";li.appendChild(label);input.addEventListener("change",update)});
-function update(){var on=items.filter(function(li){return li.querySelector("input").checked}),done=on.length;count.textContent=done?"Marcaste "+done+" de "+total+" · van en tu consulta de visita":"0 de "+total+" revisados";s.dataset.checked=String(done);window.GUIA_MARCADOS=on.map(function(li){return li.textContent.trim()})}
+function update(){var on=items.filter(function(li){return li.querySelector("input").checked}),done=on.length;count.textContent=done?"Revisaste "+done+" de "+total+" · van en tu consulta de visita":"Tildá lo que revisás en el auto: 0 de "+total;s.dataset.checked=String(done);window.GUIA_MARCADOS=on.map(function(li){return li.textContent.trim()})}
 d.getElementById("guiaPrint").addEventListener("click",function(){window.print()});update();
 })();
 

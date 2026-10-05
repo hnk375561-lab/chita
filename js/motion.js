@@ -601,7 +601,6 @@ function initSectionEntrances({ desktop }) {
     bd:(s,i)=>gsap.fromTo(i,{scale:.7,opacity:.1,rotate:desktop?-3:0},{scale:1,opacity:1,rotate:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 102%","top 46%")}),
     "como-comprar":(s,i)=>gsap.fromTo(i,{x:90*k,clipPath:"inset(0 0 0 100%)"},{x:0,clipPath:"inset(0 0 0 0%)",ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
     financiacion:(s,i)=>gsap.fromTo(i,{scale:.9,y:60*k},{scale:1,y:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
-    operaciones:(s,i)=>gsap.fromTo(i,{y:90*k,rotateZ:desktop?1.6:0},{y:0,rotateZ:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 40%")}),
     guia:(s,i)=>gsap.fromTo(i,{clipPath:"circle(10% at 50% 50%)",scale:1.12},{clipPath:"circle(76% at 50% 50%)",scale:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 40%")}),
     equipo:(s,i)=>gsap.fromTo(i,{x:-65*k,y:55*k,opacity:.15},{x:0,y:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
     visita:(s,i)=>gsap.fromTo(i,{y:110*k,clipPath:"inset(100% 0 0 0)"},{y:0,clipPath:"inset(0% 0 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 98%","top 42%")}),
@@ -1042,16 +1041,8 @@ function initSceneChoreography({ desktop }) {
       qsa(".pdc", s).forEach((card, i) => gsap.fromTo(card, { z: -80 * k, yPercent: (i - 1) * 3 * k, scale: .96 }, { z: 40 * k, yPercent: (1 - i) * 3 * k, scale: 1.015, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") }));
       const statement = qs(".xl", s); if (statement) gsap.fromTo(statement, { xPercent: -3 * k, scaleX: .97, transformOrigin: "0 50%" }, { xPercent: 3 * k, scaleX: 1.03, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 88%", "bottom 20%") });
     });
-    /* Operaciones: galería de tarjetas con alternancia de zoom y desplazamiento interno. */
-    scene("operaciones", (s) => {
-      qsa(".oc", s).forEach((card, i) => {
-        gsap.fromTo(card, { yPercent: (i % 2 ? 2 : -2) * k, rotateZ: (i % 2 ? 1 : -1) * .7 }, { yPercent: (i % 2 ? -2 : 2) * k, rotateZ: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
-        const image = qs(".oi img", card); if (image) gsap.fromTo(image, { scale: 1.08, xPercent: -4 * k }, { scale: 1.2, xPercent: 4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 92%", "bottom 16%") });
-      });
-    });
     /* Guía: acordeones como hojas que se abren desde el centro, manteniendo lectura estable. */
     scene("guia", (s) => {
-      qsa("details", s).forEach((detail, i) => gsap.fromTo(detail, { x: (i % 2 ? 1 : -1) * 14 * k, scaleX: .97, transformOrigin: i % 2 ? "100% 50%" : "0 50%" }, { x: 0, scaleX: 1.01, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 90%", "bottom 28%") }));
       const intro = qs(".xl", s); if (intro) gsap.fromTo(intro, { yPercent: 5 * k, scale: .97 }, { yPercent: -5 * k, scale: 1.02, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
     });
     /* Equipo: la foto es la profundidad; la lista sigue una diagonal suave. */

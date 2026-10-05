@@ -1,0 +1,38 @@
+/* CHITA v54 · financiación más transparente · "playa de maniobras" en Operaciones · plano de revisión en Guía */
+/* 1 · Financiación: texto legible sobre la foto más visible */
+html body #financiacion#financiacion#financiacion .pdl :is(h2,p){text-shadow:0 1px 16px rgba(70,0,10,.6)!important}
+
+/* 2 · Operaciones: piso de hormigón + plazas pintadas (CSS estático, sin animación por scroll) */
+html body #operaciones#operaciones#operaciones{background-color:#d6d9d5!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .24 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),radial-gradient(70% 45% at 12% 0,rgba(255,255,255,.7),transparent 70%),linear-gradient(180deg,#e0e2de,#cdd0cc)!important}
+html body #operaciones#operaciones#operaciones .og{position:relative;margin-top:clamp(56px,6vw,84px)}
+@media(min-width:1000px){
+html body #operaciones#operaciones#operaciones .og{column-gap:34px}
+html body #operaciones#operaciones#operaciones .og::before{content:"";position:absolute;z-index:0;pointer-events:none;left:-17px;right:-17px;top:-44px;bottom:-20px;background:linear-gradient(90deg,var(--rojo) 0 6px,transparent 6px) left top/25% 100% repeat-x,linear-gradient(var(--rojo),var(--rojo)) right top/6px 100% no-repeat,linear-gradient(var(--rojo),var(--rojo)) left bottom/100% 6px no-repeat;opacity:.9}
+html body #operaciones#operaciones#operaciones .og .oc{position:relative;z-index:1;box-shadow:0 18px 30px -18px rgba(11,18,32,.45)}
+}
+html body #operaciones#operaciones#operaciones .oc{will-change:auto}
+
+/* 3 · Guía (titular): plano de ingeniería con auto visto desde arriba */
+html body #guia#guia#guia .chita-section-backdrop{display:none!important}
+html body #guia#guia#guia{background-color:#0a1630!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 420' fill='none' stroke='%239db8ff' stroke-width='1.4'%3E%3Cpath d='M100 6C140 6 160 30 164 80L168 170C170 220 170 300 166 350C162 395 140 414 100 414C60 414 38 395 34 350C30 300 30 220 32 170L36 80C40 30 60 6 100 6Z'/%3E%3Cpath d='M52 118h96l-8 52H60zM62 296h76l10 42H52zM56 170h88v126H56z'/%3E%3Cpath d='M44 46q56-18 112 0M60 14l-6 18M140 14l6 18M100 6v112M34 150h-12M166 150h12' /%3E%3Crect x='20' y='70' width='15' height='52' rx='5'/%3E%3Crect x='165' y='70' width='15' height='52' rx='5'/%3E%3Crect x='20' y='300' width='15' height='52' rx='5'/%3E%3Crect x='165' y='300' width='15' height='52' rx='5'/%3E%3Cpath d='M10 6v408M4 6h12M4 414h12M190 6v408M184 6h12M184 414h12' stroke-dasharray='3 4'/%3E%3C/svg%3E"),radial-gradient(60% 55% at 85% 20%,rgba(30,64,175,.5),transparent 70%),linear-gradient(rgba(147,180,255,.17) 1px,transparent 1px) 0 0/120px 120px,linear-gradient(90deg,rgba(147,180,255,.17) 1px,transparent 1px) 0 0/120px 120px,linear-gradient(rgba(147,180,255,.07) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,rgba(147,180,255,.07) 1px,transparent 1px) 0 0/24px 24px!important;background-repeat:no-repeat,no-repeat,repeat,repeat,repeat,repeat!important;background-position:right 5% top 140px,0 0,0 0,0 0,0 0,0 0!important;background-size:min(30vw,380px) auto,auto,120px 120px,120px 120px,24px 24px,24px 24px!important}
+
+/* 4 · Guía general: 4 pasos en orden, planilla a la izquierda, pasos a la derecha */
+html body #guia#guia#guia .pdl::after{content:none!important}
+html body #guia#guia#guia .gcount::before{content:none!important}
+html body #guia#guia#guia .gd summary::before{content:"Paso " counter(g)!important;letter-spacing:.1em!important;white-space:nowrap}
+html body #guia#guia#guia .gd summary>span{display:block;min-width:0}
+html body #guia#guia#guia .gd summary small{display:block;margin-top:6px;font:500 14px/1.3 var(--font-body,inherit);letter-spacing:0;text-transform:none;opacity:.78}
+html body #guia#guia#guia .gd details{transform:none!important}
+html body #guia#guia#guia .gtools{flex-direction:column;align-items:flex-start;gap:12px}
+html body #guia#guia#guia .gquestions{margin:0;font-size:13px;line-height:1.5;opacity:.85}
+@media(min-width:1000px){
+html body #guia#guia#guia .w{display:grid!important;grid-template-columns:minmax(280px,5fr) minmax(0,7fr);column-gap:clamp(28px,4vw,64px);align-items:start}
+html body #guia#guia#guia .w>.xt{grid-column:1/-1;grid-row:1}
+html body #guia#guia#guia .w>.pdl{grid-column:1;grid-row:2;padding-right:0!important}
+html body #guia#guia#guia .w>.gtools{grid-column:1;grid-row:3;margin:24px 0 0!important;max-width:none!important}
+html body #guia#guia#guia .w>.gd{grid-column:2;grid-row:2/span 4;margin:clamp(28px,4vw,56px) 0 0!important;padding:0!important;max-width:none!important}
+html body #guia#guia#guia .w>.pdn{grid-column:1;grid-row:4;margin:24px 0 0!important}
+html body #guia#guia#guia .w>.pdr{grid-column:1;grid-row:5;margin:16px 0 0!important}
+html body #guia#guia#guia .w>.xb{grid-column:1/-1;grid-row:6}
+}
+@media(prefers-reduced-motion:reduce){html body #guia#guia#guia .gd details{transition:none}}
