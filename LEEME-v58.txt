@@ -1,0 +1,30 @@
+CHITA · v58 · HERO: reel nítido, sonido que responde y menú expandible
+Copiar cada archivo en la MISMA ruta del repo (reemplazar / agregar):
+  index.html                  (preload del poster responsive, <img> poster + <video> sin poster, botón con icono, menú con grupos y paneles)
+  css/identidad.css           (bloque v58 al final: reel, botón de sonido, menú ▾)
+  js/identidad.js             (controlador nuevo del reel + menú expandible; se quitó el rotulado duplicado del botón)
+  js/app.js                   (la primera foto del fondo pasa a fetchpriority=high; la pasada también pausa con la pestaña oculta)
+  video/hero.mp4              (NUEVO · 720x1280, H.264, audio AAC-LC, faststart, keyframe cada 2 s)
+  video/hero-lite.mp4         (NUEVO · 480x854 para conexiones lentas)
+  images/reel-poster.webp     (reemplaza al de 540x960: ahora 720x1280)
+  images/reel-poster-480.webp (NUEVO)
+video/recorrido.mp4 queda en el repo pero el sitio ya no lo usa (se puede borrar cuando quieran).
+
+Qué cambia
+  Calidad   poster 540p -> 720p con srcset; el video se limpia (denoise + nitidez leve) sin subir el peso (15 MB vs 14 MB).
+            El video aparece con fundido recién cuando reproduce, sin salto respecto del poster.
+  Carga     el video arranca apenas pinta el poster (antes esperaba al evento "load" y competía con todo lo demás).
+            Conexión 2G/3G o <1,5 Mbps -> hero-lite.mp4. Ahorro de datos / movimiento reducido: no arranca solo.
+            Si el HD falla, cae solo al liviano. Pausa fuera de pantalla y con la pestaña oculta.
+  Sonido    audio re-codificado a AAC-LC (el original era HE-AAC) y normalizado. El botón escucha el estado real del video:
+            "Escuchá el salón" / "Cargando…" / "Silenciar" / "Video no disponible", con icono. Reanuda con sonido al volver a pantalla.
+  Menú      Unidades ▾ · Comprar ▾ · Vender o permutar · Dónde estamos ▾ · Preguntas.
+            Los enlaces siguen siendo enlaces; el ▾ abre el panel (hover en escritorio, toque en móvil, Enter/↓ y Esc con teclado).
+            Suma Entregas, Índice de modelos, Comparar, Financiación, Guía, Visita y Reseñas, todas con textos que ya estaban en el sitio.
+
+Verificado (Chromium): autoplay silencioso, sonido on/off, pausa/reanudación al salir y volver, movimiento reducido, caída HD->liviano,
+  error total con mensaje, menú en 1440 y 390 px, teclado, 0 errores de JS; npm test OK.
+No verificado: Safari/iOS y Firefox, ni reproducción real H.264 (el Chromium de prueba no lo decodifica; se probó con clips VP9 equivalentes).
+Límite honesto: el video original es 720p con compresión fuerte; la limpieza mejora la nitidez pero no puede inventar detalle.
+  Para calidad "de verdad" hay que volver a exportar el recorrido desde el original del celular (1080p) y reemplazar video/hero.mp4.
+Volver atrás: restaurar los archivos desde git.

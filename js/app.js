@@ -132,11 +132,13 @@ var P=[];
 L.forEach(function(s){P.push({src:s})});
 function small(s){return /^assets\/w800\//.test(s)?s.replace("w800","w480"):s.replace(/\.webp$/,"-480.webp")}
 function pan(x,i,dup){var s=x.src,big=/^assets\/w800\//.test(s)||/-800\.webp$/.test(s)?s:s.replace(/\.webp$/,"-800.webp");
-return'<div class="hx-pn"><img src="'+esc(s)+'" srcset="'+esc(small(s))+' 480w, '+esc(big)+' 800w" sizes="(min-width:900px) 560px,60vw" alt="" width="800" height="1000" decoding="async" '+(!dup&&i<3?'fetchpriority="low"':'loading="lazy"')+' draggable="false"></div>'}
+return'<div class="hx-pn"><img src="'+esc(s)+'" srcset="'+esc(small(s))+' 480w, '+esc(big)+' 800w" sizes="(min-width:900px) 560px,60vw" alt="" width="800" height="1000" decoding="async" '+(!dup&&i===0?'fetchpriority="high"':!dup&&i<3?'fetchpriority="low"':'loading="lazy"')+' draggable="false"></div>'}
 var set=P.map(function(x,i){return pan(x,i,0)}).join(""),dup=P.map(function(x,i){return pan(x,i,1)}).join("");
 var el=document.createElement("div");el.className="hx-pass";el.setAttribute("aria-hidden","true");el.innerHTML='<div class="hx-trk">'+set+dup+'</div>';
 hero.insertBefore(el,hero.firstChild);
-if("IntersectionObserver" in window)new IntersectionObserver(function(e){el.classList.toggle("off",!e[0].isIntersecting)},{threshold:0}).observe(hero)})();
+var inV=true;function sync(){el.classList.toggle("off",!inV||document.hidden)}
+if("IntersectionObserver" in window)new IntersectionObserver(function(e){inV=e[0].isIntersecting;sync()},{threshold:0}).observe(hero);
+document.addEventListener("visibilitychange",sync)})();
 /* Hero · tres recuadros junto al reel (.hx-rail): entregas e interiores, cada recuadro alterna sus fotos con fundido.
    Escalonados para que no cambien a la vez; pausan fuera de pantalla; con movimiento reducido queda la primera foto fija. */
 (function(){var hero=$("hero"),rail=hero&&hero.querySelector(".hx-rail");if(!rail)return;

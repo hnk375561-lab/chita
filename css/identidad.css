@@ -1962,3 +1962,60 @@ html body #operaciones .oc .ob a{margin-top:auto!important;align-self:flex-start
 
 /* Golive · T6 final: orden del comparador también debe ser cómodo al tacto. */
 @media(max-width:899px){html body #versus .c5-tl{min-height:44px!important;display:inline-flex;align-items:center}}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CHITA v58 · HERO: reel nítido y con sonido que responde · menú con secciones expandibles
+   Reel   poster <img> responsive (480/720) debajo del video; el video aparece con fundido recién cuando empieza a reproducirse.
+          Botón de sonido con icono y estado real (Escuchá el salón / Cargando… / Silenciar). Lo maneja identidad.js (v58).
+   Menú   .nvg (enlace + botón ▾) y .nvp (panel). Sin JS los enlaces siguen funcionando; los paneles quedan ocultos.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+html body .hx-reel .reel-px{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block}
+html body .hx-reel video{opacity:0;transition:opacity .45s linear}
+html body .hx-reel.is-live video{opacity:1}
+html body main>.hero.hx>.hx-pass{contain:layout paint}
+@media(prefers-reduced-motion:reduce){html body .hx-reel video{transition:none}}
+
+html body #reelb{display:inline-flex;align-items:center;gap:9px;min-width:44px;min-height:44px;padding:0 18px 0 13px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .2s linear}
+html body #reelb .rs-ic{width:22px;height:22px;flex:none;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linecap:round;overflow:visible}
+html body #reelb .rs-w,html body #reelb .rs-x{fill:none}
+html body #reelb .rs-w{opacity:0}
+html body .hx-reel[data-sound="on"] #reelb .rs-w{opacity:1}
+html body .hx-reel[data-sound="on"] #reelb .rs-x{opacity:0}
+html body .hx-reel[data-sound="on"] #reelb{background:var(--ink)}
+html body .hx-reel[data-sound="on"] #reelb:hover{background:var(--chapa)}
+html body #reelb:focus-visible{outline:3px solid #fff;outline-offset:-5px}
+html body .hx-reel.is-busy #reelb .rs-ic{animation:rsb 1s ease-in-out infinite}
+@keyframes rsb{50%{opacity:.35}}
+html body .hx-reel[data-sound="on"]:not(.is-busy) #reelb .rs-w{animation:rsw 1.6s ease-in-out infinite}
+@keyframes rsw{50%{opacity:.45}}
+@media(prefers-reduced-motion:reduce){html body .hx-reel #reelb .rs-ic,html body .hx-reel #reelb .rs-w{animation:none!important}}
+
+/* Menú: enlace + botón ▾ */
+html body header nav .nvg{display:inline-flex;align-items:center}
+html body header .nvc{appearance:none;-webkit-appearance:none;background:none;border:0;margin:0 0 0 -2px;padding:0;width:26px;min-height:32px;display:inline-grid;place-items:center;color:var(--ink);cursor:pointer;touch-action:manipulation}
+html body header .nvc svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:square;transition:transform .2s var(--ease)}
+html body header .nvc:hover,html body header .nvc[aria-expanded="true"]{color:var(--rojo)}
+html body header .nvc[aria-expanded="true"] svg{transform:rotate(180deg)}
+html body header .nvc:focus-visible{outline:2px solid var(--rojo);outline-offset:1px}
+html body header .nvp{position:absolute;top:100%;left:var(--nx,0);z-index:30;width:min(580px,calc(100vw - 24px));background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-top:5px solid var(--rojo);box-shadow:0 26px 44px -20px rgba(10,16,32,.6);visibility:hidden;opacity:0;transform:translateY(-6px);transition:opacity .18s linear,transform .18s var(--ease),visibility 0s linear .18s}
+html body header .nvp.on{visibility:visible;opacity:1;transform:none;transition-delay:0s}
+html body header .nvp-i{display:grid;grid-template-columns:1fr 1fr}
+html body header .nvp-t{grid-column:1/-1;margin:0;padding:13px 20px 9px;font:800 11px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+html body header .nvp a{position:relative;display:flex;flex-direction:column;gap:4px;padding:15px 20px 16px;border-top:1px solid rgba(10,16,32,.16);color:var(--ink)!important;text-decoration:none;transition:background .15s linear,color .15s linear}
+html body header .nvp a:nth-of-type(even){border-left:1px solid rgba(10,16,32,.16)}
+html body header .nvp a b{font:800 15px/1.15 var(--font-display);letter-spacing:.03em;text-transform:uppercase}
+html body header .nvp a span{font:500 13px/1.35 var(--b);color:var(--mute);transition:color .15s linear}
+html body header .nvp a::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--rojo);transform:scaleY(0);transform-origin:top;transition:transform .2s var(--ease)}
+html body header .nvp a:hover,html body header .nvp a:focus-visible{background:var(--ink);color:#fff!important;outline:0}
+html body header .nvp a:hover span,html body header .nvp a:focus-visible span{color:rgba(255,255,255,.8)}
+html body header .nvp a:hover::before,html body header .nvp a:focus-visible::before{transform:scaleY(1)}
+@media(max-width:899px){
+ html body header .nvc{width:30px;min-height:40px;margin-left:-6px}
+ html body header .nvp{left:8px;right:8px;width:auto}
+ html body header .nvp-i{grid-template-columns:1fr}
+ html body header .nvp a:nth-of-type(even){border-left:0}
+ html body header .nvp a{min-height:56px;justify-content:center}
+}
+@media(prefers-reduced-motion:reduce){html body header .nvp,html body header .nvc svg,html body header .nvp a,html body header .nvp a::before{transition:none}}
+@media(forced-colors:active){html body header .nvp{border-color:CanvasText}html body header .nvp a:hover,html body header .nvp a:focus-visible{outline:2px solid Highlight}}

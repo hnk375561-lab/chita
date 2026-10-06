@@ -8,29 +8,52 @@ function upd(){raf=0;var d=document.documentElement,m=d.scrollHeight-innerHeight
  var y=innerHeight*.4,k=-1;for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.top<=y&&r.bottom>y){k=i;break}}
  if(k<0){lab.hidden=true;cur="";return}
  var id=S[k].id;if(id!==cur){cur=id;lab.hidden=false;lab.textContent=N[id]||id}
- var a=document.querySelectorAll("header nav a");for(var j=0;j<a.length;j++){var al={"catalogo-comparador":"versus",local:"contacto"},on=a[j].getAttribute("href")==="#"+id||a[j].getAttribute("href")==="#"+al[id];a[j].classList.toggle("on",on);if(on&&a[j].parentNode.scrollWidth>a[j].parentNode.clientWidth+4){var n=a[j].parentNode;n.scrollTo({left:a[j].offsetLeft-n.clientWidth/2+a[j].offsetWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}}
+ var a=document.querySelectorAll("header nav a");for(var j=0;j<a.length;j++){var al={entregas:"unidades","catalogo-comparador":"unidades",financiacion:"como-comprar",guia:"como-comprar",visita:"contacto",opiniones:"contacto",local:"contacto"},on=a[j].getAttribute("href")==="#"+id||a[j].getAttribute("href")==="#"+al[id];a[j].classList.toggle("on",on);if(on&&a[j].closest("nav").scrollWidth>a[j].closest("nav").clientWidth+4){var n=a[j].closest("nav");n.scrollTo({left:a[j].offsetLeft-n.clientWidth/2+a[j].offsetWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}}
 function q(){if(!raf)raf=requestAnimationFrame(upd)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q);addEventListener("load",q);upd();
 })();
-/* CHITA · Recorrido en video del hero: carga diferida, pausa fuera de pantalla, sonido a pedido. */
+/* CHITA · Reel del hero (v58): arranca apenas pinta el poster (no espera a "load"), elige versión HD o liviana según la conexión,
+   pausa fuera de pantalla o con la pestaña oculta, y el botón de sonido refleja el estado real del video (volumechange / waiting / error). */
 (function(){
 var f=document.getElementById("reel"),v=document.getElementById("reelv"),b=document.getElementById("reelb");if(!f||!v||!b)return;
-var RM=matchMedia("(prefers-reduced-motion:reduce)").matches,sd=navigator.connection&&navigator.connection.saveData,auto=!RM&&!sd,seen=false,vis=false;
-function load(){if(!v.src){v.src=v.getAttribute("data-src")}}
-function label(){b.textContent=v.paused?"Reproducir":(v.muted?"Activar sonido":"Silenciar");b.setAttribute("aria-pressed",String(!v.muted&&!v.paused))}
-function play(now){if(!now&&document.readyState!=="complete"){addEventListener("load",function(){if(vis&&v.paused)play(true)},{once:true});return}load();var p=v.play();if(p&&p.catch)p.catch(function(){});}
-b.addEventListener("click",function(){
- if(v.paused){v.muted=false;play(true)}else{v.muted=!v.muted}
- label()});
-v.addEventListener("play",label);v.addEventListener("pause",label);
+var t=b.querySelector(".rs-t")||b,px=f.querySelector(".reel-px"),
+ RM=matchMedia("(prefers-reduced-motion:reduce)").matches,cn=navigator.connection||{},
+ slow=/2g|3g/.test(cn.effectiveType||"")||(cn.downlink>0&&cn.downlink<1.5),
+ auto=!RM&&!cn.saveData,vis=false,manual=false,asked=false,tried=0,kicked=false;
+var S=[slow&&v.getAttribute("data-lite"),v.getAttribute("data-src"),v.getAttribute("data-lite")].filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i});
+function load(){if(!v.getAttribute("src")&&S[tried]){v.preload="auto";v.src=S[tried]}}
+function ui(){
+ var on=!v.muted,busy=on&&asked&&!v.error&&v.readyState<3;
+ t.textContent=v.error&&tried>=S.length-1&&asked?"Video no disponible":busy?"Cargando…":on?"Silenciar":"Escuchá el salón";
+ b.setAttribute("aria-pressed",String(on&&!v.paused));
+ f.setAttribute("data-sound",on?"on":"off");f.classList.toggle("is-busy",!!busy)}
+function play(){load();var p=v.play();if(p&&p.catch)p.catch(function(e){if(e&&e.name==="NotAllowedError"&&!v.muted){v.muted=true;ui();var q=v.play();if(q&&q.catch)q.catch(function(){})}})}
+function kick(){if(kicked)return;kicked=true;if(auto&&vis&&!manual)play()}
+function whenReady(){
+ var go=function(){(window.requestIdleCallback||function(c){setTimeout(c,200)})(kick,{timeout:900})};
+ if(px&&!px.complete)px.addEventListener("load",go,{once:true});else go();
+ addEventListener("load",function(){setTimeout(kick,0)},{once:true})}
+v.addEventListener("playing",function(){f.classList.add("is-live");ui()});
+["play","pause","volumechange","waiting","canplay","stalled","loadeddata"].forEach(function(e){v.addEventListener(e,ui)});
+v.addEventListener("error",function(){
+ if(tried<S.length-1){tried++;v.removeAttribute("src");load();if(asked||(vis&&auto&&!manual))play()}
+ ui()});
+b.addEventListener("click",function(e){e.preventDefault();e.stopPropagation();
+ if(!v.muted&&!v.paused){v.muted=true;ui();return}
+ asked=true;manual=false;v.muted=false;v.volume=1;
+ if(v.error){tried=0;v.removeAttribute("src");v.load()}
+ ui();play()});
+f.addEventListener("click",function(e){if(e.target===b||b.contains(e.target))return;
+ if(!v.getAttribute("src"))return;if(v.paused){manual=false;play()}else{manual=true;v.pause()}});
 if("IntersectionObserver" in window){
  new IntersectionObserver(function(e){vis=e[0].isIntersecting;
-  if(vis&&auto&&!seen){seen=true;play()}
-  else if(vis&&auto&&v.paused){play()}
-  else if(!vis&&!v.paused){v.pause()}
- },{threshold:.12}).observe(f)}
-else if(auto)play();
-label();
+  if(vis&&auto&&!manual&&kicked&&v.paused)play();
+  else if(!vis&&!v.paused)v.pause()},{threshold:.2}).observe(f)}
+else{vis=true}
+document.addEventListener("visibilitychange",function(){
+ if(document.hidden){if(!v.paused)v.pause()}
+ else if(vis&&auto&&!manual&&kicked&&v.paused)play()});
+whenReady();ui();
 })();
 /* CHITA · video de Visita: loop silencioso al entrar en pantalla, pausa al salir, botón propio (respeta movimiento reducido y ahorro de datos) */
 (function(){
@@ -202,9 +225,6 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
 /* CHITA · IDENTIDAD MADRE V3 — estados, operación elegida y E·13 como expediente abierto. */
 (function(){
   var d=document;
-  /* El control del hero nombra el gesto humano; sólo cambia a estado técnico cuando corresponde. */
-  var reel=d.getElementById("reelv"), rb=d.getElementById("reelb");
-  if(reel&&rb){function rl(){rb.textContent=reel.paused?"Escuchá el salón":(reel.muted?"Activar sonido":"Silenciar")} reel.addEventListener("play",rl);reel.addEventListener("pause",rl);rl()}
   /* Cada unidad expone el estado documental sin convertirlo en una promesa de stock. */
   /* Operaciones: una selección cambia el encabezado del talón y hace visible la consecuencia. */
   var ops=d.querySelector("#operaciones .og"), label=d.getElementById("opLabel"), title=d.getElementById("opTitle"), lead=d.getElementById("opLead");
@@ -302,3 +322,33 @@ draw()})();
 
 /* Golive · T12: la sombra de desplazamiento de la navegación desaparece al llegar al final. */
 (function(){var nav=document.querySelector("header nav");if(!nav)return;function mark(){nav.classList.toggle("nav-end",nav.scrollLeft+nav.clientWidth>=nav.scrollWidth-2)}nav.addEventListener("scroll",mark,{passive:true});addEventListener("resize",mark);mark()})();
+
+/* CHITA · Menú con secciones expandibles (v58). Los enlaces del menú siguen siendo enlaces (sin JS navegan igual);
+   el botón ▾ de cada grupo abre un panel con las secciones relacionadas. Hover con retardo en escritorio, toque en móvil,
+   Esc cierra y devuelve el foco, clic afuera / scroll / cambio de tamaño cierran. */
+(function(){
+var h=document.querySelector("header"),nav=h&&h.querySelector("nav");if(!nav)return;
+var big=matchMedia("(min-width:900px)"),G=[],open=null,tm=0;
+[].forEach.call(nav.querySelectorAll(".nvg"),function(g){var c=g.querySelector(".nvc"),p=c&&document.getElementById(c.getAttribute("aria-controls"));if(p)G.push({g:g,c:c,p:p})});
+if(!G.length)return;
+function place(x){if(big.matches){var hr=h.getBoundingClientRect(),gr=x.g.getBoundingClientRect(),w=x.p.offsetWidth||560;
+ x.p.style.setProperty("--nx",Math.max(12-hr.left,Math.min(gr.left-hr.left,innerWidth-w-12-hr.left))+"px")}else x.p.style.removeProperty("--nx")}
+function hide(){if(!open)return;open.p.classList.remove("on");open.c.setAttribute("aria-expanded","false");open.g.classList.remove("open");open=null}
+function show(x){if(open===x)return;hide();place(x);x.p.classList.add("on");x.c.setAttribute("aria-expanded","true");x.g.classList.add("open");open=x}
+function later(fn,ms){clearTimeout(tm);tm=setTimeout(fn,ms)}
+G.forEach(function(x){
+ x.c.addEventListener("click",function(e){e.preventDefault();if(open===x){hide();return}show(x);if(e.detail===0){var a=x.p.querySelector("a");if(a)a.focus()}});
+ x.g.addEventListener("keydown",function(e){if(e.key==="ArrowDown"&&(e.target===x.c||e.target.parentNode===x.g)){e.preventDefault();show(x);var a=x.p.querySelector("a");if(a)a.focus()}});
+ [x.g,x.p].forEach(function(el){
+  el.addEventListener("pointerenter",function(e){if(e.pointerType!=="mouse"||!big.matches)return;clearTimeout(tm);if(el===x.g)later(function(){show(x)},90)});
+  el.addEventListener("pointerleave",function(e){if(e.pointerType!=="mouse"||!big.matches)return;later(hide,200)})});
+ x.p.addEventListener("click",function(e){if(e.target.closest("a"))hide()});
+ x.p.addEventListener("keydown",function(e){if(e.key==="Escape"){hide();x.c.focus()}});
+ x.g.addEventListener("keydown",function(e){if(e.key==="Escape"&&open===x){hide();x.c.focus()}});
+ x.g.addEventListener("focusout",function(e){if(open===x&&!x.g.contains(e.relatedTarget)&&!x.p.contains(e.relatedTarget))later(function(){if(open===x&&!x.g.contains(document.activeElement)&&!x.p.contains(document.activeElement))hide()},120)});
+ x.p.addEventListener("focusout",function(e){if(open===x&&!x.g.contains(e.relatedTarget)&&!x.p.contains(e.relatedTarget))later(function(){if(open===x&&!x.g.contains(document.activeElement)&&!x.p.contains(document.activeElement))hide()},120)});
+ x.g.querySelector("a").addEventListener("click",hide)});
+document.addEventListener("pointerdown",function(e){if(open&&!h.contains(e.target))hide()});
+var y0=0;addEventListener("scroll",function(){var y=pageYOffset;if(open&&Math.abs(y-y0)>12)hide();y0=y},{passive:true});
+addEventListener("resize",hide);addEventListener("hashchange",hide);
+})();
