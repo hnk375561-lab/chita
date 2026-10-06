@@ -1,0 +1,41 @@
+/* CHITA · v59 — ajustes de revisión: mapa, reel, paneles translúcidos, talón centrado, logo en visita. */
+
+/* 1) Mapa: el cartel «1712» es una capa fija sobre el mapa; nunca recibe gestos ni se desplaza. */
+html body #contacto .mp .mpp{pointer-events:none!important;user-select:none;-webkit-user-select:none;will-change:auto}
+
+/* 2) Cómo comprar: el reel y un bloque de marca debajo, quietos juntos al hacer scroll. */
+html body #como-comprar .cc2-side{display:grid;gap:14px;align-content:start;width:min(300px,100%);min-width:0}
+html body #como-comprar .cc2-main .cc2-side .clip-visita{position:static;top:auto;width:100%;margin-top:0}
+@media(min-width:1100px){
+  html body #como-comprar .cc2-main .cc2-side{width:100%;position:sticky;top:96px}
+}
+html body #como-comprar .cc2-brand{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px 14px 24px;background:var(--ink);color:#fff;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+html body #como-comprar .cc2-brand::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--rojo)}
+html body #como-comprar .cc2-brand img{flex:none;display:block;width:64px;height:64px;border-radius:50%;object-fit:cover}
+html body #como-comprar .cc2-brand p{margin:0;min-width:0}
+html body #como-comprar .cc2-brand b{display:block;font:800 15px/1.1 var(--font-display);letter-spacing:.04em;text-transform:uppercase;color:#fff}
+html body #como-comprar .cc2-brand span{display:block;margin-top:5px;font:600 12px/1.3 var(--b);color:rgba(255,255,255,.8)}
+
+/* 3) Financiación: panel azul translúcido (se ve la mosaico detrás). */
+html body #financiacion#financiacion#financiacion .pdl{
+  background:linear-gradient(150deg,rgba(10,44,140,.74) 0%,rgba(7,28,94,.72) 100%)!important;
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+
+/* 4) Talón de condiciones centrado. */
+html body #financiacion .pdr{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+html body #financiacion .pdr .fin-ticket{width:min(760px,100%);margin-left:auto!important;margin-right:auto!important}
+
+/* 6) Agendá tu visita: cabecera roja translúcida (no choca con el fondo azul). */
+html body #visita#visita#visita .vx-head{
+  background:linear-gradient(150deg,rgba(193,18,31,.76),rgba(143,14,24,.74))!important;
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+html body #visita#visita#visita .vx-head::before{background:#fff}
+
+/* 7) Visita: logo de Chita debajo de «Tu visita». */
+html body #visita#visita#visita .vx-brand{display:grid;place-items:center;padding:8px 0 0}
+html body #visita#visita#visita .vx-brand img{display:block;width:min(180px,56vw);height:auto;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 8px 14px rgba(10,16,32,.28))}
+@media(min-width:780px){
+  html body #visita#visita#visita .vx-s2{grid-row:2/4}
+  html body #visita#visita#visita .vx-brand{grid-column:2;grid-row:3;align-self:center;padding:0}
+  html body #visita#visita#visita .vx-brand img{width:min(240px,100%)}
+}

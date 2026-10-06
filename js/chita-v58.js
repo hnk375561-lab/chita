@@ -110,3 +110,13 @@ F.addEventListener("keydown",function(e){if(e.key==="ArrowLeft"||e.key==="ArrowR
 go(0);
 })();
 })();
+
+/* v59 · fotos de las unidades: se piden antes de que aparezcan (sin esperar al carrusel ni al scroll). */
+(function(){
+  function warm(root){root.querySelectorAll("img[loading=lazy]").forEach(function(m){m.setAttribute("loading","eager")})}
+  var cards=document.querySelectorAll("#stockGrid .car");
+  if(!cards.length)return;
+  if(!("IntersectionObserver" in window)){cards.forEach(warm);return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){warm(e.target);io.unobserve(e.target)}})},{rootMargin:"2200px 0px"});
+  cards.forEach(function(c,i){if(i<3)warm(c);else io.observe(c)});
+})();
