@@ -1,0 +1,9 @@
+CHITA · v57 · Videos nuevos
+Archivos: video/ (recorrido, ambiente, variedad, multimarcas, atencion) · images/ (reel-poster, poster-ambiente, poster-variedad, poster-multimarcas, poster-atencion) · css/chita-v57.css (NUEVO) · js/clips.js (NUEVO) · index.html
+- Hero: video/recorrido.mp4 reemplazado por la versión de mayor calidad (720x1280, sin recomprimir). Mismo nombre y mismo poster (nuevo).
+- Visita: video/ambiente.mp4 reemplazado por la versión 720x1280 (antes 480x854 a 255 kbps).
+- Unidades: franja nueva al final con dos recorridos (variedad.mp4 y multimarcas.mp4). En móvil se desliza de costado.
+- Cómo comprar: atencion.mp4 al costado de los 4 pasos (>=1100 px) o debajo de ellos (pantallas menores). Recomprimido de 20 MB a 9 MB.
+- Comportamiento (js/clips.js): carga al acercarse, se reproduce solo y en silencio al entrar en pantalla, pausa al salir. Tocar el video lo pausa/retoma; el botón activa el sonido (uno solo con sonido a la vez). Con movimiento reducido o ahorro de datos no arranca solo.
+- Los textos que se ven en los videos van grabados; los pies de foto solo describen lo que se ve (sin datos nuevos).
+Volver atrás: restaurar los archivos anteriores, borrar css/chita-v57.css, js/clips.js, y los videos y posters nuevos.
