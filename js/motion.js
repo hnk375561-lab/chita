@@ -721,8 +721,9 @@ function initReveals({ desktop }, inertia) {
     /* Formulario de visita y pie. */
     const form = qs("#visitaForm");
     if (form) {
-      gsap.set(form, { clipPath: CORTE.from });
-      once(form, "top 90%", () => gsap.to(form, { clipPath: CORTE.to, duration: 1, ease: EASE.mask, clearProps: "clipPath" }));
+      /* PERF: antes animaba un clip-path sobre toda la tarjeta (se repintaba entera en cada frame durante 1 s); ahora sube y aparece con opacity+transform (GPU, sin repintar). */
+      gsap.set(form, { opacity: 0, y: 28 * d });
+      once(form, "top 90%", () => gsap.to(form, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", clearProps: "opacity,transform" }));
     }
     /* CORTINA DEL PIE: cada capa del pie (logo, dirección, enlaces, avisos) sube a su propia velocidad y se
        asienta justo al llegar al final de la página. «bottom bottom» siempre es alcanzable: nunca queda a medias. */

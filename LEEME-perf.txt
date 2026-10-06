@@ -15,3 +15,35 @@ NO medido en un navegador (no tenía uno). Verificar:
   3) Chrome DevTools > Performance: grabar al llegar a Unidades y comparar antes/después.
 
 Volver atrás: restaurar los archivos desde git.
+
+
+────────────────────────────────────────────────────────────────────────────
+SEGUNDA PASADA · "Agendá tu visita" (#visita) y "Guía para comprar un usado" (#guia)
+
+Copiar en la MISMA ruta del repo (reemplazar):
+  css/chita-perf.css    secciones 9 (Visita) y 10 (Guía) nuevas al final
+  js/motion.js          el formulario de Visita entra con opacity+transform (antes animaba un clip-path de toda la tarjeta)
+  js/identidad.js       (a) el video de Visita arranca tras ~350 ms a la vista y se pausa con la pestaña oculta
+                        (b) el "despacho" del hero deja de leer el layout en cada frame de scroll una vez tapado el hero
+  js/clips.js           el fondo de Visita se baja y decodifica ~2 pantallas antes de llegar (como Financiación)
+
+Visita
+  - Fondo: 3 capas a pantalla completa (foto + rayas + degradé) -> 1 sola capa, aislada en su propia capa de GPU.
+  - Cabecera roja: sin backdrop-filter (re-desenfocaba el mosaico en cada frame). Mismo rojo, apenas más opaco (.80/.78 vs .76/.74).
+  - Esquinas cortadas de la tarjeta, de la cabecera negra y de "Tu visita": de clip-path a degradé de fondo (sin máscara por frame;
+    esas cajas contienen un panel sticky). El logo pasa de drop-shadow a box-shadow sobre el mismo círculo.
+  - La tarjeta aparece subiendo y fundiendo en vez de abrirse con un corte diagonal.
+Guía
+  - La planilla blanca (en la columna sticky) pierde el clip-path: la esquina se dibuja con un degradé del color del fondo.
+  - La columna fija queda contenida (contain) para que tildar una casilla no recalcule el resto de la página.
+  - Impresión: sin cambios (todo bajo @media screen).
+Las dos
+  - identidad.js ya no hace un getBoundingClientRect por frame de scroll al pasar el hero.
+
+NO medido en un navegador (no tenía uno). Verificar:
+  1) Visita: la esquina superior derecha de la tarjeta blanca, de la cabecera negra y de "Tu visita" se ve cortada igual que antes.
+  2) Visita: el rojo de la cabecera "AGENDÁ TU VISITA" y el fondo azul se ven igual.
+  3) Guía: la esquina superior derecha de la planilla blanca ("0 de 8 puntos revisados") sigue cortada.
+  4) Guía: Imprimir planilla sigue saliendo igual.
+  5) Chrome DevTools > Performance: grabar scrolleando de Guía a Visita y comparar antes/después.
+Volver atrás: restaurar los archivos desde git.

@@ -68,3 +68,53 @@ html body #financiacion#financiacion .pdc .cup{contain:layout style}
 html body #financiacion#financiacion .pdc:not(:hover){will-change:auto}
 /* El corte diagonal del botón y los cupones no se animan: se evita promover capas extra al pasar el mouse. */
 @media(hover:hover){html body #financiacion#financiacion .pdc{transition:background-color .2s,border-color .2s!important}}
+
+/* 9 · Agendá tu visita (#visita). Mismo diseño, menos trabajo por frame de scroll.
+   (a) Fondo: eran 3 capas a pantalla completa (foto + ::before de rayas + ::after de degradé). Ahora es 1 sola capa con los
+       tres fondos juntos, aislada en su propia capa de GPU: no se repinta mientras el contenido se mueve encima.
+   (b) Cabecera roja: sin backdrop-filter (re-desenfocaba el mosaico en cada frame de scroll); mismo rojo, apenas más opaco.
+   (c) Esquinas cortadas de la tarjeta, de la cabecera negra y de «Tu visita»: antes eran clip-path, y esas cajas contienen un panel
+       sticky. Un clip-path sobre un contenedor que se mueve obliga a re-enmascarar toda la caja en cada frame. Ahora la esquina se
+       dibuja con un degradé de fondo (la tarjeta es plana, color papel, así que el corte queda idéntico). Todo bajo @media screen. */
+html body #visita#visita#visita#visita .fin-bg::before,
+html body #visita#visita#visita#visita .fin-bg::after{content:none!important;display:none!important}
+html body #visita#visita#visita#visita .fin-bg.mos{
+  display:block!important;contain:layout paint style;transform:translateZ(0);backface-visibility:hidden;
+  background:
+    repeating-linear-gradient(90deg,var(--chapa) 0 8px,transparent 8px 25%),
+    linear-gradient(180deg,rgba(11,44,140,.74),rgba(11,44,140,.6) 45%,rgba(7,28,96,.86)),
+    url(../images/bg-visita.webp) 50% 50%/cover no-repeat #0b2c8c!important}
+html body #visita#visita#visita#visita .vx-head{
+  background:linear-gradient(150deg,rgba(193,18,31,.8),rgba(143,14,24,.78))!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+@media screen{
+  /* esquina de 30 px = 21,2 px sobre la diagonal (30/√2); 1 px de transición para que el borde no quede dentado */
+  html body #visita#visita#visita#visita .vx-card{
+    clip-path:none!important;
+    background:linear-gradient(225deg,transparent 20.7px,var(--paper) 21.7px)!important}
+  html body #visita#visita#visita#visita .vx-top{
+    background:linear-gradient(225deg,transparent 20.7px,var(--ink) 21.7px) no-repeat!important}
+  /* esquina de 18 px = 12,7 px: triángulo color papel (lo que hay detrás de «Tu visita» es la tarjeta) sobre el degradé azul */
+  html body #visita#visita#visita#visita .vx-sum{
+    clip-path:none!important;
+    background:
+      linear-gradient(225deg,var(--paper) 12.2px,transparent 13.2px),
+      linear-gradient(160deg,var(--chapa) 0%,var(--chapa-d) 100%)!important}
+}
+/* El logo de la columna fija: drop-shadow (filtro que se recalcula) por box-shadow sobre el mismo círculo. */
+html body #visita#visita#visita#visita .vx-brand img{filter:none!important;box-shadow:0 8px 14px rgba(10,16,32,.28)}
+/* El video y su caja no repintan nada de afuera; el panel fijo (sticky) se mueve como capa propia. */
+html body #visita#visita#visita#visita .vvid{contain:layout paint;transform:translateZ(0)}
+html body #visita#visita#visita#visita .vvid video{will-change:auto}
+
+/* 10 · Guía para comprar un usado (#guia). Lo único recortado que se mueve es la planilla blanca (vive en la columna sticky):
+   el corte de 16 px (11,3 px sobre la diagonal) se dibuja con un degradé del color del fondo de la sección (var(--ink), liso)
+   en vez de clip-path. En impresión no se toca (la hoja para llevar sigue como estaba). */
+@media screen{
+  html body #guia#guia#guia .gp-tools{
+    clip-path:none;
+    background-image:linear-gradient(225deg,var(--ink) 10.8px,transparent 11.8px)}
+}
+/* La columna fija (título, planilla, consulta) es una caja independiente: tildar una casilla y actualizar el contador no obliga a recalcular el resto de la página. */
+html body #guia#guia#guia .gp-side{contain:layout style}
+@media print{html body #guia#guia#guia .gp-side{contain:none}}

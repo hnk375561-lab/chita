@@ -42,3 +42,13 @@ var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIn
   var im=new Image();im.decoding="async";im.src="images/bg-fin.webp";if(im.decode)im.decode().catch(function(){})},{rootMargin:(sd?"300px":"2200px")+" 0px"});
 io.observe(s);
 })();
+
+/* PERF · Visita: mismo criterio que Financiación. El fondo (images/bg-visita.webp, 1440x2128) se baja y decodifica antes de llegar,
+   para que no se decodifique en el primer frame en que aparece la sección. */
+(function(){
+var s=document.getElementById("visita");if(!s||!("IntersectionObserver" in window))return;
+var sd=navigator.connection&&navigator.connection.saveData;
+var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
+  var im=new Image();im.decoding="async";im.src="images/bg-visita.webp";if(im.decode)im.decode().catch(function(){})},{rootMargin:(sd?"300px":"2200px")+" 0px"});
+io.observe(s);
+})();

@@ -77,7 +77,12 @@ function label(){b.textContent=v.paused?"Reproducir":"Pausar";b.setAttribute("ar
 function play(){var p=v.play();if(p&&p.catch)p.catch(function(){})}
 b.addEventListener("click",function(){if(v.paused){manual=false;play()}else{manual=true;v.pause()}});
 v.addEventListener("play",label);v.addEventListener("pause",label);
-if("IntersectionObserver" in window){new IntersectionObserver(function(e){var vis=e[0].isIntersecting;if(vis&&auto&&!manual&&v.paused)play();else if(!vis&&!v.paused)v.pause()},{threshold:.25}).observe(f)}
+/* PERF: el video recién arranca si se queda a la vista ~350 ms (no se descarga ni decodifica al pasar de largo scrolleando) y se pausa con la pestaña oculta. */
+var vis=false,timer=0;v.disablePictureInPicture=true;
+if("IntersectionObserver" in window){new IntersectionObserver(function(e){vis=e[0].isIntersecting;clearTimeout(timer);
+ if(vis&&auto&&!manual&&v.paused&&!document.hidden)timer=setTimeout(function(){if(vis&&!document.hidden&&v.paused&&!manual)play()},350);
+ else if(!vis&&!v.paused)v.pause()},{threshold:.25}).observe(f)}
+document.addEventListener("visibilitychange",function(){if(document.hidden){clearTimeout(timer);if(!v.paused)v.pause()}else if(vis&&auto&&!manual&&v.paused)play()});
 label();
 })();
 /* CHITA · v3 — El Riel y El Corte. Sin dependencias, 1 IntersectionObserver, solo datos ya publicados. */
@@ -147,10 +152,16 @@ if(!hero||!ent||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
 var big=matchMedia("(min-width:900px)"),raf=0;
 function fit(){var hh=hd?hd.offsetHeight:0,ok=big.matches&&hero.offsetHeight+hh<=innerHeight+2;
  hero.style.setProperty("--hh",hh+"px");h.classList.toggle("dsp",ok);if(!ok)hero.classList.remove("stk");upd()}
+/* PERF: una vez que Entregas tapó al hero, no hace falta leer el layout en cada frame de scroll por el resto de la página
+   (Guía, Visita, etc.). Se guarda el scrollY por debajo del cual podría destaparse y solo se vuelve a medir al subir hasta ahí. */
+var thr=-1;
 function upd(){raf=0;if(!h.classList.contains("dsp"))return;
- var covered=ent.getBoundingClientRect().top<=(hd?hd.offsetHeight:0);hero.classList.toggle("stk",!covered)}
+ var y=window.pageYOffset;if(thr>=0&&y>thr)return;
+ var hh=hd?hd.offsetHeight:0,t=ent.getBoundingClientRect().top,covered=t<=hh;hero.classList.toggle("stk",!covered);
+ thr=covered?y+t-hh+120:-1}
 function q(){if(!raf)raf=requestAnimationFrame(upd)}
-addEventListener("scroll",q,{passive:true});addEventListener("resize",fit);fit();
+function reset(){thr=-1;fit()}
+addEventListener("scroll",q,{passive:true});addEventListener("resize",reset);addEventListener("load",function(){thr=-1;q()});fit();
 })();
 
 /* CHITA · v29 — Modelos: al cambiar de miniatura la foto se revela con el CORTE (reinicia la animación de css v29). Solo mouse; con reduced-motion el CSS la anula. */
