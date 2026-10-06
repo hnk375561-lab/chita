@@ -32,3 +32,13 @@ clips.forEach(function(f){
   label();
 });
 })();
+
+/* PERF · Financiación: el fondo (images/bg-fin.webp) se baja y se decodifica ANTES de llegar a la sección (a ~2 pantallas),
+   así no se decodifica en el primer frame en que aparece, que era el tirón «al llegar». */
+(function(){
+var s=document.getElementById("financiacion");if(!s||!("IntersectionObserver" in window))return;
+var sd=navigator.connection&&navigator.connection.saveData;
+var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
+  var im=new Image();im.decoding="async";im.src="images/bg-fin.webp";if(im.decode)im.decode().catch(function(){})},{rootMargin:(sd?"300px":"2200px")+" 0px"});
+io.observe(s);
+})();

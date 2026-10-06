@@ -30,3 +30,41 @@ html body #unidades .clip-v video{will-change:auto}
 html body #unidades .ct,html body #unidades .ct img{backface-visibility:visible}
 html body #unidades .ctk{transform:translateX(calc(var(--k,0)*-100% + var(--dx,0px)));will-change:auto}
 html body #unidades .ct.dr .ctk{will-change:transform}
+
+/* 7 · Financiación (#financiacion) · menos capas y nada que repinte en cada frame del scroll.
+   Antes: (a) backdrop-filter:blur sobre el panel azul, dentro de un contenedor que el scroll escalaba y atenuaba, o sea
+   re-desenfocar la foto detrás en cada frame; (b) el fondo eran 3 capas a pantalla completa (imagen + ::before de rayas +
+   ::after de degradé) más 2 pseudo-elementos de la sección con otra foto tapada que igual se decodificaba; (c) un fade de
+   opacidad de 1,4 s sobre esa capa; (d) los cupones animaban clip-path. Ahora: 1 sola capa de fondo (rayas + degradé + foto
+   en un solo background), panel sin blur (mismo azul, algo más opaco), y los cupones entran con opacity+transform. */
+html body #financiacion#financiacion::before,
+html body #financiacion#financiacion::after{content:none!important;display:none!important;background:none!important}
+html body #financiacion#financiacion#financiacion .fin-bg::before,
+html body #financiacion#financiacion#financiacion .fin-bg::after{content:none!important;display:none!important}
+html body #financiacion#financiacion#financiacion .fin-bg.mos{
+  display:block!important;contain:layout paint style;
+  background:
+    repeating-linear-gradient(90deg,var(--chapa) 0 8px,transparent 8px 25%),
+    linear-gradient(180deg,rgba(193,18,31,.6) 0%,rgba(193,18,31,.44) 42%,rgba(122,10,20,.72) 100%),
+    url(../images/bg-fin.webp) 50% 50%/cover no-repeat var(--rojo)!important}
+@media(max-width:899px){html body #financiacion#financiacion#financiacion .fin-bg.mos{
+  background:
+    repeating-linear-gradient(90deg,var(--chapa) 0 6px,transparent 6px 50%),
+    linear-gradient(180deg,rgba(193,18,31,.6) 0%,rgba(193,18,31,.44) 42%,rgba(122,10,20,.72) 100%),
+    url(../images/bg-fin.webp) 50% 50%/cover no-repeat var(--rojo)!important}}
+html.m body #financiacion#financiacion .fin-bg,html.m body #financiacion#financiacion.in .fin-bg{opacity:1!important;transition:none!important}
+html body #financiacion#financiacion#financiacion .pdl{
+  background:linear-gradient(150deg,rgba(10,44,140,.82) 0%,rgba(7,28,94,.8) 100%)!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.cj #financiacion .cup i{transition:opacity .5s var(--ease) calc(var(--i)*90ms),transform .5s var(--ease) calc(var(--i)*90ms)}
+.cj #financiacion:not(.in) .cup i{clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%);opacity:0;transform:translate3d(-14px,0,0)}
+
+/* 8 · Financiación · segunda pasada. El fondo ya es una sola capa propia y fija: se aísla en su propia capa de GPU
+   (no se repinta mientras el contenido se mueve encima). Las tarjetas y el panel se contienen para que un cambio
+   adentro (hover, cupón) no obligue a recalcular el resto de la página. */
+html body #financiacion#financiacion#financiacion .fin-bg.mos{transform:translateZ(0);backface-visibility:hidden}
+html body #financiacion#financiacion .pdc,html body #financiacion#financiacion .fin-ticket{contain:layout style}
+html body #financiacion#financiacion .pdc .cup{contain:layout style}
+html body #financiacion#financiacion .pdc:not(:hover){will-change:auto}
+/* El corte diagonal del botón y los cupones no se animan: se evita promover capas extra al pasar el mouse. */
+@media(hover:hover){html body #financiacion#financiacion .pdc{transition:background-color .2s,border-color .2s!important}}

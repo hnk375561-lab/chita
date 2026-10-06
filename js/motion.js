@@ -560,7 +560,7 @@ function initSeams({ desktop }) {
           { clipPath: desktop ? "inset(0% 5% 0% 5%)" : "inset(0% 3% 0% 3%)" },
           { clipPath: "inset(0% 0% 0% 0%)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(section, "top 100%", "top 38%") });
       }
-      if (inner && section.id !== "versus") {
+      if (inner && section.id !== "versus" && section.id !== "financiacion") { /* PERF: Financiación sin y-scrub del contenedor */
         gsap.fromTo(inner, { y: 90 * k }, { y: 0, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(section, "top 100%", "top 42%") });
       }
     });
@@ -570,7 +570,7 @@ function initSeams({ desktop }) {
        Se omiten Unidades (portón), el banner, Modelos (panel sticky) y la última antes del pie. */
     const k2 = desktop ? 1 : 0.5;
     qsa("main > section").forEach((section) => {
-      if (["unidades", "bd", "modelos", "preguntas", "contacto"].includes(section.id) || section.classList.contains("bd")) return;
+      if (["unidades", "bd", "modelos", "preguntas", "contacto", "financiacion", "como-comprar"].includes(section.id) || section.classList.contains("bd")) return; /* PERF: Financiación sin recesión (escala+opacidad sobre todo el contenido) */
       const inner = qs(":scope > .w", section);
       if (!inner) return;
       gsap.fromTo(inner,
@@ -698,8 +698,8 @@ function initReveals({ desktop }, inertia) {
 
     /* PRECIO Y PAGO · vienen «desde atrás» (escala). */
     const pay = qsa("#financiacion .pdc");
-    gsap.set(pay, { opacity: 0, scale: 0.86, y: 40 * d, transformOrigin: "50% 60%" });
-    batch(pay, (g) => gsap.to(g, { opacity: 1, scale: 1, y: 0, duration: 1.05, ease: "power3.out", stagger: 0.14, clearProps: "opacity,transform" }));
+    gsap.set(pay, { opacity: 0, y: 28 * d }); /* PERF: sin escala sobre tarjetas recortadas con clip-path */
+    batch(pay, (g) => gsap.to(g, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.1, clearProps: "opacity,transform" }));
 
     /* CÓMO TRABAJAMOS / EQUIPO · pasos con marcador que «pega» un rebote. */
     [["#historia .hwl li", 0.16], ["#equipo .eqk li", 0.12]].forEach(([selector, gap]) => {
