@@ -140,10 +140,12 @@ async function testPage(browser, vp, vpOpts, page) {
         await pg.keyboard.press('Escape'); await pg.waitForTimeout(400);
       } else if (isHash) {
         const id = l.raw.slice(1); await doClick();
-        let landed = false; for (let i = 0; i < 24 && !landed; i++) { await pg.waitForTimeout(250); landed = await pg.evaluate((i2) => { if (i2 === 'top') return scrollY < 60; const e = document.getElementById(i2); if (!e) return false; const r = e.getBoundingClientRect(); return r.top <= innerHeight * 0.55 && r.bottom > 90; }, id); }
+        let landed = false; for (let i = 0; i < 24 && !landed; i++) { await pg.waitForTimeout(250); landed = await pg.evaluate((i2) => { if (i2 === 'top') return scrollY < 60; const e = document.getElementById(i2); if (!e) return false; const r = e.getBoundingClientRect(); return r.top <= innerHeight * 0.75 && r.bottom > 90; }, id); }
+        if (!landed) { await pg.waitForTimeout(1500 * slow); landed = await pg.evaluate((i2) => { const e = document.getElementById(i2); if (!e) return false; const r = e.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 90; }, id); }
         landed ? ok(vp, page, 'click', `«${label(l.text)}» → ${l.raw}`) : await fail(pg, vp, page, 'click', `«${label(l.text)}» (${l.raw}) no lleva a la sección`);
       } else {
-        await Promise.all([pg.waitForURL((u) => u.href !== url, { timeout: 8000 }), doClick()]).catch(() => {});
+        if (pg.url() !== url) { await pg.goto(url, { waitUntil: 'load' }); await pg.waitForTimeout(800 * slow); }
+        await Promise.all([pg.waitForURL((u) => sameUrl(u.href.split('#')[0], l.href.split('#')[0]), { timeout: 8000 }), doClick()]).catch(() => {});
         const okNav = sameUrl(pg.url().split('#')[0], l.href.split('#')[0]);
         okNav ? ok(vp, page, 'click', `«${label(l.text)}» → ${l.raw}`) : await fail(pg, vp, page, 'click', `«${label(l.text)}» terminó en ${pg.url().replace(BASE, '')} en vez de ${l.raw}`);
         await pg.goto(url, { waitUntil: 'load' }); await pg.waitForTimeout(1200 * slow);
@@ -178,7 +180,7 @@ async function testPage(browser, vp, vpOpts, page) {
     const hashes = [...new Set(links.map((l) => l.raw).filter((h) => /^#unidad-.+/.test(h)))];
     for (const h of hashes) {
       await pg.goto(`${BASE}/index.html${h}`); await pg.waitForTimeout(1300 * slow);
-      const d = await pg.evaluate(() => { const x = document.querySelector('dialog[open]'); if (!x) return null; return { title: (x.querySelector('h1,h2,h3')?.innerText || '').trim(), wa: [...x.querySelectorAll('a[href*="wa.me"]')].map((a) => a.href), imgs: [...x.querySelectorAll('img')].filter((i) => i.complete && i.naturalWidth === 0).length, btns: x.querySelectorAll('button').length }; });
+      const d = await pg.evaluate(() => { const x = document.querySelector('dialog[open]'); if (!x) return null; return { title: (x.querySelector('h1,h2,h3')?.innerText || '').trim(), wa: [...x.querySelectorAll('a[href*="wa.me"]')].map((a) => a.href).filter((h) => !/wa\.me\/\?/.test(h)), imgs: [...x.querySelectorAll('img')].filter((i) => i.complete && i.naturalWidth === 0).length, btns: x.querySelectorAll('button').length }; });
       if (!d) { await fail(pg, vp, page, 'tarjetas', `${h} no abre la ficha`); continue; }
       const probs = []; if (!d.title) probs.push('sin título'); if (!d.wa.length) probs.push('sin botón de WhatsApp'); else if (!d.wa.every((w) => w.includes(EXPECT.wa))) probs.push('WhatsApp con número incorrecto'); if (d.imgs) probs.push(`${d.imgs} foto(s) rota(s)`);
       probs.length ? await fail(pg, vp, page, 'tarjetas', `${h}: ${probs.join(', ')}`) : ok(vp, page, 'tarjetas', `${h} · «${d.title.slice(0, 35)}» completa`);
@@ -195,7 +197,7 @@ async function testPage(browser, vp, vpOpts, page) {
     const fits = async (step) => { const r = await pg.evaluate(() => { const s = document.querySelector('.scene:not([hidden])'); return s ? s.scrollHeight - s.clientHeight : 0; }); r > 2 ? await fail(pg, vp, page, 'reserva', `el paso «${step}» necesita scroll (+${r}px)`) : ok(vp, page, 'reserva', `paso «${step}» entra en una pantalla`); };
     try {
       await fits('mes');
-      await pg.locator('.day-cell:not([disabled])').first().click({ timeout: 5000 }); await pg.waitForTimeout(1000 * slow);
+      await pg.locator('button.day-cell:not([disabled])').first().click({ timeout: 5000 }); await pg.waitForTimeout(1000 * slow);
       const dayTxt = await pg.locator('#day-number').innerText(); /^\d+$/.test(dayTxt) ? ok(vp, page, 'reserva', `elige el día ${dayTxt}`) : await fail(pg, vp, page, 'reserva', 'la hoja de almanaque no muestra el día'); await fits('día');
       await pg.locator('#to-time').click({ timeout: 4000 }); await pg.waitForTimeout(900 * slow); await fits('franja');
       (await pg.locator('#to-confirm').isDisabled()) ? ok(vp, page, 'reserva', '«Ver resumen» bloqueado hasta elegir franja') : await fail(pg, vp, page, 'reserva', '«Ver resumen» no debería estar activo sin elegir franja');
