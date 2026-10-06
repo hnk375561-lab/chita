@@ -511,7 +511,7 @@ function initBanner({ desktop }) {
 function initSectionBackdrops({ desktop }) {
   /* Secciones en color sólido (sin foto): unidades, modelos, trayectoria, contacto (lo cubre el mapa), local, como-comprar, operaciones, equipo, preguntas.
      El resto lleva una foto de interior; con 6 fotos y 9 secciones se reutilizan, nunca en secciones contiguas. */
-  const sources = { versus:"images/bg/stock-1.webp", entregas:"images/bg/stock-2.webp", nosotros:"images/bg/stock-3.webp", opiniones:"images/bg/stock-5.webp", bd:"images/bg/stock-6.webp" };
+  const sources = { versus:"images/bg/stock-1.webp", entregas:"images/bg/stock-2.webp", opiniones:"images/bg/stock-5.webp", bd:"images/bg/stock-6.webp" };
   const dark = new Set(["versus","entregas","contacto","bd","financiacion","guia","visita"]);
   const veil = (id) => dark.has(id) ? "linear-gradient(rgba(6,17,26,.74),rgba(6,17,26,.74))" : "linear-gradient(rgba(243,245,246,.82),rgba(243,245,246,.82))";
   const mobile = !desktop, clean = [];
@@ -745,17 +745,6 @@ function initParallax({ desktop }) {
   const k = desktop ? 1 : 0.45;
   const undo = [];
   const ctx = gsap.context(() => {
-    /* NOSOTROS · el marco gira y se acomoda; la foto se «abre» desde un arco y se desplaza dentro (3 planos). */
-    const frame = qs("#nph"), photo = qs("#nph img"), column = frame?.nextElementSibling;
-    if (frame && photo) {
-      /* v11: foto y texto de «Quiénes somos» quedan quietos para medir exactamente lo mismo (sin giro, zoom, recorte ni parallax). */
-      void column;
-    }
-    /* Las tres líneas (Usados / Permutas / Consignaciones) se destapan con un wipe controlado por el scroll. */
-    qsa("#nosotros .pl > div").forEach((row) => {
-      gsap.fromTo(row, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(row, "top 98%", "top 86%") });
-    });
-
     /* TRAYECTORIA · cada hito se destapa con el scroll y su año se desliza desde la izquierda. */
     qsa("#trayectoria .arl li").forEach((item) => {
       gsap.fromTo(item, { clipPath: "inset(0 0 100% 0)", opacity: 0.2 }, { clipPath: "inset(0 0 0% 0)", opacity: 1, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(item, "top 94%", "top 64%") });
@@ -783,25 +772,6 @@ function initParallax({ desktop }) {
     if (map) {
       gsap.fromTo(map.querySelector(".mph"), { opacity:0, y:12 }, { opacity:1, y:0, ease:EASE.linear, immediateRender:false, scrollTrigger:scrub("#contacto", "top 92%", "top 56%") });
     }
-
-    /* LOCAL · el marco del recorrido es una ventana que se abre; el fondo y la foto viajan a distinta velocidad. */
-    const tour = qs("#local .vv");
-    if (tour) {
-      const slides = qs(".vsc", tour);
-      gsap.fromTo(tour, { clipPath: "inset(14% 12% 14% 12%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(tour, "top 98%", "top 26%") });
-      if (slides) gsap.fromTo(slides, { scale: 1.2 }, { scale: 1, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub(tour, "top 98%", "top 26%") });
-    }
-    qsa("#local .vbk").forEach((layer) => {
-      gsap.set(layer, { scale: 1.24 });
-      gsap.fromTo(layer, { yPercent: -9 * k }, { yPercent: 9 * k, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(layer.closest(".vl") || layer, "top bottom", "bottom top") });
-    });
-    qsa("#local .vc").forEach((img) => {
-      gsap.set(img, { scale: 1.14 });
-      gsap.fromTo(img, { yPercent: -5 * k }, { yPercent: 5 * k, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(img.closest(".vl") || img, "top bottom", "bottom top") });
-    });
-    const hints = qsa("#local .vsn li");
-    gsap.set(hints, { opacity: 0, x: 40, rotate: 1.5 });
-    if (hints.length) once(hints[0], "top 92%", () => gsap.to(hints, { opacity: 1, x: 0, rotate: 0, duration: 1, ease: EASE.soft, stagger: 0.1, clearProps: "opacity,transform" }));
 
     /* EQUIPO · la foto grande se destapa desde abajo y se acerca. */
     qsa("#equipo .eqm img").forEach((img) => {
@@ -831,7 +801,7 @@ function initParallax({ desktop }) {
    ════════════════════════════════════════════════════════════════════════════════════════ */
 function initOdometer() {
   const ctx = gsap.context(() => {
-    const targets = [...qsa("#nosotros .ns b"), ...qsa("#trayectoria .ary")].filter((el) => /\d/.test(el.textContent));
+    const targets = [...qsa("#trayectoria .ary")].filter((el) => /\d/.test(el.textContent));
     targets.forEach((el, index) => {
       once(el, "top 90%", () => {
         const text = el.textContent;
@@ -988,11 +958,6 @@ function initSceneChoreography({ desktop }) {
       /* v11: comparador sin transformaciones por scroll (era lo que lo hacía trabarse). */
       void cards;
     });
-    /* Nosotros: máscara vertical de la fotografía + tres líneas con velocidades escalonadas. */
-    scene("nosotros", (s) => {
-      /* v11: la foto del local queda quieta y entera. */
-      /* Las filas ya se destapan con su propio wipe (arriba); no se vuelven a recortar ni a desplazar aquí. */
-    });
     /* Trayectoria: el registro se lee como una línea que avanza, no como una entrada vertical. */
     scene("trayectoria", (s) => {
       const line = qs(".arl", s), copy = qs(".arhd", s);
@@ -1004,11 +969,6 @@ function initSceneChoreography({ desktop }) {
       const map = qs(".mp", s), copy = qs(".lc", s);
       /* v55: el mapa (iframe) y el panel quedan quietos: sin recortes, escalas ni desplazamientos ligados al scroll. */
       void map; void copy;
-    });
-    /* Local: el recorrido visual flota detrás de los hitos, mientras las señales entran por capas. */
-    scene("local", (s) => {
-      imgDrift(s, ".vc, .vin video, .vin:not(.vlogo):not(.vsign) img", { scale: 1.14, yPercent: -7 * k }, { scale: 1.03, yPercent: 7 * k }, "top bottom", "bottom top");
-      qsa(".vsn li, .vpn", s).forEach((item, i) => gsap.fromTo(item, { x: (i % 2 ? 1 : -1) * 22 * k }, { x: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 84%", "bottom 24%") }));
     });
     /* Opiniones: tarjetas en órbita leve y estrellas que recorren la lectura. */
     scene("opiniones", (s) => {

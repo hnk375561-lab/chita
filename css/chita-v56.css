@@ -3,44 +3,31 @@
 /* Prefijos con id repetido: ganan a las reglas heredadas sin tocar identidad.css */
 
 /* ═════════════ 1 · QUIÉNES SOMOS ═════════════ */
-html body #nosotros#nosotros#nosotros.fr{position:relative;overflow:hidden;isolation:isolate}
+
 /* las columnas rojas del salón, apenas insinuadas detrás del titular */
-html body #nosotros#nosotros#nosotros.fr::before{content:"";display:block!important;position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:repeating-linear-gradient(90deg,rgba(193,18,31,.2) 0 20px,transparent 20px 25%) 12.5% 0/100% 100% no-repeat;
-  -webkit-mask-image:linear-gradient(180deg,#000,transparent 52%);mask-image:linear-gradient(180deg,#000,transparent 52%)}
-html body #nosotros#nosotros#nosotros .fr-h2{max-width:15ch}
+
+
 /* el párrafo vive sobre el mismo panel azul del hero, con la barra roja y el corte */
-html body #nosotros#nosotros#nosotros .fr-lead{
-  position:relative;margin:clamp(22px,3vw,30px) 0 0;max-width:none;padding:clamp(22px,2.2vw,32px) clamp(24px,2.4vw,36px) clamp(22px,2.2vw,32px) clamp(28px,2.6vw,40px);
-  background:linear-gradient(150deg,var(--chapa) 0%,var(--chapa-d) 100%);color:#fff!important;
-  font:500 clamp(17px,1.4vw,20px)/1.55 var(--b)!important;
-  clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%)}
-html body #nosotros#nosotros#nosotros .fr-lead::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--rojo)}
-html body #nosotros#nosotros#nosotros .fr-cards{counter-reset:none}
-html body #nosotros#nosotros#nosotros .fr-card{position:relative;background:linear-gradient(170deg,var(--chapa) 0%,var(--chapa-d) 100%)!important;border-left:8px solid var(--rojo)}
-html body #nosotros#nosotros#nosotros .fr-card:nth-child(2){margin-top:0!important}
-html body #nosotros#nosotros#nosotros .fr-n{position:absolute;top:0;right:0;z-index:2;padding:.3em .75em .34em .9em;background:var(--rojo);color:#fff!important;-webkit-text-stroke:0;
-  font:800 clamp(20px,1.8vw,26px)/1 var(--font-display);clip-path:polygon(0 0,100% 0,100% 100%,12px 100%)}
-html body #nosotros#nosotros#nosotros .fr-m{display:none}
-html body #nosotros#nosotros#nosotros .fr-tx{padding:clamp(20px,2vw,28px) clamp(20px,2vw,26px) clamp(22px,2.2vw,30px)}
-html body #nosotros#nosotros#nosotros .fr-tx h3{margin:0;font-size:clamp(22px,1.9vw,29px)!important;overflow-wrap:normal;hyphens:none}
-html body #nosotros#nosotros#nosotros .fr-tx p{margin:12px 0 0;color:rgba(255,255,255,.9)!important}
-html body #nosotros#nosotros#nosotros .fr-act{margin-top:auto!important;align-self:flex-start;padding-top:0!important}
-html body #nosotros#nosotros#nosotros .fr-tx p+.fr-act{margin-top:22px!important}
-@media(min-width:900px){
-  html body #nosotros#nosotros#nosotros .fr-hd{grid-template-columns:minmax(0,7fr) minmax(0,5fr)!important;align-items:end}
-  html body #nosotros#nosotros#nosotros .fr-lead{margin:0 0 6px}
-  html body #nosotros#nosotros#nosotros .fr-cards{align-items:stretch!important}
-  html body #nosotros#nosotros#nosotros .fr-tx p{flex:1}
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* franja de datos reales + llamada: cierra la sección en una sola línea */
-html body #nosotros#nosotros#nosotros .fr-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:22px clamp(24px,4vw,56px);
-  margin-top:clamp(30px,3.6vw,52px);padding-top:clamp(22px,2.4vw,32px);border-top:1px solid rgba(255,255,255,.2)}
-html body #nosotros#nosotros#nosotros .fr-facts{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:20px clamp(28px,4vw,64px)}
-html body #nosotros#nosotros#nosotros .fr-facts li{display:grid;gap:3px;padding-left:16px;border-left:4px solid var(--rojo)}
-html body #nosotros#nosotros#nosotros .fr-facts small{font:800 11px/1 var(--font-display)!important;letter-spacing:.18em;text-transform:uppercase;color:#EE4B55!important}
-html body #nosotros#nosotros#nosotros .fr-facts b{font:800 clamp(22px,2vw,29px)/1.05 var(--font-display);text-transform:uppercase;letter-spacing:-.01em;color:#fff}
-html body #nosotros#nosotros#nosotros .fr-facts span{font:500 15px/1.35 var(--b);color:rgba(255,255,255,.78)!important}
+
+
+
+
+
+
 
 /* ═════════════ 2 · FINANCIACIÓN: titular y bajada sobre panel azul (ya no flotan sobre las fotos) ═════════════ */
 html body #financiacion#financiacion#financiacion .pdl{position:relative;max-width:min(880px,100%);padding:clamp(24px,2.6vw,38px) clamp(26px,3vw,44px) clamp(26px,2.8vw,40px)!important;

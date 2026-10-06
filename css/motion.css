@@ -19,7 +19,7 @@ main>section>.w,main>section>.ops,main>section>.fm,main>section>.bqp,main>.hero>
 
 /* Secciones en color sólido (sin foto de fondo). El resto de las secciones lleva foto desde js/motion.js. */
 #unidades,#trayectoria,#como-comprar,#operaciones,#equipo,#preguntas{background:#ecedea!important;background-image:none!important;color:var(--ink)}
-#local{background:#0a1020!important;background-image:none!important;color:#fff}
+
 
 /* ═════════════ v11 · hero, tarjetas, modelos, comparador y «Quiénes somos» ═════════════
    Va al final a propósito: corrige capas anteriores sin tocar el resto. */
@@ -71,10 +71,4 @@ main>.hero.hx>.hx-bg{position:absolute!important;inset:0;z-index:0!important;ove
 #versus .vdi{contain:paint}
 
 /* — QUIÉNES SOMOS: el texto y la foto miden exactamente lo mismo (arriba con arriba, botón con borde inferior) — */
-@media(min-width:860px){
-  #nosotros .w{align-items:stretch!important}
-  #nosotros .ph{align-self:stretch!important;aspect-ratio:auto!important;height:auto!important;min-height:0;position:relative;outline:0}
-  #nosotros .ph img{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 50%}
-  #nosotros .w>div:not(.ph):not(.ci){align-self:stretch!important;justify-content:space-between}
-  #nosotros .w>div:not(.ph):not(.ci)>.ey{margin-top:0}
-}
+

@@ -1,7 +1,7 @@
 /* CHITA · v12: «Comparar» y «Dónde estamos» también se marcan en Modelos y Local. Rótulo de sección actual (la barra lateral de avance se eliminó) (transform only, 1 listener pasivo). */
 (function(){
 var S=[].slice.call(document.querySelectorAll("main>section[id]"));if(!S.length)return;
-var N={entregas:"Entregas",unidades:"Unidades","catalogo-comparador":"Modelos",nosotros:"Nosotros",contacto:"Dónde estamos",local:"El local",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
+var N={entregas:"Entregas",unidades:"Unidades","catalogo-comparador":"Modelos",contacto:"Dónde estamos",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
 var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<b hidden></b>";document.body.appendChild(c);
 var lab=c.firstChild,raf=0,cur="";
 function upd(){raf=0;var d=document.documentElement,m=d.scrollHeight-innerHeight;
@@ -115,48 +115,6 @@ function q(){if(!raf)raf=requestAnimationFrame(upd)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",fit);fit();
 })();
 
-/* CHITA · v28 — Quiénes somos: las tres columnas rojas del frente son las pestañas (Usados, Permutas, Consignaciones).
-   No agrega datos: reutiliza los tres textos ya publicados. Medidas [x, y, ancho, alto, y del rótulo] en % de la foto 900×581 (columnas reales: centro y las dos de la derecha). */
-(function(){
-var d=document,s=d.getElementById("nosotros"),ph=d.getElementById("nph"),pl=s&&s.querySelector(".pl");
-if(!s||!ph||!pl)return;
-var rows=[].slice.call(pl.children);if(rows.length!==3)return;
-var Z=[[35.56,36.32,2.56,27.54,36.32],[85,33.74,2.67,49.74,33.74],[94.56,36.32,2.11,30.64,52]],
- lit=d.createElement("span"),btns=[],chips=[],cap=null,cur=-1,tm=0;
-lit.className="nz";lit.setAttribute("aria-hidden","true");ph.appendChild(lit);
-function mouse(e){return !e.pointerType||e.pointerType==="mouse"}
-function go(i){clearTimeout(tm);if(i===cur)return;cur=i;
- rows.forEach(function(r,k){r.classList.toggle("on",k===i);btns[k].setAttribute("aria-expanded",String(k===i));chips[k].classList.toggle("on",k===i)});
- if(cap){cap.firstChild.textContent=btns[i].querySelector("b").textContent;cap.lastChild.textContent=rows[i].querySelector(".nq").textContent}
- var z=Z[i];lit.style.left=z[0]+"%";lit.style.top=z[1]+"%";lit.style.width=z[2]+"%";lit.style.height=z[3]+"%"}
-function intent(i,e){if(!mouse(e))return;clearTimeout(tm);tm=setTimeout(function(){go(i)},90)}
-for(var i=0;i<3;i++)(function(i){
- var r=rows[i],b=r.querySelector("b"),p=r.querySelector("span");if(!b||!p)return;
- var bt=d.createElement("button"),w=d.createElement("span"),n=d.createElement("i"),c=d.createElement("span");
- n.setAttribute("aria-hidden","true");n.textContent="0"+(i+1);
- bt.type="button";bt.className="nb";bt.id="nsb"+i;bt.setAttribute("aria-expanded","false");bt.setAttribute("aria-controls","nsp"+i);
- bt.appendChild(b);
- w.className="np";w.id="nsp"+i;w.setAttribute("role","region");w.setAttribute("aria-labelledby",bt.id);
- p.className="nq";r.insertBefore(bt,r.firstChild);r.insertBefore(w,p);w.appendChild(p);
- /* T13: cada columna abierta termina en una acción real (sin animación nueva) */
- var L=[["#unidades","Ver las unidades publicadas"],["#operaciones","Preparar la consulta de mi usado"],["#operaciones","Consultar por consignar"]][i],a=d.createElement("a");
- a.className="nl";a.href=L[0];a.textContent=L[1];a.setAttribute("data-op",["","Permutar","Consignar"][i]);
- a.addEventListener("click",function(){var k=a.getAttribute("data-op");if(k&&window.CHITA_OP)window.CHITA_OP(k,false)});
- p.appendChild(a);
- c.className="nc";c.setAttribute("aria-hidden","true");c.textContent="";
- c.style.left=(Z[i][0]+Z[i][2]/2)+"%";c.style.top=Z[i][4]+"%";ph.appendChild(c);
- btns[i]=bt;chips[i]=c;
- bt.addEventListener("click",function(){go(i)});
- r.addEventListener("pointerenter",function(e){intent(i,e)});
- c.addEventListener("pointerenter",function(e){intent(i,e)});
- c.addEventListener("click",function(){go(i)});
-})(i);
-if(btns.length!==3||chips.length!==3)return;
-/* en móvil el texto de la pestaña queda lejos de la foto: una leyenda bajo la foto muestra la columna activa */
-cap=d.createElement("p");cap.className="ncap";cap.setAttribute("aria-hidden","true");cap.appendChild(d.createElement("b"));cap.appendChild(d.createElement("span"));ph.parentNode.insertBefore(cap,ph.nextSibling);
-pl.classList.add("nt");ph.classList.add("nz-on");go(0);
-})();
-
 /* CHITA · v29 — Modelos: al cambiar de miniatura la foto se revela con el CORTE (reinicia la animación de css v29). Solo mouse; con reduced-motion el CSS la anula. */
 (function(){var f=document.getElementById("mdf");if(!f)return;
 f.addEventListener("pointerover",function(v){var b=v.target.closest(".mdb");if(!b)return;var im=b.closest(".mdp").firstChild;if(!im||im.tagName!=="IMG")return;
@@ -224,9 +182,7 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
 (function(){
   var d=document;
   var roles={
-    nosotros:"puertas-del-servicio",
     contacto:"regla-de-llegada",
-    local:"protocolo-de-reconocimiento",
     opiniones:"registro-externo",
     "como-comprar":"talon-de-proceso",
     financiacion:"talon-de-condiciones",
@@ -278,12 +234,6 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
 (function(){
   var d=document, eg=d.querySelector("#entregas .eg");
   if(eg){[].slice.call(eg.children).forEach(function(li,k){var seal=li.querySelector(".sl");if(seal)seal.textContent="Entregado";li.setAttribute("title","Entregado")})}
-  var pl=d.querySelector("#nosotros .pl");
-  if(pl){var actions=[
-    ["Ver unidades publicadas","#unidades"],
-    ["Abrir talón de permuta","#operaciones"],
-    ["Preparar consulta de consignación","#operaciones"]
-  ];[].slice.call(pl.children).forEach(function(row,i){if(row.querySelector(".svc-action"))return;var a=d.createElement("a");a.className="svc-action";a.href=actions[i][1];a.textContent=actions[i][0]+" ↗";row.appendChild(a)})}
 })();
 
 /* CHITA · V3 — La Regla prepara una sola consulta con las hojas abiertas. */
