@@ -18,9 +18,9 @@ var f=document.getElementById("reel"),v=document.getElementById("reelv"),b=docum
 var RM=matchMedia("(prefers-reduced-motion:reduce)").matches,sd=navigator.connection&&navigator.connection.saveData,auto=!RM&&!sd,seen=false,vis=false;
 function load(){if(!v.src){v.src=v.getAttribute("data-src")}}
 function label(){b.textContent=v.paused?"Reproducir":(v.muted?"Activar sonido":"Silenciar");b.setAttribute("aria-pressed",String(!v.muted&&!v.paused))}
-function play(){load();var p=v.play();if(p&&p.catch)p.catch(function(){});}
+function play(now){if(!now&&document.readyState!=="complete"){addEventListener("load",function(){if(vis&&v.paused)play(true)},{once:true});return}load();var p=v.play();if(p&&p.catch)p.catch(function(){});}
 b.addEventListener("click",function(){
- if(v.paused){v.muted=false;play()}else{v.muted=!v.muted}
+ if(v.paused){v.muted=false;play(true)}else{v.muted=!v.muted}
  label()});
 v.addEventListener("play",label);v.addEventListener("pause",label);
 if("IntersectionObserver" in window){
