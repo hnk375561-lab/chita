@@ -68,7 +68,7 @@ if(Date.now()<SUP)return;var b=e.target.closest(".st");if(b)return open_(+b.getA
 $("stockGrid").addEventListener("keydown",function(e){if(e.key!=="Enter")return;var ct=e.target.closest&&e.target.closest(".ct");if(ct)open_(+ct.closest(".car").getAttribute("data-i"))});
 function broken(e){if(e.target.tagName==="IMG")e.target.style.visibility="hidden"}
 $("stockGrid").addEventListener("error",broken,true);
-render();
+if($("stockGrid").children.length===STOCK.length){$("stockStatus").textContent=STOCK.length+(STOCK.length===1?" unidad":" unidades")}else render();
 
 var D=$("dlg");D.addEventListener("error",broken,true);
 var BRAND='<div class="fcbr"><div class="lg"><img src="images/logo.webp" alt="Chita Automotores" width="722" height="287"></div><p><strong>'+esc(N.nombre)+'</strong>'+esc(N.direccion)+', '+esc(N.ciudad.split(',')[0])+'<br><a href="tel:'+esc(N.telefonoTel)+'">'+esc(N.telefono)+'</a> · <a href="https://www.instagram.com/'+esc(N.instagram)+'/" target="_blank" rel="noopener noreferrer">Instagram</a> · <a href="'+esc(N.facebook)+'" target="_blank" rel="noopener noreferrer">Facebook</a></p></div>';

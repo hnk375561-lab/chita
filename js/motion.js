@@ -593,7 +593,7 @@ function initSectionEntrances({ desktop }) {
   const k = desktop ? 1 : .55;
   const ctx = gsap.context(() => {});
   const recipes = {
-    unidades:(s,i)=>gsap.fromTo(i,{y:120*k,rotateX:7,transformPerspective:1200},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
+    unidades:(s,i)=>gsap.fromTo(i,{y:48*k},{y:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 62%")}),
     modelos:(s,i)=>gsap.fromTo(i,{x:-90*k,clipPath:"inset(0 100% 0 0)"},{x:0,clipPath:"inset(0 0% 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 42%")}),
     versus:(s,i)=>gsap.fromTo(i,{scale:.82,rotateY:desktop?-12:0,opacity:.2,transformPerspective:1400},{scale:1,rotateY:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 32%")}),
     trayectoria:(s,i)=>gsap.fromTo(i,{x:80*k,opacity:.25},{x:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 95%","top 40%")}),
@@ -887,7 +887,7 @@ function initInteractions({ desktop, fine }) {
       const original = link.textContent;
       if (link.children.length || !original.trim()) return;
       const hadLabel = link.hasAttribute("aria-label");
-      const letters = (value) => [...value].map((ch) => { const c = document.createElement("span"); c.style.cssText = "display:inline-block;will-change:transform"; c.textContent = ch === " " ? "\u00a0" : ch; return c; });
+      const letters = (value) => [...value].map((ch) => { const c = document.createElement("span"); c.style.cssText = "display:inline-block"; c.textContent = ch === " " ? "\u00a0" : ch; return c; });
       const wrap = document.createElement("span"); wrap.style.cssText = "position:relative;display:block;overflow:hidden;white-space:pre";
       const top = document.createElement("span"); top.style.display = "block"; top.setAttribute("aria-hidden", "true");
       const bottom = document.createElement("span"); bottom.style.cssText = "position:absolute;left:0;top:0;display:block"; bottom.setAttribute("aria-hidden", "true");

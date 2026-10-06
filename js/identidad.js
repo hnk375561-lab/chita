@@ -87,8 +87,9 @@ if(RM)return;
 var hr=d.querySelector(".hx-reel"),hs=d.querySelector(".hx .hx-show"),hero=d.getElementById("hero"),big=matchMedia("(min-width:900px)"),
 tape=null,ly=scrollY,v=0,raf=0,pr=1;
 function anim(){if(tape)return tape;var t=d.querySelector(".hx-trk");if(t&&t.getAnimations){var a=t.getAnimations()[0];if(a)tape=a}return tape}
+var hH=hero?hero.offsetHeight:1,lastK=-1;function remeasure(){hH=hero?hero.offsetHeight:1;lastK=-1}addEventListener("resize",remeasure,{passive:true});addEventListener("load",remeasure);
 function tick(){raf=0;var y=scrollY,vh=innerHeight,dy=y-ly;ly=y;v+=(Math.abs(dy)-v)*.18;
- if(hero&&big.matches){var k=Math.max(0,Math.min(1,y/Math.max(1,hero.offsetHeight)));if(hr)hr.style.setProperty("--hr",(-k*46)+"px");if(hs){hs.style.setProperty("--hs",(k*34)+"px");hs.style.setProperty("--hx",(Math.pow(k,1.7)*innerWidth*.62).toFixed(1)+"px")}}
+ if(hero&&big.matches){var k=Math.max(0,Math.min(1,y/Math.max(1,hH)));if(k===lastK&&k===1){if(v>.05)raf=requestAnimationFrame(tick);return}lastK=k;if(hr)hr.style.setProperty("--hr",(-k*46)+"px");if(hs){hs.style.setProperty("--hs",(k*34)+"px");hs.style.setProperty("--hx",(Math.pow(k,1.7)*innerWidth*.62).toFixed(1)+"px")}}
  if(v>.05)raf=requestAnimationFrame(tick)}
 function q(){if(!raf)raf=requestAnimationFrame(tick)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q);q();

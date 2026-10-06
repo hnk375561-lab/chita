@@ -111,12 +111,13 @@ go(0);
 })();
 })();
 
-/* v59 · fotos de las unidades: se piden antes de que aparezcan (sin esperar al carrusel ni al scroll). */
+/* v59 · fotos de las unidades: solo se adelanta la 1.ª y la 2.ª foto de cada tarjeta cuando se acerca a la pantalla.
+   El resto de las fotos se pide al apuntar o tocar la tarjeta (ya lo hace app.js), así no se decodifican 40 imágenes de golpe. */
 (function(){
-  function warm(root){root.querySelectorAll("img[loading=lazy]").forEach(function(m){m.setAttribute("loading","eager")})}
+  function warm(card){card.querySelectorAll(".ctk img").forEach(function(m,i){if(i<2&&m.getAttribute("loading")==="lazy")m.setAttribute("loading","eager")})}
   var cards=document.querySelectorAll("#stockGrid .car");
   if(!cards.length)return;
   if(!("IntersectionObserver" in window)){cards.forEach(warm);return}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){warm(e.target);io.unobserve(e.target)}})},{rootMargin:"2200px 0px"});
-  cards.forEach(function(c,i){if(i<3)warm(c);else io.observe(c)});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){warm(e.target);io.unobserve(e.target)}})},{rootMargin:"900px 0px"});
+  cards.forEach(function(c){io.observe(c)});
 })();
