@@ -2019,3 +2019,41 @@ html body header .nvp a:hover::before,html body header .nvp a:focus-visible::bef
 }
 @media(prefers-reduced-motion:reduce){html body header .nvp,html body header .nvc svg,html body header .nvp a,html body header .nvp a::before{transition:none}}
 @media(forced-colors:active){html body header .nvp{border-color:CanvasText}html body header .nvp a:hover,html body header .nvp a:focus-visible{outline:2px solid Highlight}}
+
+
+/* ==========================================================================
+   UNIDADES · pase premium y responsive
+   Alcance deliberado: solo la vitrina, sus filtros y sus fichas.
+   ========================================================================== */
+html body #unidades{--u-gap:clamp(14px,1.35vw,22px);background:var(--paper)!important}
+html body #unidades .head{margin-bottom:clamp(18px,2.2vw,28px)!important;padding-bottom:clamp(18px,2vw,26px)!important}
+html body #unidades .head h2{letter-spacing:-.035em!important}
+html body #unidades .head .sub{max-width:52ch!important;color:#344554!important}
+html body #unidades .ff{display:grid!important;grid-template-columns:minmax(220px,1fr) minmax(170px,.55fr) auto!important;grid-template-areas:"q o c" "m m m"!important;gap:12px 16px!important;padding:16px 18px!important;border-left:4px solid var(--rojo)!important;box-shadow:0 18px 36px -28px rgba(10,16,32,.8)!important}
+html body #unidades .ff .fs1{grid-area:q!important}
+html body #unidades .ff>label:not(.fs1){grid-area:o!important}
+html body #unidades .ff .fmchips{grid-area:m!important;gap:7px!important;padding-top:2px}
+html body #unidades .ff label{font-size:10px!important;line-height:1.2!important}
+html body #unidades .ff :is(input,select,#fc){min-height:44px!important;height:44px!important}
+html body #unidades .ff input,html body #unidades .ff select{border-color:rgba(255,255,255,.28)!important}
+html body #unidades #fc{min-width:112px!important;font-weight:800!important;letter-spacing:.08em!important}
+html body #unidades #fc:disabled{opacity:.45;cursor:not-allowed}
+html body #unidades #stockGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:var(--u-gap)!important;align-items:stretch!important}
+html body #unidades #stockGrid .car{background:#fff!important;border:1px solid rgba(10,16,32,.14)!important;box-shadow:0 14px 30px -26px rgba(10,16,32,.9)!important;contain:layout paint!important;transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s ease,border-color .28s ease!important}
+html body #unidades #stockGrid .car:hover{border-color:rgba(193,18,31,.62)!important;box-shadow:0 22px 34px -24px rgba(10,16,32,.75)!important;transform:translateY(-3px)}
+html body #unidades #stockGrid .car .im{aspect-ratio:4/5!important;background:var(--cinta)!important}
+html body #unidades #stockGrid .car .ct img{object-fit:cover!important;transition:transform .45s cubic-bezier(.16,1,.3,1)!important}
+html body #unidades #stockGrid .car .ct img.land{object-fit:contain!important}
+html body #unidades #stockGrid .car:hover .ct img{transform:scale(1.018)!important}
+html body #unidades #stockGrid .car h3{top:calc(100cqw / .8)!important;max-width:92%!important}
+html body #unidades #stockGrid .car .meta{margin-top:14px!important;font-size:11px!important;line-height:1.35!important;letter-spacing:.04em!important}
+html body #unidades #stockGrid .car .est{font-size:10px!important;letter-spacing:.08em!important}
+html body #unidades #stockGrid .car .pr{padding-top:12px!important}
+html body #unidades #stockGrid .car .vf{font-size:12px!important;min-height:38px!important}
+html body #unidades #stockGrid .car .wab{min-height:42px!important;margin:6px 10px 14px!important}
+html body #unidades #qe{padding:clamp(28px,4vw,52px) 20px!important;border:1px dashed rgba(10,16,32,.28)!important;background:rgba(255,255,255,.55)!important;text-align:center!important}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){html body #unidades #stockGrid .car:hover h3{transform:translateY(-100%) translateX(2px)!important}}
+@media(max-width:1180px){html body #unidades #stockGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:760px){html body #unidades .ff{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"q" "o" "m" "c"!important}html body #unidades #stockGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}html body #unidades #stockGrid .car h3 button{font-size:10px!important;padding:7px 11px!important}html body #unidades #stockGrid .car .meta{font-size:10px!important;padding-left:10px!important}html body #unidades #stockGrid .car .meta::after{display:none!important}}
+@media(max-width:480px){html body #unidades #stockGrid{grid-template-columns:1fr!important;gap:16px!important}html body #unidades #stockGrid .car .im{aspect-ratio:4/3!important}html body #unidades #stockGrid .car h3{top:calc(100cqw / 1.333)!important}html body #unidades #stockGrid .car .meta{font-size:11px!important}}
+@media(prefers-reduced-motion:reduce){html body #unidades #stockGrid .car,html body #unidades #stockGrid .car .ct img{transition:none!important}html body #unidades #stockGrid .car:hover{transform:none}}
