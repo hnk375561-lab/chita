@@ -1945,7 +1945,7 @@ html body #operaciones .oc .ob a{margin-top:auto!important;align-self:flex-start
 /* Golive · T6/T7/T12: accesibilidad táctil y lectura móvil sin cambiar desktop. */
 @media(max-width:899px){
  html body header .ic{min-width:44px;min-height:44px}
- html body #unidades .fm-chip,html body #unidades .ff :is(input,select),html body #unidades #fc,html body #unidades .g-a,html body #unidades .st.vf,html body #unidades .wab{min-height:44px}
+ html body #unidades .fm-chip,html body #unidades .ff :is(input,select),html body #unidades #fc,html body #unidades .g-a,html body #unidades .st.vf,html body #unidades .wab{min-height:44px!important};html body #unidades .fm-chip,html body #unidades .ff :is(input,select),html body #unidades #fc,html body #unidades .g-a,html body #unidades .st.vf,html body #unidades .wab{transform:none!important;translate:none!important}
  html body #unidades .fm-chip,html body #unidades .series-note,html body #unidades .chita-state,html body #unidades .mc-state,html body #unidades .meta{font-size:12px!important}
  html body header nav{position:relative;mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent)}
  html body header nav.nav-end{mask-image:linear-gradient(90deg,transparent,#000 14px,#000 100%);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 100%)}
@@ -1954,3 +1954,6 @@ html body #operaciones .oc .ob a{margin-top:auto!important;align-self:flex-start
 .mp-fallback{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:#01143b;color:#fff;font-size:13px}
 .mp-fallback strong{font-weight:800}.mp-fallback span{opacity:.85}.mp-fallback a{color:#fff;text-decoration:underline;font-weight:700}
 @media(min-width:900px){.mp-fallback{position:absolute;z-index:3;left:22px;bottom:22px;max-width:360px}}
+
+/* Golive · T6 final: orden del comparador también debe ser cómodo al tacto. */
+@media(max-width:899px){html body #versus .c5-tl{min-height:44px!important;display:inline-flex;align-items:center}}

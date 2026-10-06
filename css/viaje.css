@@ -49,3 +49,5 @@ body{font-family:"Instrument Sans",system-ui,sans-serif}
 .scene--road .scene-photo{background-image:url('../images/local-calle.webp');background-position:center;background-size:cover}
 .scene--destination .scene-photo{background-image:url('../images/entrega-12.webp');background-position:center;background-size:cover}
 .scene-photo{background-repeat:no-repeat}
+
+@media(max-width:899px){.journey-nav :is(.brand,.nav-link){min-height:44px;display:inline-flex;align-items:center}}

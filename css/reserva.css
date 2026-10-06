@@ -151,3 +151,7 @@ em{font-style:normal}
 @media(max-height:560px){.next-step,.primary,.secondary{min-height:48px}.intro{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}.diagonal-wipe{display:none}}
 @media(forced-colors:active){.send-state{border:2px solid CanvasText;background:Canvas;color:CanvasText}}
+
+@media(max-width:899px){.back{min-height:44px;display:inline-flex;align-items:center}}
+
+@media(max-width:899px){.booking-nav .brand{min-height:44px;display:inline-flex;align-items:center}}
