@@ -128,7 +128,14 @@ async function testPage(browser, vp, vpOpts, page) {
     if (!(await loc.isVisible().catch(() => false))) { await hasMenu(); if (!(await loc.isVisible().catch(() => false))) { skipped++; continue; } }
     const isHash = l.raw.startsWith('#'), isExternal = !l.href.startsWith(BASE);
     try {
-      if (isHash) await pg.evaluate(() => scrollTo(0, 0)), await pg.waitForTimeout(250);
+      if (isHash) {
+        /* el sitio usa scroll suave (Lenis): mover la página con scrollTo nativo lo desincroniza y el clic siguiente "no viaja".
+           Se usa el propio Lenis, en modo instantáneo, para volver arriba y para poner el enlace a la vista antes de tocarlo. */
+        await pg.evaluate(async (sel) => { const L = window.chitaScroll && window.chitaScroll.lenis; if (L) L.scrollTo(0, { immediate: true, force: true }); else scrollTo(0, 0); }, null);
+        await pg.waitForTimeout(350);
+        const viaLenis = await loc.evaluate((el) => { const L = window.chitaScroll && window.chitaScroll.lenis; if (!L) return false; L.scrollTo(el, { offset: -300, immediate: true, force: true }); return true; }).catch(() => false);
+        if (viaLenis) await pg.waitForTimeout(500);
+      }
       let realClick = true;
       const doClick = async () => { try { await loc.click({ timeout: 2500 }); } catch (e) { realClick = false; await loc.evaluate((el) => el.click()); } };
       if (isExternal) {
