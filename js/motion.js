@@ -688,9 +688,9 @@ function initReveals({ desktop }, inertia) {
 
     /* RESEÑAS · caída con perspectiva; las estrellas se encienden una a una. */
     const reviews = qsa("#opiniones .rvc");
-    gsap.set(reviews, { opacity: 0, y: -30 * d, rotationX: desktop ? -16 : 0, transformPerspective: 900, transformOrigin: "50% 0%" });
+    if (reviews.length) gsap.set(reviews, { opacity: 0, y: -30 * d, rotationX: desktop ? -16 : 0, transformPerspective: 900, transformOrigin: "50% 0%" });
     reviews.forEach((card) => { const stars = qsa(".rvs svg", card); if (stars.length) gsap.set(stars, { scale: 0, rotate: -50, transformOrigin: "50% 55%" }); });
-    batch(reviews, (g) => g.forEach((card, i) => {
+    if (reviews.length) batch(reviews, (g) => g.forEach((card, i) => {
       gsap.to(card, { opacity: 1, y: 0, rotationX: 0, duration: 1, ease: "power4.out", delay: i * 0.12, clearProps: "opacity,transform" });
       const stars = qsa(".rvs svg", card);
       if (stars.length) gsap.to(stars, { scale: 1, rotate: 0, duration: 0.6, ease: "back.out(2.4)", stagger: 0.09, delay: i * 0.12 + 0.35 });

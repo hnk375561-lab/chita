@@ -19,7 +19,7 @@ function renderCalendar() {
   for (let i = 0; i < firstDay(state.month); i += 1) { const empty = document.createElement("span"); empty.className = "day-cell day-cell--empty"; empty.setAttribute("aria-hidden", "true"); calendar.appendChild(empty); }
   for (let day = 1; day <= daysInMonth(state.month); day += 1) {
     const date = new Date(state.month.getFullYear(), state.month.getMonth(), day), enabled = date >= startOfToday(), button = document.createElement("button");
-    button.className = "day-cell"; button.type = "button"; button.dataset.day = day; button.disabled = !enabled; button.setAttribute("role", "gridcell"); button.setAttribute("aria-disabled", String(!enabled)); button.setAttribute("aria-selected", String(state.day?.getTime() === date.getTime())); if (state.day?.getTime() === date.getTime()) button.setAttribute("aria-current", "true");
+    button.className = "day-cell"; button.type = "button"; button.dataset.day = day; button.disabled = !enabled; button.setAttribute("aria-disabled", String(!enabled)); button.setAttribute("aria-pressed", String(state.day?.getTime() === date.getTime())); if (state.day?.getTime() === date.getTime()) button.setAttribute("aria-current", "true");
     button.innerHTML = `<span>${String(day).padStart(2, "0")}</span><small>${date.getTime() === startOfToday().getTime() ? "hoy" : ""}</small>`; calendar.appendChild(button);
   }
 }

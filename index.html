@@ -279,7 +279,7 @@ function vr(){vpk();
  if(dP){w=winners(rP);T.push(["Menor uso anual",ths(P[w[0]]),"km/año",w])}
  if(dE){w=winners(rE);T.push(["Mayor cilindrada",E[w[0]].toFixed(1),"motor",w])}
  if(dF){w=winners(rF);T.push(["Más fotos",F[w[0]],"fotos",w])}
- var pod=T.length?'<div class="c5-podio" aria-label="Lo que se destaca entre las unidades elegidas">'+T.map(function(t){var c=u[t[3][0]];return'<div class="c5-pd" data-c="'+t[3][0]+'"><span class="c5-pk1">'+t[0]+'</span><span class="c5-pv">'+t[1]+(t[2]?' <i>'+t[2]+'</i>':"")+'</span><span class="c5-pn2">'+esc(nm(c))+(t[3].length>1?" +"+(t[3].length-1):"")+'</span></div>'}).join("")+'</div>':"";
+ var pod=T.length?'<div class="c5-podio" role="group" aria-label="Lo que se destaca entre las unidades elegidas">'+T.map(function(t){var c=u[t[3][0]];return'<div class="c5-pd" data-c="'+t[3][0]+'"><span class="c5-pk1">'+t[0]+'</span><span class="c5-pv">'+t[1]+(t[2]?' <i>'+t[2]+'</i>':"")+'</span><span class="c5-pn2">'+esc(nm(c))+(t[3].length>1?" +"+(t[3].length-1):"")+'</span></div>'}).join("")+'</div>':"";
  /* Tarjetas */
  var cards=u.map(function(c,i){
   var gi=ids[i],f=c.fotos||[c.foto],n=f.length,e=eng(c),fo=frm(c),
