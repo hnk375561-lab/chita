@@ -1,0 +1,127 @@
+/* CHITA · v58 — tres secciones rehechas, cargado al final.
+   1) Comparador plegable (cerrado de entrada; se abre con su botón o con cualquier enlace a #versus)
+   2) «Mirá el salón y el depósito»: columna izquierda con fotos reales y logotipo
+   3) Índice de unidades (#modelos): tabla exacta + visor propio (clases ix-*; ya no usa mdl/mdf)            */
+
+/* ═════════ 1 · COMPARADOR PLEGABLE ═════════ */
+html body #versus.cmp5::before{display:none!important}
+html body #catalogo-comparador #versus.cmp5 .cmp-head{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(22px,3vw,40px);align-items:end;justify-content:stretch;text-align:left;margin-bottom:0}
+html body #catalogo-comparador #versus.cmp5 .cmp-head>div:first-child{max-width:720px;margin:0}
+html body #catalogo-comparador #versus.cmp5 .cmp-head .sub{margin-inline:0}
+@media(min-width:900px){html body #catalogo-comparador #versus.cmp5 .cmp-head{grid-template-columns:minmax(0,1fr) auto}}
+html body #catalogo-comparador #versus.cmp5:not(.is-open){padding-block:clamp(48px,5.6vw,84px)!important}
+.cmp5 .cmp-gate{display:flex;flex-wrap:wrap;align-items:center;gap:18px clamp(18px,2.4vw,32px)}
+.cmp5 .cmp-teaser{display:flex;margin:0;padding:0;list-style:none}
+.cmp5 .cmp-teaser li{position:relative;width:clamp(46px,4.2vw,60px);aspect-ratio:4/5;margin-left:-14px;overflow:hidden;background:#0d1626;box-shadow:0 0 0 3px var(--ink);clip-path:var(--cut);--c:14px}
+.cmp5 .cmp-teaser li:first-child{margin-left:0}
+.cmp5 .cmp-teaser img{display:block;width:100%;height:100%;object-fit:cover}
+.cmp5 .cmp-teaser li.more{display:grid;place-items:center;background:var(--chapa);color:#fff;font:800 14px/1 var(--font-display)}
+html body #catalogo-comparador #versus.cmp5 .cmp-tg{display:inline-flex;align-items:center;gap:16px;min-height:58px;padding:0 24px 0 28px;font-size:14px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.cmp5 .cmp-tg i{width:11px;height:11px;border-right:3px solid currentColor;border-bottom:3px solid currentColor;transform:translateY(-3px) rotate(45deg);transition:transform .5s cubic-bezier(.2,.9,.1,1)}
+.cmp5.is-open .cmp-tg i{transform:translateY(3px) rotate(-135deg)}
+.cmp5 .cmp-body{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .75s var(--c5-ease,cubic-bezier(.2,.9,.1,1)),opacity .45s ease,visibility 0s linear .75s}
+.cmp5.is-open .cmp-body{grid-template-rows:1fr;opacity:1;visibility:visible;transition:grid-template-rows .75s var(--c5-ease,cubic-bezier(.2,.9,.1,1)),opacity .55s ease .1s,visibility 0s}
+.cmp5 .cmp-in{min-height:0;overflow:hidden}
+.cmp5.is-done .cmp-in{overflow:visible}
+.cmp5 .cmp-end{display:flex;justify-content:center;margin-top:clamp(28px,3vw,44px)}
+@media(prefers-reduced-motion:reduce){.cmp5 .cmp-body,.cmp5.is-open .cmp-body,.cmp5 .cmp-tg i{transition:none}}
+@media(max-width:899px){html body #catalogo-comparador #versus.cmp5 .cmp-tg{width:100%;justify-content:space-between}.cmp5 .cmp-gate{width:100%}}
+
+/* ═════════ 2 · MIRÁ EL SALÓN Y EL DEPÓSITO ═════════ */
+html body #unidades .clips{gap:clamp(28px,4vw,64px)}
+@media(min-width:900px){html body #unidades .clips{grid-template-columns:minmax(0,1fr) auto;align-items:start}}
+html body #unidades .clips-l{display:grid;gap:clamp(20px,2.2vw,30px);min-width:0;align-content:start}
+html body #unidades .clips-ey{display:inline-block;margin-bottom:12px;padding-left:12px;border-left:5px solid var(--rojo);font:800 12px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--rojo)}
+html body #unidades .clips-r{grid-template-columns:repeat(2,minmax(0,clamp(260px,24vw,350px)))}
+html body #unidades .clips-ph{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1.2vw,16px)}
+html body #unidades .cph{position:relative;margin:0;overflow:hidden;background:var(--ink);color:#fff;clip-path:var(--cut);--c:22px;min-width:0}
+html body #unidades .cph::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--rojo);z-index:2}
+html body #unidades .cph img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.9,.1,1)}
+html body #unidades .cph:hover img{transform:scale(1.045)}
+html body #unidades .cph-main{grid-column:1/-1;aspect-ratio:16/10}
+html body #unidades .cph-calle{aspect-ratio:3/2}
+html body #unidades .cph-logo{aspect-ratio:3/2;display:grid;place-items:center;background:var(--chapa) url(../images/fondo-marca.webp) center/cover no-repeat}
+html body #unidades .cph-logo img{width:min(64%,170px);height:auto;aspect-ratio:1;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(0,0,0,.4))}
+html body #unidades .cph figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline;padding:30px 14px 11px 22px;background:linear-gradient(0deg,rgba(10,16,32,.92),rgba(10,16,32,0));font:700 13px/1.25 var(--font-display);letter-spacing:.03em;z-index:1}
+html body #unidades .cph figcaption b{font-weight:800;font-size:15px;letter-spacing:.01em}
+html body #unidades .cph figcaption span{opacity:.82;font-weight:600}
+html body #unidades .clips-cta{display:flex;flex-wrap:wrap;gap:12px}
+@media(max-width:899px){html body #unidades .clips-r{grid-template-columns:none}}
+@media(prefers-reduced-motion:reduce){html body #unidades .cph img{transition:none}html body #unidades .cph:hover img{transform:none}}
+
+/* ═════════ 3 · ÍNDICE DE UNIDADES ═════════ */
+html body #modelos .ix{--ixc:34px minmax(0,1fr) 54px 84px 40px;--ixg:12px;display:grid;gap:clamp(24px,3vw,48px);align-items:start}
+@media(min-width:1000px){html body #modelos .ix{grid-template-columns:clamp(390px,33vw,480px) minmax(0,1fr)}}
+html body #modelos .ix-h{display:grid;grid-template-columns:var(--ixc);column-gap:var(--ixg);padding:0 16px 10px;font:800 11px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--plata)}
+html body #modelos .ix-h span:nth-child(n+3){text-align:right}
+html body #modelos .ix-list{margin:0;padding:0;list-style:none;border-bottom:2px solid rgba(255,255,255,.9)}
+html body #modelos .ix-list li{border-top:2px solid rgba(255,255,255,.9)}
+html body #modelos .ix-list a{position:relative;display:grid;grid-template-columns:var(--ixc);column-gap:var(--ixg);align-items:center;min-height:68px;padding:9px 16px;color:#fff;text-decoration:none;transition:background .25s,padding .25s}
+html body #modelos .ix-list a>img{display:none}
+html body #modelos .ix-n{font:800 13px/1 var(--font-display);letter-spacing:.06em;color:var(--plata);font-variant-numeric:tabular-nums}
+html body #modelos .ix-t{display:grid;gap:4px;min-width:0}
+html body #modelos .ix-t small{font:800 10.5px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--plata)}
+html body #modelos .ix-t b{font:800 clamp(14px,1.1vw,16.5px)/1.12 var(--font-display);letter-spacing:0;word-spacing:.04em;font-variant-ligatures:none;font-kerning:none;text-transform:uppercase;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+html body #modelos .ix-v{font:800 clamp(15px,1.2vw,18px)/1 var(--font-display);font-variant-numeric:tabular-nums;text-align:right;color:#fff}
+html body #modelos .ix-v.nd{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--plata)}
+html body #modelos .ix-v.ft{color:var(--plata)}
+html body #modelos .ix-m{display:none}
+html body #modelos .ix-list a:is(:hover,:focus-visible,.act){background:var(--rojo);clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);padding-left:22px}
+html body #modelos .ix-list a:is(:hover,:focus-visible,.act)::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:#fff}
+html body #modelos .ix-list a:is(:hover,:focus-visible,.act) :is(.ix-n,.ix-t small,.ix-v,.ix-v.nd){color:#fff}
+html body #modelos .ix-list a:focus-visible{outline:3px solid #fff;outline-offset:-6px}
+
+html body #modelos .ix-f{display:none}
+@media(min-width:1000px){html body #modelos .ix-f{display:block;position:sticky;top:78px}}
+html body #modelos .ix-p{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(18px,2vw,32px);align-items:start}
+html body #modelos .ix-fig{position:relative;margin:0;aspect-ratio:4/5;max-height:calc(100svh - 150px);background:#0d1626;border-left:10px solid var(--rojo);clip-path:var(--cut);--c:clamp(34px,4vw,64px);overflow:hidden}
+html body #modelos .ix-fig img{display:block;width:100%;height:100%;object-fit:cover}
+html body #modelos .ix-fig img.sw{animation:ixsw .45s cubic-bezier(.2,.9,.1,1) both}
+@keyframes ixsw{from{opacity:.25;transform:scale(1.025)}to{opacity:1;transform:none}}
+html body #modelos .ix-cnt{position:absolute;left:14px;top:14px;z-index:3;padding:7px 14px 7px 10px;background:var(--ink);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+html body #modelos .ix-ar{position:absolute;top:50%;z-index:3;width:46px;height:46px;margin-top:-23px;border:0;cursor:pointer;background:rgba(10,16,32,.78);color:#fff;display:grid;place-items:center;transition:background .2s}
+html body #modelos .ix-ar:hover{background:var(--rojo)}
+html body #modelos .ix-ar:focus-visible{outline:3px solid #fff;outline-offset:-5px}
+html body #modelos .ix-ar svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:square}
+html body #modelos .ix-ar[data-d="-1"]{left:0}
+html body #modelos .ix-ar[data-d="1"]{right:0}
+html body #modelos .ix-ar[disabled]{opacity:.28;cursor:default;background:rgba(10,16,32,.78)}
+html body #modelos .ix-i{display:grid;gap:14px;min-width:0}
+html body #modelos .ix-br{font:800 11px/1 var(--font-display);letter-spacing:.22em;text-transform:uppercase;color:var(--rojo-claro,#FF6B73)}
+html body #modelos .ix-i h3{margin:0;font:800 clamp(22px,2.1vw,32px)/1.04 var(--font-display);letter-spacing:-.01em;text-transform:uppercase;color:#fff!important}
+html body #modelos .ix-sp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;border-top:2px solid rgba(255,255,255,.9)}
+html body #modelos .ix-sp div{padding:11px 0 11px;border-bottom:1px solid rgba(255,255,255,.22)}
+html body #modelos .ix-sp div:nth-child(odd){padding-right:12px}
+html body #modelos .ix-sp div:nth-child(even){padding-left:14px;border-left:1px solid rgba(255,255,255,.22)}
+html body #modelos .ix-sp dt{margin:0 0 5px;font:800 10.5px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase;color:var(--plata)}
+html body #modelos .ix-sp dd{margin:0;font:800 clamp(16px,1.35vw,20px)/1.1 var(--font-display);font-variant-numeric:tabular-nums;color:#fff}
+html body #modelos .ix-sp dd.nd{font-size:13px;letter-spacing:.04em;color:var(--plata);font-weight:700}
+html body #modelos .ix-sp dd i{font-style:normal;font-size:.62em;letter-spacing:.1em;margin-left:5px;color:var(--plata)}
+html body #modelos .ix-nota{margin:0;font:500 15px/1.45 var(--b);color:var(--plata)!important}
+html body #modelos .ix-th{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px}
+html body #modelos .ix-th button{position:relative;padding:0;border:0;cursor:pointer;aspect-ratio:4/5;overflow:hidden;background:#0d1626;opacity:.55;transition:opacity .25s}
+html body #modelos .ix-th button img{display:block;width:100%;height:100%;object-fit:cover}
+html body #modelos .ix-th button:is(.on,:hover){opacity:1;box-shadow:inset 0 -4px 0 var(--rojo)}
+html body #modelos .ix-th button:focus-visible{opacity:1;outline:2px solid #fff;outline-offset:-3px}
+html body #modelos .ix-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:2px}
+
+/* móvil y tablet: lista con miniatura; tocar abre la ficha (las fotos están ahí) */
+@media(max-width:999px){
+  html body #modelos .ix{--ixc:64px minmax(0,1fr);gap:0}
+  html body #modelos .ix-h{display:none}
+  html body #modelos .ix-list a{min-height:92px;padding:10px 14px;align-items:center}
+  html body #modelos .ix-list a>img{display:block;width:64px;height:80px;object-fit:cover;background:#0d1626;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+  html body #modelos .ix-n,html body #modelos .ix-v{display:none}
+  html body #modelos .ix-m{display:block;margin-top:4px;font:700 12.5px/1.3 var(--b);letter-spacing:.02em;color:var(--plata)}
+  html body #modelos .ix-list a:is(:hover,:focus-visible,.act) .ix-m{color:#fff}
+  html body #modelos .ix-list a:is(:hover,:focus-visible,.act){padding-left:14px}
+}
+
+/* en móvil no hay visor: la fila «activa» solo se marca al tocarla o enfocarla */
+@media(max-width:999px){
+  html body #modelos .ix-list a.act:not(:hover):not(:focus-visible){background:transparent;clip-path:none;padding-left:14px}
+  html body #modelos .ix-list a.act:not(:hover):not(:focus-visible)::before{content:none}
+  html body #modelos .ix-list a.act:not(:hover):not(:focus-visible) .ix-t small,html body #modelos .ix-list a.act:not(:hover):not(:focus-visible) .ix-m{color:var(--plata)}
+}
+@media(prefers-reduced-motion:reduce){html body #modelos .ix-fig img.sw{animation:none}html body #modelos .ix-list a,html body #modelos .ix-th button{transition:none}}
+.cmp5.is-open .cmp-teaser{display:none}

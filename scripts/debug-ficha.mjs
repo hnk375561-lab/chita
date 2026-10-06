@@ -52,7 +52,7 @@ try {
   console.log('\n── Al cargar la página ──'); console.table(await medir());
 
   // el índice #modelos cambia su vista previa al pasar el mouse: se mide de nuevo tras tocar una fila
-  const fila = page.locator('#mdl > *').nth(1);
+  const fila = page.locator('#ixl > *').nth(1);
   if (await fila.count()) { await fila.scrollIntoViewIfNeeded().catch(() => {}); await fila.hover().catch(() => {}); await page.waitForTimeout(1200); }
   console.log('── Después de pasar el mouse por una fila del índice #modelos ──'); console.table(await medir());
 
