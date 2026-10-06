@@ -47,3 +47,26 @@ NO medido en un navegador (no tenía uno). Verificar:
   4) Guía: Imprimir planilla sigue saliendo igual.
   5) Chrome DevTools > Performance: grabar scrolleando de Guía a Visita y comparar antes/después.
 Volver atrás: restaurar los archivos desde git.
+
+
+────────────────────────────────────────────────────────────────────────────
+TERCERA PASADA · "Vender o permutar" (#operaciones) y llegada a "Guía"
+
+Archivos (los de la segunda pasada siguen siendo necesarios): css/chita-perf.css, js/motion.js, js/identidad.js, js/clips.js, LEEME-perf.txt
+
+Causa principal del lag al llegar a Guía: la sección Operaciones, mientras se iba, aplicaba "recesión" (escala + opacidad sobre TODO su
+contenido: 4 tarjetas recortadas + formulario) justo cuando Guía entraba en pantalla. Además tenía un desplazamiento vertical scrubbeado
+del contenedor, 4 fotos con parallax por scroll + inercia, y cada tarjeta animaba clip-path y rotación al aparecer.
+
+js/motion.js
+  - Operaciones sale de la "recesión" y del desplazamiento del contenedor (igual que Financiación).
+  - Operaciones: las tarjetas entran con opacity + transform (sin clip-path, sin rotación). Fotos fijas con el mismo zoom 1,12
+    (el zoom al apuntar con el mouse se mantiene).
+  - ScrollTrigger.refresh() ya no se ejecuta en medio de un scroll: espera ~250 ms sin scroll. Tras abrir/cerrar un paso de la Guía
+    o de Preguntas espera 900 ms (a que termine la cascada) en vez de 320 ms. Un refresh recalcula todos los triggers de la página
+    y era un tirón cada vez que se abría un acordeón.
+css/chita-perf.css (sección 11)
+  - Se quita el box-shadow de las tarjetas (el clip-path lo recortaba: no se veía) y se las contiene como cajas independientes.
+
+NO medido en un navegador. Verificar: que las 4 tarjetas de Operaciones aparezcan subiendo (ya no rotan) y que las fotos se vean
+igual de encuadradas; que al abrir un paso de la Guía no haya tirón.

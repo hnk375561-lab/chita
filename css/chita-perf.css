@@ -118,3 +118,13 @@ html body #visita#visita#visita#visita .vvid video{will-change:auto}
 /* La columna fija (título, planilla, consulta) es una caja independiente: tildar una casilla y actualizar el contador no obliga a recalcular el resto de la página. */
 html body #guia#guia#guia .gp-side{contain:layout style}
 @media print{html body #guia#guia#guia .gp-side{contain:none}}
+
+/* 11 · Vender o permutar (#operaciones). Mismo diseño.
+   (a) Las tarjetas tenían box-shadow, pero también clip-path (esquina cortada): el clip-path recorta la sombra, así que nunca se veía
+       y se calculaba igual. Se quita (la tarjeta seleccionada conserva su borde interior).
+   (b) Cada tarjeta es una caja independiente: un hover o la entrada de una no obliga a recalcular las otras ni el resto de la página.
+   (c) La foto ya no tiene parallax por scroll (ver js/motion.js): se promueve como capa fija sin will-change permanente. */
+html body #operaciones#operaciones#operaciones .og .oc:not(.is-selected){box-shadow:none}
+html body #operaciones#operaciones#operaciones .og .oc{contain:layout paint}
+html body #operaciones#operaciones#operaciones .oc .oi{contain:layout paint}
+html body #operaciones#operaciones#operaciones .oc .oi img{will-change:auto;backface-visibility:visible}
