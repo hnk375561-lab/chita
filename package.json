@@ -12,7 +12,10 @@
     "rebrand": "node scripts/rebrand.mjs",
     "check:all": "node scripts/check-all.mjs",
     "check:mobile": "node scripts/check-all.mjs --mobile",
-    "check:desktop": "node scripts/check-all.mjs --desktop"
+    "check:desktop": "node scripts/check-all.mjs --desktop",
+    "debug:anchors": "node scripts/debug-anchors.mjs",
+    "check:safari": "node scripts/check-all.mjs --webkit",
+    "check:devices": "node scripts/check-all.mjs --all-devices"
   },
   "devDependencies": {
     "sharp": "^0.33.5",
