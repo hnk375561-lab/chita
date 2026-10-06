@@ -1,6 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /golive/
-Disallow: /data/
-Disallow: /scripts/
 Sitemap: https://hnk375561-lab.github.io/chita/sitemap.xml
