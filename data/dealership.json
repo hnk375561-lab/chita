@@ -2,7 +2,7 @@
   "publicacion": {
     "status": "official",
     "official": true,
-    "publicIndexing": true
+    "publicIndexing": false
   },
   "identity": {
     "tradeName": "Chita Automotores",

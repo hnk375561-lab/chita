@@ -12,7 +12,7 @@ if (d.identity.cuit !== null) errors.push('CUIT debe ser null hasta confirmació
 if (d.hours.display && d.hours.status === 'not-found') errors.push('hours.display cargado pero status sigue en not-found');
 for (const page of ['index.html', 'privacidad.html', 'reserva.html']) {
   const h = fs.readFileSync(path.join(root, page), 'utf8');
-  if (/noindex/.test(h)) errors.push(`${page}: no debe tener noindex`);
+  if (d.publicacion.publicIndexing === false ? !/noindex/.test(h) : /noindex/.test(h)) errors.push(`${page}: ${d.publicacion.publicIndexing === false ? 'debe tener noindex (demo temporal, publicIndexing=false)' : 'no debe tener noindex'}`);
   if (/\b(demo|propuesta|prototipo|preview)\b/i.test(h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|max-image-preview/g, ''))) errors.push(`${page}: lenguaje de demo/propuesta`);
 }
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
@@ -84,6 +84,7 @@ for (const page of ['404.html', 'privacidad.html']) {
   if (!h.includes(`tel:${d.contact.phoneTel}`) && page === 'privacidad.html') errors.push(`${page}: teléfono no coincide con dealership.json`);
 }
 if (!/<base href="https:\/\/[^"]+\/">/.test(fs.readFileSync(path.join(root, '404.html'), 'utf8'))) errors.push('404.html: falta <base href> absoluto');
-if (/Disallow:\s*\/\s*$/m.test(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8'))) errors.push('robots.txt bloquea todo el sitio');
+const robotsBlocks = /Disallow:\s*\/\s*$/m.test(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8'));
+if (d.publicacion.publicIndexing === false ? !robotsBlocks : robotsBlocks) errors.push(d.publicacion.publicIndexing === false ? 'robots.txt debe tener Disallow: / (demo temporal, publicIndexing=false)' : 'robots.txt bloquea todo el sitio');
 if (errors.length) { console.error(errors.map((e) => 'ERROR: ' + e).join('\n')); process.exit(1); }
 console.log('Datos de Chita válidos y consistentes con index.html.');
