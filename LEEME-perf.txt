@@ -1,0 +1,15 @@
+CHITA · cambios de rendimiento en "Unidades" y "Mirá el salón y el depósito"
+
+Copiar cada archivo en la MISMA ruta del repo (reemplazar / agregar):
+  index.html            link a css/chita-perf.css + buscador con espera de 140 ms
+  css/chita-perf.css    NUEVO · esquina cortada de los videos sin clip-path (triángulo del color del fondo)
+  js/clips.js           el video arranca solo si se queda ~350 ms a la vista; se pausa al ocultar la pestaña
+  js/identidad.js       el rótulo "UNIDADES" (abajo a la izquierda) ya no mide todas las secciones en cada frame de scroll
+  js/motion.js          se quitó UNA línea: la animación de entrada que movía todo el contenedor de Unidades al llegar
+
+NO medido en un navegador (no tenía uno). Verificar:
+  1) Los videos: que la esquina superior derecha se vea igual que antes (corte diagonal).
+  2) Que el rótulo de abajo a la izquierda cambie de sección al scrollear y el menú marque la sección.
+  3) Chrome DevTools > Performance: grabar al llegar a Unidades y comparar antes/después.
+
+Volver atrás: restaurar los archivos desde git.

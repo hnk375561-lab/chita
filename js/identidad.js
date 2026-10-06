@@ -1,16 +1,30 @@
-/* CHITA · v12: «Comparar» y «Dónde estamos» también se marcan en Modelos y Local. Rótulo de sección actual (la barra lateral de avance se eliminó) (transform only, 1 listener pasivo). */
+/* CHITA · rótulo de sección actual + menú marcado.
+   PERF: antes corría en CADA frame de scroll (getBoundingClientRect de todas las secciones + recorrer el menú).
+   Ahora un IntersectionObserver avisa solo cuando cambia la sección que cruza la línea del 40 % de la pantalla. */
 (function(){
 var S=[].slice.call(document.querySelectorAll("main>section[id]"));if(!S.length)return;
 var N={entregas:"Entregas",unidades:"Unidades","catalogo-comparador":"Modelos",contacto:"Dónde estamos",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
+var AL={entregas:"unidades","catalogo-comparador":"unidades",financiacion:"como-comprar",guia:"como-comprar",visita:"contacto",opiniones:"contacto",local:"contacto"};
 var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<b hidden></b>";document.body.appendChild(c);
-var lab=c.firstChild,raf=0,cur="";
-function upd(){raf=0;var d=document.documentElement,m=d.scrollHeight-innerHeight;
- var y=innerHeight*.4,k=-1;for(var i=0;i<S.length;i++){var r=S[i].getBoundingClientRect();if(r.top<=y&&r.bottom>y){k=i;break}}
- if(k<0){lab.hidden=true;cur="";return}
- var id=S[k].id;if(id!==cur){cur=id;lab.hidden=false;lab.textContent=N[id]||id}
- var a=document.querySelectorAll("header nav a");for(var j=0;j<a.length;j++){var al={entregas:"unidades","catalogo-comparador":"unidades",financiacion:"como-comprar",guia:"como-comprar",visita:"contacto",opiniones:"contacto",local:"contacto"},on=a[j].getAttribute("href")==="#"+id||a[j].getAttribute("href")==="#"+al[id];a[j].classList.toggle("on",on);if(on&&a[j].closest("nav").scrollWidth>a[j].closest("nav").clientWidth+4){var n=a[j].closest("nav");n.scrollTo({left:a[j].offsetLeft-n.clientWidth/2+a[j].offsetWidth/2,behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}}}
-function q(){if(!raf)raf=requestAnimationFrame(upd)}
-addEventListener("scroll",q,{passive:true});addEventListener("resize",q);addEventListener("load",q);upd();
+var lab=c.firstChild,cur="",links=[].slice.call(document.querySelectorAll("header nav a")),RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function show(id){
+ if(id===cur)return;cur=id;
+ if(!id){lab.hidden=true;return}
+ lab.hidden=false;lab.textContent=N[id]||id;
+ for(var j=0;j<links.length;j++){
+  var a=links[j],h=a.getAttribute("href"),on=h==="#"+id||(!!AL[id]&&h==="#"+AL[id]);
+  a.classList.toggle("on",on);
+  if(on){var n=a.closest("nav");if(n&&n.scrollWidth>n.clientWidth+4)n.scrollTo({left:a.offsetLeft-n.clientWidth/2+a.offsetWidth/2,behavior:RM?"auto":"smooth"})}
+ }
+}
+if(!("IntersectionObserver" in window))return;
+var live={};
+var io=new IntersectionObserver(function(es){
+ es.forEach(function(e){if(e.isIntersecting)live[e.target.id]=1;else delete live[e.target.id]});
+ var id="";for(var i=0;i<S.length;i++){if(live[S[i].id]){id=S[i].id;break}}
+ show(id);
+},{rootMargin:"-40% 0px -59% 0px",threshold:0});
+S.forEach(function(s){io.observe(s)});
 })();
 /* CHITA · Reel del hero (v58): arranca apenas pinta el poster (no espera a "load"), elige versión HD o liviana según la conexión,
    pausa fuera de pantalla o con la pestaña oculta, y el botón de sonido refleja el estado real del video (volumechange / waiting / error). */

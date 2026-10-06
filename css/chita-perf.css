@@ -1,0 +1,18 @@
+/* CHITA · chita-perf.css — cargar DESPUÉS de chita-v59.css.
+   Solo toca "Unidades" y "Mirá el salón y el depósito". Mismo diseño, menos trabajo para el navegador. */
+
+/* 1 · Videos del salón: la esquina cortada se dibuja con un triángulo del color del fondo en vez de clip-path.
+   Con clip-path, el navegador pasa cada frame del video por una máscara; con el triángulo, el video va directo a la GPU.
+   (Solo dentro de #unidades, donde el fondo es liso: var(--paper).) */
+html body #unidades .clip{clip-path:none}
+html body #unidades .clip::after{content:"";position:absolute;top:0;right:0;width:var(--c,26px);height:var(--c,26px);background:linear-gradient(to bottom left,var(--paper,#f4f7f9) 50%,transparent 50%);z-index:5;pointer-events:none}
+
+/* 2 · El video y su caja no repintan nada de afuera */
+html body #unidades .clip-v{contain:layout paint;transform:translateZ(0)}
+html body #unidades .clip-v video{will-change:auto}
+
+/* 3 · Fotos fijas del local (sin hover que escale dentro de un clip-path en pantallas táctiles) */
+@media(hover:none){html body #unidades .cph:hover img{transform:none}}
+
+/* 4 · Si el usuario pide menos movimiento, sin transiciones en las fotos del local */
+@media(prefers-reduced-motion:reduce){html body #unidades .cph img{transition:none}}

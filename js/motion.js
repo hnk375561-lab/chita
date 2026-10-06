@@ -593,7 +593,7 @@ function initSectionEntrances({ desktop }) {
   const k = desktop ? 1 : .55;
   const ctx = gsap.context(() => {});
   const recipes = {
-    unidades:(s,i)=>gsap.fromTo(i,{y:48*k},{y:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 62%")}),
+    unidades:()=>{} /* PERF: sin transform scrubbeado sobre todo el contenedor de Unidades (era una capa gigante moviéndose al llegar) */,
     modelos:(s,i)=>gsap.fromTo(i,{x:-90*k,clipPath:"inset(0 100% 0 0)"},{x:0,clipPath:"inset(0 0% 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 42%")}),
     versus:(s,i)=>gsap.fromTo(i,{scale:.82,rotateY:desktop?-12:0,opacity:.2,transformPerspective:1400},{scale:1,rotateY:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 32%")}),
     trayectoria:(s,i)=>gsap.fromTo(i,{x:80*k,opacity:.25},{x:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 95%","top 40%")}),

@@ -46,6 +46,7 @@
 <link rel="stylesheet" href="css/chita-v57.css">
 <link rel="stylesheet" href="css/chita-v58.css">
 <link rel="stylesheet" href="css/chita-v59.css">
+<link rel="stylesheet" href="css/chita-perf.css">
 </head>
 <body>
 <a class="skip" href="#unidades">Saltar al contenido</a>
@@ -217,7 +218,7 @@ function ap(an){var t=nz(q.value.trim()),m=model(),o=$("fo").value,gr=$("stockGr
 $("fm").addEventListener("click",function(e){var b=e.target.closest("[data-model]");if(!b)return;$("fm").setAttribute("data-model",b.getAttribute("data-model"));[].forEach.call($("fm").children,function(x){var on=x===b;x.classList.toggle("on",on);x.setAttribute("aria-pressed",String(on))});ap(true)});
 $("fo").addEventListener("change",function(){ap(true)});
 $("fc").addEventListener("click",function(){$("fm").setAttribute("data-model","");[].forEach.call($("fm").children,function(x,i){var on=i===0;x.classList.toggle("on",on);x.setAttribute("aria-pressed",String(on))});$("fo").value="";q.value="";q.dispatchEvent(new Event("input"))});
-q.addEventListener("input",function(){ap()});
+var qT=0;q.addEventListener("input",function(){clearTimeout(qT);qT=setTimeout(ap,140)});
 ap();
 /* Comparador de hasta 5 · v53 · todo sale de STOCK (cero datos inventados): año, km, combustible, nota, fotos y lo derivado de ellos */
 var EQ=[["aire","Aire acondicionado","Aire"],["cierre","Cierre centralizado","Cierre"],["levantavidrios","Levantavidrios","Levantavid."],["espejos","Espejos eléctricos","Espejos"],["direcci","Dirección","Dirección"],["airbag","Airbag","Airbag"],["abs","ABS","ABS"],["llantas","Llantas de aleación","Llantas"],["antinieblas","Antinieblas","Antinieblas"]];
