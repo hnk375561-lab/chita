@@ -2,6 +2,11 @@
 
 /* 1) Mapa: el cartel «1712» es una capa fija sobre el mapa; nunca recibe gestos ni se desplaza. */
 html body #contacto .mp .mpp{pointer-events:none!important;user-select:none;-webkit-user-select:none;will-change:auto}
+/* El mapa queda quieto: no se arrastra ni se hace zoom con la rueda, así el cartel siempre marca el lugar exacto. */
+html body #contacto .mp iframe,html body #contacto .mp.on iframe{pointer-events:none!important}
+html body #contacto .mp,html body #contacto .mp:hover{cursor:default}
+html body #contacto .mp .mph{display:none!important}
+@media(min-width:900px){html body #contacto#contacto .mp .mp-fallback{display:none!important}}
 
 /* 2) Cómo comprar: el reel y un bloque de marca debajo, quietos juntos al hacer scroll. */
 html body #como-comprar .cc2-side{display:grid;gap:14px;align-content:start;width:min(300px,100%);min-width:0}
@@ -22,8 +27,8 @@ html body #financiacion#financiacion#financiacion .pdl{
   -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 
 /* 4) Talón de condiciones centrado. */
-html body #financiacion .pdr{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-html body #financiacion .pdr .fin-ticket{width:min(760px,100%);margin-left:auto!important;margin-right:auto!important}
+html body #financiacion#financiacion#financiacion .w>.pdr{grid-column:1/-1!important;justify-self:center;width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;padding-left:0!important;padding-right:0!important;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+html body #financiacion#financiacion .pdr .fin-ticket{width:min(760px,100%);margin-left:auto!important;margin-right:auto!important}
 
 /* 6) Agendá tu visita: cabecera roja translúcida (no choca con el fondo azul). */
 html body #visita#visita#visita .vx-head{
@@ -31,11 +36,12 @@ html body #visita#visita#visita .vx-head{
   -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 html body #visita#visita#visita .vx-head::before{background:#fff}
 
-/* 7) Visita: logo de Chita debajo de «Tu visita». */
-html body #visita#visita#visita .vx-brand{display:grid;place-items:center;padding:8px 0 0}
+/* 7) Visita: «Tu visita» y el logo viajan juntos en una sola columna fija (no se pisan). */
+html body #visita#visita#visita .vx-right{display:grid;gap:18px;min-width:0}
+html body #visita#visita#visita .vx-right .vx-sum{position:static!important;top:auto!important;grid-column:auto!important;grid-row:auto!important}
+html body #visita#visita#visita .vx-brand{display:grid;place-items:center;padding:4px 0 0}
 html body #visita#visita#visita .vx-brand img{display:block;width:min(180px,56vw);height:auto;aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 8px 14px rgba(10,16,32,.28))}
 @media(min-width:780px){
-  html body #visita#visita#visita .vx-s2{grid-row:2/4}
-  html body #visita#visita#visita .vx-brand{grid-column:2;grid-row:3;align-self:center;padding:0}
-  html body #visita#visita#visita .vx-brand img{width:min(240px,100%)}
+  html body #visita#visita#visita .vx-right{grid-column:2;grid-row:2;position:sticky;top:92px;align-self:start}
+  html body #visita#visita#visita .vx-brand img{width:min(220px,100%)}
 }

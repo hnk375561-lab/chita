@@ -18,32 +18,32 @@ main>section>.w,main>section>.ops,main>section>.fm,main>section>.bqp,main>.hero>
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}.mh header .w>*,.mh .hero :is(.hx-logo,.hx-h1,.hx-lead,.hx-go,.hx-info){visibility:visible}main>.hero,main>section{background-attachment:scroll!important}}
 
 /* Secciones en color sólido (sin foto de fondo). El resto de las secciones lleva foto desde js/motion.js. */
-#unidades,#trayectoria,#como-comprar,#operaciones,#equipo,#preguntas{background:#f3f5f6!important;background-image:none!important;color:var(--ink)}
-#local{background:#06111a!important;background-image:none!important;color:#fff}
+#unidades,#trayectoria,#como-comprar,#operaciones,#equipo,#preguntas{background:#ecedea!important;background-image:none!important;color:var(--ink)}
+
 
 /* ═════════════ v11 · hero, tarjetas, modelos, comparador y «Quiénes somos» ═════════════
    Va al final a propósito: corrige capas anteriores sin tocar el resto. */
 
 /* — HERO: ambiente con la foto de la unidad, foto SIEMPRE entera y datos en celdas — */
-main>.hero.hx>.hx-bg{position:absolute!important;inset:0;z-index:0!important;overflow:hidden;background:#06111a;pointer-events:none}
+main>.hero.hx>.hx-bg{position:absolute!important;inset:0;z-index:0!important;overflow:hidden;background:#0a1020;pointer-events:none}
 .hx-bg i{position:absolute;inset:-70px;background-size:cover;background-position:50% 50%;filter:blur(48px) saturate(1.2) brightness(.5);opacity:0;transition:opacity .9s ease}
 .hx-bg i.on{opacity:1}
-.hx-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,17,26,.9),rgba(6,17,26,.5) 48%,rgba(6,17,26,.3)),linear-gradient(0deg,rgba(6,17,26,.75),rgba(6,17,26,0) 38%)}
+.hx-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,32,.9),rgba(10,16,32,.5) 48%,rgba(10,16,32,.3)),linear-gradient(0deg,rgba(10,16,32,.75),rgba(10,16,32,0) 38%)}
 .hx .hx-copy{background:transparent!important}
-.hx .hx-photo{background:#0a1824;box-shadow:0 40px 90px -30px rgba(0,0,0,.95),0 0 0 1px rgba(143,211,228,.28);outline:1px solid rgba(143,211,228,.2);outline-offset:10px}
+.hx .hx-photo{background:#0a1020;box-shadow:0 40px 90px -30px rgba(0,0,0,.95),0 0 0 1px rgba(185,190,196,.28);outline:1px solid rgba(185,190,196,.2);outline-offset:10px}
 .hx .hx-s::before{content:"";position:absolute;inset:-30px;background:var(--bg) 50% 50%/cover no-repeat;filter:blur(26px) brightness(.65)}
 .hx .hx-s img{position:relative;object-fit:contain!important;object-position:50% 50%}
 .hx .hx-meta:has(+.hx-spec){position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0)}
 .hx .hx-spec{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.35fr) minmax(0,1.05fr);gap:1px;margin:22px 0 0;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16)}
-.hx .hx-spec div{padding:14px 16px;background:rgba(6,17,26,.66);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.hx .hx-spec dt{font-size:13px;color:#8fd3e4;letter-spacing:.06em!important}
+.hx .hx-spec div{padding:14px 16px;background:rgba(10,16,32,.66);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.hx .hx-spec dt{font-size:13px;color:#b9bec4;letter-spacing:.06em!important}
 .hx .hx-spec dd{margin:6px 0 0;font-size:clamp(18px,1.55vw,24px);line-height:1.05;color:#fff;white-space:nowrap}
-.hx .hx-foot{margin:auto 0 0;padding-top:26px;max-width:38ch;font-size:14.5px;line-height:1.5;color:#8fa9b6}
+.hx .hx-foot{margin:auto 0 0;padding-top:26px;max-width:38ch;font-size:14.5px;line-height:1.5;color:#b9bec4}
 .hx .hx-t{width:64px;height:80px}
 .hx .hx-act{margin-top:24px}
 
 /* — TARJETAS: fotos quietas, sin recortes de entrada ni zoom — */
-#unidades .car .im{clip-path:none!important;contain:layout paint;background:#0a1824}
+#unidades .car .im{clip-path:none!important;contain:layout paint;background:#0a1020}
 #unidades .ct,#unidades .ct img{transform:none!important;scale:none!important;rotate:none!important;backface-visibility:hidden}
 #unidades .car{contain:layout style}
 
@@ -61,7 +61,7 @@ main>.hero.hx>.hx-bg{position:absolute!important;inset:0;z-index:0!important;ove
 .mdp{overflow:hidden}
 .mdp .mdk{position:absolute;inset:-40px;z-index:0;background-size:cover;background-position:50% 50%;filter:blur(36px) brightness(.55)}
 .mdp>img{z-index:1;object-fit:contain!important;object-position:80% 50%!important;background:transparent!important}
-.mdp::before{z-index:2;background:linear-gradient(90deg,rgba(6,17,26,.72),rgba(6,17,26,0) 46%),linear-gradient(0deg,rgba(6,17,26,.8),rgba(6,17,26,0) 34%)}
+.mdp::before{z-index:2;background:linear-gradient(90deg,rgba(10,16,32,.72),rgba(10,16,32,0) 46%),linear-gradient(0deg,rgba(10,16,32,.8),rgba(10,16,32,0) 34%)}
 .mdp .mdth,.mdp .mdpt{z-index:4}
 @media(max-width:1099px) and (min-width:900px){.modelos-panel .mdp>img{object-position:50% 50%!important}.modelos-panel .mdpt{max-width:none;right:32px}}
 
@@ -71,10 +71,4 @@ main>.hero.hx>.hx-bg{position:absolute!important;inset:0;z-index:0!important;ove
 #versus .vdi{contain:paint}
 
 /* — QUIÉNES SOMOS: el texto y la foto miden exactamente lo mismo (arriba con arriba, botón con borde inferior) — */
-@media(min-width:860px){
-  #nosotros .w{align-items:stretch!important}
-  #nosotros .ph{align-self:stretch!important;aspect-ratio:auto!important;height:auto!important;min-height:0;position:relative;outline:0}
-  #nosotros .ph img{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 50%}
-  #nosotros .w>div:not(.ph):not(.ci){align-self:stretch!important;justify-content:space-between}
-  #nosotros .w>div:not(.ph):not(.ci)>.ey{margin-top:0}
-}
+
