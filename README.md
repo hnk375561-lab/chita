@@ -11,7 +11,7 @@ Sitio oficial de Chita Automotores, Concepción del Uruguay. Sitio estático (HT
 - **Nuestros modelos** (`#modelos`): lista y panel de vista previa generados desde `STOCK` (sin datos propios; al sumar una unidad aparece sola). Con mouse, el panel grande cambia al pasar sobre cada modelo y tiene miniaturas de hasta 5 fotos; en celular/tablet cada fila muestra su miniatura y abre la ficha. Clases con prefijo `md`.
 - **Comparador** (`#versus`): ficha comparativa de hasta 3 unidades (2 en celular) con barras de año y kilómetros y filas de equipamiento según el texto de cada publicación («No informado» no significa que falte). Clases con prefijo `vs`/`vb`/`vck`.
 - **Local** (`#local`): panel «Llegá en un toque» (Google Maps, Waze, copiar dirección, compartir por WhatsApp); usa solo la dirección y coordenadas ya confirmadas. Clases con prefijo `rq`.
-- `privacidad.html`: política de privacidad preliminar, aviso sobre la información de las unidades y aviso de demo.
+- `privacidad.html`: política de privacidad preliminar, y aviso sobre la información de las unidades.
 - `fonts/`: tipografías autoalojadas (`.woff2`, subconjunto latino; solo las 3 familias que usa el CSS: DM Serif Display, Instrument Sans y Bricolage Grotesque; ver `@font-face` en `css/`). No hay pedidos a Google Fonts. `site.webmanifest`: nombre e íconos del sitio.
 - `404.html`: página de error (usa `<base href>` absoluto porque GitHub Pages la sirve desde cualquier ruta).
 - `robots.txt`, `og-chita.png` (imagen para compartir), `images/<unidad>-N.webp` (la primera foto es la portada). Cada foto de unidad tiene dos variantes para `srcset`: `<unidad>-N-480.webp` y `<unidad>-N-800.webp` (mismo nombre, ancho 480 y 800 px); al sumar una foto hay que generar las dos.
@@ -25,4 +25,4 @@ Sitio oficial de Chita Automotores, Concepción del Uruguay. Sitio estático (HT
 GitHub > Settings > Pages > Deploy from a branch > main / (root). URL esperada: https://hnk375561-lab.github.io/chita/
 
 ## Estado
-Publicado: indexable, con `sitemap.xml`, JSON-LD y metadatos sociales (`og-chita.png`).
+Demo temporal en github.io: **no indexable** (`noindex, nofollow` en las páginas y `Disallow: /` en `robots.txt`) mientras `publicacion.publicIndexing` sea `false` en `data/dealership.json`. `sitemap.xml` y metadatos sociales (`og-chita.png`) presentes; el JSON-LD (`golive/json-ld-autodealer.html`) está preparado y sin activar. Ver regla 5 de `CLAUDE.md`.

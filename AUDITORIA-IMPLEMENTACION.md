@@ -1,4 +1,4 @@
-# Estado de la auditoría (actualizado el 3/10/2026)
+# Estado de la auditoría (actualizado el 3/10/2026; notas de pendientes revisadas el 6/10/2026)
 
 Medido con Chromium headless (móvil 390 px, escritorio 1440 px, y anchos de 320, 768 y 1024 px) sobre el sitio servido en local. No reemplaza una prueba en dispositivos reales ni Lighthouse.
 
@@ -39,6 +39,6 @@ Lo tiene que confirmar el dueño; no se inventa. Ver `golive/PRODUCCION.md`:
 ## Pendiente (código, opcional)
 
 - `!important` restantes (93 en `site.css`) y namespacing de clases cortas.
-- `images/`: 9 variantes `-480`/`-800` del local y de «equipo» son placeholders («FOTO A CARGAR»). Ninguna se usa. Regenerar con `scripts/make-images.mjs` o borrar.
-- 72 `<img>` conservan `src="assets/N.jpg"` como respaldo; migrar exige pasar `STOCK` a WebP.
+- `images/`: hay ~125 archivos que ninguna página publicada usa (variantes del local y de «equipo», `up-*`, `punto-*`, `bg/int-*`, `showroom/`…). `scripts/build-site.mjs` ya los deja fuera de `_site/` (T16, conserva todo lo que algún HTML/CSS/JS publicado mencione); en el repo siguen presentes y `npm test` los lista como «imagen de reserva sin usar». Borrarlos del repo es decisión del dueño.
+- Decenas de `<img>` (63 en el HTML fuente al 6/10/2026) conservan `src="assets/N.jpg"` como respaldo; migrar exige pasar `STOCK` a WebP.
 - Salida a producción: quitar `noindex`, completar JSON-LD y sitemap (checklist en `golive/PRODUCCION.md`).

@@ -296,7 +296,7 @@ function vr(){vpk();
   var p1='<dl class="c5-pr"><div><dt>Motor</dt>'+dd(e?e.d+(e.t?"<i>"+e.t+"</i>":""):"")+'</div><div><dt>Combustible</dt>'+dd(c.combustible?esc(c.combustible):"")+'</div></dl>',
   p2='<dl class="c5-pr"><div><dt>Carrocería</dt>'+dd(fo?esc(fo):"")+'</div><div><dt>Antigüedad</dt>'+dd(a?a+(a===1?" año":" años"):"")+'</div></dl>',
   p3='<dl class="c5-pr"><div><dt>Fotos</dt><dd>'+n+(n===1?" foto":" fotos")+'</dd></div><div><dt>Estado</dt><dd class="dot '+(st?st[1]:"")+'">'+(st?st[0]:"Consultar")+'</dd></div></dl>';
-  var eq='<div class="c5-eq"><p class="c5-eqt"><span>Equipamiento</span><b>'+eqy.length+'<i>/'+EQ.length+'</i></b></p><ul>'+EQ.map(function(q){var y=has(c,q);return'<li class="'+(y?"y":"n")+'" title="'+q[1]+'"><i aria-hidden="true">'+(y?"✓":"?")+'</i>'+q[2]+'<span class="c5-sr"> '+q[1]+(y?": confirmado":": preguntar")+'</span></li>'}).join("")+'</ul></div>';
+  var eq=!eqy.length?'':'<div class="c5-eq"><p class="c5-eqt"><span>Equipamiento</span><b>'+eqy.length+'<i>/'+EQ.length+'</i></b></p><ul>'+EQ.map(function(q){var y=has(c,q);return'<li class="'+(y?"y":"n")+'" title="'+q[1]+'"><i aria-hidden="true">'+(y?"✓":"?")+'</i>'+q[2]+'<span class="c5-sr"> '+q[1]+(y?": confirmado":": preguntar")+'</span></li>'}).join("")+'</ul></div>';
   var ac='<div class="c5-act"><a class="btn p" href="'+wl(c)+'">Consultar esta unidad</a><a class="btn" href="#unidad-'+sg(c)+'">Ver ficha completa</a></div>';
   return'<article class="c5-card'+(isNew?" nw":"")+'" style="--i:'+i+'" data-c="'+i+'" data-t="'+esc(c.titulo)+'">'+ph+th+hd+mA+mK+mP+p1+p2+p3+eq+ac+'</article>'}).join("");
  u.forEach(function(c,i){seen[ids[i]]=1});

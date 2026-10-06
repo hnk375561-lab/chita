@@ -29,6 +29,30 @@ for (const unused of ['js/nosotros.js', 'video/recorrido.mp4', 'images/cartel-ch
 }
 
 
+// T16 · No publicar imágenes de images/ que ningún archivo público referencia (solo en _site; el repo no se toca).
+// Criterio conservador: se conserva si el nombre sin extensión ni sufijo (-480, -800, -bk) aparece en el texto de
+// cualquier HTML, CSS, JS propio o webmanifest publicado. Ante la duda, se conserva.
+{
+  const textFiles = [];
+  const walk = (dir) => { for (const e of fs.readdirSync(dir, { withFileTypes: true })) { const f = path.join(dir, e.name); if (e.isDirectory()) { if (e.name !== 'vendor') walk(f); } else if (/\.(html|css|js|webmanifest)$/.test(e.name)) textFiles.push(f); } };
+  for (const d of ['css', 'js']) walk(path.join(out, d));
+  for (const f of FILES) if (/\.(html|webmanifest)$/.test(f)) textFiles.push(path.join(out, f));
+  const corpus = textFiles.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
+  const stemOf = (name) => name.replace(/\.[a-z0-9]+$/i, '').replace(/-(480|800|bk)$/, '');
+  let removed = 0, bytes = 0;
+  const sweep = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const f = path.join(dir, e.name);
+      if (e.isDirectory()) { sweep(f); if (!fs.readdirSync(f).length) fs.rmdirSync(f); continue; }
+      if (corpus.includes(stemOf(e.name))) continue;
+      bytes += fs.statSync(f).size; removed++; fs.rmSync(f);
+    }
+  };
+  sweep(path.join(out, 'images'));
+  console.log('images/: quitadas de _site', removed, 'sin referencias (' + (bytes / 1048576).toFixed(1) + ' MB)');
+}
+
+
 // ── T2 · Rendimiento (solo en _site; el código fuente queda igual) ─────────────────────────────
 const ESBUILD = ['--yes', 'esbuild@0.28.2'];
 const esb = (args, input) => execFileSync('npx', [...ESBUILD, ...args], { input, maxBuffer: 64 * 1024 * 1024 }).toString();
