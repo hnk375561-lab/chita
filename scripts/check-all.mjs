@@ -5,14 +5,17 @@
 //
 // Opciones:  --desktop | --mobile  (solo un tamaño)   --no-external (no prueba sitios externos por red)
 //            --headed (muestra el navegador)          --slow (más espera por click, para PCs lentas)
+//            --webkit (motor de Safari: requiere  npx playwright install webkit)
+//            --all-devices (suma iPhone SE 320px, Android 360px y tablet 820px)
+//            --url=https://tu-sitio.com  (prueba el sitio YA PUBLICADO en vez del local)
 // Resultado: resumen en pantalla + check-report/reporte.json + capturas de cada falla en check-report/
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-let chromium;
-try { ({ chromium } = await import('playwright')); }
+let chromium, webkit;
+try { ({ chromium, webkit } = await import('playwright')); }
 catch { console.error('\nFalta Playwright. Corré primero:\n   npm install\n   npx playwright install chromium\n'); process.exit(2); }
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -24,7 +27,7 @@ const EXPECT = {
   maps: [D.location.mapsPlaceUrl, D.location.mapsReviewsUrl].filter(Boolean),
   instagram: D.contact.instagram, facebook: D.contact.facebook,
 };
-const PAGES = ['index.html', 'reserva.html', 'privacidad.html'].filter((f) => fs.existsSync(path.join(root, f)));
+const PAGES = ['index.html', 'reserva.html', 'viaje.html', 'privacidad.html'].filter((f) => fs.existsSync(path.join(root, f)));
 const outDir = path.join(root, 'check-report');
 fs.rmSync(outDir, { recursive: true, force: true }); fs.mkdirSync(outDir, { recursive: true });
 const slow = args.has('--slow') ? 2 : 1;
@@ -42,7 +45,10 @@ const server = http.createServer((req, res) => {
   fs.createReadStream(file).pipe(res);
 });
 await new Promise((r) => server.listen(0, '127.0.0.1', r));
-const BASE = `http://127.0.0.1:${server.address().port}`;
+const urlArg = process.argv.find((a) => a.startsWith('--url='));
+const REMOTE = urlArg ? urlArg.slice(6).replace(/\/+$/, '') : null;
+const BASE = REMOTE || `http://127.0.0.1:${server.address().port}`;
+const BASE_HOST = new URL(BASE).hostname;
 
 /* ───────── registro de resultados ───────── */
 const results = []; let shotN = 0;
@@ -76,7 +82,7 @@ async function validateHref(vp, page, a) {
 /* ───────── prueba de una página en un viewport ───────── */
 async function testPage(browser, vp, vpOpts, page) {
   const context = await browser.newContext(vpOpts); const isMobile = !!vpOpts.isMobile;
-  await context.route((u) => !['127.0.0.1', 'localhost'].includes(u.hostname), (r) => r.fulfill({ status: 200, contentType: 'text/html', body: '<title>externo</title>ok' }));
+  await context.route((u) => ![BASE_HOST, 'localhost'].includes(u.hostname), (r) => r.fulfill({ status: 200, contentType: 'text/html', body: '<title>externo</title>ok' }));
   const pg = await context.newPage(); const errs = [], bad = [];
   /* los clicks a sitios externos se registran (href final tras los handlers del sitio) y se frenan: no hace falta salir y volver a cargar */
   await pg.addInitScript(() => { window.__ext = null; window.addEventListener('click', (e) => { const a = e.target.closest && e.target.closest('a[href]'); if (a && a.origin !== location.origin && !/^(tel|mailto):/.test(a.protocol)) { window.__ext = a.href; e.preventDefault(); } }); });
@@ -97,6 +103,10 @@ async function testPage(browser, vp, vpOpts, page) {
   broken.length ? await fail(pg, vp, page, 'imágenes', `${broken.length} imagen(es) rotas: ${broken.slice(0, 4).join(', ')}`) : ok(vp, page, 'imágenes', 'sin imágenes rotas');
   const overflow = await pg.evaluate(() => document.documentElement.scrollWidth - innerWidth);
   overflow > 2 ? await fail(pg, vp, page, 'diseño', `scroll horizontal indeseado (+${overflow}px)`) : ok(vp, page, 'diseño', 'sin scroll horizontal');
+  if (isMobile) {
+    const tiny = await pg.evaluate(() => [...document.querySelectorAll('button, .btn, [role="button"], header a')].filter((e) => { const r = e.getBoundingClientRect(), cs = getComputedStyle(e); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none' && (r.width < 32 || r.height < 32); }).map((e) => (e.innerText || e.getAttribute('aria-label') || e.className || e.tagName).toString().replace(/\s+/g, ' ').trim().slice(0, 30)));
+    tiny.length ? warn(vp, page, 'táctil', `${tiny.length} botón(es)/enlace(s) de menos de 32px, difíciles de tocar con el dedo: ${[...new Set(tiny)].slice(0, 4).join(' | ')}`) : ok(vp, page, 'táctil', 'botones con tamaño cómodo para el dedo');
+  }
   bad.length ? await fail(pg, vp, page, 'recursos', `archivos que no cargan: ${[...new Set(bad)].slice(0, 5).join(' · ')}`) : ok(vp, page, 'recursos', 'todos los archivos locales cargan');
 
   tp('B');
@@ -136,8 +146,8 @@ async function testPage(browser, vp, vpOpts, page) {
         const viaLenis = await loc.evaluate((el) => { const L = window.chitaScroll && window.chitaScroll.lenis; if (!L) return false; L.scrollTo(el, { offset: -300, immediate: true, force: true }); return true; }).catch(() => false);
         if (viaLenis) await pg.waitForTimeout(500);
       }
-      let realClick = true;
-      const doClick = async () => { try { await loc.click({ timeout: 2500 }); } catch (e) { realClick = false; await loc.evaluate((el) => el.click()); } };
+      let realClick = true, coverBy = '';
+      const doClick = async () => { try { await loc.click({ timeout: 2500 }); } catch (e) { realClick = false; coverBy = await loc.evaluate((el) => { const r = el.getBoundingClientRect(); if (!r.width || !r.height) return 'el enlace no tiene tamaño'; const cx = Math.min(Math.max(r.left + r.width / 2, 0), innerWidth - 1), cy = Math.min(Math.max(r.top + r.height / 2, 0), innerHeight - 1); const t = document.elementFromPoint(cx, cy); if (!t) return 'fuera de pantalla'; if (el === t || el.contains(t) || t.contains(el)) return ''; return 'lo tapa <' + t.tagName.toLowerCase() + (t.id ? '#' + t.id : '') + (typeof t.className === 'string' && t.className.trim() ? '.' + t.className.trim().split(/\s+/).slice(0, 2).join('.') : '') + '>'; }).catch(() => ''); await loc.evaluate((el) => el.click()); } };
       if (isExternal) {
         await pg.evaluate(() => { window.__ext = null; }); await doClick(); await pg.waitForTimeout(150);
         const got = await pg.evaluate(() => window.__ext);
@@ -157,7 +167,7 @@ async function testPage(browser, vp, vpOpts, page) {
         okNav ? ok(vp, page, 'click', `«${label(l.text)}» → ${l.raw}`) : await fail(pg, vp, page, 'click', `«${label(l.text)}» terminó en ${pg.url().replace(BASE, '')} en vez de ${l.raw}`);
         await pg.goto(url, { waitUntil: 'load' }); await pg.waitForTimeout(1200 * slow);
       }
-      if (!realClick) warn(vp, page, 'click', `«${label(l.text)}» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona`);
+      if (!realClick) warn(vp, page, 'click', `«${label(l.text)}» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona${coverBy ? ' · ' + coverBy : ''}`);
       clicked++;
     } catch (e) { await fail(pg, vp, page, 'click', `«${label(l.text)}» error: ${String(e.message).split('\n')[0].slice(0, 110)}`); if (!pg.url().startsWith(BASE) || pg.isClosed()) { await pg.goto(url); await pg.waitForTimeout(1200 * slow); } }
   }
@@ -225,15 +235,49 @@ async function testPage(browser, vp, vpOpts, page) {
   await context.close();
 }
 
+
+/* ───────── chequeos estáticos (sin navegador): archivos, SEO básico, ids duplicados, JSON-LD, sitemap, manifest, fotos ───────── */
+function staticChecks() {
+  const V = 'estático', exists = (rel) => fs.existsSync(path.join(root, decodeURI(rel.split('?')[0].split('#')[0])));
+  const isLocal = (u) => u && !/^(https?:|\/\/|#|mailto:|tel:|data:|javascript:|blob:)/i.test(u);
+  for (const f of [...PAGES, '404.html'].filter((x) => fs.existsSync(path.join(root, x)))) {
+    const h = fs.readFileSync(path.join(root, f), 'utf8'), body = h.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<template[\s\S]*?<\/template>/gi, '');
+    /<html[^>]*\blang=/i.test(h) ? ok(V, f, 'seo', 'declara idioma (lang)') : warn(V, f, 'seo', 'falta lang en <html>');
+    /<title>[^<]{3,}<\/title>/i.test(h) ? ok(V, f, 'seo', 'tiene <title>') : log(V, f, 'seo', 'fail', 'falta el <title>');
+    f !== '404.html' && !/<meta[^>]+name=["']description["'][^>]+content=["'][^"']{20,}/i.test(h) ? warn(V, f, 'seo', 'falta meta description') : ok(V, f, 'seo', 'meta description ok');
+    /<meta[^>]+name=["']viewport["']/i.test(h) ? ok(V, f, 'móvil', 'tiene meta viewport') : log(V, f, 'móvil', 'fail', 'falta meta viewport (se vería mal en celular)');
+    const h1 = (body.match(/<h1[\s>]/gi) || []).length; h1 === 1 ? ok(V, f, 'seo', 'un solo <h1>') : warn(V, f, 'seo', `tiene ${h1} <h1> (debería ser 1)`);
+    const ids = [...body.matchAll(/\sid=["']([^"']+)["']/g)].map((m) => m[1]), dup = [...new Set(ids.filter((x, i) => ids.indexOf(x) !== i))];
+    dup.length ? warn(V, f, 'ids', `ids repetidos (rompen anclas y accesibilidad): ${dup.slice(0, 5).join(', ')}`) : ok(V, f, 'ids', 'sin ids duplicados');
+    const noAlt = (body.match(/<img\b(?![^>]*\balt=)[^>]*>/gi) || []).length; noAlt ? warn(V, f, 'accesibilidad', `${noAlt} imagen(es) sin atributo alt`) : ok(V, f, 'accesibilidad', 'todas las imágenes tienen alt');
+    let ldBad = 0; for (const m of h.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)) { try { JSON.parse(m[1]); } catch { ldBad++; } } ldBad ? log(V, f, 'seo', 'fail', `${ldBad} bloque(s) JSON-LD con JSON inválido`) : 0;
+    const refs = new Set(); for (const m of body.matchAll(/\s(?:src|href|poster)=["']([^"']+)["']/gi)) refs.add(m[1]); for (const m of body.matchAll(/\ssrcset=["']([^"']+)["']/gi)) m[1].split(',').forEach((x) => refs.add(x.trim().split(/\s+/)[0]));
+    const missing = [...refs].filter((u) => isLocal(u) && !u.startsWith('/') && !exists(u)); const missingAbs = [...refs].filter((u) => isLocal(u) && u.startsWith('/') && !u.startsWith('//') && !exists(u.slice(1)));
+    [...missing, ...missingAbs].length ? log(V, f, 'archivos', 'fail', `referencia(s) a archivos que no existen: ${[...missing, ...missingAbs].slice(0, 5).join(', ')}`) : ok(V, f, 'archivos', `${refs.size} referencias (src/href/srcset) apuntan a archivos reales`);
+  }
+  try { const sm = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8'); const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]); const bad = locs.filter((u) => { const pth = new URL(u).pathname; const base = pth.endsWith('/') ? 'index.html' : pth.split('/').pop(); return !fs.existsSync(path.join(root, base)); }); bad.length ? log(V, 'sitemap.xml', 'seo', 'fail', `URLs del sitemap sin archivo: ${bad.join(', ')}`) : ok(V, 'sitemap.xml', 'seo', `${locs.length} URLs del sitemap existen`); } catch { warn(V, 'sitemap.xml', 'seo', 'no se pudo leer sitemap.xml'); }
+  try { const mf = JSON.parse(fs.readFileSync(path.join(root, 'site.webmanifest'), 'utf8')); const bad = (mf.icons || []).map((i) => i.src).filter((u) => isLocal(u) && !exists(u.replace(/^\//, ''))); bad.length ? log(V, 'site.webmanifest', 'archivos', 'fail', `íconos del manifest que no existen: ${bad.join(', ')}`) : ok(V, 'site.webmanifest', 'archivos', 'íconos del manifest existen'); } catch { warn(V, 'site.webmanifest', 'archivos', 'no se pudo leer site.webmanifest'); }
+  try { const vj = JSON.parse(fs.readFileSync(path.join(root, 'data/vehicles.json'), 'utf8')); const files = []; (function walk(o) { if (typeof o === 'string') { if (/\.(webp|png|jpe?g|svg|mp4|webm)$/i.test(o) && isLocal(o)) files.push(o); } else if (o && typeof o === 'object') Object.values(o).forEach(walk); })(vj); const bad = [...new Set(files)].filter((u) => !exists(u)); bad.length ? log(V, 'vehicles.json', 'fotos', 'fail', `${bad.length} foto(s) de vehículos que no existen: ${bad.slice(0, 4).join(', ')}`) : ok(V, 'vehicles.json', 'fotos', `${new Set(files).size} fotos/archivos de vehículos existen`); } catch { warn(V, 'vehicles.json', 'fotos', 'no se pudo leer vehicles.json'); }
+}
+
 /* ───────── ejecución ───────── */
 const VIEWPORTS = [
   ['desktop', { viewport: { width: 1440, height: 900 } }],
   ['móvil', { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1' }],
 ].filter(([n]) => (args.has('--desktop') ? n === 'desktop' : args.has('--mobile') ? n === 'móvil' : true));
+if (args.has('--all-devices')) VIEWPORTS.push(
+  ['iphone-se', { viewport: { width: 320, height: 568 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1' }],
+  ['android', { viewport: { width: 360, height: 800 }, isMobile: true, hasTouch: true, deviceScaleFactor: 3, userAgent: 'Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36' }],
+  ['tablet', { viewport: { width: 820, height: 1180 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 }],
+);
 
 const launchOpts = { headless: !args.has('--headed') }; if (process.env.PW_CHROMIUM) launchOpts.executablePath = process.env.PW_CHROMIUM;
-const browser = await chromium.launch(launchOpts).catch((e) => { console.error('\nNo se pudo abrir el navegador. Corré:  npx playwright install chromium\n', e.message.split('\n')[0]); process.exit(2); });
-console.log(`\nCHITA · verificación total  (${PAGES.join(', ')} · ${VIEWPORTS.map((v) => v[0]).join(' + ')})\nServidor local: ${BASE}\n`);
+const engine = args.has('--webkit') ? webkit : chromium;
+if (args.has('--webkit')) delete launchOpts.executablePath;
+const browser = await engine.launch(launchOpts).catch((e) => { console.error('\nNo se pudo abrir el navegador. Corré:  npx playwright install ' + (args.has('--webkit') ? 'webkit' : 'chromium') + '\n', e.message.split('\n')[0]); process.exit(2); });
+console.log(`\nCHITA · verificación total  (${PAGES.join(', ')} · ${VIEWPORTS.map((v) => v[0]).join(' + ')})\n${REMOTE ? 'Sitio publicado' : 'Servidor local'}: ${BASE}${args.has('--webkit') ? '  ·  motor: WebKit (Safari)' : ''}\n`);
+staticChecks();
+console.log('  ▸ estático  archivos, SEO, ids, sitemap, manifest, fotos');
 for (const [vp, opts] of VIEWPORTS) for (const page of PAGES) { process.stdout.write(`  ▸ ${vp.padEnd(8)} ${page.padEnd(16)}`); const t = Date.now(); const before = results.length; try { await testPage(browser, vp, opts, page); } catch (e) { log(vp, page, 'interno', 'fail', 'el verificador se cortó: ' + String(e.message).split('\n')[0]); } const mine = results.slice(before); console.log(`${((Date.now() - t) / 1000).toFixed(0)}s · ${mine.filter((r) => r.status === 'ok').length} ok · ${mine.filter((r) => r.status === 'warn').length} avisos · ${mine.filter((r) => r.status === 'fail').length} fallas`); }
 { /* 404 real */
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } }); const r = await fetch(`${BASE}/esta-pagina-no-existe`); r.status === 404 ? ok('desktop', '404', 'carga', 'una URL inexistente muestra la página 404') : log('desktop', '404', 'carga', 'fail', 'una URL inexistente no da 404'); await ctx.close(); }
