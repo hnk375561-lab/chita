@@ -777,6 +777,8 @@ html body #financiacion .pdc .cup i:first-child{border-left:0}
 /* Auditoría final: la tira se corta por la izquierda y el desprendible (con la llamada «y consultá →») queda siempre completo */
 html body #financiacion .pdc .cup{justify-content:flex-end;margin-left:-22px;width:calc(100% + 44px)}
 html body #financiacion .pdc .cup i.cup-d{width:118px;padding-right:32px}
+/* Auditoría final: la regla genérica .pin (cartel del mapa) volvía invisible al enlace de Maps del header pero lo dejaba enfocable; nunca se mostró, así que se oculta del todo */
+html body header a.ic.pin{display:none!important}
 .cj #financiacion .cup i{transition:clip-path .7s var(--ease) calc(var(--i)*90ms)}
 .cj #financiacion:not(.in) .cup i{clip-path:polygon(0 0,0 0,0 0,0 100%,0 100%)}
 @media(prefers-reduced-motion:reduce){.cj #financiacion .cup i{transition:none}}
