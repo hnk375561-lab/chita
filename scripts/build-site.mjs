@@ -23,7 +23,7 @@ for (const d of DIRS) {
 }
 fs.writeFileSync(path.join(out, '.nojekyll'), '');
 // T15 · no publicar restos históricos que no tienen ninguna referencia en el sitio actual.
-for (const unused of ['js/nosotros.js', 'video/recorrido.mp4', 'images/cartel-chita.webp']) {
+for (const unused of ['js/nosotros.js', 'video/reel-recorrido.mp4', 'images/cartel-chita.webp']) {
   const target = path.join(out, unused);
   if (fs.existsSync(target)) fs.rmSync(target);
 }

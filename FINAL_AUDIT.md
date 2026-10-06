@@ -147,7 +147,7 @@ Chromium: `.c5-eq` = 0 en 1440 y 390 px, 5 tarjetas del comparador renderizadas,
 
 # 5. CAMBIOS DE CÓDIGO
 
-**Cambio #02 modificó `index.html`** (una línea) y **Cambio #03 modificó `scripts/build-site.mjs`** (bloque T16 nuevo). No se tocó CSS ni JS del sitio.
+**Cambio #02 modificó `index.html`** (una línea) y **Cambio #03 y #06 modificaron `scripts/build-site.mjs`** (bloque T16 nuevo; lista T15). No se tocó CSS ni JS del sitio.
 
 Se generó temporalmente `_site/` para probar la build y se borró al terminar. No se agregaron, movieron ni eliminaron archivos del repo.
 
@@ -333,7 +333,8 @@ Emulado con viewport + `is_mobile` + touch en Chromium. **No es un celular real.
 1. **Abrir la URL pública** (`https://hnk375561-lab.github.io/chita/`) desde tu celular y tu compu y confirmar que es la versión actual. No pude acceder desde este entorno.
 2. **Ver el mapa de «Dónde estamos»** y confirmar que muestra el local. Dio 403 acá; en tu red debería cargar.
 3. **Probar en un celular real**, idealmente iPhone/Safari si alguien lo va a mirar así (no probé WebKit).
-4. **Subir al repo los 5 archivos modificados** (`README.md`, `index.html`, `scripts/build-site.mjs`, `plan.md`, `AUDITORIA-IMPLEMENTACION.md`), esperar el deploy de Pages y repetir el check de 5 minutos sobre la URL pública. **El workflow de Pages ejecuta `build-site.mjs`, así que el Cambio #03 solo tiene efecto después de ese deploy y no fue probado en GitHub Actions.**
+4. **Mirar el reel del hero en tu navegador** (debe verse nítido, sin bloques, con subtítulos «Xei CVT» legibles; el video pesa 4,2 MB y arranca al hacer scroll/click). No pude reproducirlo en mi entorno (Cambio #06).
+5. **Subir al repo los 5 archivos modificados** (`README.md`, `index.html`, `scripts/build-site.mjs`, `plan.md`, `AUDITORIA-IMPLEMENTACION.md`), esperar el deploy de Pages y repetir el check de 5 minutos sobre la URL pública. **El workflow de Pages ejecuta `build-site.mjs`, así que el Cambio #03 solo tiene efecto después de ese deploy y no fue probado en GitHub Actions.**
 
 Ninguno de estos puntos corresponde a un defecto de código conocido.
 
