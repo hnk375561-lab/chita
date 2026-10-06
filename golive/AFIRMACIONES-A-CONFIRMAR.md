@@ -37,6 +37,12 @@ Detalle por dato en `data/sources.json` y `data/vehicles.json`.
 - GTM publica horarios L-V 08:30–12:00 y 16:00–20:00, sábado 08:30–12:00 y domingo cerrado. Como las fichas públicas discrepan, no se cargan como horario oficial: se mantiene “consultar antes de venir”.
 - WhatsApp Ventas 3442-647442 (`5493442647442`): confirmado en la bio de Facebook y en el perfil de WhatsApp del negocio (capturas del 3/10/2026, ver `data/dealership.json`). Los CTA usan `wa.me`; sin JS o sin número válido hacen fallback al teléfono fijo 03442 44-2782. Pendiente: confirmación escrita del dueño antes de salir a producción.
 
+## Decisiones de la demo · 2026-10-06
+- **T4:** se mantiene GitHub Pages como demo temporal para presentar al dueño; no se cambia dominio en esta sesión.
+- **T5:** las fotos y el video se mantienen condicionados a la autorización del dueño; la explicación de uso se dará al presentar la demo. Esto no constituye autorización todavía.
+- **T9:** el email `chitaautomotores@gmail.com` aparece en La Guía Local, pero queda como candidato no confirmado; los horarios públicos siguen en conflicto y no se publican; no se encontraron precios actuales confiables para el stock de la demo.
+- **T10:** se retiró del sitio el bloque de paradas y distancias; la fuente histórica queda solo en los datos internos.
+
 # Afirmaciones a confirmar (Chita Automotores)
 
 Revisión del 2026-09-28. Ninguna de estas afirmaciones pudo verificarse en fuentes públicas: ni Instagram, Facebook, Google Maps, Mercado Libre, Autocosmos ni directorios locales devolvieron datos de Chita. La única mención es una entrada "Chita Automotores – Compraventa de automóviles" en gtm.com.ar, sin dirección ni teléfono (identidad no confirmada).
