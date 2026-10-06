@@ -18,7 +18,7 @@ Objetivo: cerrar todos los hallazgos para presentar la demo sin objeciones.
 | ID | Sev. | Tarea | Estado | Depende de |
 |---|---|---|---|---|
 | T1 | 🔴 | Publicar solo el sitio, no todo el repo | ✅ Aplicado y desplegado; revisado en el zip (`_site` solo con lista blanca). Falta repetir los 404 sobre la URL publicada | Código |
-| T2 | 🟠 | Performance móvil (CSS bloqueante) | ✅ Aplicado y desplegado; orden de CSS confirmado. ⏳ Sin medir FCP/LCP/CLS ni comparar capturas | Código |
+| T2 | 🟠 | Performance móvil (CSS bloqueante) | ✅ Aplicado y desplegado. Medido en PageSpeed (2026-10-06): móvil 76 y 81, FCP ≤ 1,8 s, CLS 0; **LCP 4,7 a 5,2 s (objetivo ≤ 4 s) y rendimiento < 85 aún no cumplidos**. Se agregó `modulepreload` (pendiente de remedir). Falta comparar capturas | Código |
 | T3 | 🟠 | Video del reel liviano | ✅ Aplicado y desplegado; reel de 1,97 MB. ⏳ Falta medir transferencia total en móvil | Código |
 | T4 | 🟠 | Dominio final: canonical, OG, sitemap | ✅ Opción A aplicada (2026-10-06): `noindex, nofollow` en las 4 páginas y `Disallow: /`. Dominio final pendiente | **Decisión tuya** |
 | T5 | 🟠 | Autorización de personas en fotos y video | ⏳ Pendiente: autorización del dueño. Mientras tanto la demo no se indexa (T4) | **Dueño** |
@@ -75,6 +75,24 @@ Los ítems marcados **Dueño** siguen dependiendo de una confirmación externa. 
 
 **Aceptación:** FCP móvil ≤ 3 s y LCP ≤ 4 s en Lighthouse móvil sobre la URL publicada. CLS ≤ 0,1. Cero diferencias visuales (comparar capturas antes y después).
 
+**Medición post-deploy (PageSpeed Insights, URL publicada, 2026-10-06):**
+
+| | Móvil #1 | Móvil #2 | Escritorio #1 | Escritorio #2 |
+|---|---|---|---|---|
+| Rendimiento | 76 | 81 | 95 | 97 |
+| FCP | 1,8 s | 1,5 s | 0,4 s | 0,3 s |
+| LCP | 5,2 s | 4,7 s | 1,0 s | 1,0 s |
+| TBT | ~100 ms | ~40 ms | ~140 ms | ~100 ms |
+| CLS | 0 | 0 | 0,041 | 0,041 |
+
+Accesibilidad 97, Prácticas recomendadas 100, SEO 66 (esperado por el `noindex`). Contra la línea base del plan (FCP ≈ 7,1 s, LCP ≈ 7,3 s, TBT ≈ 2 s; condiciones de medición distintas) la mejora es grande, pero **no se cumple LCP ≤ 4 s ni Rendimiento ≥ 85 en móvil**.
+
+**Diagnóstico del LCP:** el elemento es una foto de la franja decorativa del hero (`.hx-pass`, `w800/8.webp`, `fetchpriority="low"` a propósito para proteger el póster). La imagen carga rápido; lo que tarda es mostrar el hero: mientras `html` tiene la clase `mh`, el CSS oculta el texto del hero y del header (`visibility:hidden`) hasta que `motion.js` termina de cargar `vendor/gsap-stack.js` (cadena crítica de ~570 ms en el informe, más en móvil), con un tope de 2,5 s. Cambio aplicado: `<link rel="modulepreload">` para `js/motion.js` y `js/vendor/gsap-stack.js` en `index.html`, para que se bajen en paralelo. No cambia nada visual. **Pendiente: volver a medir 3 veces en móvil.**
+
+**Otros hallazgos sin aplicar (opcionales, ahorro chico):** CSS sin usar ~30 KiB, JS sin usar ~20 KiB, `bg-fin.webp` y `bg-visita.webp` (~400 KiB) se bajan aunque están debajo de la pantalla, fotos de unidades servidas en 800 px para mostrarse a ~317 px (~1,1 MB de ahorro posible según el informe), tiempo de caché de 10 min propio de GitHub Pages.
+
+**Contraste (Accesibilidad 97):** PageSpeed marca bajo contraste en la sección «El próximo es el tuyo / Preguntas» (`#preguntas`). Los elementos aparecen con estilos inline de animación (`clip-path`, `translate`), así que puede ser un falso positivo del estado previo a la animación. Falta confirmar con la sección ya visible; si persiste, revisar el `::placeholder` blanco al 42 % (`site.css` línea 848) sobre fondo claro.
+
 **Si no se llega al objetivo:** extraer el CSS crítico del hero e inlinearlo; cargar el resto con `media="print" onload`. Hacerlo solo si hace falta.
 
 ---
@@ -91,7 +109,7 @@ Los ítems marcados **Dueño** siguen dependiendo de una confirmación externa. 
 
 **Aceptación:** transferencia total de la home en móvil ≤ 3 MB antes de interactuar y ≤ 6 MB tras recorrer todo el sitio.
 
-**Revisión del zip (2026-10-06):** `reel-recorrido.mp4` = 1,97 MB (cumple ≤ 2 MB); reel y `ambiente.mp4` con `preload="none"`, el reel por `data-src`. La transferencia real no se midió todavía.
+**Revisión del zip (2026-10-06):** `reel-recorrido.mp4` = 1,97 MB (cumple ≤ 2 MB); reel y `ambiente.mp4` con `preload="none"`, el reel por `data-src`. **Medición en PageSpeed:** 4.461 KiB totales en móvil, de los cuales 1.928 KiB son el reel, que arranca solo (tras el evento `load`) porque está a la vista en el hero. Sin el reel son ~2,5 MB, dentro del ≤ 3 MB. Se acepta la excepción: el autoplay del hero no se toca (sección «No tocar»).
 
 ---
 
@@ -101,6 +119,15 @@ Los ítems marcados **Dueño** siguen dependiendo de una confirmación externa. 
 - **Autorización audiovisual:** la demo se presentará al dueño informando el uso de fotos y video; el visto bueno todavía no fue otorgado y T5 permanece pendiente.
 - **Investigación pública T9:** La Guía Local lista `chitaautomotores@gmail.com`, pero no es una confirmación directa del negocio; queda como candidato interno y no se publica como email oficial. Los horarios encontrados en GTM, ZonaAuto y otras fichas no coinciden, por lo que siguen sin publicarse. No se encontraron precios actuales confiables para las unidades de la demo; continúan como «Consultar».
 - **T10:** se retiró del HTML visible el bloque de paradas y distancias. La referencia histórica se conserva únicamente en los datos internos para trazabilidad.
+
+## Corrección de flechas de fotos en las tarjetas · 2026-10-06
+
+**Síntoma:** en la grilla de Unidades, las flechas de las tarjetas no cambiaban la foto (el contador sí avanzaba).
+**Causa:** `css/site.css` (regla «Las fotos de unidades quedan quietas») incluía `#unidades .ctk` con `transform:none!important` y `transition:none!important`, lo que anulaba el desplazamiento de la pista de fotos que controla el JS (`--k` y `--dx`).
+**Arreglo:** se quitó `#unidades .ctk` de esa lista y se dejó una regla aparte que conserva `opacity`, `visibility` y `animation:none` (sin fade ni animación de entrada), pero permite el desplazamiento. Nada más cambia.
+**Verificado en Chromium (escritorio 1440 y móvil 390):** las 9 tarjetas avanzan ~225 px por foto con la flecha; el deslizamiento táctil cambia de foto; la ficha (diálogo) y el calendario de visita (mes anterior/siguiente) funcionan; cero errores JS. Antes del arreglo: `transform: none` y 0 px de movimiento en las 9 tarjetas.
+
+---
 
 ## T4 · Dominio final (🟠)
 

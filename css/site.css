@@ -1406,7 +1406,9 @@ main>.hero.hx{grid-template-columns:minmax(380px,.7fr) minmax(0,1.3fr);height:cl
 
 
 /* Las fotos de unidades quedan quietas: sin zoom, rebote, fade ni transform al hover o al revelar. */
-#unidades .car,#unidades .car img,#unidades .ctk,#modelos .mdl li,#modelos .mdl a,#versus .vdc{opacity:1!important;visibility:visible!important;transform:none!important;animation:none!important;transition:none!important}
+#unidades .car,#unidades .car img,#modelos .mdl li,#modelos .mdl a,#versus .vdc{opacity:1!important;visibility:visible!important;transform:none!important;animation:none!important;transition:none!important}
+/* La pista de fotos sí debe desplazarse (flechas, arrastre y teclado mueven --k/--dx): solo se mantiene sin fade ni animación de entrada. */
+#unidades .ctk{opacity:1!important;visibility:visible!important;animation:none!important}
 #unidades .car:hover .ct img{transform:none!important}
 #unidades .ct img{will-change:auto!important}
 /* Cómo comprar entra ya renderizada; no espera al scroll ni a una animación de reveal. */
