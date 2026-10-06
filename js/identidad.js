@@ -298,3 +298,7 @@ draw()})();
     g.appendChild(a);
   }
 })();
+
+
+/* Golive · T12: la sombra de desplazamiento de la navegación desaparece al llegar al final. */
+(function(){var nav=document.querySelector("header nav");if(!nav)return;function mark(){nav.classList.toggle("nav-end",nav.scrollLeft+nav.clientWidth>=nav.scrollWidth-2)}nav.addEventListener("scroll",mark,{passive:true});addEventListener("resize",mark);mark()})();
