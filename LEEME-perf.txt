@@ -2,7 +2,9 @@ CHITA · cambios de rendimiento en "Unidades" y "Mirá el salón y el depósito"
 
 Copiar cada archivo en la MISMA ruta del repo (reemplazar / agregar):
   index.html            link a css/chita-perf.css + buscador con espera de 140 ms
-  css/chita-perf.css    NUEVO · esquina cortada de los videos sin clip-path (triángulo del color del fondo)
+  css/chita-perf.css    NUEVO · (a) esquina cortada de los videos sin clip-path (triángulo del color del fondo)
+                                (b) entrada de las tarjetas con transform+opacity en vez de clip-path animado
+                                (c) fotos de las tarjetas sin ~55 capas de GPU permanentes
   js/clips.js           el video arranca solo si se queda ~350 ms a la vista; se pausa al ocultar la pestaña
   js/identidad.js       el rótulo "UNIDADES" (abajo a la izquierda) ya no mide todas las secciones en cada frame de scroll
   js/motion.js          se quitó UNA línea: la animación de entrada que movía todo el contenedor de Unidades al llegar

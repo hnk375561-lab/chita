@@ -16,3 +16,17 @@ html body #unidades .clip-v video{will-change:auto}
 
 /* 4 · Si el usuario pide menos movimiento, sin transiciones en las fotos del local */
 @media(prefers-reduced-motion:reduce){html body #unidades .cph img{transition:none}}
+
+/* 5 · Entrada de las tarjetas al llegar: antes cada tarjeta animaba un clip-path (polygon) durante .8 s, y eso obliga a
+   repintar la tarjeta entera (foto incluida) en cada frame, con 4 tarjetas a la vez. Ahora sube y aparece usando solo
+   transform + opacity, que corre en la GPU sin repintar. Mismo escalonado por columna (--d). */
+.cj #stockGrid .cz7.in{animation:cz-up .55s cubic-bezier(.16,1,.3,1) var(--d,0s) both}
+@keyframes cz-up{from{opacity:0;transform:translate3d(0,22px,0)}to{opacity:1;transform:none}}
+
+/* 6 · Menos capas de GPU en las fotos de cada tarjeta.
+   Antes: cada foto (46) tenía backface-visibility:hidden y cada carril un translate3d permanente, o sea ~55 capas
+   extra dentro de tarjetas recortadas con clip-path (cada una necesita su máscara). Ahora el carril solo se promueve
+   mientras se arrastra o mientras corre la transición, y las fotos no son capas propias. */
+html body #unidades .ct,html body #unidades .ct img{backface-visibility:visible}
+html body #unidades .ctk{transform:translateX(calc(var(--k,0)*-100% + var(--dx,0px)));will-change:auto}
+html body #unidades .ct.dr .ctk{will-change:transform}
