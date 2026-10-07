@@ -145,8 +145,7 @@ E.forEach(function(e){e.classList.add("cz7");io.observe(e)});
 var f=document.querySelector("footer"),m=document.querySelector("main");if(!f||!m)return;
 var l=m.querySelector(":scope>section:last-of-type"),c=l?getComputedStyle(l).backgroundColor:"#ECEDEA";
 var p=document.createElement("i");p.className="pf";p.setAttribute("aria-hidden","true");p.style.setProperty("--pv",c);f.insertBefore(p,f.firstChild);
-var n=m.querySelectorAll(":scope>section[id]").length,t=document.createElement("p");t.className="fin7";t.setAttribute("aria-hidden","true");t.textContent="Fin del talonario · "+n+"/"+n;
-var w=f.querySelector(".w");if(w)w.insertBefore(t,w.firstChild);
+/* rótulo "Fin del talonario" eliminado; queda solo la perforación */
 })();
 /* CHITA · v10 — EL DESPACHO + gobernador del hero (perf). El hero queda fijo mientras Entregas lo cubre; cuando lo cubrió del todo se suelta.
    Solo escritorio y sin reduced-motion; si el hero no entra completo bajo el header, no se fija.

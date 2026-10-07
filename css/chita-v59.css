@@ -45,3 +45,7 @@ html body #visita#visita#visita .vx-brand img{display:block;width:min(180px,56vw
   html body #visita#visita#visita .vx-right{grid-column:2;grid-row:2;position:sticky;top:92px;align-self:start}
   html body #visita#visita#visita .vx-brand img{width:min(220px,100%)}
 }
+
+/* CHITA · más clips en Unidades (6): 3 columnas en pantallas anchas; en tablet y mobile, fila deslizable con snap */
+@media(min-width:1200px){html body #unidades .clips-r{grid-template-columns:repeat(3,minmax(0,clamp(220px,17vw,262px)))}}
+@media(max-width:899px){html body #unidades .clips-r{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin-inline:calc(var(--pad,18px) * -1);padding-inline:var(--pad,18px);scroll-padding-inline:var(--pad,18px);padding-bottom:6px}html body #unidades .clips-r .clip{flex:0 0 min(72vw,300px);scroll-snap-align:start}}
