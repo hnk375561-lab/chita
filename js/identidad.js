@@ -112,7 +112,6 @@ label();
 (function(){
 var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,main=d.querySelector("main");if(!main)return;
 if(!RM)d.documentElement.classList.add("cj");
-function tx(s){var e=d.querySelector(s);return e?e.textContent.replace(/\s+/g," ").trim():""}
 /* EL RIEL */
 var hero=d.getElementById("hero");
 if(hero){var r=d.createElement("div");r.className="rl";r.setAttribute("aria-hidden","true");r.textContent="Chita Automotores · Entre Ríos";hero.appendChild(r)}

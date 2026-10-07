@@ -22,7 +22,6 @@
 
   function $(s, c) { return (c || d).querySelector(s); }
   function $$(s, c) { return [].slice.call((c || d).querySelectorAll(s)); }
-  function now() { return performance.now(); }
   function away() { return d.hidden || gone; }
   /* play() sin ruido: si el navegador lo bloquea (autoplay) se avisa a quien lo pidió */
   function play(v, onBlock) {
