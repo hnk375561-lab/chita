@@ -53,24 +53,27 @@ var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIn
 io.observe(s);
 })();
 
-/* PERF · Multimedia del hero y de Entregas: las fotos del carril, de la cinta y de Entregas eran loading="lazy" (o decoding async) y se
-   bajaban/decodificaban recién cuando aparecían, que es el "lag" de ver cargar fotos. Ahora, con la página ya cargada y en ratos libres
-   del navegador, se piden y se decodifican de a una (hero primero), sin competir con el primer pintado. Con ahorro de datos o conexión
-   lenta no se hace nada (queda el comportamiento anterior). */
+/* PERF · Multimedia: las fotos del hero, de Entregas y de las tarjetas de Unidades eran loading="lazy" y se pedían y decodificaban recién
+   cuando se acercaban mientras se scrolleaba (en la grabación de rendimiento: pedidos de fotos en pleno scroll y tirones de ~40 ms).
+   Ahora, con la página cargada, se piden y se decodifican de a una en ratos libres: hero primero, después Entregas y después las tarjetas.
+   Si se está scrolleando, espera a que pare (no compite con el scroll). Con ahorro de datos o conexión lenta no hace nada. */
 (function(){
 var nc=navigator.connection||{};if(nc.saveData||/(^|-)2g$|3g/.test(nc.effectiveType||""))return;
 var ric=window.requestIdleCallback||function(f){return setTimeout(function(){f({timeRemaining:function(){return 8}})},140)};
-var q=[],big=matchMedia("(min-width:900px)").matches;
+var q=[],big=matchMedia("(min-width:900px)").matches,last=0;
+addEventListener("scroll",function(){last=performance.now()},{passive:true});
 function add(l,max){[].slice.call(l,0,max||l.length).forEach(function(i){q.push(i)})}
 function step(){
-  var im=q.shift();if(!im)return;
+  if(!q.length)return;
+  if(performance.now()-last<250||document.hidden){setTimeout(step,250);return}
+  var im=q.shift();
   if(im.loading==="lazy")im.loading="eager";
   var go=function(){ric(step,{timeout:2500})};
   if(im.decode)im.decode().then(go,go);else go()}
 function start(){
   add(document.querySelectorAll("#hero .hx-rail img"));
   var trk=document.querySelectorAll("#hero .hx-trk img");add(trk,Math.ceil(trk.length/2));
-  if(big)add(document.querySelectorAll("#entregas .eg img"));
+  if(big){add(document.querySelectorAll("#entregas .eg img"));add(document.querySelectorAll("#stockGrid .car .ct img:first-child"),28)}
   ric(step,{timeout:3000})}
-if(document.readyState==="complete")setTimeout(start,1500);else addEventListener("load",function(){setTimeout(start,1500)});
+if(document.readyState==="complete")setTimeout(start,1200);else addEventListener("load",function(){setTimeout(start,1200)});
 })();
