@@ -24,6 +24,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validar datos, imágenes y SEO de demo (npm test)
+        run: npm test
       - uses: actions/configure-pages@v5
       - name: Armar carpeta pública y optimizar recursos
         run: node scripts/build-site.mjs

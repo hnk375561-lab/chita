@@ -19,7 +19,7 @@ Sitio oficial de Chita Automotores, Concepción del Uruguay. Sitio estático (HT
 - `data/dealership.json`: datos confirmados y su fuente. `data/sources.json` (hechos, conflictos y descartes con fecha) y `data/vehicles.json` (referencias de unidades y su nivel de confianza). `golive/`: pendientes y pasos a producción; incluye `sitemap.xml` y `json-ld-autodealer.html` preparados y **sin activar**.
 
 ## Comprobar
-`npm test` valida que no haya `href="#"`, que los datos coincidan con `index.html`, que no haya precios sin confirmar, que existan todas las imágenes (y no sobren), un solo `h1`, `alt` en imágenes, `noindex` en las tres páginas y `Disallow: /` en `robots.txt`.
+`npm test` valida que no haya `href="#"`, que los datos coincidan con `index.html`, que no haya precios sin confirmar, que existan todas las imágenes (y no sobren), un solo `h1`, `alt` en imágenes, `noindex` en las páginas y `Disallow: /` en `robots.txt`.
 
 ## Publicar
 GitHub > Settings > Pages > Deploy from a branch > main / (root). URL esperada: https://hnk375561-lab.github.io/chita/
