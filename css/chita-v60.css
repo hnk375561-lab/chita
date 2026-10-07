@@ -47,3 +47,14 @@ html body #visita .vvid .vv-s:hover{background:var(--chapa)}
 html body #visita .vvid .vv-s:focus-visible{outline:3px solid #fff;outline-offset:-5px}
 html body #visita .vvid .vv-s[disabled]{cursor:default;background:var(--ink);opacity:.9}
 @media(max-width:380px){html body #visita .vvid .vv-s .vv-st{display:none}}
+
+/* ═══ CHITA · v61 — DÓNDE ESTAMOS: el panel azul deja ver el mapa ═══
+   El panel (.lc) pasa de azul sólido a translúcido con un leve desenfoque, y el degradado azul que
+   cubría el mapa detrás del panel se aligera para que la transparencia se note de verdad.
+   Contraste del texto blanco >= 7:1 incluso sobre un mapa totalmente blanco (cuentas en el commit).
+   Para ajustar: --lc-a = opacidad del panel (1 = sólido), --lc-ov = opacidad del velo azul sobre el mapa. */
+html body #contacto{--lc-a:.62;--lc-ov:.3}
+html body #contacto .lc{background:rgba(10,16,32,var(--lc-a))!important;-webkit-backdrop-filter:blur(4px)!important;backdrop-filter:blur(4px)!important}
+html body #contacto .mp::after{background:rgba(1,20,59,var(--lc-ov))}
+@media(min-width:900px){html body #contacto .mp::after{background:linear-gradient(90deg,rgba(1,20,59,var(--lc-ov)) 0%,rgba(1,20,59,calc(var(--lc-ov)*.8)) 55%,rgba(1,20,59,calc(var(--lc-ov)*.35)) 88%,rgba(1,20,59,0) 100%)}}
+@media(prefers-reduced-transparency:reduce){html body #contacto{--lc-a:1;--lc-ov:.62}html body #contacto .lc{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
