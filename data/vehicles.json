@@ -13,13 +13,7 @@
       "kmStatus": "crosschecked",
       "price": "Consultar",
       "status": null,
-      "photos": [
-        "assets/tracker-2021-1.webp",
-        "assets/tracker-2021-2.webp",
-        "assets/tracker-2021-3.webp",
-        "assets/tracker-2021-4.webp",
-        "assets/tracker-2021-5.webp"
-      ],
+      "photos": ["assets/tracker-12t-2021-1.webp", "assets/tracker-12t-2021-2.webp", "assets/tracker-12t-2021-3.webp", "assets/tracker-12t-2021-4.webp", "assets/tracker-12t-2021-5.webp", "assets/tracker-12t-2021-6.webp", "assets/tracker-12t-2021-7.webp", "assets/tracker-12t-2021-8.webp"],
       "sourceUrls": [
         "https://www.instagram.com/chita.automotores/"
       ],

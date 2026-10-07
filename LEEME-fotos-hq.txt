@@ -1,0 +1,8 @@
+Fotos de unidades en máxima calidad (vertical 4:5)
+- Unidades migradas: Tracker 1.2T 2021 (8 fotos), Palio 2017 (6), Tracker 1.8N 2018 (6), Clio 2016 (6), Kangoo Comfort 2022 (6), Kangoo Authentique 2018 (6) y K3 EX Cross 2025 (portada; la 2ª foto sigue en 800x1000). Pasaron de recortes 800x1000 / 800x600 a originales de 1080x1350 (WebP q90).
+- Convención: assets/<slug>-N.webp (1080) + -800 + -480. El srcset sirve 480/800/1080 según pantalla; la ficha muestra la de 1080.
+- Se quitó el caso especial "apaisado" (regex /^assets\/tracker-/ y clase .land) de js/app.js.
+- Palio: NO se publica la foto con el banner "Km - 128.000" (km en conflicto, regla 7 de CLAUDE.md). La portada anterior (w800/22) la traía quemada, también el fondo de Entregas: reemplazadas.
+- Próximas unidades: node scripts/make-images-hq.mjs <slug> <carpeta>  (no usar make-images.mjs: recorta a 4:3 con calidad 78).
+  Luego agregar en STOCK, HCOVER y HTHUMB (lo imprime el script) y correr: npm run prerender && npm test
+- Pendientes con fotos viejas (800x1000): Peugeot 301, Partner y la 2ª foto de la K3 (assets/w800/54.webp).
