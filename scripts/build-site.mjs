@@ -30,7 +30,7 @@ for (const unused of ['js/nosotros.js', 'video/reel-recorrido.mp4', 'images/cart
 
 
 // T16 · No publicar imágenes de images/ que ningún archivo público referencia (solo en _site; el repo no se toca).
-// Criterio conservador: se conserva si el nombre sin extensión ni sufijo (-480, -800, -bk) aparece en el texto de
+// Criterio conservador: se conserva si el nombre sin extensión ni sufijo (-480, -800, -1600, -bk) aparece en el texto de
 // cualquier HTML, CSS, JS propio o webmanifest publicado. Ante la duda, se conserva.
 {
   const textFiles = [];
@@ -38,7 +38,7 @@ for (const unused of ['js/nosotros.js', 'video/reel-recorrido.mp4', 'images/cart
   for (const d of ['css', 'js']) walk(path.join(out, d));
   for (const f of FILES) if (/\.(html|webmanifest)$/.test(f)) textFiles.push(path.join(out, f));
   const corpus = textFiles.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
-  const stemOf = (name) => name.replace(/\.[a-z0-9]+$/i, '').replace(/-(480|800|bk)$/, '');
+  const stemOf = (name) => name.replace(/\.[a-z0-9]+$/i, '').replace(/-(480|800|1600|bk)$/, '');
   let removed = 0, bytes = 0;
   const sweep = (dir) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -57,8 +57,8 @@ for (const unused of ['js/nosotros.js', 'video/reel-recorrido.mp4', 'images/cart
 const ESBUILD = ['--yes', 'esbuild@0.28.2'];
 const esb = (args, input) => execFileSync('npx', [...ESBUILD, ...args], { input, maxBuffer: 64 * 1024 * 1024 }).toString();
 
-// 1) Los 8 CSS de index.html, en el MISMO orden, en un solo archivo minificado.
-const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56'];
+// 1) Los 12 CSS de index.html, en el MISMO orden, en un solo archivo minificado.
+const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56', 'chita-v57', 'chita-v58', 'chita-v59', 'chita-perf']; // chita-perf SIEMPRE último (cascada)
 const idxPath = path.join(out, 'index.html');
 let html = fs.readFileSync(idxPath, 'utf8');
 const linkOf = (n) => `<link rel="stylesheet" href="css/${n}.css">`;
@@ -71,7 +71,7 @@ CSS.forEach((n, i) => { html = html.replace(linkOf(n) + '\n', i === 0 ? linkOf('
 fs.writeFileSync(idxPath, html);
 
 // 2) JS propio minificado (espacios y sintaxis; sin renombrar variables). vendor/ ya viene minificado.
-const JS = ['js/app.js', 'js/identidad.js', 'js/recorrido.js', 'js/reserva.js', 'js/motion.js', 'js/motion/core.js'];
+const JS = ['js/app.js', 'js/identidad.js', 'js/recorrido.js', 'js/reserva.js', 'js/motion.js', 'js/motion/core.js', 'js/clips.js', 'js/chita-v58.js'];
 for (const f of JS) fs.writeFileSync(path.join(out, f), esb(['--minify-whitespace', '--minify-syntax', '--legal-comments=none'], fs.readFileSync(path.join(root, f), 'utf8')));
 console.log('CSS:', (bundle.length / 1024).toFixed(0), 'KB →', (minCss.length / 1024).toFixed(0), 'KB (1 archivo)');
 console.log('_site listo:', [...FILES, ...DIRS.map((d) => d + '/')].join(', '));

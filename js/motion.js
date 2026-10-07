@@ -144,7 +144,7 @@ function split(element, { chars = false, skip = null } = {}) {
    Un solo bucle: lee el scroll una vez por frame, suaviza la velocidad y la reparte a los
    elementos visibles con quickSetter (sin tweens, sin lecturas de layout).
    ════════════════════════════════════════════════════════════════════════════════════════ */
-function createInertia() {
+function createInertia(lowEnd = false) {
   /* v = velocidad suavizada (cursor, lecturas). s/sv = resorte subamortiguado que persigue a v:
      al frenar el scroll, los elementos se pasan un poco y vuelven (efecto «banda elástica»). */
   const state = { v: 0, s: 0, sv: 0, dir: 1 };
@@ -158,7 +158,7 @@ function createInertia() {
     state,
     /* gain puede ser una función: se reevalúa en cada refresh (p. ej. columnas de una grilla responsive). */
     add(el, prop, gain, unit = "", max = Infinity) {
-      if (!el || items.has(el)) return;
+      if (lowEnd || !el || items.has(el)) return;   /* lowEnd: sin resorte (los elementos quedan en su sitio) */
       const fn = typeof gain === "function" ? gain : null;
       items.set(el, { set: gsap.quickSetter(el, prop, unit), gain: fn ? fn() : gain, fn, max, vis: false });
       io.observe(el);
@@ -190,8 +190,8 @@ function createInertia() {
    ════════════════════════════════════════════════════════════════════════════════════════ */
 const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
-function initScroll({ desktop }) {
-  const inertia = createInertia();
+function initScroll({ desktop, lowEnd }) {
+  const inertia = createInertia(lowEnd);
   const lenis = new Lenis({
     lerp: desktop ? 0.12 : 0.14,
     wheelMultiplier: 1,
@@ -516,10 +516,13 @@ function initBanner({ desktop }) {
    Oscuras: hoja que se ensancha con esquinas redondeadas. Claras: el contenido sube desde atrás.
    ════════════════════════════════════════════════════════════════════════════════════════ */
 /* FONDOS ÚNICOS · un plano fotográfico por sección, sin repetir imágenes. */
-function initSectionBackdrops({ desktop }) {
+function initSectionBackdrops({ desktop, lowEnd }) {
   /* Secciones en color sólido (sin foto): unidades, modelos, trayectoria, contacto (lo cubre el mapa), local, como-comprar, operaciones, equipo, preguntas.
      El resto lleva una foto de interior; con 6 fotos y 9 secciones se reutilizan, nunca en secciones contiguas. */
-  const sources = { versus:"images/bg/stock-1.webp", entregas:"images/bg/stock-2.webp", opiniones:"images/bg/stock-5.webp", bd:"images/bg/stock-6.webp" };
+  /* PERF · bajo un velo del 74–82 % el detalle de 2400 px no se ve: en pantallas de hasta ~1900 px reales se usa la variante de 1600 px (≈ 56 % menos píxeles a decodificar). */
+  const px = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
+  const pick = (n) => `images/bg/${n}${px > 1900 ? "" : "-1600"}.webp`;
+  const sources = { versus:pick("stock-1"), entregas:pick("stock-2"), opiniones:pick("stock-5"), bd:pick("stock-6") };
   const dark = new Set(["versus","entregas","contacto","bd","financiacion","guia","visita"]);
   const veil = (id) => dark.has(id) ? "linear-gradient(rgba(6,17,26,.74),rgba(6,17,26,.74))" : "linear-gradient(rgba(243,245,246,.82),rgba(243,245,246,.82))";
   const mobile = !desktop, clean = [];
@@ -527,15 +530,19 @@ function initSectionBackdrops({ desktop }) {
     const src = sources[section.id]; if (!src) return;
     section.style.position = "relative"; section.style.isolation = "isolate";
     const layer = document.createElement("div"); layer.className = "chita-section-backdrop"; layer.setAttribute("aria-hidden", "true");
-    layer.style.cssText = ["position:absolute","inset:0","z-index:0","pointer-events:none","overflow:clip",`background-image:${veil(section.id)}`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1!important","filter:none!important","transform:scale(1.04)","transform-origin:50% 50%","will-change:transform"].join(";");
+    layer.style.cssText = ["position:absolute","inset:0","z-index:0","pointer-events:none","overflow:clip",`background-image:${veil(section.id)}`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1!important","filter:none!important","transform:scale(1.04)","transform-origin:50% 50%",...(lowEnd ? [] : ["will-change:transform"])].join(";");
     section.prepend(layer);
     /* La foto se pide solo cuando la sección está cerca del viewport (antes bajaban las 5 al abrir el sitio). */
-    const paint = () => { layer.style.backgroundImage = `${veil(section.id)},url(${src})`; };
+    const paint = () => {
+      const apply = () => { layer.style.backgroundImage = `${veil(section.id)},url(${src})`; };
+      const im = new Image(); im.decoding = "async"; im.src = src;
+      (im.decode ? im.decode() : Promise.resolve()).then(apply, apply);
+    };
     if ("IntersectionObserver" in window) {
       const io = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) { io.disconnect(); paint(); } }, { rootMargin: "1200px 0px" });
       io.observe(section); clean.push(() => io.disconnect());
     } else paint();
-    const tween = gsap.fromTo(layer,{yPercent:mobile?-1.5:-3,scale:1.04},{yPercent:mobile?1.5:3,scale:1.04,ease:EASE.linear,immediateRender:true,scrollTrigger:scrub(section,"top 104%","bottom -8%")});
+    const tween = lowEnd ? { kill() {} } : gsap.fromTo(layer,{yPercent:mobile?-1.5:-3,scale:1.04},{yPercent:mobile?1.5:3,scale:1.04,ease:EASE.linear,immediateRender:true,scrollTrigger:scrub(section,"top 104%","bottom -8%")});
     clean.push(() => { tween.kill(); layer.remove(); section.style.removeProperty("position"); section.style.removeProperty("isolation"); });
   });
   return () => clean.forEach((fn) => fn());
@@ -545,14 +552,17 @@ function initSectionBackdrops({ desktop }) {
 function initMapExperience() {
   const map = qs("#contacto .mp"), iframe = qs("#contacto .mp iframe");
   if (!map || !iframe) return noop;
-  let observer = null, fallback = 0;
+  let observer = null, fallback = 0, quietTimer = 0;
   const reveal = () => {
     if (!iframe.src && iframe.dataset.src) { iframe.addEventListener("load", () => map.classList.add("rd"), { once:true }); iframe.src = iframe.dataset.src; iframe.removeAttribute("data-src"); }
     map.classList.add("rd"); fallback = window.setTimeout(() => map.classList.add("rd"), 1200);
   };
   const onPointer = () => reveal(); map.addEventListener("pointerdown", onPointer, { passive:true }); map.addEventListener("click", onPointer, { passive:true });
-  if ("IntersectionObserver" in window) { observer = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) { observer.disconnect(); reveal(); } }, { rootMargin:"900px 0px" }); observer.observe(map); } else window.addEventListener("load", reveal, { once:true });
-  return () => { observer?.disconnect(); window.clearTimeout(fallback); map.removeEventListener("pointerdown", onPointer); map.removeEventListener("click", onPointer); };
+  /* PERF · el iframe de Maps (otro proceso, ~780 ms de CPU) no arranca mientras se scrollea: espera a que el scroll descanse 250 ms. El clic/toque lo carga al instante. */
+  const whenQuiet = (fn) => { const t = () => { quietTimer = performance.now() - lastScrollAt < 250 ? window.setTimeout(t, 250) : (fn(), 0); }; t(); };
+  const defer = () => (window.requestIdleCallback || ((f) => window.setTimeout(f, 200)))(() => whenQuiet(reveal), { timeout:2000 });
+  if ("IntersectionObserver" in window) { observer = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) { observer.disconnect(); defer(); } }, { rootMargin:"900px 0px" }); observer.observe(map); } else window.addEventListener("load", reveal, { once:true });
+  return () => { observer?.disconnect(); window.clearTimeout(fallback); window.clearTimeout(quietTimer); map.removeEventListener("pointerdown", onPointer); map.removeEventListener("click", onPointer); };
 }
 
 function initSeams({ desktop }) {
@@ -597,16 +607,16 @@ function initSeams({ desktop }) {
    REVELADOS · cada familia de elementos entra con su propio gesto
    ════════════════════════════════════════════════════════════════════════════════════════ */
 /* ENTRADAS DE SECCIÓN · una firma distinta por sección, siempre ligada al scroll. */
-function initSectionEntrances({ desktop }) {
+function initSectionEntrances({ desktop, lowEnd }) {
   const k = desktop ? 1 : .55;
   const ctx = gsap.context(() => {});
   const recipes = {
     unidades:()=>{} /* PERF: sin transform scrubbeado sobre todo el contenedor de Unidades (era una capa gigante moviéndose al llegar) */,
     modelos:(s,i)=>gsap.fromTo(i,{x:-90*k,clipPath:"inset(0 100% 0 0)"},{x:0,clipPath:"inset(0 0% 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 42%")}),
-    versus:(s,i)=>gsap.fromTo(i,{scale:.82,rotateY:desktop?-12:0,opacity:.2,transformPerspective:1400},{scale:1,rotateY:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 32%")}),
+    versus:(s,i)=>gsap.fromTo(i,{scale:.82,rotateY:desktop&&!lowEnd?-12:0,opacity:.2,...(lowEnd?{}:{transformPerspective:1400})},{scale:1,rotateY:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 32%")}),
     trayectoria:(s,i)=>gsap.fromTo(i,{x:80*k,opacity:.25},{x:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 95%","top 40%")}),
     local:(s,i)=>gsap.fromTo(i,{x:-70*k,skewX:desktop?-3:0},{x:0,skewX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 36%")}),
-    opiniones:(s,i)=>gsap.fromTo(i,{y:-70*k,rotateX:desktop?-8:0,transformPerspective:1000},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
+    opiniones:(s,i)=>gsap.fromTo(i,{y:-70*k,rotateX:desktop&&!lowEnd?-8:0,...(lowEnd?{}:{transformPerspective:1000})},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
     bd:(s,i)=>gsap.fromTo(i,{scale:.7,opacity:.1,rotate:desktop?-3:0},{scale:1,opacity:1,rotate:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 102%","top 46%")}),
     "como-comprar":(s,i)=>gsap.fromTo(i,{x:90*k,clipPath:"inset(0 0 0 100%)"},{x:0,clipPath:"inset(0 0 0 0%)",ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
     equipo:(s,i)=>gsap.fromTo(i,{x:-65*k,y:55*k,opacity:.15},{x:0,y:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
@@ -969,7 +979,7 @@ function initSceneChoreography({ desktop }) {
     scene("trayectoria", (s) => {
       const line = qs(".arl", s), copy = qs(".arhd", s);
       if (line) gsap.fromTo(line, { xPercent: -4 * k, scaleX: .94, transformOrigin: "0 50%" }, { xPercent: 4 * k, scaleX: 1.02, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
-      if (copy) gsap.fromTo(copy, { yPercent: 5 * k, letterSpacing: ".015em" }, { yPercent: -5 * k, letterSpacing: "0em", ease: EASE.linear, scrollTrigger: scrubScene(s, "top 86%", "bottom 20%") });
+      if (copy) gsap.fromTo(copy, { yPercent: 5 * k }, { yPercent: -5 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 86%", "bottom 20%") });
     });
     /* Contacto: el mapa abre una ventana y el panel de dirección viaja a contratiempo. */
     scene("contacto", (s) => {
@@ -985,7 +995,7 @@ function initSceneChoreography({ desktop }) {
     /* Banner: una contracción y expansión tipográfica que conecta con la guía siguiente. */
     scene("bd", (s) => {
       const title = qs("h2", s), lead = qs(".bdp", s), footer = qs(".bdf", s);
-      if (title) gsap.fromTo(title, { scale: .92, yPercent: 8 * k, letterSpacing: ".02em" }, { scale: 1.04, yPercent: -8 * k, letterSpacing: "-.01em", ease: EASE.linear, scrollTrigger: scrubScene(s, "top 92%", "bottom 18%") });
+      if (title) gsap.fromTo(title, { scale: .92, yPercent: 8 * k }, { scale: 1.04, yPercent: -8 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 92%", "bottom 18%") });
       if (lead) gsap.fromTo(lead, { xPercent: -5 * k }, { xPercent: 5 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
       if (footer) gsap.fromTo(footer, { yPercent: 16 * k }, { yPercent: -12 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
     });
@@ -1029,7 +1039,10 @@ function initMotion() {
   mm.add(MQ, (context) => {
     const { motion, desktop, fine } = context.conditions;
     if (!motion) { root.classList.remove("mh"); return undefined; }          // reduced-motion: contenido intacto
-    const flags = { desktop, fine };
+    /* PERF · tier de hardware limitado (≤4 núcleos o ≤4 GB; deviceMemory no existe en Safari/Firefox → no degrada).
+       Solo apaga lo más caro: resorte de inercia, parallax de fondos y rotaciones 3D. El diseño en reposo es el mismo. */
+    const lowEnd = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
+    const flags = { desktop, fine, lowEnd };
     const home = !!(qs(".hero") && qs("#unidades"));                         // la coreografía narrativa es de la home
 
     const scroll = initScroll(flags);

@@ -7,6 +7,8 @@
 var clips=[].slice.call(document.querySelectorAll(".clip"));if(!clips.length)return;
 var RM=matchMedia("(prefers-reduced-motion:reduce)").matches,sd=navigator.connection&&navigator.connection.saveData,auto=!RM&&!sd;
 var vids=[],DELAY=350;
+/* PERF · un solo IntersectionObserver para todos los clips (mismo umbral); antes había uno por clip. */
+var hs=new Map(),sio="IntersectionObserver" in window&&new IntersectionObserver(function(es){es.forEach(function(e){var h=hs.get(e.target);if(h)h(e)})},{threshold:.35});
 clips.forEach(function(f){
   var v=f.querySelector("video"),b=f.querySelector(".clip-b"),box=f.querySelector(".clip-v");if(!v||!b)return;
   var manual=false,timer=0,inView=false;vids.push(v);
@@ -21,11 +23,12 @@ clips.forEach(function(f){
     label()});
   box.addEventListener("click",function(){if(v.paused){manual=false;play()}else{manual=true;v.pause()}});
   ["play","pause","volumechange"].forEach(function(e){v.addEventListener(e,label)});
-  if("IntersectionObserver" in window){
-    new IntersectionObserver(function(e){
-      inView=e[0].isIntersecting;clearTimeout(timer);
+  if(sio){
+    hs.set(f,function(e){
+      inView=e.isIntersecting;clearTimeout(timer);
       if(inView&&auto&&!manual&&v.paused&&!document.hidden)timer=setTimeout(function(){if(inView&&!document.hidden&&v.paused&&!manual)play()},DELAY);
-      else if(!inView&&!v.paused)v.pause()},{threshold:.35}).observe(f)}
+      else if(!inView&&!v.paused)v.pause()});
+    sio.observe(f)}
   document.addEventListener("visibilitychange",function(){
     if(document.hidden){clearTimeout(timer);if(!v.paused)v.pause()}
     else if(inView&&auto&&!manual&&v.paused)play()});
@@ -50,6 +53,15 @@ var s=document.getElementById("visita");if(!s||!("IntersectionObserver" in windo
 var sd=navigator.connection&&navigator.connection.saveData;
 var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
   var im=new Image();im.decoding="async";im.src="images/bg-visita.webp";if(im.decode)im.decode().catch(function(){})},{rootMargin:(sd?"300px":"2200px")+" 0px"});
+io.observe(s);
+})();
+
+/* PERF · Guía: mismo criterio que Financiación y Visita. El fondo (images/bg-guia.webp, 1440x1600) se baja y decodifica antes de llegar. */
+(function(){
+var s=document.getElementById("guia");if(!s||!("IntersectionObserver" in window))return;
+var sd=navigator.connection&&navigator.connection.saveData;
+var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
+  var im=new Image();im.decoding="async";im.src="images/bg-guia.webp";if(im.decode)im.decode().catch(function(){})},{rootMargin:(sd?"300px":"2200px")+" 0px"});
 io.observe(s);
 })();
 
