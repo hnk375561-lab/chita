@@ -519,10 +519,7 @@ function initBanner({ desktop }) {
 function initSectionBackdrops({ desktop, lowEnd }) {
   /* Secciones en color sólido (sin foto): unidades, modelos, trayectoria, contacto (lo cubre el mapa), local, como-comprar, operaciones, equipo, preguntas.
      El resto lleva una foto de interior; con 6 fotos y 9 secciones se reutilizan, nunca en secciones contiguas. */
-  /* PERF · bajo un velo del 74–82 % el detalle de 2400 px no se ve: en pantallas de hasta ~1900 px reales se usa la variante de 1600 px (≈ 56 % menos píxeles a decodificar). */
-  const px = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
-  const pick = (n) => `images/bg/${n}${px > 1900 ? "" : "-1600"}.webp`;
-  const sources = { versus:pick("stock-1"), entregas:pick("stock-2"), opiniones:pick("stock-5"), bd:pick("stock-6") };
+  const sources = { versus:"images/bg/stock-1.webp", entregas:"images/bg/stock-2.webp", opiniones:"images/bg/stock-5.webp", bd:"images/bg/stock-6.webp" };
   const dark = new Set(["versus","entregas","contacto","bd","financiacion","guia","visita"]);
   const veil = (id) => dark.has(id) ? "linear-gradient(rgba(6,17,26,.74),rgba(6,17,26,.74))" : "linear-gradient(rgba(243,245,246,.82),rgba(243,245,246,.82))";
   const mobile = !desktop, clean = [];
@@ -532,6 +529,9 @@ function initSectionBackdrops({ desktop, lowEnd }) {
     const layer = document.createElement("div"); layer.className = "chita-section-backdrop"; layer.setAttribute("aria-hidden", "true");
     layer.style.cssText = ["position:absolute","inset:0","z-index:0","pointer-events:none","overflow:clip",`background-image:${veil(section.id)}`,"background-size:cover",`background-position:${index % 2 ? "58% 46%" : "42% 54%"}`,"background-repeat:no-repeat","opacity:1!important","filter:none!important","transform:scale(1.04)","transform-origin:50% 50%",...(lowEnd ? [] : ["will-change:transform"])].join(";");
     section.prepend(layer);
+    /* PERF · identidad.css oculta .chita-section-backdrop (display:none!important): si está oculto no se pide ni decodifica la foto ni se anima la capa.
+       Se conservan position/isolation de la sección (comportamiento actual). Si algún día se vuelve a mostrar, todo funciona como antes. */
+    if (getComputedStyle(layer).display === "none") { layer.remove(); clean.push(() => { section.style.removeProperty("position"); section.style.removeProperty("isolation"); }); return; }
     /* La foto se pide solo cuando la sección está cerca del viewport (antes bajaban las 5 al abrir el sitio). */
     const paint = () => {
       const apply = () => { layer.style.backgroundImage = `${veil(section.id)},url(${src})`; };

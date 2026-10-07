@@ -30,7 +30,7 @@ for (const unused of ['js/nosotros.js', 'video/reel-recorrido.mp4', 'images/cart
 
 
 // T16 · No publicar imágenes de images/ que ningún archivo público referencia (solo en _site; el repo no se toca).
-// Criterio conservador: se conserva si el nombre sin extensión ni sufijo (-480, -800, -1600, -bk) aparece en el texto de
+// Criterio conservador: se conserva si el nombre sin extensión ni sufijo (-480, -800, -bk) aparece en el texto de
 // cualquier HTML, CSS, JS propio o webmanifest publicado. Ante la duda, se conserva.
 {
   const textFiles = [];
@@ -38,7 +38,7 @@ for (const unused of ['js/nosotros.js', 'video/reel-recorrido.mp4', 'images/cart
   for (const d of ['css', 'js']) walk(path.join(out, d));
   for (const f of FILES) if (/\.(html|webmanifest)$/.test(f)) textFiles.push(path.join(out, f));
   const corpus = textFiles.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
-  const stemOf = (name) => name.replace(/\.[a-z0-9]+$/i, '').replace(/-(480|800|1600|bk)$/, '');
+  const stemOf = (name) => name.replace(/\.[a-z0-9]+$/i, '').replace(/-(480|800|bk)$/, '');
   let removed = 0, bytes = 0;
   const sweep = (dir) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
