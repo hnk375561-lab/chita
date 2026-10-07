@@ -84,7 +84,7 @@ function step(){
   if(im.decode)im.decode().then(go,go);else go()}
 function start(){
   add(document.querySelectorAll("#hero .hx-rail img"));
-  var trk=document.querySelectorAll("#hero .hx-trk img");add(trk,Math.ceil(trk.length/2));
+  var trk=document.querySelectorAll("#hero .hx-trk img"),tk=document.querySelector("#hero .hx-trk"),tn=tk?parseInt(tk.style.getPropertyValue("--n"),10):0;add(trk,tn||Math.ceil(trk.length/2));
   if(big){add(document.querySelectorAll("#entregas .eg img"));add(document.querySelectorAll("#stockGrid .car .ct img:first-child"),28)}
   ric(step,{timeout:3000})}
 if(document.readyState==="complete")setTimeout(start,1200);else addEventListener("load",function(){setTimeout(start,1200)});

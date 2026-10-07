@@ -138,3 +138,22 @@ html body #operaciones#operaciones#operaciones .oc .oi img{will-change:auto;back
 /* El carril de fotos (hx-pass) y su cinta animada no necesitan repintarse fuera del hero */
 html body #hero .hx-pass{contain:strict}
 html body #hero .hx-pass.off .hx-trk{will-change:auto}
+
+/* 13 · Hero (v3) · rendimiento de la pasada, del riel y del reel.
+   (a) La pasada ya no duplica las N fotos enteras: lleva N fotos + K clones (K según el ancho de pantalla, ver js/app.js) (js/app.js escribe --n y --m en .hx-trk).
+       El recorrido del bucle es N paneles (-100% * n / m del ancho de la cinta): misma velocidad y misma costura que con -50%.
+   (b) Hero "dormido" (js/identidad.js: data-act="0" cuando Entregas lo tapó, salió de pantalla o la pestaña está oculta):
+       la pasada se pausa (también el reel y los recuadros del riel, por JS). Mientras se scrollea sobre el hero, la pasada se frena (.hx-scr).
+   (c) Las animaciones de entrada (corte del reel y de los recuadros) dejaban su estado final "retenido" (fill both) para siempre:
+       con fill backwards, al terminar el elemento vuelve a su CSS base, que es idéntico al último fotograma (mismo polígono, misma escala). */
+@media(prefers-reduced-motion:no-preference){
+  @keyframes hxp2{to{transform:translate3d(calc(-100% * var(--n) / var(--m)),0,0)}}
+  html body main>.hero.hx .hx-trk{animation-name:hxp2}
+  html body #hero[data-act="0"] .hx-trk,html body #hero.hx-scr .hx-trk{animation-play-state:paused}
+  html.m body #hero .hx-rt,
+  html.m body #hero .hx-rt .hx-rs:first-child img,
+  html.m body #hero .hx-rt .hx-rs:first-child i{animation-fill-mode:backwards}
+  /* El reel: el último fotograma de «corte» usa el --c PROPIO del reel (clamp 36–84 px); el --cut global del :root usa otro --c (16–34 px).
+     Por eso el recorte se escribe acá con el --c del elemento: al soltar la animación queda exactamente el mismo corte que se ve hoy. */
+  @media(min-width:900px){html.m body #hero .hx-reel{clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,0 100%);animation-fill-mode:backwards}}
+}

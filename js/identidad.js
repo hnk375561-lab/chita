@@ -32,7 +32,7 @@ S.forEach(function(s){io.observe(s)});
 var f=document.getElementById("reel"),v=document.getElementById("reelv"),b=document.getElementById("reelb");if(!f||!v||!b)return;
 var t=b.querySelector(".rs-t")||b,px=f.querySelector(".reel-px"),
  RM=matchMedia("(prefers-reduced-motion:reduce)").matches,cn=navigator.connection||{},
- slow=/2g|3g/.test(cn.effectiveType||"")||(cn.downlink>0&&cn.downlink<1.5),
+ slow=/2g|3g/.test(cn.effectiveType||"")||(cn.downlink>0&&cn.downlink<1.5)||(matchMedia("(min-width:900px)").matches&&(window.devicePixelRatio||1)<1.5),
  auto=!RM&&!cn.saveData,vis=false,manual=false,asked=false,tried=0,kicked=false;
 var S=[slow&&v.getAttribute("data-lite"),v.getAttribute("data-src"),v.getAttribute("data-lite")].filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i});
 function load(){if(!v.getAttribute("src")&&S[tried]){v.preload="auto";v.src=S[tried]}}
@@ -44,9 +44,9 @@ function ui(){
 function play(){load();var p=v.play();if(p&&p.catch)p.catch(function(e){if(e&&e.name==="NotAllowedError"&&!v.muted){v.muted=true;ui();var q=v.play();if(q&&q.catch)q.catch(function(){})}})}
 function kick(){if(kicked)return;kicked=true;if(auto&&vis&&!manual)play()}
 function whenReady(){
- var go=function(){(window.requestIdleCallback||function(c){setTimeout(c,200)})(kick,{timeout:900})};
- if(px&&!px.complete)px.addEventListener("load",go,{once:true});else go();
- addEventListener("load",function(){setTimeout(kick,0)},{once:true})}
+ var fired=false,go=function(){if(fired)return;fired=true;(window.requestIdleCallback||function(c){setTimeout(c,200)})(kick,{timeout:900})};
+ var after=function(){if(document.readyState==="complete")go();else{addEventListener("load",go,{once:true});setTimeout(go,2500)}};
+ if(px&&!px.complete)px.addEventListener("load",after,{once:true});else after()}
 v.addEventListener("playing",function(){f.classList.add("is-live");ui()});
 ["play","pause","volumechange","waiting","canplay","stalled","loadeddata"].forEach(function(e){v.addEventListener(e,ui)});
 v.addEventListener("error",function(){
@@ -67,6 +67,9 @@ else{vis=true}
 document.addEventListener("visibilitychange",function(){
  if(document.hidden){if(!v.paused)v.pause()}
  else if(vis&&auto&&!manual&&kicked&&v.paused)play()});
+/* PERF: con el hero fijo y Entregas encima, el reel seguía "a la vista" para el IntersectionObserver y se decodificaba tapado. */
+document.addEventListener("chita:hero-idle",function(e){var i=e.detail&&e.detail.idle;
+ if(i){if(!v.paused)v.pause()}else if(vis&&auto&&!manual&&kicked&&v.paused&&!document.hidden)play()});
 whenReady();ui();
 })();
 /* CHITA · video de Visita: loop silencioso al entrar en pantalla, pausa al salir, botón propio (respeta movimiento reducido y ahorro de datos) */
@@ -104,16 +107,14 @@ var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,S=[].sli
 S.forEach(function(s){var t=d.createElement("i");t.className="tl";t.setAttribute("aria-hidden","true");s.appendChild(t)});
 if(RM)return;
 var hr=d.querySelector(".hx-reel"),hs=d.querySelector(".hx .hx-show"),hero=d.getElementById("hero"),big=matchMedia("(min-width:900px)"),
-tape=null,ly=scrollY,v=0,raf=0,pr=1,moved=false;
-function anim(){if(tape)return tape;var t=d.querySelector(".hx-trk");if(t&&t.getAnimations){var a=t.getAnimations()[0];if(a)tape=a}return tape}
+raf=0,moved=false;
 var hH=hero?hero.offsetHeight:1,lastK=-1;function remeasure(){hH=hero?hero.offsetHeight:1;lastK=-1}addEventListener("resize",remeasure,{passive:true});addEventListener("load",remeasure);
-function tick(){raf=0;var y=scrollY,vh=innerHeight,dy=y-ly;ly=y;v+=(Math.abs(dy)-v)*.18;
+function tick(){raf=0;var y=scrollY;
  if(hero&&big.matches){var k=Math.max(0,Math.min(1,y/Math.max(1,hH)));
   /* PERF: antes se escribían 3 variables CSS (--hr/--hs/--hx) por frame: cada una invalida el estilo de todo el reel y del carril.
      Ahora se escribe directo la propiedad translate (solo compositor) y solo si el valor cambió. */
   if(k!==lastK){lastK=k;if(hr)hr.style.translate="0 "+(-k*46).toFixed(2)+"px";if(hs)hs.style.translate=(Math.pow(k,1.7)*innerWidth*.62).toFixed(1)+"px "+(k*34).toFixed(2)+"px";moved=true}}
- else if(moved){moved=false;lastK=-1;if(hr)hr.style.translate="";if(hs)hs.style.translate=""}
- if(v>.05)raf=requestAnimationFrame(tick)}
+ else if(moved){moved=false;lastK=-1;if(hr)hr.style.translate="";if(hs)hs.style.translate=""}}
 function q(){if(!raf)raf=requestAnimationFrame(tick)}
 addEventListener("scroll",q,{passive:true});addEventListener("resize",q);q();
 })();
@@ -147,25 +148,35 @@ var p=document.createElement("i");p.className="pf";p.setAttribute("aria-hidden",
 var n=m.querySelectorAll(":scope>section[id]").length,t=document.createElement("p");t.className="fin7";t.setAttribute("aria-hidden","true");t.textContent="Fin del talonario · "+n+"/"+n;
 var w=f.querySelector(".w");if(w)w.insertBefore(t,w.firstChild);
 })();
-/* CHITA · v10 — EL DESPACHO. El hero queda fijo mientras Entregas lo cubre; cuando lo cubrió del todo se suelta
-   (sale de pantalla y el video del recorrido se pausa solo). Solo escritorio y sin reduced-motion; si el hero no
-   entra completo bajo el header, no se fija. 1 listener pasivo + 1 rAF por scroll, una lectura de layout. */
+/* CHITA · v10 — EL DESPACHO + gobernador del hero (perf). El hero queda fijo mientras Entregas lo cubre; cuando lo cubrió del todo se suelta.
+   Solo escritorio y sin reduced-motion; si el hero no entra completo bajo el header, no se fija.
+   PERF: (1) la posición de Entregas se mide al cargar/redimensionar y no en cada frame de scroll (antes: getBoundingClientRect por frame).
+         (2) "hero dormido": cuando Entregas lo tapó casi del todo, o salió de pantalla, o la pestaña está oculta, el hero emite chita:hero-idle
+             y pone data-act="0": se pausan la pasada, los recuadros del riel y el reel. Antes seguían corriendo debajo de Entregas.
+         (3) mientras se scrollea sobre el hero, la pasada se frena (clase hx-scr) y vuelve 140 ms después de parar. */
 (function(){
 var d=document,h=d.documentElement,hero=d.getElementById("hero"),hd=d.querySelector("header"),ent=d.querySelector("main>section[id]");
-if(!hero||!ent||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
-var big=matchMedia("(min-width:900px)"),raf=0;
-function fit(){var hh=hd?hd.offsetHeight:0,ok=big.matches&&hero.offsetHeight+hh<=innerHeight+2;
- hero.style.setProperty("--hh",hh+"px");h.classList.toggle("dsp",ok);if(!ok)hero.classList.remove("stk");upd()}
-/* PERF: una vez que Entregas tapó al hero, no hace falta leer el layout en cada frame de scroll por el resto de la página
-   (Guía, Visita, etc.). Se guarda el scrollY por debajo del cual podría destaparse y solo se vuelve a medir al subir hasta ahí. */
-var thr=-1;
-function upd(){raf=0;if(!h.classList.contains("dsp"))return;
- var y=window.pageYOffset;if(thr>=0&&y>thr)return;
- var hh=hd?hd.offsetHeight:0,t=ent.getBoundingClientRect().top,covered=t<=hh;hero.classList.toggle("stk",!covered);
- thr=covered?y+t-hh+120:-1}
+if(!hero||!ent)return;
+var RM=matchMedia("(prefers-reduced-motion:reduce)").matches,big=matchMedia("(min-width:900px)"),
+ raf=0,hh=0,hH=1,entTop=0,dsp=false,inV=true,idle=false,scr=0,lastY=-1;
+function measure(){hh=hd?hd.offsetHeight:0;hH=hero.offsetHeight;entTop=ent.getBoundingClientRect().top+window.pageYOffset}
+function fit(){measure();dsp=!RM&&big.matches&&hH+hh<=innerHeight+2;
+ hero.style.setProperty("--hh",hh+"px");h.classList.toggle("dsp",dsp);if(!dsp)hero.classList.remove("stk");lastY=-1;upd()}
+function setIdle(v){if(v===idle)return;idle=v;hero.setAttribute("data-act",v?"0":"1");
+ d.dispatchEvent(new CustomEvent("chita:hero-idle",{detail:{idle:v}}))}
+function upd(){raf=0;var y=window.pageYOffset,gap=entTop-y-hh;
+ if(dsp)hero.classList.toggle("stk",gap>0);
+ setIdle(d.hidden||!inV||(dsp&&gap<hH*.12));
+ if(!RM&&y!==lastY&&!idle&&inV){if(!scr)hero.classList.add("hx-scr");clearTimeout(scr);scr=setTimeout(function(){scr=0;hero.classList.remove("hx-scr")},140)}
+ lastY=y}
 function q(){if(!raf)raf=requestAnimationFrame(upd)}
-function reset(){thr=-1;fit()}
-addEventListener("scroll",q,{passive:true});addEventListener("resize",reset);addEventListener("load",function(){thr=-1;q()});fit();
+hero.setAttribute("data-act","1");
+if("IntersectionObserver" in window)new IntersectionObserver(function(e){inV=e[0].isIntersecting;q()},{threshold:0}).observe(hero);
+addEventListener("scroll",q,{passive:true});addEventListener("resize",fit);
+addEventListener("load",function(){fit()});
+d.addEventListener("visibilitychange",q);
+if("ResizeObserver" in window)new ResizeObserver(function(){var a=hero.offsetHeight,b=hd?hd.offsetHeight:0;if(a!==hH||b!==hh)fit()}).observe(hero);
+fit();
 })();
 
 /* CHITA · v29 — Modelos: al cambiar de miniatura la foto se revela con el CORTE (reinicia la animación de css v29). Solo mouse; con reduced-motion el CSS la anula. */

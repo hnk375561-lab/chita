@@ -133,8 +133,11 @@ L.forEach(function(s){P.push({src:s})});
 function small(s){return /^assets\/w800\//.test(s)?s.replace("w800","w480"):s.replace(/\.webp$/,"-480.webp")}
 function pan(x,i,dup){var s=x.src,big=/^assets\/w800\//.test(s)||/-800\.webp$/.test(s)?s:s.replace(/\.webp$/,"-800.webp");
 return'<div class="hx-pn"><img src="'+esc(s)+'" srcset="'+esc(small(s))+' 480w, '+esc(big)+' 800w" sizes="(min-width:900px) 560px,60vw" alt="" width="800" height="1000" decoding="async" '+(!dup&&i===0?'fetchpriority="high"':!dup&&i<3?'fetchpriority="low"':'loading="lazy"')+' draggable="false"></div>'}
-var set=P.map(function(x,i){return pan(x,i,0)}).join(""),dup=P.map(function(x,i){return pan(x,i,1)}).join("");
-var el=document.createElement("div");el.className="hx-pass";el.setAttribute("aria-hidden","true");el.innerHTML='<div class="hx-trk">'+set+dup+'</div>';
+/* PERF: el bucle ya no duplica las N fotos enteras (20 paneles en una capa de ~12.000 px): alcanza con clonar las primeras K (cubren cualquier ancho de pantalla).
+   El recorrido de la animación es exactamente N paneles (--n de --m), igual que antes: misma velocidad y misma costura. */
+var K=Math.min(P.length,Math.ceil(Math.max(innerWidth,screen.width||0)/(.8*Math.max(360,Math.min(innerHeight*.9,1100))))+2);
+var set=P.map(function(x,i){return pan(x,i,0)}).join(""),dup=P.slice(0,K).map(function(x,i){return pan(x,i,1)}).join("");
+var el=document.createElement("div");el.className="hx-pass";el.setAttribute("aria-hidden","true");el.innerHTML='<div class="hx-trk" style="--n:'+P.length+';--m:'+(P.length+K)+'">'+set+dup+'</div>';
 hero.insertBefore(el,hero.firstChild);
 var inV=true;function sync(){el.classList.toggle("off",!inV||document.hidden)}
 if("IntersectionObserver" in window)new IntersectionObserver(function(e){inV=e[0].isIntersecting;sync()},{threshold:0}).observe(hero);
@@ -146,7 +149,7 @@ if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
 var tiles=[].slice.call(rail.querySelectorAll(".hx-rt")),vis=true,timers=[];
 if("IntersectionObserver" in window)new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(hero);
 tiles.forEach(function(t,k){var sl=[].slice.call(t.querySelectorAll(".hx-rs"));if(sl.length<2)return;var n=0;
- setTimeout(function(){setInterval(function(){if(!vis||document.hidden)return;sl[n].classList.remove("on");n=(n+1)%sl.length;sl[n].classList.add("on")},5600)},1800*(k+1))})})();
+ setTimeout(function(){setInterval(function(){if(!vis||document.hidden||hero.getAttribute("data-act")==="0")return;sl[n].classList.remove("on");n=(n+1)%sl.length;sl[n].classList.add("on")},5600)},1800*(k+1))})})();
 /* Carrusel de unidades del hero: solo existe si el HTML lo trae (desde v17 el hero es el reel). */
 if($("hs")){
 var HZ=$("hzs"),HN=$("hn"),HM=$("hm"),HW=$("hw"),HF=$("hf"),HC=$("hcount"),HR=$("hrail"),HV=$("hv"),HNAV=$("hnav"),hi=0,SL=[],hsl,hAnim=null;
