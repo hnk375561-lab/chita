@@ -307,8 +307,8 @@ function initNavigation() {
         const y = self.scroll(), dy = y - lastY; lastY = y;
         if (Math.sign(dy) !== Math.sign(acc)) acc = 0;
         acc += dy;
-        if (y < 640 || header.matches(":focus-within")) { setHidden(false); return; }
-        if (acc > 48) setHidden(true); else if (acc < -24) setHidden(false);
+        /* Barra siempre fija: ya no se esconde al bajar. */
+        setHidden(false);
       }
     });
 

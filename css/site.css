@@ -72,7 +72,7 @@ nav a::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:2px;b
 nav a{position:relative}nav a[aria-current]{color:var(--cyd)}
 header{transition:box-shadow .35s}header.s{box-shadow:0 10px 30px -22px rgba(10,16,32,.55)}
 @media(hover:hover){.btn.p:active{box-shadow:0 10px 22px -12px rgba(10,16,32,.55)}.car .ct img{transition:transform 1s cubic-bezier(.16,1,.3,1)}}
-@media(max-width:899px){.m header{position:sticky;top:0;z-index:20;transition:box-shadow .35s,transform .5s cubic-bezier(.16,1,.3,1)}.m header.h{transform:translateY(-100%)}}
+@media(max-width:899px){header{position:sticky;top:0;z-index:20}.m header{transition:box-shadow .35s,transform .5s cubic-bezier(.16,1,.3,1)}}
 .m dialog[open]:not(.gx){animation:dIn .45s cubic-bezier(.16,1,.3,1)}.m dialog[open]::backdrop{animation:dB .35s ease-out}.m dialog.out::backdrop{opacity:0;transition:opacity .4s cubic-bezier(.7,0,.84,0)}
 @keyframes dIn{from{opacity:0;transform:translate(calc(var(--fx,0px)*.06),calc(var(--fy,0px)*.06 + 14px)) scale(.97)}}@keyframes dB{from{opacity:0}}
 .ph{overflow:hidden}.pr{transition:border-color .4s}.car:active .pr{border-color:var(--cy)}.car .vf{transition:transform .35s cubic-bezier(.16,1,.3,1)}

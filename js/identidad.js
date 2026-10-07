@@ -5,7 +5,7 @@
 var S=[].slice.call(document.querySelectorAll("main>section[id]"));if(!S.length)return;
 var N={entregas:"Entregas",unidades:"Unidades","catalogo-comparador":"Modelos",contacto:"Dónde estamos",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
 var AL={entregas:"unidades","catalogo-comparador":"unidades",financiacion:"como-comprar",guia:"como-comprar",visita:"contacto",opiniones:"contacto",local:"contacto"};
-var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<b hidden></b>";document.body.appendChild(c);
+var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<b hidden></b>";/* tarjeta inferior izquierda eliminada: ya no se agrega al documento; el menú sigue marcándose */
 var lab=c.firstChild,cur="",links=[].slice.call(document.querySelectorAll("header nav a")),RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 function show(id){
  if(id===cur)return;cur=id;

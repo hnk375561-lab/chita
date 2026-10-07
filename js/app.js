@@ -149,7 +149,7 @@ if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
 var tiles=[].slice.call(rail.querySelectorAll(".hx-rt")),vis=true,timers=[];
 if("IntersectionObserver" in window)new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(hero);
 tiles.forEach(function(t,k){var sl=[].slice.call(t.querySelectorAll(".hx-rs"));if(sl.length<2)return;var n=0;
- setTimeout(function(){setInterval(function(){if(!vis||document.hidden||hero.getAttribute("data-act")==="0")return;sl[n].classList.remove("on");n=(n+1)%sl.length;sl[n].classList.add("on")},5600)},1800*(k+1))})})();
+ setTimeout(function(){setInterval(function(){if(!vis||document.hidden||hero.getAttribute("data-act")==="0")return;sl[n].classList.remove("on");n=(n+1)%sl.length;sl[n].classList.add("on")},4600)},1800*(k+1))})})();
 /* Carrusel de unidades del hero: solo existe si el HTML lo trae (desde v17 el hero es el reel). */
 if($("hs")){
 var HZ=$("hzs"),HN=$("hn"),HM=$("hm"),HW=$("hw"),HF=$("hf"),HC=$("hcount"),HR=$("hrail"),HV=$("hv"),HNAV=$("hnav"),hi=0,SL=[],hsl,hAnim=null;

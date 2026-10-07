@@ -1665,7 +1665,7 @@ html body .cl b span{display:none!important}
 /* — Hero: la pasada de vehículos se ve — */
 html body main>.hero.hx .hx-copy{background:linear-gradient(90deg,rgba(1,20,59,.88) 0%,rgba(1,20,59,.72) 55%,rgba(1,20,59,.26) 88%,rgba(1,20,59,0) 100%)!important}
 html body main>.hero.hx .hx-pn::after{opacity:.3}
-html body main>.hero.hx .hx-trk{animation-duration:60s}
+html body main>.hero.hx .hx-trk{animation-duration:50s}
 html body main>.hero.hx .hx-copy :is(.hx-h1,.hx-lead,.hx-foot){text-shadow:0 2px 16px rgba(1,20,59,.9),0 1px 3px rgba(1,20,59,.8)}
 @media(max-width:899px){html body main>.hero.hx .hx-copy{background:rgba(1,20,59,.62)!important}}
 
