@@ -1,0 +1,49 @@
+/* CHITA · v60 — 5 ajustes. Se carga DESPUÉS de chita-perf.css.
+   1) «Agendá tu visita»: el cartel rojo deja ver la foto de atrás.
+   2) Video de la oficina: botón de sonido (además de Pausar).
+   3) FAQ: panel de accesos (Instagram, Facebook, mapa, volver a unidades…) en lugar del hueco en blanco.
+   4) Contraste: en secciones oscuras, el botón rojo no puede quedar blanco sobre gris claro al pasar el mouse / tocar.
+   5) Hero: pasada de varios clips (el JS está en identidad.js). */
+
+/* 1) Cartel «Agendá tu visita» translúcido */
+html body #visita#visita#visita#visita#visita .vx-head{
+  background:linear-gradient(150deg,rgba(193,18,31,.46),rgba(143,14,24,.40))!important;
+  -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+html body #visita#visita#visita#visita#visita .vx-head h2,
+html body #visita#visita#visita#visita#visita .vx-head .vx-lead{text-shadow:0 2px 14px rgba(7,28,94,.6)!important}
+
+/* 4) Contraste de botones primarios sobre fondos oscuros (hover / toque / foco) */
+html body :is(#contacto,#guia,#catalogo-comparador) .btn.p:is(:hover,:active,:focus-visible){
+  background:#fff!important;border-color:#fff!important;color:var(--ink)!important;box-shadow:none!important;filter:none!important}
+html body #contacto .btn:not(.p):is(:hover,:active,:focus-visible){background:#fff!important;color:var(--ink)!important}
+
+/* 3) Panel de accesos rápidos bajo «¿No encontraste lo que buscabas?» */
+html body #preguntas nav.qk{display:block!important;width:auto!important;overflow:visible!important;margin:clamp(20px,2.4vw,32px) 0 0;padding:clamp(18px,2vw,26px);background:#fff;border-top:3px dotted var(--rojo);
+  clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%)}
+html body #preguntas .qk-t{display:block;margin:0 0 14px;color:var(--rojo);font:800 11px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #preguntas .qk-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:1100px){html body #preguntas .qk-g{grid-template-columns:repeat(3,minmax(0,1fr))}}
+html body #preguntas .qk-a{display:flex!important;white-space:normal;align-items:center;gap:10px;min-height:52px;padding:0 14px;background:var(--paper);color:var(--ink);
+  border-left:4px solid var(--rojo);font:800 13px/1.15 var(--font-display);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;
+  transition:background .18s linear,color .18s linear;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+html body #preguntas .qk-a span{min-width:0;white-space:normal;overflow-wrap:anywhere}
+html body #preguntas .qk-a i{font-style:normal;font-size:20px;line-height:1;flex:none;width:22px;text-align:center}
+html body #preguntas .qk-a svg{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+html body #preguntas .qk-a svg path[d^="M14 8"]{fill:currentColor;stroke:none}
+html body #preguntas .qk-a svg circle[r=".6"]{fill:currentColor}
+html body #preguntas .qk-a:is(:hover,:active,:focus-visible){background:var(--rojo);color:#fff}
+html body #preguntas .qk-a:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+/* 2) Video de la oficina: botón de sonido arriba a la derecha */
+html body #visita .vvid .vv-s{left:auto;right:12px;top:12px;bottom:auto;display:inline-flex;align-items:center;gap:8px;min-width:44px;min-height:44px;
+  padding:0 14px 0 11px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .2s linear}
+html body #visita .vvid .vv-s .rs-ic{width:22px;height:22px;flex:none;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linecap:round;overflow:visible}
+html body #visita .vvid .vv-s .rs-w,html body #visita .vvid .vv-s .rs-x{fill:none}
+html body #visita .vvid .vv-s .rs-w{opacity:0}
+html body #visita .vvid[data-sound="on"] .vv-s .rs-w{opacity:1}
+html body #visita .vvid[data-sound="on"] .vv-s .rs-x{opacity:0}
+html body #visita .vvid[data-sound="on"] .vv-s{background:var(--ink)}
+html body #visita .vvid .vv-s:hover{background:var(--chapa)}
+html body #visita .vvid .vv-s:focus-visible{outline:3px solid #fff;outline-offset:-5px}
+html body #visita .vvid .vv-s[disabled]{cursor:default;background:var(--ink);opacity:.9}
+@media(max-width:380px){html body #visita .vvid .vv-s .vv-st{display:none}}

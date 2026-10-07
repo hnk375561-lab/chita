@@ -1,0 +1,19 @@
+CHITA · v60 · 5 ajustes (copiar cada archivo en la MISMA ruta del repo)
+  index.html                          (hero, video de la oficina, panel de accesos, link a chita-v60.css)
+  css/chita-v60.css                   (NUEVO, se carga después de chita-perf.css)
+  js/identidad.js                     (hero con varios clips + sonido del video de la oficina)
+  scripts/build-site.mjs              (suma chita-v60 a la lista de CSS)
+  images/reel-poster.webp, reel-poster-480.webp   (póster nuevo = primer cuadro de variedad.mp4)
+  video/variedad-lite.mp4, multimarcas-lite.mp4, frente-local-vitrina-lite.mp4   (NUEVOS, 480x854, para conexión lenta)
+
+1) «Agendá tu visita»: el cartel rojo ahora es translúcido (≈45 %). Se regula en css/chita-v60.css (rgba .46/.40).
+2) Video de la oficina: botón «Sonido» arriba a la derecha (silencia los demás videos al activarse).
+   OJO: video/ambiente.mp4 NO tiene pista de audio. El botón detecta eso y pasa a «Sin audio». Para que suene,
+   reemplazar ese archivo por el export original con audio (mismo nombre).
+3) Zona en blanco bajo «¿No encontraste lo que buscabas?»: panel con Instagram, Facebook, 📍 Cómo llegar, Volver a unidades,
+   Agendá tu visita y Opiniones. Los links de IG, FB y mapa salen de los mismos datos de app.js (data-ig, data-fb, data-map).
+4) «Cómo llegar» ilegible: la causa era el hover/toque (fondo gris claro con texto blanco forzado). Corregido en #contacto,
+   #guia y #catalogo-comparador: al pasar el mouse o tocar queda fondo blanco y texto oscuro.
+5) Hero: ahora pasa en secuencia variedad.mp4 → multimarcas.mp4 → frente-local-vitrina.mp4 (HD; versión liviana en 3G/2G o pantalla chica sin retina).
+   El epígrafe cambia con cada clip. video/hero.mp4 y hero-lite.mp4 quedan en el repo sin usar (se pueden borrar).
+Volver atrás: restaurar los archivos desde git.

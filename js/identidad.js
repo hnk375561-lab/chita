@@ -34,7 +34,14 @@ var t=b.querySelector(".rs-t")||b,px=f.querySelector(".reel-px"),
  RM=matchMedia("(prefers-reduced-motion:reduce)").matches,cn=navigator.connection||{},
  slow=/2g|3g/.test(cn.effectiveType||"")||(cn.downlink>0&&cn.downlink<1.5)||(matchMedia("(min-width:900px)").matches&&(window.devicePixelRatio||1)<1.5),
  auto=!RM&&!cn.saveData,vis=false,manual=false,asked=false,tried=0,kicked=false;
-var S=[slow&&v.getAttribute("data-lite"),v.getAttribute("data-src"),v.getAttribute("data-lite")].filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i});
+/* v60: pasada de varios clips (data-playlist / data-playlist-lite / data-titles, separados por «|»). Con un solo clip se comporta como antes (loop). */
+var L=(v.getAttribute("data-playlist")||"").split("|").filter(Boolean),LL=(v.getAttribute("data-playlist-lite")||"").split("|"),TT=(v.getAttribute("data-titles")||"").split("|"),cur=0,cap=document.getElementById("reelcap");
+if(!L.length)L=[v.getAttribute("data-src")];
+function mk(){var hd=L[cur],lt=LL[cur]||v.getAttribute("data-lite");return [slow&&lt,hd,lt].filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i})}
+var S=mk();
+if(L.length>1)v.loop=false;
+function nextClip(){cur=(cur+1)%L.length;S=mk();tried=0;v.removeAttribute("src");if(cap&&TT[cur])cap.textContent=TT[cur];play()}
+v.addEventListener("ended",function(){if(L.length>1)nextClip()});
 function load(){if(!v.getAttribute("src")&&S[tried]){v.preload="auto";v.src=S[tried]}}
 function ui(){
  var on=!v.muted,busy=on&&asked&&!v.error&&v.readyState<3;
@@ -75,11 +82,24 @@ whenReady();ui();
 /* CHITA · video de Visita: loop silencioso al entrar en pantalla, pausa al salir, botón propio (respeta movimiento reducido y ahorro de datos) */
 (function(){
 var f=document.querySelector("#visita .vvid"),v=f&&f.querySelector("video"),b=f&&f.querySelector(".vv-b");if(!v||!b)return;
+var sb=f.querySelector(".vv-s"),sbt=sb&&sb.querySelector(".vv-st"),ck=0;
 var RM=matchMedia("(prefers-reduced-motion:reduce)").matches,sd=navigator.connection&&navigator.connection.saveData,auto=!RM&&!sd,manual=false;
 function label(){b.textContent=v.paused?"Reproducir":"Pausar";b.setAttribute("aria-pressed",String(!v.paused))}
 function play(){var p=v.play();if(p&&p.catch)p.catch(function(){})}
 b.addEventListener("click",function(){if(v.paused){manual=false;play()}else{manual=true;v.pause()}});
 v.addEventListener("play",label);v.addEventListener("pause",label);
+/* v60: sonido del video de la oficina. Silencia los demás videos al activarlo. Si el archivo no trae pista de audio, el botón lo avisa en vez de quedar mudo sin explicación. */
+function snd(){if(!sb)return;var on=!v.muted;f.setAttribute("data-sound",on?"on":"off");sb.setAttribute("aria-pressed",String(on&&!v.paused));
+ if(!sb.disabled){sb.setAttribute("aria-label",on?"Silenciar el video":"Activar sonido del video");if(sbt)sbt.textContent=on?"Silenciar":"Sonido"}}
+function noTrack(){return v.mozHasAudio===false||(v.audioTracks&&v.audioTracks.length===0)||(typeof v.webkitAudioDecodedByteCount==="number"&&v.webkitAudioDecodedByteCount===0)}
+if(sb){
+ sb.addEventListener("click",function(){
+  if(sb.disabled)return;
+  if(v.paused){manual=false;v.muted=false;play()}else v.muted=!v.muted;
+  if(!v.muted){[].forEach.call(document.querySelectorAll("video"),function(o){if(o!==v&&!o.muted)o.muted=true});
+   clearTimeout(ck);ck=setTimeout(function(){if(!v.muted&&!v.paused&&noTrack()){sb.disabled=true;v.muted=true;if(sbt)sbt.textContent="Sin audio";sb.setAttribute("aria-label","Este video no tiene audio");snd()}},1600)}
+  snd()});
+ v.addEventListener("volumechange",snd);v.addEventListener("play",snd);v.addEventListener("pause",snd);snd()}
 /* PERF: el video recién arranca si se queda a la vista ~350 ms (no se descarga ni decodifica al pasar de largo scrolleando) y se pausa con la pestaña oculta. */
 var vis=false,timer=0;v.disablePictureInPicture=true;
 if("IntersectionObserver" in window){new IntersectionObserver(function(e){vis=e[0].isIntersecting;clearTimeout(timer);
