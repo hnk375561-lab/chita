@@ -3,7 +3,7 @@
 Sitio estático de una sola página (`index.html`) más `privacidad.html`, `404.html` y `reserva.html`. `viaje.html` existe en el repo pero no se publica (no está en la lista blanca de `scripts/build-site.mjs`). Es el sitio oficial de Chita Automotores, publicado como demo temporal en github.io y **no indexable** (`noindex`, ver `CLAUDE.md` regla 5).
 
 ## Estructura actual de index.html
-Hero («Autos que se van con sus dueños») · Entregas con prueba social (4,7 en Google) · Unidades (9 tarjetas) · Índice de unidades y comparador (hasta 5) · Dónde estamos · Reseñas · Cómo comprar · Financiación · Comprá, vendé o permutá · Guía · Visita · Preguntas («Contanos qué auto buscás»). Ids: `entregas`, `unidades`, `catalogo-comparador`, `contacto`, `opiniones`, `como-comprar`, `financiacion`, `operaciones`, `guia`, `visita`, `preguntas`.
+Hero («Autos que se van con sus dueños») · Entregas con prueba social (4,7 en Google) · Unidades (9 tarjetas) · Índice de unidades y comparador (hasta 5) · Dónde estamos · Reseñas · Cómo comprar · Financiación · Comprá, vendé o permutá · Visita · Guía · Preguntas («Contanos qué auto buscás»). Ids: `entregas`, `unidades`, `catalogo-comparador`, `contacto`, `opiniones`, `como-comprar`, `financiacion`, `operaciones`, `visita`, `guia`, `preguntas`.
 
 ## Reglas
 Ver `CLAUDE.md`. Datos en `data/dealership.json`; verificar con `npm test`.
