@@ -334,6 +334,8 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   /* FAQ: la respuesta conserva su prudencia, pero deja de ser un callejón sin salida. */
   var routes=[[/0 km|unidad/,"#unidades","Ver unidades"],[/usado/,"#operaciones","Abrir talón de operación"],[/financiación/,"#financiacion","Ver talón de condiciones"],[/consignación/,"#operaciones","Preparar consignación"],[/cuándo|cuando|visita/ ,"#visita","Coordinar visita"],[/cuánto|cuanto|precio/ ,"#unidades","Consultar una unidad"]];
   [].slice.call(d.querySelectorAll("#preguntas .fa details")).forEach(function(det){if(det.querySelector(".faq-route"))return;var text=(det.querySelector("summary")||{}).textContent||"",r=routes.find(function(x){return x[0].test(text.toLowerCase())});if(!r)return;var a=d.createElement("a");a.className="faq-route";a.href=r[1];a.textContent=r[2]+" ↗";var p=det.querySelector("p");if(p)p.appendChild(d.createTextNode(" "));(p||det).appendChild(a)})
+  /* FAQ: una sola respuesta abierta a la vez. Los navegadores con <details name> lo resuelven solos; este respaldo cubre a los que no. */
+  if(!("name" in HTMLDetailsElement.prototype)){var fq=[].slice.call(d.querySelectorAll("#preguntas .fa details"));fq.forEach(function(x){x.addEventListener("toggle",function(){if(x.open)fq.forEach(function(o){if(o!==x&&o.open)o.open=false})})})}
 })();
 
 /* CHITA · v56 · Visita: calendario propio (clases vc-*). Escribe el día (y la franja) en «Cuándo te queda cómodo»; el resumen y el mensaje de WhatsApp lo leen de ahí. Sin JS queda el campo de texto. No es una reserva: confirmamos por WhatsApp. */
