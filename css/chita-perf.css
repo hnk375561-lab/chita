@@ -62,7 +62,7 @@ html body #financiacion#financiacion#financiacion .pdl{
 /* 8 · Financiación · segunda pasada. El fondo ya es una sola capa propia y fija: se aísla en su propia capa de GPU
    (no se repinta mientras el contenido se mueve encima). Las tarjetas y el panel se contienen para que un cambio
    adentro (hover, cupón) no obligue a recalcular el resto de la página. */
-html body #financiacion#financiacion#financiacion .fin-bg.mos{transform:translateZ(0);backface-visibility:hidden}
+/* PERF v2: sin translateZ/backface en el fondo: promoverlo a capa propia hacía que todas las secciones que lo tapan o rozan (Operaciones, Visita, Preguntas) se volvieran capas enormes por "overlap". */
 html body #financiacion#financiacion .pdc,html body #financiacion#financiacion .fin-ticket{contain:layout style}
 html body #financiacion#financiacion .pdc .cup{contain:layout style}
 html body #financiacion#financiacion .pdc:not(:hover){will-change:auto}
@@ -79,7 +79,7 @@ html body #financiacion#financiacion .pdc:not(:hover){will-change:auto}
 html body #visita#visita#visita#visita .fin-bg::before,
 html body #visita#visita#visita#visita .fin-bg::after{content:none!important;display:none!important}
 html body #visita#visita#visita#visita .fin-bg.mos{
-  display:block!important;contain:layout paint style;transform:translateZ(0);backface-visibility:hidden;
+  display:block!important;contain:layout paint style;
   background:
     repeating-linear-gradient(90deg,var(--chapa) 0 8px,transparent 8px 25%),
     linear-gradient(180deg,rgba(11,44,140,.74),rgba(11,44,140,.6) 45%,rgba(7,28,96,.86)),
@@ -128,3 +128,13 @@ html body #operaciones#operaciones#operaciones .og .oc:not(.is-selected){box-sha
 html body #operaciones#operaciones#operaciones .og .oc{contain:layout paint}
 html body #operaciones#operaciones#operaciones .oc .oi{contain:layout paint}
 html body #operaciones#operaciones#operaciones .oc .oi img{will-change:auto;backface-visibility:visible}
+
+/* 12 · Hero (v2) · el reel y el carril de fotos se mueven con el scroll (translate escrito desde identidad.js).
+   Solo en escritorio y mientras el hero está a la vista (clase .stk = fijo/sin tapar): se promueven a su capa para que el
+   corte diagonal (clip-path) del reel no se vuelva a rasterizar cada frame. Cuando Entregas lo tapa, se sueltan. */
+@media(min-width:900px){
+  html.dsp body #hero.stk .hx-reel,html.dsp body #hero.stk .hx-show{will-change:translate}
+}
+/* El carril de fotos (hx-pass) y su cinta animada no necesitan repintarse fuera del hero */
+html body #hero .hx-pass{contain:strict}
+html body #hero .hx-pass.off .hx-trk{will-change:auto}
