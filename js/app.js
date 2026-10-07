@@ -138,7 +138,14 @@ var K=Math.min(P.length,Math.ceil(Math.max(innerWidth,screen.width||0)/(.8*Math.
 var set=P.map(function(x,i){return pan(x,i,0)}).join(""),dup=P.slice(0,K).map(function(x,i){return pan(x,i,1)}).join("");
 var el=document.createElement("div");el.className="hx-pass";el.setAttribute("aria-hidden","true");el.innerHTML='<div class="hx-trk" style="--n:'+P.length+';--m:'+(P.length+K)+'">'+set+dup+'</div>';
 hero.insertBefore(el,hero.firstChild);
-var inV=true;function sync(){el.classList.toggle("off",!inV||document.hidden)}
+/* Móvil: segunda pasada (copia) que corre detrás del reel y de los recuadros, de donde termina la primera hasta el final del hero;
+   así no queda un fondo azul liso alrededor del reel. En escritorio no se crea (la primera ya cubre todo el hero). */
+var passes=[el],mq=matchMedia("(max-width:899px)");
+function dupPass(){if(passes.length>1||!mq.matches)return;var e2=el.cloneNode(true);e2.classList.add("hx-pass2");
+[].forEach.call(e2.querySelectorAll("img"),function(im){im.removeAttribute("fetchpriority");im.loading="lazy"});
+el.parentNode.insertBefore(e2,el.nextSibling);passes.push(e2);sync()}
+var inV=true;function sync(){var off=!inV||document.hidden;passes.forEach(function(p){p.classList.toggle("off",off)})}
+dupPass();if(mq.addEventListener)mq.addEventListener("change",dupPass);else if(mq.addListener)mq.addListener(dupPass);
 if("IntersectionObserver" in window)new IntersectionObserver(function(e){inV=e[0].isIntersecting;sync()},{threshold:0}).observe(hero);
 document.addEventListener("visibilitychange",sync)})();
 /* Hero · tres recuadros junto al reel (.hx-rail): entregas e interiores, cada recuadro alterna sus fotos con fundido.

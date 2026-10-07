@@ -60,3 +60,22 @@ html body #contacto .lc{background:rgba(10,16,32,var(--lc-a))!important}
 html body #contacto .mp::after{background:rgba(1,20,59,var(--lc-ov))}
 @media(min-width:900px){html body #contacto .mp::after{background:linear-gradient(90deg,rgba(1,20,59,var(--lc-ov)) 0%,rgba(1,20,59,calc(var(--lc-ov)*.8)) 55%,rgba(1,20,59,calc(var(--lc-ov)*.35)) 88%,rgba(1,20,59,0) 100%)}}
 @media(prefers-reduced-transparency:reduce){html body #contacto{--lc-a:1;--lc-ov:.62}}
+
+/* v61 · Hero (móvil): reel y carrusel de fondo
+   (1) «Escuchá el salón»: más chico y más arriba. Los videos llevan un cartel propio a ~85 % de la altura («Tenemos lo que buscás», «¿Vos cuál querés?»);
+       el botón queda por encima de ese cartel (posición en % de la altura del reel, así acompaña cualquier ancho).
+   (2) Segunda pasada de autos (.hx-pass2, la crea js/app.js): corre detrás del reel y de los recuadros, desde donde termina la primera hasta el final del hero.
+   (3) El reel sube unos px (menos aire debajo del texto) y deja una franja de la pasada entre él y los recuadros de entregas/interiores. */
+html body #reelb{bottom:17%;right:10px;min-height:34px;min-width:34px;padding:0 12px 0 9px;gap:6px;font-size:11px;letter-spacing:.06em;--c:8px}
+html body #reelb .rs-ic{width:16px;height:16px}
+@media(min-width:900px){html body #reelb{bottom:17%}}
+@media(max-width:899px){
+  html body main>.hero.hx>.hx-pass2{inset:auto 0 0 0;top:clamp(500px,135vw,640px);height:auto;clip-path:none}
+  html body main>.hero.hx>.hx-pass2 .hx-pn::after{opacity:.4}
+  html body main>.hero.hx>.hx-pass2 .hx-trk{animation-direction:reverse}
+  html body .hx-h1{margin-bottom:8px!important}
+  html body .hx-lead{margin-bottom:8px!important}
+  html body .hx-proof{margin-top:8px}
+  html body .hx .hx-rail{margin-top:12px}
+}
+@media(min-width:900px){.hx-pass2{display:none}}
