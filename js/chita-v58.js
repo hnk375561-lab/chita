@@ -8,7 +8,12 @@ var S=window.STOCK||[];
 var RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 function $(i){return document.getElementById(i)}
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-var SS=typeof ss==="function"?ss:function(u){return u};
+/* srcset de las miniaturas: mismas variantes -480/-800 (o assets/w480|w800) que usa app.js (small/pan).
+   Antes esperaba una función global `ss` que no existe y caía en un fallback que devolvía la foto completa. */
+function SS(u){u=String(u);
+  if(/^assets\/w800\//.test(u))return u.replace("w800","w480")+" 480w, "+u+" 800w";
+  if(!/\.webp$/.test(u)||/-(480|800)\.webp$/.test(u))return u;
+  return u.replace(/\.webp$/,"-480.webp")+" 480w, "+u.replace(/\.webp$/,"-800.webp")+" 800w"}
 function slug(c){return String((c.corto||c.titulo)+"-"+c.anio).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")}
 function fotos(c){return c.fotos&&c.fotos.length?c.fotos:[c.foto]}
 function pad(n){return String(n).padStart(2,"0")}
