@@ -1,0 +1,30 @@
+/* CHITA · chita-perf2.css — cargar DESPUÉS de todas las demás hojas (va al final de <head>).
+   Reemplaza clip-path por un triángulo del color del fondo SOLO donde el fondo de atrás es liso (la cabecera, var(--paper)).
+   Mismo método que ya usa chita-perf.css (#visita, #guia): el corte de N px se dibuja a 225° con la medida sobre la diagonal (N/√2),
+   y 1 px de transición para que el borde no quede dentado.
+   Para comparar contra el original: abrir la página con  ?cut=clip  (index.html agrega la clase html.cut-clip y esta hoja deja de aplicar). */
+
+@media screen {
+
+  /* 1 · Botón de la cabecera (header .btn): corte de 12 px → 8,5 px sobre la diagonal.
+     Se pinta un triángulo color papel ENCIMA del fondo del botón, así funciona en reposo, hover, foco y :active sin tocar sus colores.
+     !important: site.css (:active) usa «background:…!important», que reseteaba la imagen de fondo. */
+  html:not(.cut-clip) body header .btn.btn.btn {
+    clip-path: none;
+    background-image: linear-gradient(225deg, var(--paper) 8px, transparent 9px) !important;
+  }
+
+  /* 2 · Enlace activo de la navegación en móvil (header nav a.on): corte de 9 px → 6,4 px. Solo existe en <900 px.
+     Se conserva el color de fondo (y su transición de .3 s); el triángulo papel se pinta encima. */
+  @media (max-width: 899px) {
+    html:not(.cut-clip) body header nav a.on.on {
+      clip-path: none;
+      background-image: linear-gradient(225deg, var(--paper) 6px, transparent 7px);
+    }
+  }
+}
+
+/* NO incluido a propósito (el fondo de atrás NO es liso, un triángulo del color del fondo se vería mal):
+   · .hx-reel, .hx-rt, .hx-btn (secundario), .hx-h1 em, .hx-proof, .hx-photo → detrás corre .hx-pass (franja de fotos en movimiento).
+   · #entregas .eg li, .eh img, .eg-next, .rts, .egn-c → detrás está .ent-bg (collage de fotos + velo azul + rayas rojas).
+   Ver PERF-CAMBIOS.md, sección «Qué falta decidir». */
