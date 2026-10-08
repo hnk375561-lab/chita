@@ -45,6 +45,10 @@ ScrollTrigger.config({ ignoreMobileResize: true, limitCallbacks: true });
 
 /* ── Utilidades ─────────────────────────────────────────────────────────────────────── */
 const root = document.documentElement;
+/* PERF · Rueda del mouse: con Lenis (true) cada frame de scroll pasa por JS en el hilo principal y cualquier trabajo de pintado
+   se nota como tirón. Con false el scroll de rueda es el nativo del navegador (corre en el compositor) y Lenis se usa solo
+   para los saltos a anclas (menú, botones). Para volver al scroll suavizado de antes: poner true. */
+const SMOOTH_WHEEL = false;
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const MQ = {
   motion: "(prefers-reduced-motion: no-preference)",
@@ -182,7 +186,7 @@ function initScroll({ desktop }) {
   const lenis = new Lenis({
     lerp: desktop ? 0.12 : 0.14,
     wheelMultiplier: 1,
-    smoothWheel: true,
+    smoothWheel: SMOOTH_WHEEL,
     syncTouch: false,
     allowNestedScroll: true,
     autoRaf: false
