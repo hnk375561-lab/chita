@@ -186,3 +186,20 @@ html body #como-comprar .tk-n,html body #como-comprar .tk-ico,html body #como-co
 html body #como-comprar .tk-step::after{transition:opacity .25s ease}
 @media(max-width:699px){html body #como-comprar .tk-card::before,html body #como-comprar .tk-card::after{display:none}}
 @media(hover:hover){html body #como-comprar .tk-card:hover{transform:none}}
+
+/* ───────── Hero · carrusel de fondo (pasada de autos) ─────────
+   Calidad: velo oscuro casi eliminado (antes tapaba el 30–80 % de la foto); el sombreado ahora es un degradado solo en bordes y en el costado donde queda el texto.
+   Giro y perspectiva: cada panel queda "plegado" con su propia perspectiva, alternando el giro (+/−) como una pared de vidrieras; es un transform estático por panel,
+   el movimiento sigue siendo solo el desplazamiento de la cinta (transform) → no suma costo de pintura. */
+html body main>.hero.hx .hx-pn{transform:perspective(1200px) rotateY(-7deg) scale(1.06);transform-origin:50% 50%;backface-visibility:hidden;background:#0A1020}
+html body main>.hero.hx .hx-pn:nth-child(even){transform:perspective(1200px) rotateY(7deg) scale(1.06)}
+html body main>.hero.hx .hx-pn img{image-rendering:auto;filter:none;transform:none}
+html body main>.hero.hx .hx-pn::after{opacity:1;
+  background:
+    linear-gradient(90deg,rgba(2,10,32,.42) 0,rgba(2,10,32,0) 34%,rgba(2,10,32,0) 78%,rgba(2,10,32,.3) 100%),
+    linear-gradient(180deg,rgba(2,10,32,.5) 0,rgba(2,10,32,0) 22%,rgba(2,10,32,0) 74%,rgba(2,10,32,.55) 100%)}
+html body main>.hero.hx .hx-pn:nth-child(even)::after{transform:scaleX(-1)}
+@media(max-width:899px){
+  html body main>.hero.hx .hx-pn{transform:perspective(900px) rotateY(-5deg) scale(1.05)}
+  html body main>.hero.hx .hx-pn:nth-child(even){transform:perspective(900px) rotateY(5deg) scale(1.05)}
+}

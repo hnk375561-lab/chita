@@ -52,4 +52,17 @@ if(list){
   addEventListener("scroll",function(){if(inView)q()},{passive:true});
   addEventListener("resize",function(){measure();q()},{passive:true});
   paint()}}
+
+/* ── Hero · carrusel de fondo: siempre la foto de mayor calidad disponible ──
+   app.js declara sizes="40vw", así que en pantallas medianas el navegador elegía la copia de 480 px y la estiraba.
+   Cada panel se ve a ~560 px de ancho: se fuerza la copia de 800 px, se cargan todas con prioridad baja (sin competir con el hero) y también las que se crean al redimensionar. */
+(function(){
+var T=document.querySelector("#hero .hx-trk");if(!T)return;
+function up(im){if(!im||im.tagName!=="IMG"||im.dataset.q)return;im.dataset.q="1";
+ if(im.getAttribute("srcset"))im.sizes="800px";
+ im.loading="eager";im.decoding="async";try{im.fetchPriority="low"}catch(e){}}
+function all(){[].forEach.call(T.querySelectorAll("img"),up)}
+all();
+if("MutationObserver" in window)new MutationObserver(function(ms){ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(n.nodeType===1)n.tagName==="IMG"?up(n):[].forEach.call(n.querySelectorAll("img"),up)})})}).observe(T,{childList:true});
+})();
 })();
