@@ -11,11 +11,12 @@ html body section#opiniones.rv2{
   /* azul chapa plano + columnas del talonario + corte diagonal (mismo lenguaje que el salón) */
   background:
     repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 8.3333%),
-    linear-gradient(45deg,#C1121F 0 50%,transparent 50%) 0 100%/clamp(90px,11vw,170px) clamp(90px,11vw,170px) no-repeat,
-    radial-gradient(ellipse 36% 60% at 76% 50%,rgba(255,255,255,.14),transparent 72%),
-    linear-gradient(112deg,transparent 0 53%,#fff 53% 53.15%,#C1121F 53.15% 55.2%,transparent 55.2% 100%),
-    linear-gradient(112deg,transparent 0 55.2%,#071C5E 55.2% 78%,#01143B 100%),
-    radial-gradient(ellipse 60% 70% at 18% 40%,rgba(255,255,255,.1),transparent 70%),
+    linear-gradient(45deg,#C1121F 0 50%,transparent 50%) 0 100%/clamp(44px,4.5vw,68px) clamp(44px,4.5vw,68px) no-repeat,
+    linear-gradient(112deg,transparent 0 60%,rgba(255,255,255,.1) 60% 60.12%,transparent 60.12% 67%,rgba(255,255,255,.07) 67% 67.12%,transparent 67.12% 74%,rgba(255,255,255,.05) 74% 74.12%,transparent 74.12%),
+    radial-gradient(ellipse 34% 58% at 76% 50%,rgba(130,170,255,.3),transparent 72%),
+    linear-gradient(112deg,transparent 0 52.6%,#fff 52.6% 52.7%,#C1121F 52.7% 53.5%,transparent 53.5% 54.4%,rgba(255,255,255,.28) 54.4% 54.5%,transparent 54.5%),
+    linear-gradient(112deg,transparent 0 54.5%,#071C5E 54.5% 78%,#01143B 100%),
+    radial-gradient(ellipse 60% 70% at 15% 35%,rgba(120,165,255,.22),transparent 70%),
     #0A2C8C!important;
 }
 html body #opiniones .rv2-wrap{
@@ -149,8 +150,9 @@ html body #financiacion .pdc .cup i.cup-d small{color:#fff!important}
 html body #preguntas .fin p{color:#fff!important}
 @media(max-width:959px){html body section#opiniones.rv2{background:
     repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 8.3333%),
-    linear-gradient(45deg,#C1121F 0 50%,transparent 50%) 0 100%/90px 90px no-repeat,
-    radial-gradient(ellipse 80% 38% at 50% 66%,rgba(255,255,255,.14),transparent 72%),
-    linear-gradient(112deg,transparent 0 53%,#fff 53% 53.2%,#C1121F 53.2% 56%,transparent 56% 100%),
-    linear-gradient(112deg,transparent 0 56%,#071C5E 56% 80%,#01143B 100%),
+    linear-gradient(45deg,#C1121F 0 50%,transparent 50%) 0 100%/52px 52px no-repeat,
+    linear-gradient(112deg,transparent 0 62%,rgba(255,255,255,.1) 62% 62.2%,transparent 62.2% 70%,rgba(255,255,255,.07) 70% 70.2%,transparent 70.2%),
+    radial-gradient(ellipse 80% 36% at 50% 66%,rgba(130,170,255,.3),transparent 72%),
+    linear-gradient(112deg,transparent 0 54.5%,#fff 54.5% 54.65%,#C1121F 54.65% 55.8%,transparent 55.8% 57%,rgba(255,255,255,.28) 57% 57.15%,transparent 57.15%),
+    linear-gradient(112deg,transparent 0 57%,#071C5E 57% 80%,#01143B 100%),
     #0A2C8C!important}}
