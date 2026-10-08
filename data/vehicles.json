@@ -13,7 +13,16 @@
       "kmStatus": "crosschecked",
       "price": "Consultar",
       "status": null,
-      "photos": ["assets/tracker-12t-2021-1.webp", "assets/tracker-12t-2021-2.webp", "assets/tracker-12t-2021-3.webp", "assets/tracker-12t-2021-4.webp", "assets/tracker-12t-2021-5.webp", "assets/tracker-12t-2021-6.webp", "assets/tracker-12t-2021-7.webp", "assets/tracker-12t-2021-8.webp"],
+      "photos": [
+        "assets/tracker-12t-2021-1.webp",
+        "assets/tracker-12t-2021-2.webp",
+        "assets/tracker-12t-2021-3.webp",
+        "assets/tracker-12t-2021-4.webp",
+        "assets/tracker-12t-2021-5.webp",
+        "assets/tracker-12t-2021-6.webp",
+        "assets/tracker-12t-2021-7.webp",
+        "assets/tracker-12t-2021-8.webp"
+      ],
       "sourceUrls": [
         "https://www.instagram.com/chita.automotores/"
       ],
@@ -58,6 +67,33 @@
       "confidence": "baja",
       "published": false,
       "notes": "Aparece en la publicación \"¿Palio o Clio?\". No equivale a stock actual (el Clio del sitio es otra ficha: Dynamique 2016)."
+    },
+    {
+      "id": "focus-se-2015-20n",
+      "stockTitle": "Ford Focus SE 2.0N",
+      "brand": "Ford",
+      "model": "Focus",
+      "version": "SE 2.0N 4P",
+      "year": 2015,
+      "km": "159.000 km",
+      "kmStatus": "confirmed",
+      "price": "Consultar",
+      "status": null,
+      "photos": [
+        "assets/focus-se-2015-1.webp",
+        "assets/focus-se-2015-2.webp",
+        "assets/focus-se-2015-3.webp",
+        "assets/focus-se-2015-4.webp",
+        "assets/focus-se-2015-5.webp",
+        "assets/focus-se-2015-6.webp",
+        "assets/focus-se-2015-7.webp"
+      ],
+      "sourceUrls": [
+        "https://www.instagram.com/chita.automotores/"
+      ],
+      "confidence": "alta (año, km y versión del cartel de la foto coinciden con el texto de la publicación de Instagram de Chita)",
+      "notRecorded": "transmisión, equipamiento, tapizado: no se publican sin confirmación; la publicación solo indica «2.0N 4P»",
+      "published": true
     }
   ]
 }

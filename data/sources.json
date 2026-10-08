@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-02",
+  "checkedAt": "2026-10-07",
   "sources": [
     {
       "fact": "Dirección",
@@ -320,6 +320,16 @@
       "confidence": "media",
       "status": "publicado con aclaración",
       "notes": "Línea de tiempo y FAQ explican el límite; sin «años de experiencia»."
+    },
+    {
+      "fact": "Focus SE 2.0N 4P 2015, 159.000 km",
+      "value": "Ford Focus SE 2.0N 4P · 2015 · 159.000 km",
+      "source": "Instagram de Chita (publicación con texto «Ford Focus SE 2.0N 4P - 2015 - 159.000km») y cartel de la foto de portada",
+      "url": "https://www.instagram.com/chita.automotores/",
+      "checkedAt": "2026-10-07",
+      "confidence": "alta",
+      "status": "publicado",
+      "notes": "Sin precio, transmisión ni equipamiento publicados. Fotos aportadas por el dueño (7)."
     }
   ]
 }

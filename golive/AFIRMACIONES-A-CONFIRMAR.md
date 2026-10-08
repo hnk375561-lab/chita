@@ -188,3 +188,5 @@ Se quitó de `index.html` el meta-copy de verificación. Registro de respaldo, t
 ## Entregas: «Recomendado por el 100 % en Facebook (22 opiniones) · octubre de 2026» (5/10/2026)
 El dato aparece en `index.html` (sección Entregas) y no tenía registro propio. **PENDIENTE: guardar la captura o el enlace de la fuente con fecha de consulta; si no se puede respaldar, retirar la línea.** Mientras tanto no se amplía ni se repite en otras secciones. Relacionado con la fila 10 de arriba (confirmar que el perfil de Facebook sea la cuenta oficial).
 
+## 2026-10-07 · Ford Focus SE 2.0N 4P 2015 sumado al stock
+Fuente: publicación de Instagram de Chita («Ford Focus SE 2.0N 4P - 2015 - 159.000km») y cartel de la foto de portada. Publicado: título, año, km, combustible «Nafta» (la «N» del título, igual que en las otras fichas), «4 puertas» (la «4P») y 7 fotos. No se publica precio, transmisión, equipamiento ni estado de disponibilidad. Pendiente con Chita: confirmar transmisión y disponibilidad.
