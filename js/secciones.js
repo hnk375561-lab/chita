@@ -85,7 +85,9 @@ function build(){
  var map,box,ctl,dead=false,timer=0;
  function bail(){if(dead)return;dead=true;clearTimeout(timer);try{if(map)map.remove()}catch(e){}if(box)box.remove();if(ctl)ctl.remove();fallback()}
  try{
-  if(!window.maplibregl||!maplibregl.supported||!maplibregl.supported())throw 0;
+  if(!window.maplibregl||!maplibregl.Map)throw 0;
+  /* maplibregl.supported() ya no existe desde la v4: se comprueba WebGL a mano */
+  var cv=document.createElement("canvas");if(!(cv.getContext("webgl2")||cv.getContext("webgl")))throw 0;
   var touch=matchMedia("(pointer:coarse)").matches;
   box=document.createElement("div");box.className="mp-lf";box.setAttribute("role","application");
   box.setAttribute("aria-label","Mapa: Chita Automotores, Gral. Galarza 1712, Concepción del Uruguay");
