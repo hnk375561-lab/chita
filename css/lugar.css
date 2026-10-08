@@ -103,6 +103,7 @@ html body #unidades .lz-fig figcaption::before{content:"";display:block;width:34
 @media(min-width:900px){html body #unidades .lz-mos{grid-template-columns:1.5fr 1fr;grid-template-rows:1fr 1fr}
 html body #unidades .lz-fig,html body #unidades .lz-fig:first-child{aspect-ratio:auto;min-height:230px}
 html body #unidades .lz-fig:first-child{grid-column:1;grid-row:1/span 2;min-height:480px}}
+html body #unidades .lz-fig:first-child img{object-position:18% 50%}
 /* Frente del local: la foto grande + el logo de Chita (las otras dos fotos se quitaron por baja calidad) */
 html body #unidades .lz-fig.lz-logo{grid-column:1/-1;aspect-ratio:16/8;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,#17295a 0%,#0b1330 72%);border-left:6px solid var(--rojo)}
 html body #unidades .lz-fig.lz-logo::after{display:none}

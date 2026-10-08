@@ -153,6 +153,26 @@ function hxTop(){var d=document.querySelector(".demo"),h=document.querySelector(
 hxTop();window.addEventListener("resize",hxTop);window.addEventListener("load",hxTop);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(hxTop);
 function fromHash(){var m=/^#unidad-(.+)$/.exec(location.hash||"");if(!m)return;for(var i=0;i<STOCK.length;i++)if(slug(STOCK[i])===m[1]){open_(i);return}}
 window.addEventListener("hashchange",fromHash);fromHash();
+/* Hero · fondo "pasada": las portadas de los autos publicados corren en bucle detrás del hero, cada una entre columnas rojas (CSS en identidad.css + chita-perf.css).
+   Se arma acá porque el CSS espera .hx-pass > .hx-trk[--n,--m] > .hx-pn > img. N fotos + K clones; el bucle recorre N paneles (hxp2). */
+(function(){var R=$("hero");if(!R||!SL.length||R.querySelector(".hx-pass"))return;
+var seen={},L=[];SL.forEach(function(o){if(!seen[o.src]){seen[o.src]=1;L.push(o.src)}});
+var N=L.length;if(!N)return;
+function sets(src){var m=/^assets\/w800\/(\d+)\.webp$/.exec(src);if(m)return "assets/w480/"+m[1]+".webp 480w, "+src+" 800w";
+ m=/^(.*)\.webp$/.exec(src);return m&&/-(480|800)\.webp$/.test(src)?"":m?m[1]+"-480.webp 480w, "+m[1]+"-800.webp 800w":""}
+function pn(src,i,clone){var f=document.createElement("figure");f.className="hx-pn";var im=new Image(),ss=sets(src);
+ im.alt="";im.width=800;im.height=1000;im.decoding="async";im.draggable=false;im.loading=i<3?"eager":"lazy";
+ if(ss){im.srcset=ss;im.sizes="(min-width:900px) 40vw, 70vw"}im.src=src;f.appendChild(im);if(clone)f.setAttribute("aria-hidden","true");return f}
+var P=document.createElement("div");P.className="hx-pass";P.setAttribute("aria-hidden","true");
+var T=document.createElement("div");T.className="hx-trk";P.appendChild(T);
+L.forEach(function(s,i){T.appendChild(pn(s,i,false))});
+R.insertBefore(P,R.firstChild);
+var K=-1;
+function fill(){var h=P.offsetHeight||R.offsetHeight||600,w=h*.8,k=Math.min(N*2,Math.ceil(innerWidth/w)+1);if(k===K)return;
+ while(T.children.length>N)T.removeChild(T.lastChild);
+ for(var i=0;i<k;i++)T.appendChild(pn(L[i%N],N+i,true));
+ T.style.setProperty("--n",N);T.style.setProperty("--m",N+k);K=k}
+fill();var rt=0;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(fill,200)},{passive:true});addEventListener("load",fill,{once:true})})();
 /* Hero v11: ambiente (foto de la unidad desenfocada de fondo, con fundido), datos en celdas y sello de la agencia. Solo datos que ya están en el sitio. */
 (function(){var R=$("hero");if(!R||!hL||!HERO)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
 function amb(src,first){var n=first?0:cu^1,a=Ls[n],o=Ls[cu];a.style.backgroundImage="url('"+src+"')";a.classList.add("on");if(!first){o.classList.remove("on");cu=n}}

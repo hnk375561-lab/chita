@@ -42,17 +42,28 @@ function play(){
 /* mode: 0 automático · 1 elección del usuario · 2 continuación al terminar un video */
 function go(i,mode){
  i=(i%n+n)%n;if(i===cur)return;
- if(cur>=0)stop(cur);
+ clearTimeout(wt);
+ if(cur>=0&&cur!==i)stop(cur);
  cur=i;layout();
  vid(i).muted=!wantSound;
  if(mode===1)hold=false;
  ui();
  if(mode===1||(mode===2&&inView&&!document.hidden)||(mode===0&&auto&&inView&&!hold))play()}
 function toggle(){var v=vid(cur);if(v.paused){hold=false;play()}else{hold=true;v.pause()}}
+/* Precarga del video siguiente: mientras se ve el actual, el que sigue ya baja en segundo plano (pausado, sin decodificar),
+   así el paso al próximo es inmediato en vez de arrancar de cero. Solo el actual y el siguiente conservan archivo; el resto se suelta. */
+var wt=0;
+function warm(){
+ if(cn.saveData||document.hidden)return;
+ var nx=(cur+1)%n;
+ cards.forEach(function(c,i){if(i!==cur&&i!==nx&&vid(i).getAttribute("src"))stop(i)});
+ var v=vid(nx);
+ if(!v.getAttribute("src")){v.preload="auto";v.setAttribute("src",v.getAttribute("data-src"))}}
+function warmSoon(ms){clearTimeout(wt);wt=setTimeout(warm,ms)}
 
 cards.forEach(function(c,i){
  var v=c.querySelector("video");v.disablePictureInPicture=true;
- v.addEventListener("playing",function(){c.classList.remove("is-busy");c.classList.add("is-live");if(i===cur)ui()});
+ v.addEventListener("playing",function(){c.classList.remove("is-busy");c.classList.add("is-live");if(i===cur){ui();warmSoon(500)}});
  v.addEventListener("waiting",function(){if(i===cur&&!v.paused)c.classList.add("is-busy")});
  v.addEventListener("canplay",function(){c.classList.remove("is-busy")});
  ["play","pause","volumechange"].forEach(function(e){v.addEventListener(e,function(){if(i===cur)ui()})});
