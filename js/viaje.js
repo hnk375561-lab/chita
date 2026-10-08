@@ -57,7 +57,7 @@ if (route) {
     state.control = gsap.to(state, { p: state.target, duration: 0.95, ease: "power3.out", overwrite: true, onUpdate: render });
   }
 
-  CONFIG.units.forEach((unit) => { const element = document.createElement("article"); element.className = "linear-item"; element.innerHTML = `<strong>${unit.name}</strong><small>${unit.year} · ${unit.km} · ${unit.criterion} · consultar por contacto</small>`; $("#linear-list")?.appendChild(element); });
+  CONFIG.units.forEach((unit) => { const element = document.createElement("article"); element.className = "linear-item"; element.innerHTML = `<strong>${unit.name}</strong><small>${unit.year} · ${unit.km} · ${unit.criterion} · consultar por WhatsApp</small>`; $("#linear-list")?.appendChild(element); });
   route.setAttribute("data-lenis-prevent-wheel", "");
   route.addEventListener("wheel", (event) => { event.preventDefault(); setTarget(state.target + event.deltaY * .0008); }, { passive: false });
   token.addEventListener("pointerdown", (event) => { state.drag = true; token.setPointerCapture(event.pointerId); });

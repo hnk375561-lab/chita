@@ -581,13 +581,13 @@ html body #visita .xt .xl em{display:inline-block;background:linear-gradient(90d
    ═══════════════════════════════════════════════════════════════════════════════ */
 html body #dlg .fcg{border-left:10px solid var(--rojo)}
 html body #dlg .fcx{background:var(--rojo)!important;color:#fff!important;border:0!important;border-radius:0!important;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
-html body #dlg .fch::before{content:"Remito de unidad";display:block;width:max-content;margin:0 0 .7em;padding:.5em 1.5em .5em .8em;font:800 11px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--rojo);clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+html body #dlg .fch::before{content:"Ficha del auto";display:block;width:max-content;margin:0 0 .7em;padding:.5em 1.5em .5em .8em;font:800 11px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--rojo);clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
 html body #dlg .fcd{background:var(--ink)!important;color:#fff;border:0!important;border-left:10px solid var(--rojo)!important;gap:0!important;padding:0!important}
 html body #dlg .fcd>div{border:0!important;border-right:2px dashed rgba(255,255,255,.3)!important;border-bottom:2px dashed rgba(255,255,255,.3)!important;padding:12px 14px!important;background:transparent!important}
 html body #dlg .fcd dt{color:var(--plata)!important;font:700 11px/1.2 var(--font-display)!important;letter-spacing:.14em!important;text-transform:uppercase}
 html body #dlg .fcd dd{color:#fff!important;font:800 clamp(17px,1.5vw,22px)/1.1 var(--font-display)!important;letter-spacing:-.01em;margin:4px 0 0}
 html body #dlg .fcft{position:relative;border-top:3px dashed var(--ink)!important}
-html body #dlg .fcft::before{content:"Talón · consulta";position:absolute;left:16px;top:-9px;padding:0 8px;background:#fff;color:var(--ink);font:800 10px/16px var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+html body #dlg .fcft::before{content:"Tu consulta";position:absolute;left:16px;top:-9px;padding:0 8px;background:#fff;color:var(--ink);font:800 10px/16px var(--font-display);letter-spacing:.2em;text-transform:uppercase}
 @media(max-width:899px){html body #dlg .fcu{padding-right:58px}}
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -1192,35 +1192,35 @@ html body #dlg .fcs .ctk{animation:none!important;clip-path:none!important}
 
 /* 00 · PARTE DE SALIDA */
 html body #hero .hx-reel{isolation:isolate}
-html body #hero .hx-reel::after{content:"E·00 / PARTE DE SALIDA";position:absolute;z-index:4;inset:18px 18px auto auto;padding:9px 12px 8px;background:var(--rojo);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase;clip-path:var(--cut-sm);pointer-events:none}
+html body #hero .hx-reel::after{content:"E·00 / EL LOCAL";position:absolute;z-index:4;inset:18px 18px auto auto;padding:9px 12px 8px;background:var(--rojo);color:#fff;font:800 11px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase;clip-path:var(--cut-sm);pointer-events:none}
 html body #hero .hx-proof{position:relative;isolation:isolate}
 html body #hero .hx-proof::before{content:"GOOGLE";display:block;margin-bottom:8px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
 html body #hero .hx-reel figcaption b{color:var(--rojo)}
 
 /* 01 · ARCHIVO DE ENTREGAS */
 html body #entregas .eh{position:relative}
-html body #entregas .eh::before{content:"ARCHIVO DE ENTREGAS / REGISTROS PUBLICADOS";display:block;margin:0 0 12px;color:rgba(255,255,255,.68);font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+html body #entregas .eh::before{content:"ENTREGAS / FOTOS DE NUESTRAS REDES";display:block;margin:0 0 12px;color:rgba(255,255,255,.68);font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
 html body #entregas .eg-next{position:relative;isolation:isolate;border-top:3px dashed rgba(255,255,255,.55)!important;border-bottom:3px dashed rgba(255,255,255,.55)!important}
-html body #entregas .eg-next::before{content:"E·13 / ABIERTO";position:absolute;top:12px;right:16px;color:rgba(255,255,255,.68);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #entregas .eg-next::before{content:"E·13 / TU AUTO";position:absolute;top:12px;right:16px;color:rgba(255,255,255,.68);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
 html body #entregas .ec{margin-top:18px!important;color:rgba(255,255,255,.72)!important;font:800 11px/1.2 var(--font-display)!important;letter-spacing:.16em!important;text-transform:uppercase!important}
 
 /* 02 · REMITOS DE UNIDAD */
 html body #unidades .head{position:relative}
-html body #unidades .head::after{content:"REMITOS PUBLICADOS";display:block;margin-top:14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #unidades .head::after{content:"AUTOS PUBLICADOS";display:block;margin-top:14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
 html body #unidades .car{position:relative;isolation:isolate}
 html body #unidades .car::before{content:attr(data-chita-id);position:absolute;z-index:7;top:10px;left:10px;padding:7px 9px 6px;background:var(--ink);color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.16em;pointer-events:none;clip-path:var(--cut-sm)}
 html body #unidades .car[data-chita-state="consultar"]::after{content:"";display:none!important;position:absolute;z-index:7;right:10px;bottom:10px;padding:6px 8px;background:#fff;color:var(--ink);font:800 9px/1 var(--font-display);letter-spacing:.12em;pointer-events:none}
 
 /* 04 · LA REGLA */
 html body #versus{position:relative}
-html body #versus::before{content:"COMPARADOR DE UNIDADES";display:block;width:min(1180px,calc(100% - 2*clamp(20px,4vw,64px)));margin:0 auto -8px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #versus::before{content:"COMPARADOR DE AUTOS";display:block;width:min(1180px,calc(100% - 2*clamp(20px,4vw,64px)));margin:0 auto -8px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
 
 /* 09–13 · DOCUMENTOS DE CIERRE */
 html body #como-comprar .ccA,html body #operaciones .fm,html body #visita #visitaForm,html body #preguntas #buscoForm{position:relative}
-html body #como-comprar .ccA::before{content:"TALÓN DE PROCESO / 04 ESTADOS";display:block;margin:0 0 16px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
-html body #operaciones .fm::before{content:"TALÓN DE OPERACIÓN / LA ENVIÁS VOS";display:block;margin:0 0 16px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
-html body #visita #visitaForm::before{content:"TALÓN DE VISITA";display:block;margin:0 0 14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
-html body #preguntas #buscoForm::before{content:"E·13 / NUEVO PEDIDO";display:block;margin:0 0 14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #como-comprar .ccA::before{content:"PASO A PASO / 4 PASOS";display:block;margin:0 0 16px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #operaciones .fm::before{content:"TU AUTO / EL MENSAJE LO ENVIÁS VOS";display:block;margin:0 0 16px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #visita #visitaForm::before{content:"TU VISITA";display:block;margin:0 0 14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #preguntas #buscoForm::before{content:"E·13 / QUÉ BUSCÁS";display:block;margin:0 0 14px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
 
 @media(max-width:899px){
   html body #hero .hx-reel::after{inset:10px 10px auto auto;font-size:9px;letter-spacing:.12em}
@@ -1241,7 +1241,7 @@ html body #preguntas #buscoForm::before{content:"E·13 / NUEVO PEDIDO";display:b
 
 /* 06 · REGLA DE LLEGADA */
 html body #contacto .xt{position:relative}
-html body #contacto .xt::before{content:"COORDENADA DE ORIGEN / CHITA";display:block;margin:0 0 14px;color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
+html body #contacto .xt::before{content:"DÓNDE ESTAMOS / CHITA";display:block;margin:0 0 14px;color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
 html body #contacto .rgl li{position:relative}
 html body #contacto .rgl li::before{content:"R·" counter(r,decimal-leading-zero);position:absolute;left:-38px;top:0;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.12em}
 html body #contacto .rgl{counter-reset:r}
@@ -1287,7 +1287,7 @@ html body #guia .gprint{clip-path:var(--cut-sm)!important;border-radius:0!import
 html body #visita .pdl::after{content:"COORDINÁ TU VISITA / TE CONFIRMAMOS POR WHATSAPP";display:block;margin-top:14px;color:#fff;font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
 html body #visita .vvid figcaption{border-left:3px solid var(--rojo);padding-left:10px;font-size:10px;letter-spacing:.16em}
 html body #preguntas .bqf{position:relative}
-html body #preguntas .bqf::after{content:"E·13 / EL PRÓXIMO ES EL TUYO";display:block;margin:16px 0 0;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
+html body #preguntas .bqf::after{content:"E·13 / SI NO LO VES ACÁ";display:block;margin:16px 0 0;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
 html body #preguntas .bqm .fl::before{content:"PREGUNTAS FRECUENTES";display:block;margin:0 0 12px;color:var(--rojo);font:800 10px/1 var(--font-display);letter-spacing:.18em;text-transform:uppercase}
 
 @media(max-width:899px){
@@ -1621,7 +1621,7 @@ html body #stockGrid .car::after{content:none!important;display:none!important}
 html body #operaciones .oc::after{content:none!important;display:none!important}
 html body #financiacion .pdg .pdc::before{content:none!important;display:none!important}
 html body #financiacion .pdg .pdc{padding-top:24px!important}
-html body #dlg .fch::before{content:"Ficha de la unidad"!important}
+html body #dlg .fch::before{content:"Ficha del auto"!important}
 html body #preguntas #buscoForm::before,html body #preguntas .bqf::after{content:none!important;display:none!important}
 
 

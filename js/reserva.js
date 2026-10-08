@@ -1,7 +1,7 @@
 import { gsap } from "./motion/vendor.js";
 import { reduceMotion } from "./motion/core.js";
 
-const CONFIG = { slots: ["Mañana", "Tarde"], slotsNote: "Consulta de visita: te confirmamos día y horario.", whatsapp: "5493442647442" };
+const CONFIG = { slots: ["Mañana", "Tarde"], slotsNote: "Es una consulta: te confirmamos día y horario.", whatsapp: "5493442647442" };
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const months = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
@@ -39,7 +39,7 @@ function animateScene(show) {
 function selectDay(day) { const date = new Date(state.month.getFullYear(), state.month.getMonth(), day); if (date < startOfToday()) return; state.day = date; state.slot = null; $("#day-number").textContent = String(day).padStart(2, "0"); $("#day-month").textContent = `${months[date.getMonth()]} ${date.getFullYear()}`; $("#day-weekday").textContent = date.toLocaleDateString("es-AR", { weekday: "long" }); $("#day-status").textContent = formatDate(date); $("#to-time").disabled = false; renderCalendar(); announce(`Día seleccionado: ${formatDate(date)}`); animateScene("day"); }
 function renderSlots() { const box = $("#slots"); box.textContent = ""; CONFIG.slots.forEach((slot) => { const button = document.createElement("button"); button.type = "button"; button.className = "slot"; button.dataset.slot = slot; button.setAttribute("role", "option"); button.setAttribute("aria-selected", String(state.slot === slot)); button.innerHTML = `<b>${slot}</b><small>a coordinar</small>`; box.appendChild(button); }); }
 function selectSlot(slot) { state.slot = slot; $$(".slot").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.slot === slot))); $("#time-status").textContent = slot; $("#to-confirm").disabled = false; announce(`Franja seleccionada: ${slot}`); }
-function sendState(sent) { const el = $("#send-state"); if (!el) return; el.dataset.state = sent ? "pending" : "ready"; el.textContent = sent ? "Consulta abierta en WhatsApp · te confirmamos por ahí" : "Listo para enviar · lo enviás vos por WhatsApp"; }
+function sendState(sent) { const el = $("#send-state"); if (!el) return; el.dataset.state = sent ? "pending" : "ready"; el.textContent = sent ? "Consulta abierta en WhatsApp · te confirmamos por ahí" : "Listo para enviar · lo mandás vos por WhatsApp"; }
 function showConfirm() { if (!state.day || !state.slot) return; sendState(false); $("#summary-day").textContent = `${state.day.getDate()} ${months[state.day.getMonth()]}`; $("#summary-time").textContent = state.slot; { const wa = $("#whatsapp"); if (wa) wa.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(`Hola! Quiero coordinar una visita el ${formatDate(state.day)}, por la ${state.slot.toLowerCase()}. ¿Me confirman disponibilidad y horario?`)}`; }
   announce(`Resumen listo: ${formatDate(state.day)}, por la ${state.slot.toLowerCase()}`); animateScene("confirm"); }
 function goBack() { if (state.step === "confirm") animateScene("time"); else if (state.step === "time") animateScene("day"); else if (state.step === "day") animateScene("month"); }

@@ -3,7 +3,7 @@
    Ahora un IntersectionObserver avisa solo cuando cambia la sección que cruza la línea del 40 % de la pantalla. */
 (function(){
 var S=[].slice.call(document.querySelectorAll("main>section[id]"));if(!S.length)return;
-var N={entregas:"Entregas",unidades:"Unidades","catalogo-comparador":"Modelos",contacto:"Dónde estamos",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
+var N={entregas:"Entregas",unidades:"Autos","catalogo-comparador":"Comparar",contacto:"Dónde estamos",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
 var AL={entregas:"unidades","catalogo-comparador":"unidades",financiacion:"como-comprar",guia:"como-comprar",visita:"contacto",opiniones:"contacto",local:"contacto"};
 var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<b hidden></b>";/* tarjeta inferior izquierda eliminada: ya no se agrega al documento; el menú sigue marcándose */
 var lab=c.firstChild,cur="",links=[].slice.call(document.querySelectorAll("header nav a")),RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -45,7 +45,7 @@ v.addEventListener("ended",function(){if(L.length>1)nextClip()});
 function load(){if(!v.getAttribute("src")&&S[tried]){v.preload="auto";v.src=S[tried]}}
 function ui(){
  var on=!v.muted,busy=on&&asked&&!v.error&&v.readyState<3;
- t.textContent=v.error&&tried>=S.length-1&&asked?"Video no disponible":busy?"Cargando…":on?"Silenciar":"Escuchá el salón";
+ t.textContent=v.error&&tried>=S.length-1&&asked?"Video no disponible":busy?"Cargando…":on?"Silenciar":"Activar sonido";
  b.setAttribute("aria-pressed",String(on&&!v.paused));
  f.setAttribute("data-sound",on?"on":"off");f.classList.toggle("is-busy",!!busy)}
 function play(){load();var p=v.play();if(p&&p.catch)p.catch(function(e){if(e&&e.name==="NotAllowedError"&&!v.muted){v.muted=true;ui();var q=v.play();if(q&&q.catch)q.catch(function(){})}})}
@@ -139,7 +139,7 @@ addEventListener("scroll",q,{passive:true});addEventListener("resize",q);q();
 })();
 /* CHITA · v5 — Entregas: rótulo con la cantidad real de fotos publicadas. */
 (function(){var g=document.querySelector("#entregas .eg");if(!g)return;var n=g.children.length;if(!n||document.querySelector(".ec"))return;
-var c=document.createElement("p");c.className="ec";c.textContent=n+" entregas · fotos publicadas en redes";g.parentNode.insertBefore(c,g)})();
+var c=document.createElement("p");c.className="ec";c.textContent=n+" entregas · fotos de nuestras redes";g.parentNode.insertBefore(c,g)})();
 /* CHITA · v7 — EL SELLO y LA PERFORACIÓN.
    El puntero no altera botones, tarjetas ni agrega cursor visual: la interacción queda estable. */
 (function(){
@@ -288,10 +288,10 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   /* Operaciones: una selección cambia el encabezado del talón y hace visible la consecuencia. */
   var ops=d.querySelector("#operaciones .og"), label=d.getElementById("opLabel"), title=d.getElementById("opTitle"), lead=d.getElementById("opLead");
   var copy={
-    Comprar:["Talón de operación · comprar","Abrí una unidad publicada","Elegí una ficha en Unidades y consultá si sigue disponible. Este formulario es para tu usado."],
-    Vender:["Talón de operación · vender","Prepará la evaluación de tu usado","Sumá marca, modelo, año y kilometraje; lo evaluamos."],
-    Permutar:["Talón de operación · permutar","Cruce entre dos autos","Contanos qué tenés y por cuál unidad te interesa consultar."],
-    Consignar:["Talón de operación · consignar","Consulta de publicación","Enviá los datos de tu auto y te contamos cómo funciona."]
+    Comprar:["Comprar","Elegí uno de nuestros autos","Elegí un auto en la lista y consultá si sigue disponible. Este formulario es para tu usado."],
+    Vender:["Vender","Contanos qué auto tenés","Sumá marca, modelo, año y kilómetros y lo evaluamos."],
+    Permutar:["Permutar","Tu auto por otro","Contanos qué auto tenés y cuál te interesa."],
+    Consignar:["Consignar","Dejalo en consignación","Enviá los datos de tu auto y te contamos cómo funciona."]
   };
   var sel=d.querySelector("#canjeForm select[name=interes]"), opVal={Comprar:"consulta",Vender:"vender",Permutar:"permutar",Consignar:"consignar"}, opKey={vender:"Vender",permutar:"Permutar",consignar:"Consignar"};
   function opShow(key,fromSelect){
@@ -306,7 +306,7 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   window.CHITA_OP=opShow;
   /* E·13: muestra la pieza que se está abriendo sin guardar datos. */
   var bf=d.getElementById("buscoForm");
-  if(bf){var p=d.createElement("p");p.className="e13-preview";p.setAttribute("role","status");p.setAttribute("aria-live","polite");p.textContent="Completá los datos y abrí tu pedido";var meta=bf.querySelector(".meta");if(meta)meta.parentNode.insertBefore(p,meta);var fields=[].slice.call(bf.querySelectorAll("input,select"));function preview(){var model=bf.modelo&&bf.modelo.value.trim(),year=bf.anio&&bf.anio.value.trim(),fuel=bf.comb&&bf.comb.value,pres=bf.presu&&bf.presu.value.trim();var bits=[model,year&&"desde "+year,fuel,pres&&"presupuesto "+pres].filter(Boolean);p.textContent=bits.length?"E·13 · consulta lista · "+bits.join(" · ")+" · te confirmamos por WhatsApp":"E·13 · completá los datos y abrí tu pedido"}fields.forEach(function(x){x.addEventListener("input",preview);x.addEventListener("change",preview)});bf.addEventListener("submit",function(){window.setTimeout(function(){p.textContent="E·13 · pedido listo para enviar · te confirmamos stock y precio"},0)});}
+  if(bf){var p=d.createElement("p");p.className="e13-preview";p.setAttribute("role","status");p.setAttribute("aria-live","polite");p.textContent="Completá los datos y consultá por WhatsApp";var meta=bf.querySelector(".meta");if(meta)meta.parentNode.insertBefore(p,meta);var fields=[].slice.call(bf.querySelectorAll("input,select"));function preview(){var model=bf.modelo&&bf.modelo.value.trim(),year=bf.anio&&bf.anio.value.trim(),fuel=bf.comb&&bf.comb.value,pres=bf.presu&&bf.presu.value.trim();var bits=[model,year&&"desde "+year,fuel,pres&&"presupuesto "+pres].filter(Boolean);p.textContent=bits.length?"E·13 · consulta lista · "+bits.join(" · ")+" · te respondemos por WhatsApp":"E·13 · completá los datos y consultá por WhatsApp"}fields.forEach(function(x){x.addEventListener("input",preview);x.addEventListener("change",preview)});bf.addEventListener("submit",function(){window.setTimeout(function(){p.textContent="E·13 · consulta lista para enviar · te confirmamos si lo tenemos y el precio"},0)});}
 })();
 
 /* CHITA · V3 — cada columna abre una consecuencia de servicio y cada entrega declara su fuente. */
@@ -318,8 +318,8 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
 /* CHITA · V3 — La Regla prepara una sola consulta con las hojas abiertas. */
 (function(){
   var d=document, v=d.getElementById("versus"), t=d.getElementById("vt"); if(!v||!t||!window.wa)return;
-  var q=d.createElement("p");q.className="vq";q.innerHTML='<a class="btn p" href="#">Abrir consulta comparativa ↗</a><span>Te respondemos sobre las unidades que elegiste.</span>';
-  var w=q.querySelector("a");function sync(){var names=[].slice.call(t.querySelectorAll(".vdc h3,.c5-card h3")).map(function(x){return x.textContent.trim()});w.href=window.wa("Hola! Quiero comparar estas unidades: "+(names.length?names.join(" · "):"todavía no elegí unidades")+". ¿Me confirman disponibilidad, precio y diferencias relevantes?")}sync();v.querySelector("#vp").addEventListener("click",function(){window.setTimeout(sync,0)});q.addEventListener("click",function(){window.setTimeout(sync,0)});t.parentNode.insertBefore(q,t.nextSibling);
+  var q=d.createElement("p");q.className="vq";q.innerHTML='<a class="btn p" href="#">Consultar por estos autos ↗</a><span>Te respondemos por los autos que elegiste.</span>';
+  var w=q.querySelector("a");function sync(){var names=[].slice.call(t.querySelectorAll(".vdc h3,.c5-card h3")).map(function(x){return x.textContent.trim()});w.href=window.wa("Hola! Quiero comparar estos autos: "+(names.length?names.join(" · "):"todavía no elegí autos")+". ¿Me confirman disponibilidad, precio y diferencias relevantes?")}sync();v.querySelector("#vp").addEventListener("click",function(){window.setTimeout(sync,0)});q.addEventListener("click",function(){window.setTimeout(sync,0)});t.parentNode.insertBefore(q,t.nextSibling);
 })();
 
 /* CHITA · V4 — continuidad entre talones: comprar, condiciones, planilla, visita y preguntas. */
@@ -327,12 +327,12 @@ tiles.forEach(function(tile,i){tile.dataset.review="Reseña "+(i+1)+" de "+tiles
   var d=document;
   /* Compra: cada comprobante abre el siguiente documento real del sitio. */
   var buy=d.querySelector("#como-comprar .stp");
-  if(buy){var links=[["Abrir unidades","#unidades"],["Preparar consulta","#contacto"],["Coordinar visita","#visita"],["Ver entregas","#entregas"]];[].slice.call(buy.querySelectorAll("li")).forEach(function(li,i){if(li.querySelector(".step-action"))return;var a=d.createElement("a");a.className="step-action";a.href=links[i][1];a.textContent=links[i][0]+" ↗";li.appendChild(a)})}
+  if(buy){var links=[["Ver autos","#unidades"],["Consultar","#contacto"],["Coordinar visita","#visita"],["Ver entregas","#entregas"]];[].slice.call(buy.querySelectorAll("li")).forEach(function(li,i){if(li.querySelector(".step-action"))return;var a=d.createElement("a");a.className="step-action";a.href=links[i][1];a.textContent=links[i][0]+" ↗";li.appendChild(a)})}
   /* Financiación: talón de condiciones contextual, sin simulador ni importe inventado. */
   var fin=d.querySelector("#financiacion .pdr");
-  if(fin&&window.STOCK&&window.wa&&!fin.querySelector(".fin-ticket")){var box=d.createElement("div");box.className="fin-ticket";box.innerHTML='<b>Talón de condiciones</b><label>Unidad a consultar<select><option value="">Elegí una unidad (opcional)</option>'+window.STOCK.map(function(c,i){return'<option value="'+i+'">U·'+String(i+1).padStart(2,"0")+' · '+String(c.titulo).replace(/&/g,"&amp;")+'</option>'}).join("")+'</select></label><label class="fin-used"><input type="checkbox"> Tengo un usado para evaluar</label><a class="btn p" href="#">Abrir consulta de condiciones ↗</a><small>Te confirmamos precio, cuota y condiciones.</small>';fin.insertBefore(box,fin.firstChild);var sel=box.querySelector("select"),used=box.querySelector("input"),a=box.querySelector("a");function syncFin(){var c=sel.value!==""?window.STOCK[+sel.value]:null;var m="Hola! Quiero consultar condiciones de pago"+(c?" para U·"+String(+sel.value+1).padStart(2,"0")+" · "+c.titulo:"")+(used.checked?" y evaluar mi usado":"")+". ¿Me confirman precio, cuota y requisitos vigentes?";a.href=window.wa(m)}sel.addEventListener("change",syncFin);used.addEventListener("change",syncFin);syncFin()}
+  if(fin&&window.STOCK&&window.wa&&!fin.querySelector(".fin-ticket")){var box=d.createElement("div");box.className="fin-ticket";box.innerHTML='<b>Consultar condiciones</b><label>Auto a consultar<select><option value="">Elegí un auto (opcional)</option>'+window.STOCK.map(function(c,i){return'<option value="'+i+'">U·'+String(i+1).padStart(2,"0")+' · '+String(c.titulo).replace(/&/g,"&amp;")+'</option>'}).join("")+'</select></label><label class="fin-used"><input type="checkbox"> Tengo un usado para evaluar</label><a class="btn p" href="#">Consultar condiciones ↗</a><small>Te confirmamos precio, cuota y condiciones.</small>';fin.insertBefore(box,fin.firstChild);var sel=box.querySelector("select"),used=box.querySelector("input"),a=box.querySelector("a");function syncFin(){var c=sel.value!==""?window.STOCK[+sel.value]:null;var m="Hola! Quiero consultar condiciones de pago"+(c?" para U·"+String(+sel.value+1).padStart(2,"0")+" · "+c.titulo:"")+(used.checked?" y evaluar mi usado":"")+". ¿Me confirman precio, cuota y requisitos vigentes?";a.href=window.wa(m)}sel.addEventListener("change",syncFin);used.addEventListener("change",syncFin);syncFin()}
   /* FAQ: la respuesta conserva su prudencia, pero deja de ser un callejón sin salida. */
-  var routes=[[/0 km|unidad/,"#unidades","Ver unidades"],[/usado/,"#operaciones","Abrir talón de operación"],[/financiación/,"#financiacion","Ver talón de condiciones"],[/consignación/,"#operaciones","Preparar consignación"],[/cuándo|cuando|visita/ ,"#visita","Coordinar visita"],[/cuánto|cuanto|precio/ ,"#unidades","Consultar una unidad"]];
+  var routes=[[/0 km|unidad/,"#unidades","Ver autos"],[/usado/,"#operaciones","Consultar por tu usado"],[/financiación/,"#financiacion","Ver financiación"],[/consignación/,"#operaciones","Consultar por consignación"],[/cuándo|cuando|visita/ ,"#visita","Coordinar visita"],[/cuánto|cuanto|precio/ ,"#unidades","Consultar por un auto"]];
   [].slice.call(d.querySelectorAll("#preguntas .fa details")).forEach(function(det){if(det.querySelector(".faq-route"))return;var text=(det.querySelector("summary")||{}).textContent||"",r=routes.find(function(x){return x[0].test(text.toLowerCase())});if(!r)return;var a=d.createElement("a");a.className="faq-route";a.href=r[1];a.textContent=r[2]+" ↗";var p=det.querySelector("p");if(p)p.appendChild(d.createTextNode(" "));(p||det).appendChild(a)})
   /* FAQ: una sola respuesta abierta a la vez. Los navegadores con <details name> lo resuelven solos; este respaldo cubre a los que no. */
   if(!("name" in HTMLDetailsElement.prototype)){var fq=[].slice.call(d.querySelectorAll("#preguntas .fa details"));fq.forEach(function(x){x.addEventListener("toggle",function(){if(x.open)fq.forEach(function(o){if(o!==x&&o.open)o.open=false})})})}
@@ -375,7 +375,7 @@ draw()})();
   var g=d.getElementById("stockGrid");
   if(g&&!g.querySelector(".car-cta")){
     var a=d.createElement("a");a.className="car-cta";a.href="#busco";
-    a.innerHTML='<span class="cc-k">\u00bfNo ves el tuyo?</span><span class="cc-t">Contanos qu\u00e9 auto busc\u00e1s</span><span class="cc-c">Escribinos \u2192</span>';
+    a.innerHTML='<span class="cc-k">\u00bfNo ves el que busc\u00e1s?</span><span class="cc-t">Contanos cu\u00e1l</span><span class="cc-c">Escribinos \u2192</span>';
     g.appendChild(a);
   }
 })();

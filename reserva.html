@@ -4,21 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="Elegí un día y un horario y armá tu consulta de visita por WhatsApp. Te confirmamos por WhatsApp.">
-  <title>Reservá tu momento · Chita Automotores</title>
+  <meta name="description" content="Elegí un día y un horario y armá la consulta para ir a ver un auto. Se envía por WhatsApp y te confirmamos por ahí.">
+  <title>Coordiná tu visita · Chita Automotores</title>
   <link rel="stylesheet" href="css/reserva.css"><link rel="stylesheet" href="css/motion.css">
-<link rel="canonical" href="https://hnk375561-lab.github.io/chita/reserva.html"><meta name="theme-color" content="#0A1020"><meta property="og:type" content="website"><meta property="og:site_name" content="Chita Automotores"><meta property="og:locale" content="es_AR"><meta property="og:title" content="Reservá tu momento · Chita Automotores"><meta property="og:description" content="Elegí un día y un horario y armá tu consulta de visita por WhatsApp. Te confirmamos por ahí."><meta property="og:url" content="https://hnk375561-lab.github.io/chita/reserva.html"><meta property="og:image" content="https://hnk375561-lab.github.io/chita/og-chita.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png"><link rel="apple-touch-icon" href="images/apple-touch-icon.png"></head>
+<link rel="canonical" href="https://hnk375561-lab.github.io/chita/reserva.html"><meta name="theme-color" content="#0A1020"><meta property="og:type" content="website"><meta property="og:site_name" content="Chita Automotores"><meta property="og:locale" content="es_AR"><meta property="og:title" content="Coordiná tu visita · Chita Automotores"><meta property="og:description" content="Elegí un día y un horario y armá la consulta para ir a ver un auto. Se envía por WhatsApp y te confirmamos por ahí."><meta property="og:url" content="https://hnk375561-lab.github.io/chita/reserva.html"><meta property="og:image" content="https://hnk375561-lab.github.io/chita/og-chita.png"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png"><link rel="apple-touch-icon" href="images/apple-touch-icon.png"></head>
 <body>
   <main id="booking" data-step="month">
     <header class="booking-nav">
       <a class="brand" href="index.html" aria-label="Volver a Chita Automotores"><img src="images/logo-chita-wordmark.webp" alt="" width="114" height="34"></a>
-      <p class="eyebrow">Reservá tu momento <span aria-hidden="true">/</span> consulta de visita</p>
+      <p class="eyebrow">Coordiná tu visita <span aria-hidden="true">/</span> consulta por WhatsApp</p>
       <button class="back" id="back" type="button" aria-label="Volver un paso" hidden>← Atrás</button>
     </header>
 
     <section class="scene scene--month" aria-labelledby="month-title">
       <div class="scene__meta"><span>01 / MES</span><span id="month-status" aria-live="polite"></span></div>
-      <div class="month-copy"><p class="kicker">Chita Automotores</p><h1 id="month-title">Elegí<em>tu</em><em>momento.</em></h1><p class="intro">Recorré el calendario y armá una consulta de visita. No es un turno confirmado.</p></div>
+      <div class="month-copy"><p class="kicker">Chita Automotores</p><h1 id="month-title">Elegí<em>cuándo</em><em>venir.</em></h1><p class="intro">Elegí un día en el calendario y armá la consulta. Todavía no es un turno confirmado.</p></div>
       <div class="calendar-shell">
         <div class="calendar-head"><button id="prev-month" type="button" aria-label="Mes anterior">←</button><h2 id="month-label"></h2><button id="next-month" type="button" aria-label="Mes siguiente">→</button></div>
         <div class="weekday" aria-hidden="true"><span>LU</span><span>MA</span><span>MI</span><span>JU</span><span>VI</span><span>SA</span><span>DO</span></div>
@@ -30,13 +30,13 @@
     <section class="scene scene--day" aria-labelledby="day-title" hidden>
       <div class="scene__meta"><span>02 / DÍA</span><span id="day-status" aria-live="polite"></span></div>
       <div class="giant-day" aria-hidden="true"><small id="day-month">—</small><span id="day-number">—</span><strong id="day-weekday">—</strong></div>
-      <div class="day-copy"><p class="kicker">Una visita a tu ritmo</p><h2 id="day-title">El día<br><em>es tuyo.</em></h2><p>Elegí una fecha habilitada para preparar el mensaje de consulta.</p></div>
+      <div class="day-copy"><p class="kicker">Tu visita</p><h2 id="day-title">¿Qué día<br><em>te queda bien?</em></h2><p>Elegí el día y se arma el mensaje de consulta para WhatsApp.</p></div>
       <button class="next-step" id="to-time" type="button" disabled>Elegir horario <span>→</span></button>
     </section>
 
     <section class="scene scene--time" aria-labelledby="time-title" hidden>
       <div class="scene__meta"><span>03 / FRANJA</span><span id="time-status" aria-live="polite"></span></div>
-      <div class="time-copy"><p class="kicker">Franja del día</p><h2 id="time-title">¿Cuándo<br><em>te queda<br>bien?</em></h2><p>Seleccioná mañana o tarde. Te confirmamos el horario exacto por WhatsApp.</p></div>
+      <div class="time-copy"><p class="kicker">Franja del día</p><h2 id="time-title">¿Mañana<br><em>o tarde?</em></h2><p>Te confirmamos el horario exacto por WhatsApp.</p></div>
       <div id="slots" class="slots" role="listbox" aria-label="Franja del día"></div>
       <button class="next-step" id="to-confirm" type="button" disabled>Ver resumen <span>→</span></button>
     </section>
@@ -44,10 +44,10 @@
     <section class="scene scene--confirm" aria-labelledby="confirm-title" hidden>
       <div class="diagonal-wipe" aria-hidden="true"></div>
       <div class="scene__meta"><span>04 / CONFIRMAR</span><span>consulta de visita</span></div>
-      <div class="confirm-copy"><p class="kicker">Tu momento</p><h2 id="confirm-title"><span id="summary-day">DÍA</span><em id="summary-time">FRANJA</em></h2><p>Gral. Galarza 1712<br>Concepción del Uruguay</p></div>
-      <div class="confirm-actions"><a id="whatsapp" class="primary" href="https://wa.me/5493442647442" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp <span>↗</span></a><a class="secondary" href="https://www.google.com/maps/place/Chita+Automotores/@-32.486865,-58.2528928,17z/data=!3m1!4b1!4m6!3m5!1s0x95afdb005d0d92a1:0x34ebb9527a204cd0!8m2!3d-32.486865!4d-58.2503179!16s%2Fg%2F1v9lczf8?entry=ttu&amp;g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">Abrir Maps</a><button id="restart" class="secondary" type="button">Elegir otro momento</button></div>
+      <div class="confirm-copy"><p class="kicker">Tu visita</p><h2 id="confirm-title"><span id="summary-day">DÍA</span><em id="summary-time">FRANJA</em></h2><p>Gral. Galarza 1712<br>Concepción del Uruguay</p></div>
+      <div class="confirm-actions"><a id="whatsapp" class="primary" href="https://wa.me/5493442647442" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp <span>↗</span></a><a class="secondary" href="https://www.google.com/maps/place/Chita+Automotores/@-32.486865,-58.2528928,17z/data=!3m1!4b1!4m6!3m5!1s0x95afdb005d0d92a1:0x34ebb9527a204cd0!8m2!3d-32.486865!4d-58.2503179!16s%2Fg%2F1v9lczf8?entry=ttu&amp;g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">Abrir Maps</a><button id="restart" class="secondary" type="button">Elegir otro día</button></div>
       <p id="send-state" class="send-state" role="status" aria-live="polite" data-state="ready">Listo para enviar · lo enviás vos por WhatsApp</p>
-      <p class="disclaimer">El mensaje solicita una consulta de visita. La disponibilidad queda sujeta a confirmación por WhatsApp.</p>
+      <p class="disclaimer">Con este mensaje consultás por una visita. Te confirmamos el día y el horario por WhatsApp.</p>
     </section>
     <div id="live" class="sr-only" aria-live="polite"></div>
   </main>
