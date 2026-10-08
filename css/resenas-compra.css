@@ -7,10 +7,12 @@ html body section#opiniones.rv2{
   --pad:clamp(20px,4vw,64px);
   position:relative;isolation:isolate;overflow:hidden;color:#fff;
   padding:clamp(64px,8vw,120px) 0!important;
+  border-top:10px solid #C1121F;
+  /* azul chapa plano + columnas del talonario + corte diagonal (mismo lenguaje que el salón) */
   background:
-    linear-gradient(115deg,rgba(1,20,59,.95) 0%,rgba(7,28,94,.9) 52%,rgba(10,44,140,.72) 100%),
-    url(../images/fondo-marca.webp) center/cover no-repeat,
-    #071C5E!important;
+    repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 8.3333%),
+    linear-gradient(112deg,transparent 0 58%,#071C5E 58% 100%),
+    #0A2C8C!important;
 }
 html body #opiniones .rv2-wrap{
   position:relative;z-index:1;width:min(1180px,calc(100% - 2*var(--pad)));margin-inline:auto;
