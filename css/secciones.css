@@ -1,0 +1,114 @@
+/* CHITA · secciones.css (se carga al final)
+   1) Agendá tu visita: «Tu visita» y el logo ya no se pisan (la columna entera es la que queda fija, no solo la tarjeta).
+   2) Comprá, vendé o permutá: tarjetas con foto 4:5 reservada de antemano (sin saltos), carga con fundido y entrada limpia.
+   3) El talón de compra: pasos como entradas con número, ícono, sello y un riel que se llena al hacer scroll.
+   Solo se animan transform y opacity. Con «reducir movimiento» todo queda en su estado final. */
+
+/* ───────── 1 · VISITA ───────── */
+@media(min-width:780px){
+  html body #visita#visita#visita#visita .vx-right{display:flex;flex-direction:column;gap:22px;align-self:start;position:sticky;top:92px;grid-column:2;grid-row:2/4;min-width:0}
+  html body #visita#visita#visita#visita .vx-right .vx-sum{position:relative!important;top:auto!important;grid-column:auto;grid-row:auto}
+  html body #visita#visita#visita#visita .vx-right .vx-brand{grid-column:auto;grid-row:auto;align-self:center;padding:0}
+}
+@media(max-width:779px){
+  html body #visita#visita#visita#visita .vx-right{display:flex;flex-direction:column;gap:22px}
+  html body #visita#visita#visita#visita .vx-right .vx-sum{position:relative!important;top:auto!important}
+}
+
+/* ───────── 2 · OPERACIONES ───────── */
+html body #operaciones#operaciones#operaciones .og .oc{
+  display:flex;flex-direction:column;background:#fff;overflow:hidden;
+  transition:transform .4s cubic-bezier(.22,.8,.24,1),box-shadow .4s ease,opacity .5s ease}
+html body #operaciones#operaciones#operaciones .oc .oi{
+  position:relative;flex:none;aspect-ratio:4/5!important;overflow:hidden;
+  background:linear-gradient(105deg,#d5d9e1 30%,#eceef2 50%,#d5d9e1 70%) 0 0/220% 100%!important;
+  animation:opsh 1.3s linear infinite}
+html body #operaciones#operaciones#operaciones .oc .oi.ld{animation:none;background:#d5d9e1!important}
+@keyframes opsh{to{background-position:-220% 0}}
+html body #operaciones#operaciones#operaciones .oc .oi img{
+  position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover!important;object-position:var(--op,50% 50%);
+  opacity:0;transform:scale(1.06);will-change:auto;
+  transition:opacity .6s ease,transform 1.3s cubic-bezier(.2,.7,.2,1)}
+html body #operaciones#operaciones#operaciones .oc .oi.ld img{opacity:1;transform:none}
+html body #operaciones#operaciones#operaciones .oc:nth-child(1) .oi{--op:68% 50%}
+html body #operaciones#operaciones#operaciones .oc:nth-child(2) .oi{--op:62% 50%}
+html body #operaciones#operaciones#operaciones .oc:nth-child(3) .oi{--op:66% 50%}
+html body #operaciones#operaciones#operaciones .oc:nth-child(4) .oi{--op:58% 50%}
+html body #operaciones#operaciones#operaciones .oc .oi::after{
+  content:""!important;display:block!important;position:absolute;inset:auto 0 0 0;height:42%;
+  background:linear-gradient(0deg,rgba(10,16,32,.7),transparent);pointer-events:none}
+html body #operaciones#operaciones#operaciones .oc .oc-no{
+  position:absolute;z-index:3;left:0;top:14px;padding:8px 14px 8px 12px;background:var(--ink);color:#fff;
+  font:800 12px/1 var(--font-display,Arial,sans-serif);letter-spacing:.18em;
+  border-left:4px solid var(--rojo);transition:background-color .3s}
+html body #operaciones#operaciones#operaciones .oc:is(:hover,:focus-within) .oc-no{background:var(--rojo)}
+@media(hover:hover){html body #operaciones#operaciones#operaciones .oc:hover .oi.ld img{transform:scale(1.05)}
+  html body #operaciones#operaciones#operaciones .og .oc:hover{transform:translateY(-6px);box-shadow:0 26px 40px -22px rgba(11,18,32,.6)}}
+html body #operaciones#operaciones#operaciones .oc .ob{flex:1;display:flex;flex-direction:column;padding:20px 22px 24px}
+html body #operaciones#operaciones#operaciones .oc .ob p{flex:1}
+/* entrada: aparecen de a una cuando entran en pantalla (las dispara js/secciones.js) */
+html.rv-on body #operaciones#operaciones#operaciones .og .oc{opacity:0;transform:translateY(34px)}
+html.rv-on body #operaciones#operaciones#operaciones .og .oc.in{opacity:1;transform:none;transition-delay:var(--d,0s)}
+@media(hover:hover){html.rv-on body #operaciones#operaciones#operaciones .og .oc.in:hover{transition-delay:0s}}
+
+/* ───────── 3 · TALÓN DE COMPRA ───────── */
+html body #como-comprar .tk-main{display:grid;gap:clamp(24px,3vw,44px);align-items:start}
+@media(min-width:960px){html body #como-comprar .tk-main{grid-template-columns:minmax(0,1fr) 300px}}
+html body #como-comprar .tk-list{--p:0;position:relative;display:grid;gap:clamp(16px,1.8vw,24px);margin:0;padding:0;list-style:none}
+/* riel: línea gris punteada + tramo rojo que avanza con el scroll */
+html body #como-comprar .tk-list::before,html body #como-comprar .tk-list::after{
+  content:"";position:absolute;left:calc(var(--nw) / 2 - 1.5px);top:calc(var(--nw) / 2);bottom:calc(var(--nw) / 2);width:3px}
+html body #como-comprar .tk-list{--nw:68px}
+html body #como-comprar .tk-list::before{background:repeating-linear-gradient(180deg,rgba(10,16,32,.32) 0 6px,transparent 6px 12px)}
+html body #como-comprar .tk-list::after{background:var(--rojo);transform-origin:top;transform:scaleY(var(--p));will-change:transform}
+html body #como-comprar .tk-step{position:relative;display:grid;grid-template-columns:var(--nw) minmax(0,1fr);gap:clamp(14px,1.8vw,24px);align-items:start;margin:0}
+html body #como-comprar .tk-n{
+  position:relative;z-index:2;display:grid;place-items:center;width:var(--nw);height:var(--nw);
+  background:var(--ink);color:#fff;font:800 24px/1 var(--font-display,Arial,sans-serif);letter-spacing:.02em;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);transition:background-color .45s,transform .45s cubic-bezier(.22,.8,.24,1)}
+html body #como-comprar .tk-step.on .tk-n{background:var(--rojo);transform:scale(1.06)}
+html body #como-comprar .tk-card{
+  --cut:calc(100% - 168px);position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) 168px;align-items:stretch;
+  background:#fff;border-left:6px solid var(--ink);color:var(--ink);box-shadow:0 20px 34px -24px rgba(10,16,32,.55);
+  -webkit-mask:radial-gradient(circle 11px at var(--cut) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle 11px at var(--cut) 100%,#0000 97%,#000) bottom/100% 51% no-repeat;
+          mask:radial-gradient(circle 11px at var(--cut) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle 11px at var(--cut) 100%,#0000 97%,#000) bottom/100% 51% no-repeat;
+  transition:transform .4s cubic-bezier(.22,.8,.24,1),border-color .4s}
+html body #como-comprar .tk-step.on .tk-card{border-left-color:var(--rojo)}
+@media(hover:hover){html body #como-comprar .tk-card:hover{transform:translateX(6px)}}
+html body #como-comprar .tk-ico{display:grid;place-items:center;align-self:center;width:58px;height:58px;margin:0 0 0 clamp(16px,1.8vw,24px);border-radius:50%;background:var(--chapa);color:#fff}
+html body #como-comprar .tk-ico svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+html body #como-comprar .tk-txt{padding:clamp(18px,1.9vw,26px) clamp(16px,2vw,28px)}
+html body #como-comprar .tk-txt h3{margin:0 0 8px;color:var(--ink)!important;font:800 clamp(20px,1.9vw,27px)/1.08 var(--font-display,Arial,sans-serif);letter-spacing:-.01em}
+html body #como-comprar .tk-txt p{margin:0;max-width:46ch;color:#37405a!important;font:400 clamp(15px,1.1vw,17px)/1.5 var(--b,system-ui,sans-serif)}
+html body #como-comprar .tk-go{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:0 0 3px;border-bottom:2px solid var(--rojo);
+  color:var(--rojo)!important;font:800 13px/1 var(--font-display,Arial,sans-serif);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body #como-comprar .tk-go i{font-style:normal;transition:transform .25s}
+html body #como-comprar .tk-go:is(:hover,:focus-visible) i{transform:translateX(5px)}
+html body #como-comprar .tk-go:focus-visible{outline:3px solid var(--chapa);outline-offset:4px}
+/* talón: la parte que se desprende, con el sello */
+html body #como-comprar .tk-stub{position:relative;display:grid;place-content:center;gap:10px;justify-items:center;padding:14px;
+  background:repeating-linear-gradient(-50deg,rgba(10,44,140,.05) 0 10px,transparent 10px 20px);border-left:2px dashed rgba(10,16,32,.3)}
+html body #como-comprar .tk-stub small{font:700 11px/1 var(--b,system-ui,sans-serif);letter-spacing:.2em;text-transform:uppercase;color:#5b6479}
+html body #como-comprar .tk-stamp{display:inline-block;padding:7px 12px;border:3px double var(--rojo);color:var(--rojo);
+  font:800 14px/1 var(--font-display,Arial,sans-serif);letter-spacing:.14em;text-transform:uppercase;transform:rotate(-7deg);opacity:.9}
+html.rv-on body #como-comprar .tk-step:not(.on) .tk-stamp{opacity:0;transform:rotate(-7deg) scale(1.7)}
+html.rv-on body #como-comprar .tk-step.on .tk-stamp{opacity:.9;transform:rotate(-7deg);transition:opacity .25s ease .25s,transform .45s cubic-bezier(.3,1.5,.5,1) .25s}
+html.rv-on body #como-comprar .tk-step{transition:opacity .6s ease,translate .6s cubic-bezier(.22,.8,.24,1)}
+html.rv-on body #como-comprar .tk-step:not(.seen){opacity:0;translate:0 26px}
+@media(max-width:699px){
+  html body #como-comprar .tk-list{--nw:46px}
+  html body #como-comprar .tk-n{font-size:17px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+  html body #como-comprar .tk-card{--cut:50%;grid-template-columns:minmax(0,1fr);-webkit-mask:none;mask:none;border-left-width:5px}
+  html body #como-comprar .tk-ico{display:none}
+  html body #como-comprar .tk-stub{grid-auto-flow:column;justify-content:space-between;border-left:0;border-top:2px dashed rgba(10,16,32,.3);padding:12px 18px}
+  html body #como-comprar .tk-stamp{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  html body #como-comprar .tk-list::after{transform:scaleY(1)}
+  html.rv-on body #como-comprar .tk-step:not(.seen),html.rv-on body #como-comprar .tk-step:not(.on) .tk-stamp{opacity:1;translate:none;transform:rotate(-7deg)}
+  html.rv-on body #operaciones#operaciones#operaciones .og .oc{opacity:1;transform:none}
+  html body #operaciones#operaciones#operaciones .oc .oi{animation:none}
+}
+@media (scripting:none){
+  html body #operaciones#operaciones#operaciones .oc .oi img{opacity:1;transform:none}
+}
