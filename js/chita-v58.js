@@ -8,12 +8,7 @@ var S=window.STOCK||[];
 var RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 function $(i){return document.getElementById(i)}
 function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
-/* srcset de las miniaturas: mismas variantes -480/-800 (o assets/w480|w800) que usa app.js (small/pan).
-   Antes esperaba una función global `ss` que no existe y caía en un fallback que devolvía la foto completa. */
-function SS(u){u=String(u);
-  if(/^assets\/w800\//.test(u))return u.replace("w800","w480")+" 480w, "+u+" 800w";
-  if(!/\.webp$/.test(u)||/-(480|800)\.webp$/.test(u))return u;
-  return u.replace(/\.webp$/,"-480.webp")+" 480w, "+u.replace(/\.webp$/,"-800.webp")+" 800w"}
+var SS=typeof ss==="function"?ss:function(u){return u};
 function slug(c){return String((c.corto||c.titulo)+"-"+c.anio).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")}
 function fotos(c){return c.fotos&&c.fotos.length?c.fotos:[c.foto]}
 function pad(n){return String(n).padStart(2,"0")}
@@ -116,13 +111,12 @@ go(0);
 })();
 })();
 
-/* v59 · fotos de las unidades: solo se adelanta la 1.ª y la 2.ª foto de cada tarjeta cuando se acerca a la pantalla.
-   El resto de las fotos se pide al apuntar o tocar la tarjeta (ya lo hace app.js), así no se decodifican 40 imágenes de golpe. */
+/* v59 · fotos de las unidades: se piden antes de que aparezcan (sin esperar al carrusel ni al scroll). */
 (function(){
-  function warm(card){card.querySelectorAll(".ctk img").forEach(function(m,i){if(i<2&&m.getAttribute("loading")==="lazy")m.setAttribute("loading","eager")})}
+  function warm(root){root.querySelectorAll("img[loading=lazy]").forEach(function(m){m.setAttribute("loading","eager")})}
   var cards=document.querySelectorAll("#stockGrid .car");
   if(!cards.length)return;
   if(!("IntersectionObserver" in window)){cards.forEach(warm);return}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){warm(e.target);io.unobserve(e.target)}})},{rootMargin:"900px 0px"});
-  cards.forEach(function(c){io.observe(c)});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){warm(e.target);io.unobserve(e.target)}})},{rootMargin:"2200px 0px"});
+  cards.forEach(function(c,i){if(i<3)warm(c);else io.observe(c)});
 })();
