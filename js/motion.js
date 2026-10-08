@@ -291,17 +291,7 @@ function initNavigation() {
   const ctx = gsap.context(() => {
     ScrollTrigger.create({ start: 8, end: "max", onToggle: (self) => header.classList.toggle("s", self.isActive) });
 
-    /* Dirección: baja → se esconde; sube → vuelve. 48 px de recorrido acumulado para evitar parpadeos. */
-    ScrollTrigger.create({
-      start: 0, end: "max",
-      onUpdate: (self) => {
-        const y = self.scroll(), dy = y - lastY; lastY = y;
-        if (Math.sign(dy) !== Math.sign(acc)) acc = 0;
-        acc += dy;
-        if (y < 640 || header.matches(":focus-within")) { setHidden(false); return; }
-        if (acc > 48) setHidden(true); else if (acc < -24) setHidden(false);
-      }
-    });
+    /* El header queda siempre fijo y visible (sin esconderse al bajar). */
 
     qsa('nav a[href^="#"]', header).forEach((link) => {
       const section = document.getElementById(link.getAttribute("href").slice(1));

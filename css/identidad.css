@@ -74,7 +74,6 @@ html body .eg{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr
 html body .eg li{counter-increment:e;position:relative;clip-path:var(--cut);--c:22px;aspect-ratio:4/5;overflow:hidden;background:var(--ink)}
 html body .eg li:nth-child(even){transform:translateY(clamp(12px,2vw,32px))}
 html body .eg li img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
-html body .eg li:hover img{transform:scale(1.06)}
 html body .eg li::after{content:"E·" counter(e,decimal-leading-zero);position:absolute;left:0;bottom:0;padding:6px 12px 6px 8px;background:var(--rojo);color:#fff;font:800 13px/1 var(--font-display);letter-spacing:.12em}
 html body .eh img{clip-path:var(--cut);--c:20px}
 /* — tarjetas y bloques con el corte — */
@@ -287,7 +286,6 @@ html body .eg li:nth-child(4){grid-column:span 3}html body .eg li:nth-child(5){g
 html body .eg li:nth-child(10),html body .eg li:nth-child(11),html body .eg li:nth-child(12){grid-column:span 4}
 html body .eg li:nth-child(1)::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--rojo);z-index:2}
 html body .eg li:nth-child(1)::after{font-size:clamp(15px,1.5vw,22px);padding:10px 18px 10px 14px}
-html body .eg:hover li:not(:hover){opacity:.5}
 .ec{display:inline-block;margin:0 0 clamp(14px,2vw,26px);padding:9px 30px 9px 2.3em;background:linear-gradient(90deg,var(--rojo) 0 1.1em,#fff 1.1em);color:var(--ink);font:800 12px/1 var(--font-display);letter-spacing:.14em;text-transform:uppercase;clip-path:var(--cut);--c:12px}
 @media(max-width:899px){
  html body .eg{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:clamp(120px,36vw,200px)}
@@ -1397,7 +1395,6 @@ html body main>.hero.hx .hx-pn::after{opacity:.8}
 
 /* CHITA v43 · ENTREGAS (T11): el sello grande queda solo en la primera entrega («Entregado»); en las demás aparece al pasar el mouse o con foco. El resto sigue mostrando su código E·NN. Sin estados nuevos. Solo CSS. */
 html body #entregas .eg li:not(:first-child) .sl{opacity:0!important;animation:none!important;transition:opacity .2s linear}
-html body #entregas .eg li:not(:first-child):is(:hover,:focus-within) .sl{opacity:1!important}
 @media(prefers-reduced-motion:reduce){html body #entregas .eg li .sl{transition:none}}
 
 /* CHITA v44 · E·13 / PREGUNTAS (T20): el pedido E·13 queda como bloque propio con perforación arriba y abajo; las Preguntas van debajo como bloque aparte, sin la numeración P·NN. Una sola acción primaria en el cierre del pedido. Solo CSS. */
@@ -1427,7 +1424,7 @@ html body #stockGrid .car .meta .dato-ac{border-bottom-width:2px;padding-bottom:
 html body main>.hero.hx .hx-trk{animation-duration:95s}
 .hx-rail{position:relative;z-index:3;display:flex;flex-direction:column;gap:12px;min-width:0}
 .hx-rt{position:relative;flex:1 1 0;min-height:0;margin:0;overflow:hidden;background:var(--ink);border-left:6px solid var(--rojo);clip-path:var(--cut-sm)}
-.hx-rs{position:absolute;inset:0;opacity:0;transition:opacity .9s linear}
+.hx-rs{position:absolute;inset:0;opacity:0;transition:opacity .5s linear}
 .hx-rs.on{opacity:1}
 .hx-rs img{display:block;width:100%;height:100%;object-fit:cover}
 .hx-rs i{position:absolute;left:0;bottom:0;padding:6px 14px 6px 10px;background:#fff;color:var(--ink);font:800 10px/1 var(--font-display);letter-spacing:.16em;text-transform:uppercase;font-style:normal;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 100%,0 100%)}

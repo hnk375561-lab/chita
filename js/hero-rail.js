@@ -1,5 +1,5 @@
 /* CHITA · hero: rotación de las 3 miniaturas de la derecha (entregas e interiores).
-   Cada recuadro pasa de foto con un fundido (la transición ya está en css/identidad.css: .hx-rs → opacity .9s).
+   Cada recuadro pasa de foto con un fundido (la transición ya está en css/identidad.css: .hx-rs → opacity .5s).
    Solo se mueve mientras el hero está en pantalla y la pestaña visible; escalonado para que no cambien a la vez.
    Con «reducir movimiento» o ahorro de datos queda fija en la primera foto. */
 (function(){
@@ -21,7 +21,7 @@ function start(){
   tiles.forEach(function(t,k){
     /* cada recuadro arranca desfasado y con un período distinto: no cambian los tres juntos */
     timers.push(setTimeout(function(){
-      timers.push(setInterval(function(){tick(t)},5200+k*700))},2200+k*1400))})}
+      timers.push(setInterval(function(){tick(t)},2600+k*350))},1100+k*700))})}
 if("IntersectionObserver" in window){
   new IntersectionObserver(function(es){inView=es[0].isIntersecting},{threshold:.1}).observe(hero)}
 if(document.readyState==="complete")start();else addEventListener("load",start,{once:true});
