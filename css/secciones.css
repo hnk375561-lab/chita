@@ -173,3 +173,16 @@ html body #como-comprar .tk-step{contain:layout style}
 /* Dónde estamos · mapa: sin filtros sobre el cartel del pin (sobre un elemento recortado obligan a repintar en cada scroll). La sombra es estática. */
 html body #contacto .mp .mpp{filter:none!important;box-shadow:0 8px 0 -2px rgba(0,0,0,.28)}
 html body #contacto .mp{isolation:isolate}
+
+/* ───────── Cómo comprar · segunda pasada de rendimiento ─────────
+   · Sin máscara: la muesca del talón son dos círculos del color del fondo (una máscara obliga a una superficie de render por tarjeta en cada frame de scroll).
+   · Sin transiciones de color al encenderse un paso: cambian de golpe (animar fondos repinta tarjeta, ícono y talón durante 450 ms). */
+html body #como-comprar .tk-card{-webkit-mask:none;mask:none;overflow:hidden;transition:none}
+html body #como-comprar .tk-card::before,html body #como-comprar .tk-card::after{content:"";position:absolute;z-index:3;width:32px;height:32px;border-radius:50%;background:var(--paper2);pointer-events:none;
+  left:calc(100% - 210px - 16px)}
+html body #como-comprar .tk-card::before{top:-16px}
+html body #como-comprar .tk-card::after{bottom:-16px}
+html body #como-comprar .tk-n,html body #como-comprar .tk-ico,html body #como-comprar .tk-stub{transition:none}
+html body #como-comprar .tk-step::after{transition:opacity .25s ease}
+@media(max-width:699px){html body #como-comprar .tk-card::before,html body #como-comprar .tk-card::after{display:none}}
+@media(hover:hover){html body #como-comprar .tk-card:hover{transform:none}}
