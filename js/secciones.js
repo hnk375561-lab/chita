@@ -91,7 +91,7 @@ function build(){
   map=L.map(box,{zoomControl:false,scrollWheelZoom:false,dragging:!touch,touchZoom:!touch,minZoom:13,maxZoom:19,zoomSnap:1,worldCopyJump:false});
   map.attributionControl.setPrefix(false);
   var ll=L.latLng(LAT,LNG),errs=0,oks=0;
-  var tl=L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:19,attribution:"© OpenStreetMap · © CARTO"}).addTo(map);
+  var tl=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\" rel=\"noopener noreferrer\">OpenStreetMap</a>"}).addTo(map);
   tl.on("tileload",function(){oks++});
   tl.on("tileerror",function(){errs++;if(errs>6&&!oks){try{map.remove()}catch(e){}box.remove();var c=m.querySelector(".mp-ctl");if(c)c.remove();fallback()}});
   L.marker(ll,{interactive:false,keyboard:false,zIndexOffset:1000,icon:L.divIcon({className:"chita-pin",html:'<span class="cp"><i>Chita</i><b>1712</b></span>',iconSize:[0,0],iconAnchor:[0,0]})}).addTo(map);
