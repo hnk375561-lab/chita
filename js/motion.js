@@ -108,7 +108,13 @@ function batch(targets, enter, { start = "top 90%", gap = 0.1, max = 6 } = {}) {
   if (!targets.length) return;
   ScrollTrigger.batch(targets, { start, interval: gap, batchMax: max, once: true, onEnter: enter, onEnterBack: enter });
 }
-const scrub = (trigger, start, end, extra = {}) => ({ trigger, start, end, scrub: true, ...extra });
+/* PERF (móvil): el scroll del dedo es nativo y asíncrono; una animación atada al scroll (scrub) obliga a recalcular en JS
+   (y a repintar si toca clip-path) en cada cuadro, y se nota como tirón al llegar a cada sección. En pantallas < 900 px la
+   misma animación corre UNA vez al entrar (mismo estado final, se revierte al volver arriba). En escritorio queda atada al scroll como siempre. */
+const isDesktopNow = () => window.matchMedia(MQ.desktop).matches;
+const scrub = (trigger, start, end, extra = {}) => isDesktopNow()
+  ? { trigger, start, end, scrub: true, ...extra }
+  : { trigger, start, toggleActions: "play none none reverse", ...extra };
 
 /* ── Texto partido (palabras / letras) sin perder <em> ni <br>. Idempotente. ─────────────── */
 const WORD = "mo-w", INNER = "mo-i", CHAR = "mo-c";
@@ -908,6 +914,9 @@ function initInteractions({ desktop, fine }) {
    Los targets son wrappers ya existentes para no alterar contenido ni layout.
    ════════════════════════════════════════════════════════════════════════════════════════ */
 function initSceneChoreography({ desktop }) {
+  /* PERF (móvil): todo lo de acá es deriva decorativa continua atada al scroll (tarjetas de reseñas que rotan, columnas que cruzan,
+     formularios que se estiran, fotos con zoom). En el celular se ve igual en reposo y cuesta un recálculo por cuadro: no se crea. */
+  if (!desktop) return noop;
   const k = desktop ? 1 : 0.55;
   const ctx = gsap.context(() => {});
   const scene = (id, fn) => {
