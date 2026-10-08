@@ -1,135 +1,263 @@
-/* CHITA · secciones.js
-   · Comprá, vendé o permutá: cada foto se muestra con un fundido recién cuando terminó de cargar y decodificarse (nada a medias);
-     las tarjetas entran de a una al verse.
-   · El talón de compra: los pasos aparecen al verse, el sello cae cuando el riel rojo los alcanza.
-   Solo IntersectionObserver y un scroll pasivo con rAF que escribe una variable. Con «reducir movimiento» todo queda ya visible. */
-(function(){
-"use strict";
-var RM=matchMedia("(prefers-reduced-motion:reduce)").matches,IO="IntersectionObserver" in window;
-var root=document.documentElement;
-if(!RM&&IO)root.classList.add("rv-on");
+/* CHITA · secciones.css (se carga al final)
+   1) Agendá tu visita: «Tu visita» y el logo ya no se pisan (la columna entera es la que queda fija, no solo la tarjeta).
+   2) Comprá, vendé o permutá: tarjetas con foto 4:5 reservada de antemano (sin saltos), carga con fundido y entrada limpia.
+   3) El talón de compra: pasos como entradas con número, ícono, sello y un riel que se llena al hacer scroll.
+   Solo se animan transform y opacity. Con «reducir movimiento» todo queda en su estado final. */
 
-/* ── Operaciones: fotos ── */
-var imgs=[].slice.call(document.querySelectorAll("#operaciones .oc .oi img"));
-function shown(im){var box=im.parentNode;if(box&&box.classList)box.classList.add("ld")}
-imgs.forEach(function(im){
- function ok(){(im.decode?im.decode().catch(function(){}):Promise.resolve()).then(function(){shown(im)})}
- if(im.complete&&im.naturalWidth)ok();
- else{im.addEventListener("load",ok,{once:true});im.addEventListener("error",function(){shown(im)},{once:true})}});
-
-/* ── Operaciones: entrada escalonada ── */
-var cards=[].slice.call(document.querySelectorAll("#operaciones .og .oc"));
-if(cards.length){
- if(!(root.classList.contains("rv-on")))cards.forEach(function(c){c.classList.add("in")});
- else{
-  var seq=0,t=0,o=new IntersectionObserver(function(es){
-   es.forEach(function(e){if(!e.isIntersecting)return;o.unobserve(e.target);
-    e.target.style.setProperty("--d",(seq++*0.1)+"s");e.target.classList.add("in")});
-   clearTimeout(t);t=setTimeout(function(){seq=0},600)},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
-  cards.forEach(function(c){o.observe(c)})}}
-
-/* ── Talón de compra ── */
-var list=document.getElementById("tkList");
-if(list){
- var steps=[].slice.call(list.querySelectorAll(".tk-step")),inView=false,raf=0,fill=document.createElement("i");
- fill.className="tk-fill";fill.setAttribute("aria-hidden","true");list.insertBefore(fill,list.firstChild);
- var nw=parseFloat(getComputedStyle(list).getPropertyValue("--nw"))||30,lastP=-1;
- function measure(){nw=parseFloat(getComputedStyle(list).getPropertyValue("--nw"))||30}
- function paint(){
-  raf=0;
-  /* primero se lee todo, después se escribe: sin recalcular el layout dos veces por frame */
-  var vh=innerHeight,r=list.getBoundingClientRect(),line=vh*.62,
-   p=Math.max(0,Math.min(1,(line-r.top-nw/2)/Math.max(1,r.height-nw))),
-   ons=steps.map(function(s){return s.getBoundingClientRect().top+nw/2<=line});
-  if(Math.abs(p-lastP)>.002){lastP=p;fill.style.transform="scaleY("+p.toFixed(3)+")"}
-  steps.forEach(function(s,i){if(ons[i]!==s.classList.contains("on"))s.classList.toggle("on",ons[i])})}
- function q(){if(!raf)raf=requestAnimationFrame(paint)}
- if(RM||!IO){steps.forEach(function(s){s.classList.add("seen","on")});fill.style.transform="scaleY(1)"}
- else{
-  var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("seen");so.unobserve(e.target)}})},{threshold:.1});
-  steps.forEach(function(s){so.observe(s)});
-  new IntersectionObserver(function(es){inView=es[0].isIntersecting;if(inView)q()},{rootMargin:"120px 0px"}).observe(list);
-  addEventListener("scroll",function(){if(inView)q()},{passive:true});
-  addEventListener("resize",function(){measure();q()},{passive:true});
-  paint()}}
-
-/* ── Hero · carrusel de fondo: siempre la foto de mayor calidad disponible ──
-   app.js declara sizes="40vw", así que en pantallas medianas el navegador elegía la copia de 480 px y la estiraba.
-   Cada panel se ve a ~560 px de ancho: se fuerza la copia de 800 px, se cargan todas con prioridad baja (sin competir con el hero) y también las que se crean al redimensionar. */
-(function(){
-var T=document.querySelector("#hero .hx-trk");if(!T)return;
-function up(im){if(!im||im.tagName!=="IMG"||im.dataset.q)return;im.dataset.q="1";
- if(im.getAttribute("srcset"))im.sizes="800px";
- im.loading="eager";im.decoding="async";try{im.fetchPriority="low"}catch(e){}}
-function all(){[].forEach.call(T.querySelectorAll("img"),up)}
-all();
-if("MutationObserver" in window)new MutationObserver(function(ms){ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(n.nodeType===1)n.tagName==="IMG"?up(n):[].forEach.call(n.querySelectorAll("img"),up)})})}).observe(T,{childList:true});
-})();
-
-/* ── Dónde estamos · mapa propio (MapLibre GL, copia local en js/vendor/maplibre) ──
-   El mapa de Google en iframe no avisa cuando se lo mueve, por eso el cartel «1712» (una capa suelta encima) quedaba fijo en la pantalla mientras el mapa se desplazaba.
-   Ahora el cartel es un marcador del mapa: siempre está sobre Gral. Galarza 1712, se mueva o se acerque lo que se mueva.
-   Mapa vectorial (OpenFreeMap, sin clave): nítido a cualquier zoom y dibujado por la GPU, sin mosaicos de imagen. Botón «Centrar» devuelve la vista a Chita.
-   Si la librería o el estilo no cargan en unos segundos, vuelve al mapa de Google de antes. */
-(function(){
-var m=document.querySelector("#contacto .mp");if(!m)return;
-var f=m.querySelector("iframe"),fb=f?(f.getAttribute("data-src")||""):"";
-if(f)f.removeAttribute("data-src");                       /* el script inline y motion.js ya no cargan el iframe */
-var LAT=-32.486865,LNG=-58.250318,Z=17,STYLE="https://tiles.openfreemap.org/styles/liberty",started=false;
-function fallback(){m.classList.remove("lf");if(f&&fb&&!f.getAttribute("src")){f.setAttribute("src",fb);m.classList.add("rd")}}
-function boot(){
- if(started)return;started=true;
- var css=document.createElement("link");css.rel="stylesheet";css.href="js/vendor/maplibre/maplibre-gl.css";document.head.appendChild(css);
- var sc=document.createElement("script");sc.src="js/vendor/maplibre/maplibre-gl.js";sc.async=true;sc.onload=build;sc.onerror=fallback;document.head.appendChild(sc)}
-function build(){
- var map,box,ctl,dead=false,timer=0;
- function bail(){if(dead)return;dead=true;clearTimeout(timer);try{if(map)map.remove()}catch(e){}if(box)box.remove();if(ctl)ctl.remove();fallback()}
- try{
-  if(!window.maplibregl||!maplibregl.Map)throw 0;
-  /* maplibregl.supported() ya no existe desde la v4: se comprueba WebGL a mano */
-  var cv=document.createElement("canvas");if(!(cv.getContext("webgl2")||cv.getContext("webgl")))throw 0;
-  var touch=matchMedia("(pointer:coarse)").matches;
-  box=document.createElement("div");box.className="mp-lf";box.setAttribute("role","application");
-  box.setAttribute("aria-label","Mapa: Chita Automotores, Gral. Galarza 1712, Concepción del Uruguay");
-  m.insertBefore(box,m.firstChild);
-  map=new maplibregl.Map({container:box,style:STYLE,center:[LNG,LAT],zoom:Z,minZoom:12,maxZoom:19.5,
-   attributionControl:false,dragRotate:false,pitchWithRotate:false,touchPitch:false,scrollZoom:false,dragPan:!touch,
-   pixelRatio:Math.min(window.devicePixelRatio||1,2),fadeDuration:0,renderWorldCopies:false});
-  map.touchZoomRotate.disableRotation();
-  if(touch)map.touchZoomRotate.disable();
-  map.addControl(new maplibregl.AttributionControl({compact:false}),"bottom-right");
-  var ll=new maplibregl.LngLat(LNG,LAT);
-  /* dónde queda el cartel dentro del mapa: a la derecha del panel de texto en escritorio, al centro en celular.
-     Se logra con «padding» (corre el centro del mapa), así el zoom y «Centrar» respetan la misma posición. */
-  function tgt(){var w=box.clientWidth||innerWidth,h=box.clientHeight||600,iw=innerWidth;return {w:w,h:h,x:w*(iw>=1100?.68:iw>=900?.62:.5),y:h*(iw>=900?.62:.6)}}
-  function pad(){var t=tgt();map.setPadding({left:Math.max(0,Math.round(2*t.x-t.w)),right:Math.max(0,Math.round(t.w-2*t.x)),top:Math.max(0,Math.round(2*t.y-t.h)),bottom:Math.max(0,Math.round(t.h-2*t.y))})}
-  pad();map.jumpTo({center:ll,zoom:Z});
-  /* cartel «1712»: marcador anclado a la coordenada */
-  var el=document.createElement("div");el.className="chita-pin";el.innerHTML='<span class="cp"><i>Chita</i><b>1712</b></span>';
-  new maplibregl.Marker({element:el,anchor:"bottom"}).setLngLat(ll).addTo(map);
-  /* controles propios: + / − / Centrar (encima de «Abrir en Google Maps») */
-  ctl=document.createElement("div");ctl.className="mp-ctl";
-  ctl.innerHTML='<button type="button" class="mp-z" data-z="1" aria-label="Acercar">+</button><button type="button" class="mp-z" data-z="-1" aria-label="Alejar">−</button>'+
-   '<button type="button" class="mp-c" aria-label="Centrar el mapa en Chita"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/><circle cx="12" cy="12" r="8"/></svg>Centrar</button>';
-  m.appendChild(ctl);
-  var bc=ctl.querySelector(".mp-c");
-  function off(){var p=map.project(ll),t=tgt(),far=Math.abs(p.x-t.x)>28||Math.abs(p.y-t.y)>28||Math.abs(map.getZoom()-Z)>.05;bc.classList.toggle("off",far)}
-  map.on("moveend",off);
-  ctl.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;e.stopPropagation();
-   if(b.classList.contains("mp-c"))map.easeTo({center:ll,zoom:Z,duration:650,essential:true});
-   else{if(b.getAttribute("data-z")==="1")map.zoomIn({duration:250});else map.zoomOut({duration:250})}});
-  /* el scroll de la página no debe «caer» dentro del mapa: la rueda y (en celular) el arrastre se activan al tocar el mapa */
-  m.addEventListener("click",function(){map.scrollZoom.enable();if(touch){map.dragPan.enable();map.touchZoomRotate.enable();map.touchZoomRotate.disableRotation()}});
-  m.addEventListener("mouseleave",function(){map.scrollZoom.disable()});
-  document.addEventListener("touchstart",function(e){if(touch&&!m.contains(e.target)){map.dragPan.disable();map.touchZoomRotate.disable()}},{passive:true});
-  var rt=0;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){var far=bc.classList.contains("off");map.resize();pad();if(!far)map.jumpTo({center:ll,zoom:Z});off()},180)},{passive:true});
-  if(touch)m.classList.add("lf-touch");
-  map.once("load",function(){clearTimeout(timer);if(dead)return;m.classList.add("lf","rd");off()});
-  map.on("error",function(e){if(!map.loaded()&&!m.classList.contains("lf")&&e&&e.error&&/style|Failed|NetworkError/i.test(String(e.error.message||e.error)))bail()});
-  timer=setTimeout(function(){if(!m.classList.contains("lf"))bail()},9000);
- }catch(e){bail()}
+/* ───────── 1 · VISITA ───────── */
+@media(min-width:780px){
+  html body #visita#visita#visita#visita .vx-right{display:flex;flex-direction:column;gap:22px;align-self:start;position:sticky;top:92px;grid-column:2;grid-row:2/4;min-width:0}
+  html body #visita#visita#visita#visita .vx-right .vx-sum{position:relative!important;top:auto!important;grid-column:auto;grid-row:auto}
+  html body #visita#visita#visita#visita .vx-right .vx-brand{grid-column:auto;grid-row:auto;align-self:center;padding:0}
 }
-if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();boot()}},{rootMargin:"1400px 0px"});io.observe(m)}
-else addEventListener("load",function(){setTimeout(boot,800)});
-})();
-})();
+@media(max-width:779px){
+  html body #visita#visita#visita#visita .vx-right{display:flex;flex-direction:column;gap:22px}
+  html body #visita#visita#visita#visita .vx-right .vx-sum{position:relative!important;top:auto!important}
+}
+
+/* ───────── 2 · OPERACIONES ───────── */
+html body #operaciones#operaciones#operaciones .og .oc{
+  display:flex;flex-direction:column;background:#fff;overflow:hidden;
+  transition:transform .4s cubic-bezier(.22,.8,.24,1),box-shadow .4s ease,opacity .5s ease}
+html body #operaciones#operaciones#operaciones .oc .oi{
+  position:relative;flex:none;aspect-ratio:4/5!important;overflow:hidden;
+  background:linear-gradient(105deg,#d5d9e1 30%,#eceef2 50%,#d5d9e1 70%) 0 0/220% 100%!important;
+  animation:opsh 1.3s linear infinite}
+html body #operaciones#operaciones#operaciones .oc .oi.ld{animation:none;background:#d5d9e1!important}
+@keyframes opsh{to{background-position:-220% 0}}
+html body #operaciones#operaciones#operaciones .oc .oi img{
+  position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover!important;object-position:var(--op,50% 50%);
+  opacity:0;transform:scale(1.06);will-change:auto;
+  transition:opacity .6s ease,transform 1.3s cubic-bezier(.2,.7,.2,1)}
+html body #operaciones#operaciones#operaciones .oc .oi.ld img{opacity:1;transform:none}
+html body #operaciones#operaciones#operaciones .oc:nth-child(1) .oi{--op:68% 50%}
+html body #operaciones#operaciones#operaciones .oc:nth-child(2) .oi{--op:62% 50%}
+html body #operaciones#operaciones#operaciones .oc:nth-child(3) .oi{--op:66% 50%}
+html body #operaciones#operaciones#operaciones .oc:nth-child(4) .oi{--op:58% 50%}
+html body #operaciones#operaciones#operaciones .oc .oi::after{
+  content:""!important;display:block!important;position:absolute;inset:auto 0 0 0;height:42%;
+  background:linear-gradient(0deg,rgba(10,16,32,.7),transparent);pointer-events:none}
+html body #operaciones#operaciones#operaciones .oc .oc-no{
+  position:absolute;z-index:3;left:0;top:14px;padding:8px 14px 8px 12px;background:var(--ink);color:#fff;
+  font:800 12px/1 var(--font-display,Arial,sans-serif);letter-spacing:.18em;
+  border-left:4px solid var(--rojo);transition:background-color .3s}
+html body #operaciones#operaciones#operaciones .oc:is(:hover,:focus-within) .oc-no{background:var(--rojo)}
+@media(hover:hover){html body #operaciones#operaciones#operaciones .oc:hover .oi.ld img{transform:scale(1.05)}
+  html body #operaciones#operaciones#operaciones .og .oc:hover{transform:translateY(-6px);box-shadow:0 26px 40px -22px rgba(11,18,32,.6)}}
+html body #operaciones#operaciones#operaciones .oc .ob{flex:1;display:flex;flex-direction:column;padding:20px 22px 24px}
+html body #operaciones#operaciones#operaciones .oc .ob p{flex:1}
+/* entrada: aparecen de a una cuando entran en pantalla (las dispara js/secciones.js) */
+html.rv-on body #operaciones#operaciones#operaciones .og .oc{opacity:0;transform:translateY(34px)}
+html.rv-on body #operaciones#operaciones#operaciones .og .oc.in{opacity:1;transform:none;transition-delay:var(--d,0s)}
+@media(hover:hover){html.rv-on body #operaciones#operaciones#operaciones .og .oc.in:hover{transition-delay:0s}}
+
+/* ───────── 3 · TALÓN DE COMPRA ───────── */
+html body #como-comprar .tk-main{display:grid;gap:clamp(24px,3vw,44px);align-items:start}
+@media(min-width:960px){html body #como-comprar .tk-main{grid-template-columns:minmax(0,1fr) 300px}}
+html body #como-comprar .tk-list{--p:0;position:relative;display:grid;gap:clamp(16px,1.8vw,24px);margin:0;padding:0;list-style:none}
+/* riel: línea gris punteada + tramo rojo que avanza con el scroll */
+html body #como-comprar .tk-list::before,html body #como-comprar .tk-list::after{
+  content:"";position:absolute;left:calc(var(--nw) / 2 - 1.5px);top:calc(var(--nw) / 2);bottom:calc(var(--nw) / 2);width:3px}
+html body #como-comprar .tk-list{--nw:30px}
+html body #como-comprar .tk-list::before{background:repeating-linear-gradient(180deg,rgba(10,16,32,.32) 0 6px,transparent 6px 12px)}
+html body #como-comprar .tk-list::after{content:none}
+html body #como-comprar .tk-fill{position:absolute;left:calc(var(--nw) / 2 - 1.5px);top:calc(var(--nw) / 2);bottom:calc(var(--nw) / 2);width:3px;background:var(--rojo);transform-origin:top;transform:scaleY(0);will-change:transform;pointer-events:none;z-index:0}
+html body #como-comprar .tk-step{position:relative;display:grid;grid-template-columns:var(--nw) minmax(0,1fr);gap:clamp(14px,1.8vw,24px);align-items:start;margin:0}
+html body #como-comprar .tk-n{
+  position:relative;z-index:2;display:grid;place-items:center;width:var(--nw);height:var(--nw);
+  background:var(--ink);color:#fff;font:800 24px/1 var(--font-display,Arial,sans-serif);letter-spacing:.02em;
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%);transition:background-color .45s,transform .45s cubic-bezier(.22,.8,.24,1)}
+html body #como-comprar .tk-step.on .tk-n{background:var(--rojo);transform:scale(1.06)}
+html body #como-comprar .tk-card{
+  --cut:calc(100% - 210px);position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) 210px;align-items:stretch;
+  background:#fff;border-left:14px solid var(--ink);color:var(--ink);
+  -webkit-mask:radial-gradient(circle 16px at var(--cut) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle 16px at var(--cut) 100%,#0000 97%,#000) bottom/100% 51% no-repeat;
+          mask:radial-gradient(circle 16px at var(--cut) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle 16px at var(--cut) 100%,#0000 97%,#000) bottom/100% 51% no-repeat;
+  transition:transform .4s cubic-bezier(.22,.8,.24,1),border-color .4s}
+html body #como-comprar .tk-step.on .tk-card{border-left-color:var(--rojo)}
+html body #como-comprar .tk-step{z-index:1}
+html body #como-comprar .tk-step::before,html body #como-comprar .tk-step::after{content:"";position:absolute;z-index:-1;pointer-events:none;
+  inset:10px 4px -4px calc(var(--nw) + clamp(14px,1.8vw,24px) + 4px)}
+html body #como-comprar .tk-step::before{box-shadow:0 16px 22px -8px rgba(10,16,32,.28)}
+html body #como-comprar .tk-step::after{box-shadow:0 22px 30px -8px rgba(10,44,140,.42);opacity:0;transition:opacity .45s ease}
+html body #como-comprar .tk-step.on::after{opacity:1}
+@media(hover:hover){html body #como-comprar .tk-card:hover{transform:translateX(6px)}}
+html body #como-comprar .tk-ico{display:grid;place-items:center;align-self:center;width:74px;height:74px;margin:0 0 0 clamp(16px,1.8vw,26px);border-radius:50%;background:var(--chapa);color:#fff;box-shadow:0 0 0 6px rgba(10,44,140,.14),0 0 0 7px var(--chapa);transition:background-color .45s,box-shadow .45s}
+html body #como-comprar .tk-step.on .tk-ico{background:var(--rojo);box-shadow:0 0 0 6px rgba(193,18,31,.16),0 0 0 7px var(--rojo)}
+html body #como-comprar .tk-ico svg{width:36px;height:36px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+html body #como-comprar .tk-txt{padding:clamp(18px,1.9vw,26px) clamp(16px,2vw,28px)}
+html body #como-comprar .tk-txt h3{margin:0 0 8px;color:var(--ink)!important;font:800 clamp(23px,2.4vw,34px)/1.04 var(--font-display,Arial,sans-serif);letter-spacing:-.01em}
+html body #como-comprar .tk-txt p{margin:0;max-width:46ch;color:#37405a!important;font:400 clamp(15px,1.1vw,17px)/1.5 var(--b,system-ui,sans-serif)}
+html body #como-comprar .tk-go{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:0 0 3px;border-bottom:2px solid var(--rojo);
+  color:var(--rojo)!important;font:800 13px/1 var(--font-display,Arial,sans-serif);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body #como-comprar .tk-go i{font-style:normal;transition:transform .25s}
+html body #como-comprar .tk-go:is(:hover,:focus-visible) i{transform:translateX(5px)}
+html body #como-comprar .tk-go:focus-visible{outline:3px solid var(--chapa);outline-offset:4px}
+/* talón: la parte que se desprende, con el sello */
+html body #como-comprar .tk-stub{position:relative;display:grid;place-content:center;gap:12px;justify-items:center;padding:14px 14px 40px;color:#fff;
+  background:repeating-linear-gradient(-50deg,rgba(255,255,255,.07) 0 10px,transparent 10px 20px),linear-gradient(160deg,#0A2C8C,#071C5E);border-left:3px dashed rgba(255,255,255,.55);transition:background-color .45s}
+html body #como-comprar .tk-step.on .tk-stub{background:repeating-linear-gradient(-50deg,rgba(255,255,255,.1) 0 10px,transparent 10px 20px),linear-gradient(160deg,#D91A28,#9E0F1A)}
+html body #como-comprar .tk-stub::after{content:"";position:absolute;left:18px;right:18px;bottom:12px;height:20px;opacity:.7;background:repeating-linear-gradient(90deg,#fff 0 2px,transparent 2px 5px,#fff 5px 6px,transparent 6px 8px,#fff 8px 11px,transparent 11px 14px)}
+html body #como-comprar .tk-stub small{font:700 12px/1 var(--b,system-ui,sans-serif);letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.92)}
+html body #como-comprar .tk-stamp{display:inline-block;padding:9px 14px;border:3px double #fff;color:#fff;background:rgba(255,255,255,.1);
+  font:800 17px/1 var(--font-display,Arial,sans-serif);letter-spacing:.14em;text-transform:uppercase;transform:rotate(-7deg);opacity:1}
+html.rv-on body #como-comprar .tk-step:not(.on) .tk-stamp{opacity:0;transform:rotate(-7deg) scale(1.7)}
+html.rv-on body #como-comprar .tk-step.on .tk-stamp{opacity:1;transform:rotate(-7deg);transition:opacity .25s ease .25s,transform .45s cubic-bezier(.3,1.5,.5,1) .25s}
+html.rv-on body #como-comprar .tk-step{transition:opacity .6s ease,translate .6s cubic-bezier(.22,.8,.24,1)}
+html.rv-on body #como-comprar .tk-step:not(.seen){opacity:0;translate:0 26px}
+@media(max-width:699px){
+  html body #como-comprar .tk-list{--nw:30px}
+  html body #como-comprar .tk-n{font-size:17px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
+  html body #como-comprar .tk-card{--cut:50%;grid-template-columns:minmax(0,1fr);-webkit-mask:none;mask:none;border-left-width:5px}
+  html body #como-comprar .tk-ico{display:none}
+  html body #como-comprar .tk-stub{grid-auto-flow:column;justify-content:space-between;align-items:center;border-left:0;border-top:3px dashed rgba(255,255,255,.55);padding:14px 18px 34px}
+  html body #como-comprar .tk-stub::after{left:18px;right:18px;bottom:10px;height:16px}
+  html body #como-comprar .tk-stamp{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  html body #como-comprar .tk-fill{transform:scaleY(1)!important}
+  html.rv-on body #como-comprar .tk-step:not(.seen),html.rv-on body #como-comprar .tk-step:not(.on) .tk-stamp{opacity:1;translate:none;transform:rotate(-7deg)}
+  html.rv-on body #operaciones#operaciones#operaciones .og .oc{opacity:1;transform:none}
+  html body #operaciones#operaciones#operaciones .oc .oi{animation:none}
+}
+@media (scripting:none){
+  html body #operaciones#operaciones#operaciones .oc .oi img{opacity:1;transform:none}
+}
+
+/* ============================================================================================
+   UNIDADES · cabecera y filtros (rediseño)
+   Barra clara y legible en lugar del bloque oscuro: etiquetas de 11 px, campos de 48 px, marcas como
+   botones táctiles, contador pegado a la barra y sin el rótulo suelto «REMITOS PUBLICADOS».
+   ============================================================================================ */
+html body #unidades#unidades .head::after{content:none!important;display:none!important}
+html body #unidades#unidades .head{margin-bottom:clamp(16px,2vw,24px)!important;padding-bottom:clamp(16px,1.8vw,22px)!important;border-bottom:3px solid var(--ink)}
+html body #unidades#unidades .head>div{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px clamp(18px,2.4vw,36px)}
+html body #unidades#unidades #unidades-title{margin:0!important;padding-left:clamp(14px,1.4vw,20px);border-left:10px solid var(--rojo);font-size:clamp(40px,4.6vw,68px)!important;line-height:.92!important;letter-spacing:-.03em!important}
+html body #unidades#unidades .head .sub{margin:0!important;padding-bottom:4px;max-width:46ch!important;font:500 clamp(15px,1.2vw,17px)/1.45 var(--b,system-ui,sans-serif)!important;color:#2B3544!important}
+
+html body #unidades#unidades .ff{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"q" "o" "c" "m"!important;gap:14px 18px!important;
+  padding:clamp(16px,1.8vw,24px)!important;background:#fff!important;color:var(--ink)!important;border:2px solid var(--ink)!important;border-left:10px solid var(--rojo)!important;box-shadow:none!important}
+html body #unidades#unidades .ff label{display:grid;gap:6px;margin:0;font:800 11px/1.2 var(--font-display)!important;letter-spacing:.14em!important;text-transform:uppercase;color:var(--ink)!important}
+html body #unidades#unidades .ff :is(input,select){width:100%;min-height:48px!important;height:48px!important;padding:0 14px!important;border:2px solid var(--ink)!important;border-radius:0!important;background:#fff!important;color:var(--ink)!important;font:600 16px/1.2 var(--b,system-ui,sans-serif)!important;letter-spacing:0!important;box-shadow:none!important}
+html body #unidades#unidades .ff input::placeholder{color:#5b6479!important;opacity:1}
+html body #unidades#unidades .ff :is(input,select):focus-visible{outline:3px solid var(--chapa)!important;outline-offset:2px;border-color:var(--chapa)!important}
+html body #unidades#unidades .ff #fc{min-height:48px!important;height:48px!important;min-width:128px!important;padding:0 22px!important;border:0!important;border-radius:0!important;background:var(--ink)!important;color:#fff!important;font:800 12px/1 var(--font-display)!important;letter-spacing:.14em!important;text-transform:uppercase;cursor:pointer;transition:background-color .2s}
+html body #unidades#unidades .ff #fc:not(:disabled):is(:hover,:focus-visible){background:var(--rojo)!important}
+html body #unidades#unidades .ff #fc:disabled{opacity:.35;cursor:not-allowed}
+html body #unidades#unidades .ff .fmchips{padding:14px 0 0!important;border-top:2px dashed rgba(10,16,32,.3);gap:8px!important}
+html body #unidades#unidades .fm-chip{min-height:42px!important;padding:0 16px!important;border:2px solid var(--ink)!important;border-radius:0!important;background:#fff!important;color:var(--ink)!important;font:800 12px/1 var(--font-display)!important;letter-spacing:.1em!important;text-transform:uppercase;cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}
+html body #unidades#unidades .fm-chip:is(:hover,:focus-visible){background:var(--ink)!important;color:#fff!important;outline:0}
+html body #unidades#unidades .fm-chip:focus-visible{outline:3px solid var(--chapa)!important;outline-offset:2px}
+html body #unidades#unidades .fm-chip.on{background:var(--rojo)!important;border-color:var(--rojo)!important;color:#fff!important}
+html body #unidades#unidades #qc{display:flex;align-items:center;gap:10px;margin:14px 0 clamp(16px,2vw,24px)!important;font:800 12px/1.2 var(--font-display)!important;letter-spacing:.14em!important;text-transform:uppercase;color:var(--ink)!important}
+html body #unidades#unidades #qc::before{content:"";flex:none;width:12px;height:12px;background:var(--rojo)}
+@media(min-width:760px){
+  html body #unidades#unidades .ff{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) auto!important;grid-template-areas:"q o c" "m m m"!important;align-items:end}
+}
+
+/* Cómo comprar: sin numeración. El nodo de la línea es un marcador liso que se enciende al llegar a cada paso. */
+html body #como-comprar .tk-n::after{content:"";display:block;width:10px;height:10px;background:#fff}
+html body #como-comprar .tk-step.on .tk-n{transform:none}
+
+/* Video «Mirá nuestro reel»: el texto es un enlace a Instagram */
+html body .clip-visita figcaption span a{color:#fff;text-decoration:underline;text-decoration-color:var(--rojo);text-decoration-thickness:2px;text-underline-offset:4px}
+html body .clip-visita figcaption span a:is(:hover,:focus-visible){text-decoration-color:#fff}
+html body .clip-visita figcaption span a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+/* Filtros en celular: con la barra plegada no queda espacio vacío entre filas */
+@media(max-width:759px){html body #unidades#unidades .ff:not(.open){gap:0!important}}
+
+/* Rendimiento: cada paso se pinta una sola vez; al entrar en pantalla solo se compone (transform/opacity). */
+html body #como-comprar .tk-step{contain:layout style}
+@media(max-width:699px){html body #como-comprar .tk-step::before{inset:8px 2px -3px calc(var(--nw) + clamp(14px,1.8vw,24px) + 2px)}html body #como-comprar .tk-step::after{display:none}}
+
+/* Dónde estamos · mapa: sin filtros sobre el cartel del pin (sobre un elemento recortado obligan a repintar en cada scroll). La sombra es estática. */
+html body #contacto .mp .mpp{filter:none!important;box-shadow:0 8px 0 -2px rgba(0,0,0,.28)}
+html body #contacto .mp{isolation:isolate}
+
+/* ───────── Cómo comprar · segunda pasada de rendimiento ─────────
+   · Sin máscara: la muesca del talón son dos círculos del color del fondo (una máscara obliga a una superficie de render por tarjeta en cada frame de scroll).
+   · Sin transiciones de color al encenderse un paso: cambian de golpe (animar fondos repinta tarjeta, ícono y talón durante 450 ms). */
+html body #como-comprar .tk-card{-webkit-mask:none;mask:none;overflow:hidden;transition:none}
+html body #como-comprar .tk-card::before,html body #como-comprar .tk-card::after{content:"";position:absolute;z-index:3;width:32px;height:32px;border-radius:50%;background:var(--paper2);pointer-events:none;
+  left:calc(100% - 210px - 16px)}
+html body #como-comprar .tk-card::before{top:-16px}
+html body #como-comprar .tk-card::after{bottom:-16px}
+html body #como-comprar .tk-n,html body #como-comprar .tk-ico,html body #como-comprar .tk-stub{transition:none}
+html body #como-comprar .tk-step::after{transition:opacity .25s ease}
+@media(max-width:699px){html body #como-comprar .tk-card::before,html body #como-comprar .tk-card::after{display:none}}
+@media(hover:hover){html body #como-comprar .tk-card:hover{transform:none}}
+
+/* ───────── Hero · carrusel de fondo (pasada de autos) ─────────
+   Calidad: velo oscuro casi eliminado (antes tapaba el 30–80 % de la foto); el sombreado ahora es un degradado solo en bordes y en el costado donde queda el texto.
+   Giro y perspectiva: cada panel queda "plegado" con su propia perspectiva, alternando el giro (+/−) como una pared de vidrieras; es un transform estático por panel,
+   el movimiento sigue siendo solo el desplazamiento de la cinta (transform) → no suma costo de pintura. */
+html body main>.hero.hx .hx-pn{transform:perspective(1200px) rotateY(-7deg) scale(1.06);transform-origin:50% 50%;backface-visibility:hidden;background:#0A1020}
+html body main>.hero.hx .hx-pn:nth-child(even){transform:perspective(1200px) rotateY(7deg) scale(1.06)}
+html body main>.hero.hx .hx-pn img{image-rendering:auto;filter:none;transform:none}
+html body main>.hero.hx .hx-pn::after{opacity:1;
+  background:
+    linear-gradient(90deg,rgba(2,10,32,.42) 0,rgba(2,10,32,0) 34%,rgba(2,10,32,0) 78%,rgba(2,10,32,.3) 100%),
+    linear-gradient(180deg,rgba(2,10,32,.5) 0,rgba(2,10,32,0) 22%,rgba(2,10,32,0) 74%,rgba(2,10,32,.55) 100%)}
+html body main>.hero.hx .hx-pn:nth-child(even)::after{transform:scaleX(-1)}
+@media(max-width:899px){
+  html body main>.hero.hx .hx-pn{transform:perspective(900px) rotateY(-5deg) scale(1.05)}
+  html body main>.hero.hx .hx-pn:nth-child(even){transform:perspective(900px) rotateY(5deg) scale(1.05)}
+}
+
+/* ───────── Dónde estamos · mapa propio (Leaflet) ─────────
+   El cartel «1712» es un marcador del mapa (anclado a Gral. Galarza 1712) y «Centrar» devuelve la vista a Chita.
+   Se ocultan el iframe de Google y el cartel flotante de antes cuando el mapa propio está activo (.lf). */
+html body #contacto .mp.lf :is(iframe,.mpp,.mpf){display:none!important}
+html body #contacto .mp.lf:not(.lf-touch) .mph{display:none!important}
+html body #contacto .mp .mp-lf{position:absolute;inset:0;z-index:0;isolation:isolate;background:#d9ddea;cursor:grab;font-family:inherit;outline:0}
+html body #contacto .mp .mp-lf:active{cursor:grabbing}
+html body #contacto .mp .mpl{z-index:4}
+html body #contacto .mp .mph{z-index:4}
+html body #contacto .mp .chita-pin{width:122px;padding-bottom:12px;background:none;border:0;pointer-events:none}
+html body #contacto .mp .chita-pin::after{content:"";position:absolute;left:50%;bottom:0;margin-left:-9px;width:0;height:0;border:9px solid transparent;border-top:12px solid #0A1020;border-bottom:0}
+html body #contacto .mp .chita-pin .cp{position:relative;display:block;width:122px;background:#fff;border:4px solid #0A1020;text-align:center;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+html body #contacto .mp .chita-pin .cp i{display:block;background:#0A2C8C;color:#fff;font:800 11px/1 var(--font-display,Arial,sans-serif);font-style:normal;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;padding:7px 0}
+html body #contacto .mp .chita-pin .cp b{display:block;background:#fff;color:#0A1020;font:800 38px/1 var(--font-display,Arial,sans-serif);padding:8px 0 9px}
+html body #contacto .mp .mp-ctl{position:absolute;z-index:4;right:12px;bottom:68px;display:grid;gap:6px;justify-items:end}
+html body #contacto .mp .mp-ctl button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0 14px;border:1px solid rgba(143,211,228,.6);border-radius:0;
+  background:rgba(6,17,26,.94);color:#fff;font:800 13px/1 var(--font-display,Arial,sans-serif);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 28px -10px rgba(0,0,0,.85);transition:background-color .2s,border-color .2s}
+html body #contacto .mp .mp-ctl .mp-z{width:44px;padding:0;font-size:24px;letter-spacing:0}
+html body #contacto .mp .mp-ctl button:is(:hover,:focus-visible){background:#0A2C8C;border-color:#fff}
+html body #contacto .mp .mp-ctl button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+html body #contacto .mp .mp-ctl .mp-c svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+html body #contacto .mp .mp-ctl .mp-c.off{background:var(--rojo,#C1121F);border-color:#fff}
+html body #contacto .mp .maplibregl-ctrl-bottom-right{z-index:3}
+html body #contacto .mp .maplibregl-ctrl-attrib{margin:0 205px 12px 0!important;padding:2px 7px;background:rgba(6,17,26,.72)!important;color:#cfe3ee;font:11px/1.5 var(--b,system-ui,sans-serif)}
+html body #contacto .mp .maplibregl-ctrl-attrib a{color:#fff!important}
+@media(max-width:560px){html body #contacto .mp .maplibregl-ctrl-attrib{margin-right:0!important;margin-bottom:68px!important;font-size:10px}html body #contacto .mp .mp-ctl{bottom:84px}}
+@media(prefers-reduced-motion:reduce){html body #contacto .mp .mp-ctl button{transition:none}}
+
+/* ───────── FICHA · franjas laterales ─────────
+   Mismas franjas de «Conocé el lugar»: base tinta, rayas finas, banda roja y banda azul en diagonal (104°).
+   Van en los costados de la ficha (izquierda y derecha, espejadas) y el contenido queda en el centro.
+   --g = ancho de cada franja. El patrón se repite cada --p, así siempre se ve el juego rojo/azul completo. */
+@media(min-width:1000px){
+  html body dialog#dlg{
+    --g:clamp(40px,5vw,76px);--p:calc(var(--g) * .97);
+    --fj:transparent 0 calc(var(--p) * .26),rgba(255,255,255,.55) calc(var(--p) * .26) calc(var(--p) * .285),#C1121F calc(var(--p) * .285) calc(var(--p) * .50),transparent calc(var(--p) * .50) calc(var(--p) * .56),rgba(255,255,255,.32) calc(var(--p) * .56) calc(var(--p) * .585),#0A2C8C calc(var(--p) * .585) var(--p);
+    width:min(calc(1180px + 2 * var(--g)),100vw);
+    padding:0 var(--g);
+    background:
+      repeating-linear-gradient(256deg,var(--fj)) right top/var(--g) 100% no-repeat,
+      repeating-linear-gradient(104deg,var(--fj)) left top/var(--g) 100% no-repeat,
+      repeating-linear-gradient(104deg,rgba(255,255,255,.05) 0 1px,transparent 1px 22px) 0 0/100% 100% no-repeat,
+      #0A1020;
+  }
+  html body dialog#dlg .fcx{right:calc(var(--g) + 14px)}
+}
+/* celular: la ficha ocupa toda la pantalla, así que la franja es angosta (rojo + azul) */
+@media(max-width:999px){
+  html body dialog#dlg{
+    --g:12px;padding:0 var(--g);
+    background:
+      linear-gradient(270deg,#C1121F 0 5px,transparent 5px 7px,#0A2C8C 7px) right top/var(--g) 100% no-repeat,
+      linear-gradient(90deg,#C1121F 0 5px,transparent 5px 7px,#0A2C8C 7px) left top/var(--g) 100% no-repeat,
+      #0A1020;
+  }
+}
