@@ -9,7 +9,7 @@ function wa(t){return /^\d{8,}$/.test(N.whatsapp)?"https://wa.me/"+N.whatsapp+"?
 function isWebContact(u){return /^https:\/\/wa\.me\//.test(u)}
 function callFallback(s,t){s.textContent="";s.appendChild(document.createTextNode("Consulta lista: llamá al "+NEGOCIO.telefono+" o copiá el mensaje para pegarlo donde prefieras. "));var c=document.createElement("button");c.type="button";c.className="btn";c.textContent="Copiar mensaje";c.addEventListener("click",function(){var ok=function(){c.textContent="Mensaje copiado"};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){c.textContent="Copialo manualmente: "+t})}else{c.textContent="Copialo manualmente: "+t}});s.appendChild(c);var a=document.createElement("a");a.className="btn p";a.href="tel:"+NEGOCIO.telefonoTel;a.textContent="Llamar";s.appendChild(document.createTextNode(" "));s.appendChild(a)}
 function ask(c){return "Hola! Vi la unidad U·"+String(STOCK.indexOf(c)+1).padStart(2,"0")+" · "+c.titulo+" "+c.anio+" en la página y quisiera consultar si sigue disponible. ¿Me confirman también precio y condiciones vigentes?"+(c.km?"":" ¿Y el kilometraje?")}
-var CSZ="(min-width:900px) 380px,(min-width:640px) 50vw,100vw";
+var CSZ="(min-width:1024px) 250px,50vw";
 function SSET(s){return String(s)}
 var EQ=[["Aire acondicionado",/aire/i],["Dirección",/direcci[oó]n/i],["Cierre centralizado",/cierre centralizado/i],["Levantavidrios eléctricos",/levantavidrios/i],["Espejos eléctricos",/espejos/i],["Doble airbag",/doble airbag/i],["ABS",/\bABS\b/],["Llantas de aleación",/llantas/i],["Antinieblas",/antinieblas/i]];
 function eqs(c){var n=c.nota||"";return EQ.filter(function(q){return q[1].test(n)}).map(function(q){return q[0]})}

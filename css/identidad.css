@@ -2033,7 +2033,8 @@ html body #unidades .ff :is(input,select,#fc){min-height:44px!important;height:4
 html body #unidades .ff input,html body #unidades .ff select{border-color:rgba(255,255,255,.28)!important}
 html body #unidades #fc{min-width:112px!important;font-weight:800!important;letter-spacing:.08em!important}
 html body #unidades #fc:disabled{opacity:.45;cursor:not-allowed}
-html body #unidades #stockGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:var(--u-gap)!important;align-items:stretch!important}
+html body #unidades #stockGrid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:var(--u-gap)!important;align-items:stretch!important}
+/* v61 · 5 columnas × 2 filas (≥1024px). Debajo: 2 columnas × 5 filas, sin tarjetas huérfanas. La tarjeta final ocupa una fila entera. */
 html body #unidades #stockGrid .car{background:#fff!important;border:1px solid rgba(10,16,32,.14)!important;box-shadow:0 14px 30px -26px rgba(10,16,32,.9)!important;contain:layout paint!important;transition:transform .28s cubic-bezier(.16,1,.3,1),box-shadow .28s ease,border-color .28s ease!important}
 html body #unidades #stockGrid .car:hover{border-color:rgba(193,18,31,.62)!important;box-shadow:0 22px 34px -24px rgba(10,16,32,.75)!important;transform:translateY(-3px)}
 html body #unidades #stockGrid .car .im{aspect-ratio:4/5!important;background:var(--cinta)!important}
@@ -2048,7 +2049,22 @@ html body #unidades #stockGrid .car .vf{font-size:12px!important;min-height:38px
 html body #unidades #stockGrid .car .wab{min-height:42px!important;margin:6px 10px 14px!important}
 html body #unidades #qe{padding:clamp(28px,4vw,52px) 20px!important;border:1px dashed rgba(10,16,32,.28)!important;background:rgba(255,255,255,.55)!important;text-align:center!important}
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){html body #unidades #stockGrid .car:hover h3{transform:translateY(-100%) translateX(2px)!important}}
-@media(max-width:1180px){html body #unidades #stockGrid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:1023px){html body #unidades #stockGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:760px){html body #unidades .ff{grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"q" "o" "m" "c"!important}html body #unidades #stockGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}html body #unidades #stockGrid .car h3 button{font-size:10px!important;padding:7px 11px!important}html body #unidades #stockGrid .car .meta{font-size:10px!important;padding-left:10px!important}html body #unidades #stockGrid .car .meta::after{display:none!important}}
-@media(max-width:480px){html body #unidades #stockGrid{grid-template-columns:1fr!important;gap:16px!important}html body #unidades #stockGrid .car .im{aspect-ratio:4/3!important}html body #unidades #stockGrid .car h3{top:calc(100cqw / 1.333)!important}html body #unidades #stockGrid .car .meta{font-size:11px!important}}
+@media(max-width:480px){html body #unidades #stockGrid{gap:10px!important}}
 @media(prefers-reduced-motion:reduce){html body #unidades #stockGrid .car,html body #unidades #stockGrid .car .ct img{transition:none!important}html body #unidades #stockGrid .car:hover{transform:none}}
+
+/* ===== v61 · Unidades en 5×2: tarjetas compactas según el ancho real de cada tarjeta (container queries) =====
+   ≤235px de tarjeta: el título baja debajo de la foto (no tapa el cartel Año/Km) y el chip de datos admite 2 líneas con su sello CHITA. */
+html body #unidades #stockGrid .car-cta{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding:16px 22px}
+@container (max-width:235px){
+ html body #unidades #stockGrid .car h3,html body #unidades #stockGrid .car:hover h3{position:static!important;transform:none!important;top:auto!important;max-width:100%!important;width:100%;margin:0!important;display:flex;align-items:center;min-height:calc(2.3em + 12px);clip-path:none!important;border-left-width:4px}
+ html body #unidades #stockGrid .car h3 button{font-size:9.5px!important;letter-spacing:.05em!important;line-height:1.15!important;padding:6px 8px!important;width:100%}
+ html body #unidades #stockGrid .car .meta{--sl:6px;margin-top:9px!important;width:auto!important;max-width:calc(100% - 16px)!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;font-size:9px!important;line-height:1.25!important;letter-spacing:.02em!important;padding:5px calc(var(--sl) + 6px) 5px 50px!important}
+ html body #unidades #stockGrid .car .meta::after{display:grid!important;width:40px!important;font-size:7px!important;letter-spacing:.12em!important;text-indent:.12em!important;padding-left:3px!important}
+ html body #unidades #stockGrid .car :is(.meta,.est,.tg,.eqp,.chita-state){margin-left:8px!important;margin-right:8px!important}
+ html body #unidades #stockGrid .car .pr{margin-left:8px!important;margin-right:8px!important}
+ html body #unidades #stockGrid .car .wab{margin-left:8px!important;margin-right:8px!important;font-size:10px!important;letter-spacing:.08em!important}
+ html body #unidades #stockGrid .car .vf{font-size:11px!important;min-height:34px!important}
+ html body #unidades #stockGrid .car .g-a.l{left:4px}html body #unidades #stockGrid .car .g-a.r{right:4px}
+}
