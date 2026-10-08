@@ -203,3 +203,31 @@ html body main>.hero.hx .hx-pn:nth-child(even)::after{transform:scaleX(-1)}
   html body main>.hero.hx .hx-pn{transform:perspective(900px) rotateY(-5deg) scale(1.05)}
   html body main>.hero.hx .hx-pn:nth-child(even){transform:perspective(900px) rotateY(5deg) scale(1.05)}
 }
+
+/* ───────── Dónde estamos · mapa propio (Leaflet) ─────────
+   El cartel «1712» es un marcador del mapa (anclado a Gral. Galarza 1712) y «Centrar» devuelve la vista a Chita.
+   Se ocultan el iframe de Google y el cartel flotante de antes cuando el mapa propio está activo (.lf). */
+html body #contacto .mp.lf :is(iframe,.mpp,.mpf){display:none!important}
+html body #contacto .mp.lf:not(.lf-touch) .mph{display:none!important}
+html body #contacto .mp .mp-lf{position:absolute;inset:0;z-index:0;isolation:isolate;background:#d9ddea;cursor:grab;font-family:inherit;outline:0}
+html body #contacto .mp .mp-lf:active{cursor:grabbing}
+html body #contacto .mp .mpl{z-index:4}
+html body #contacto .mp .mph{z-index:4}
+html body #contacto .mp .chita-pin{background:none;border:0;pointer-events:none;overflow:visible}
+html body #contacto .mp .chita-pin::after{content:"";position:absolute;left:-9px;top:-12px;width:0;height:0;border:9px solid transparent;border-top:12px solid #0A1020;border-bottom:0}
+html body #contacto .mp .chita-pin .cp{position:absolute;left:0;top:0;display:block;width:122px;transform:translate(-50%,calc(-100% - 12px));background:#fff;border:4px solid #0A1020;text-align:center;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+html body #contacto .mp .chita-pin .cp i{display:block;background:#0A2C8C;color:#fff;font:800 11px/1 var(--font-display,Arial,sans-serif);font-style:normal;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;padding:7px 0}
+html body #contacto .mp .chita-pin .cp b{display:block;background:#fff;color:#0A1020;font:800 38px/1 var(--font-display,Arial,sans-serif);padding:8px 0 9px}
+html body #contacto .mp .mp-ctl{position:absolute;z-index:4;right:12px;bottom:68px;display:grid;gap:6px;justify-items:end}
+html body #contacto .mp .mp-ctl button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0 14px;border:1px solid rgba(143,211,228,.6);border-radius:0;
+  background:rgba(6,17,26,.94);color:#fff;font:800 13px/1 var(--font-display,Arial,sans-serif);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 28px -10px rgba(0,0,0,.85);transition:background-color .2s,border-color .2s}
+html body #contacto .mp .mp-ctl .mp-z{width:44px;padding:0;font-size:24px;letter-spacing:0}
+html body #contacto .mp .mp-ctl button:is(:hover,:focus-visible){background:#0A2C8C;border-color:#fff}
+html body #contacto .mp .mp-ctl button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+html body #contacto .mp .mp-ctl .mp-c svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+html body #contacto .mp .mp-ctl .mp-c.off{background:var(--rojo,#C1121F);border-color:#fff}
+html body #contacto .mp .leaflet-control-attribution{margin:0 205px 12px 0;padding:2px 7px;background:rgba(6,17,26,.72);color:#cfe3ee;font:11px/1.5 var(--b,system-ui,sans-serif)}
+html body #contacto .mp .leaflet-control-attribution a{color:#fff}
+@media(max-width:560px){html body #contacto .mp .leaflet-control-attribution{margin-right:0;margin-bottom:68px;font-size:10px}html body #contacto .mp .mp-ctl{bottom:84px}}
+@media(prefers-reduced-motion:reduce){html body #contacto .mp .mp-ctl button{transition:none}}

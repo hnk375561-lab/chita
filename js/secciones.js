@@ -65,4 +65,61 @@ function all(){[].forEach.call(T.querySelectorAll("img"),up)}
 all();
 if("MutationObserver" in window)new MutationObserver(function(ms){ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(n.nodeType===1)n.tagName==="IMG"?up(n):[].forEach.call(n.querySelectorAll("img"),up)})})}).observe(T,{childList:true});
 })();
+
+/* ── Dónde estamos · mapa propio (Leaflet, copia local en js/vendor/leaflet) ──
+   El mapa de Google en iframe no avisa cuando se lo mueve, por eso el cartel «1712» (una capa suelta encima) quedaba fijo en la pantalla mientras el mapa se desplazaba.
+   Ahora el cartel es un marcador del mapa: siempre está sobre Gral. Galarza 1712, se mueva o se acerque lo que se mueva.
+   Botón «Centrar» devuelve la vista a Chita. Si Leaflet o los mosaicos no cargan, vuelve al mapa de Google de antes. */
+(function(){
+var m=document.querySelector("#contacto .mp");if(!m)return;
+var f=m.querySelector("iframe"),fb=f?(f.getAttribute("data-src")||""):"";
+if(f)f.removeAttribute("data-src");                       /* el script inline y motion.js ya no cargan el iframe */
+var LAT=-32.486865,LNG=-58.250318,Z=17,started=false;
+function fallback(){m.classList.remove("lf");if(f&&fb&&!f.getAttribute("src")){f.setAttribute("src",fb);m.classList.add("rd")}}
+function boot(){
+ if(started)return;started=true;
+ var css=document.createElement("link");css.rel="stylesheet";css.href="js/vendor/leaflet/leaflet.css";document.head.appendChild(css);
+ var sc=document.createElement("script");sc.src="js/vendor/leaflet/leaflet.js";sc.async=true;sc.onload=build;sc.onerror=fallback;document.head.appendChild(sc)}
+function build(){
+ var map,box;
+ try{
+  if(!window.L)throw 0;
+  var touch=matchMedia("(pointer:coarse)").matches;
+  box=document.createElement("div");box.className="mp-lf";box.setAttribute("role","application");
+  box.setAttribute("aria-label","Mapa: Chita Automotores, Gral. Galarza 1712, Concepción del Uruguay");
+  m.insertBefore(box,m.firstChild);
+  map=L.map(box,{zoomControl:false,scrollWheelZoom:false,dragging:!touch,touchZoom:!touch,minZoom:13,maxZoom:19,zoomSnap:1,worldCopyJump:false});
+  map.attributionControl.setPrefix(false);
+  var ll=L.latLng(LAT,LNG),errs=0,oks=0;
+  var tl=L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:19,attribution:"© OpenStreetMap · © CARTO"}).addTo(map);
+  tl.on("tileload",function(){oks++});
+  tl.on("tileerror",function(){errs++;if(errs>6&&!oks){try{map.remove()}catch(e){}box.remove();var c=m.querySelector(".mp-ctl");if(c)c.remove();fallback()}});
+  L.marker(ll,{interactive:false,keyboard:false,zIndexOffset:1000,icon:L.divIcon({className:"chita-pin",html:'<span class="cp"><i>Chita</i><b>1712</b></span>',iconSize:[0,0],iconAnchor:[0,0]})}).addTo(map);
+  /* dónde queda el cartel dentro del mapa: a la derecha del panel de texto en escritorio, al centro en celular */
+  function tgt(){var s=map.getSize(),w=innerWidth;return {x:s.x*(w>=1100?.68:w>=900?.62:.5),y:s.y*(w>=900?.62:.6)}}
+  function center(anim){var s=map.getSize(),t=tgt(),z=Math.max(map.getZoom(),Z),p=map.project(ll,z).subtract([t.x-s.x/2,t.y-s.y/2]);map.setView(map.unproject(p,z),z,{animate:!!anim})}
+  map.setView(ll,Z,{animate:false});center(false);
+  /* controles propios: + / − / Centrar (encima de «Abrir en Google Maps») */
+  var ctl=document.createElement("div");ctl.className="mp-ctl";
+  ctl.innerHTML='<button type="button" class="mp-z" data-z="1" aria-label="Acercar">+</button><button type="button" class="mp-z" data-z="-1" aria-label="Alejar">−</button>'+
+   '<button type="button" class="mp-c" aria-label="Centrar el mapa en Chita"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/><circle cx="12" cy="12" r="8"/></svg>Centrar</button>';
+  m.appendChild(ctl);
+  var bc=ctl.querySelector(".mp-c");
+  function off(){var p=map.latLngToContainerPoint(ll),t=tgt(),far=Math.abs(p.x-t.x)>28||Math.abs(p.y-t.y)>28||map.getZoom()!==Z;bc.classList.toggle("off",far)}
+  map.on("moveend zoomend",off);off();
+  ctl.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;e.stopPropagation();
+   if(b.classList.contains("mp-c")){map.stop();var s=map.getSize(),t=tgt(),p=map.project(ll,Z).subtract([t.x-s.x/2,t.y-s.y/2]);map.setView(map.unproject(p,Z),Z,{animate:true,duration:.6})}
+   else map.setZoom(map.getZoom()+parseInt(b.getAttribute("data-z"),10))});
+  /* el scroll de la página no debe «caer» dentro del mapa: la rueda y (en celular) el arrastre se activan al tocar el mapa */
+  m.addEventListener("click",function(){map.scrollWheelZoom.enable();if(touch){map.dragging.enable();map.touchZoom.enable()}});
+  m.addEventListener("mouseleave",function(){map.scrollWheelZoom.disable()});
+  document.addEventListener("touchstart",function(e){if(touch&&!m.contains(e.target)){map.dragging.disable();map.touchZoom.disable()}},{passive:true});
+  var rt=0;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){map.invalidateSize();if(!bc.classList.contains("off"))center(false);off()},180)},{passive:true});
+  if(touch)m.classList.add("lf-touch");
+  m.classList.add("lf","rd");
+ }catch(e){try{if(map)map.remove()}catch(_){}if(box)box.remove();fallback()}
+}
+if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();boot()}},{rootMargin:"1400px 0px"});io.observe(m)}
+else addEventListener("load",function(){setTimeout(boot,800)});
+})();
 })();
