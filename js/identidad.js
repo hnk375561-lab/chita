@@ -32,7 +32,7 @@ S.forEach(function(s){io.observe(s)});
 var f=document.getElementById("reel"),v=document.getElementById("reelv"),b=document.getElementById("reelb");if(!f||!v||!b)return;
 var t=b.querySelector(".rs-t")||b,px=f.querySelector(".reel-px"),
  RM=matchMedia("(prefers-reduced-motion:reduce)").matches,cn=navigator.connection||{},
- slow=/2g|3g/.test(cn.effectiveType||"")||(cn.downlink>0&&cn.downlink<1.5)||(matchMedia("(min-width:900px)").matches&&(window.devicePixelRatio||1)<1.5),
+ slow=/(^|-)2g$/.test(cn.effectiveType||""),
  auto=!RM&&!cn.saveData,vis=false,manual=false,asked=false,tried=0,kicked=false;
 /* v60: pasada de varios clips (data-playlist / data-playlist-lite / data-titles, separados por «|»). Con un solo clip se comporta como antes (loop). */
 var L=(v.getAttribute("data-playlist")||"").split("|").filter(Boolean),LL=(v.getAttribute("data-playlist-lite")||"").split("|"),TT=(v.getAttribute("data-titles")||"").split("|"),cur=0,cap=document.getElementById("reelcap");
