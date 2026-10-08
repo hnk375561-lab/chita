@@ -12,18 +12,12 @@ html body #entregas ul.eg li:nth-child(12){grid-column:6/span 2!important}
 /* ===== 2) SALÓN Y DEPÓSITO ===== */
 html body #unidades{overflow-x:clip}
 html body #unidades .sx{position:relative;isolation:isolate;overflow:hidden;color:#fff;background:var(--ink);
-  margin:clamp(56px,8vw,120px) calc(50% - 50vw) 0;padding:0 0 clamp(48px,6vw,96px);border-top:6px solid var(--rojo)}
+  margin:clamp(56px,8vw,120px) calc(50% - 50vw) 0;padding:0 0 clamp(48px,6vw,96px)}
 html body #unidades .sx::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:
   linear-gradient(112deg,rgba(10,44,140,.62) 0 33%,transparent 33.1%),
   linear-gradient(112deg,transparent 0 33%,var(--rojo) 33.1% 33.6%,transparent 33.7%),
   radial-gradient(55% 45% at 92% 8%,rgba(193,18,31,.38),transparent 70%)}
 
-/* cinta con datos reales del local */
-.sx-tk{overflow:hidden;background:var(--rojo);padding:13px 0}
-.sx-tkt{display:flex;width:max-content;animation:sxtk 46s linear infinite}
-.sx-tkt span{position:relative;flex:none;padding:0 34px;white-space:nowrap;font:800 clamp(13px,1.2vw,17px)/1 var(--font-display);letter-spacing:.2em;text-transform:uppercase}
-.sx-tkt span::after{content:"";position:absolute;right:-5px;top:50%;width:10px;height:10px;background:#fff;transform:translateY(-50%) rotate(45deg)}
-@keyframes sxtk{to{transform:translateX(-50%)}}
 
 .sx-in{width:min(1320px,100% - 40px);margin-inline:auto;padding-top:clamp(36px,5.5vw,84px)}
 .sx-top{display:grid;gap:clamp(28px,4vw,64px);align-items:center}
@@ -56,7 +50,6 @@ html body #unidades .sx .btn:focus-visible{outline:3px solid #fff;outline-offset
 html body #unidades .sx .clip{counter-increment:r;flex:0 0 min(70vw,280px);scroll-snap-align:start;background:#0A1020;border:0;--c:clamp(24px,2.6vw,36px);clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,0 100%);transition:translate .45s var(--ease)}
 html body #unidades .sx .clip-v{aspect-ratio:9/16}
 html body #unidades .sx .clip-v video{transition:transform .9s var(--ease)}
-html body #unidades .sx .clip-v::after{content:counter(r,decimal-leading-zero);position:absolute;left:18px;top:8px;z-index:3;pointer-events:none;font:800 clamp(44px,4.4vw,68px)/1 var(--font-display);color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.9);text-shadow:0 2px 14px rgba(0,0,0,.35)}
 html body #unidades .sx .clip figcaption{flex-direction:column;align-items:stretch;gap:10px;padding:14px 14px 14px 22px;background:#0A1020}
 html body #unidades .sx .clip figcaption span{font:800 clamp(15px,1.25vw,18px)/1.1 var(--font-display);letter-spacing:.01em;text-transform:uppercase;color:#fff}
 html body #unidades .sx .clip-b{width:100%;justify-content:center;text-align:center}
@@ -74,4 +67,4 @@ html body #unidades .sx .clip{flex:none}
 html body #unidades .sx .clip:nth-child(even){transform:translateY(clamp(20px,2.6vw,44px))}
 }
 @media(max-width:899px){.sx-ph{aspect-ratio:4/3}.sx-ph::before{inset:12px -8px -12px 8px}}
-@media(prefers-reduced-motion:reduce){.sx-tkt{animation:none}html body #unidades .sx .clip,html body #unidades .sx .clip-v video,.sx-p img{transition:none}}
+@media(prefers-reduced-motion:reduce){html body #unidades .sx .clip,html body #unidades .sx .clip-v video,.sx-p img{transition:none}}

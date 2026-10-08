@@ -1,0 +1,58 @@
+/* CHITA v62 · (1) «Mirá el salón y el depósito»: fotos completas, sin franja
+   (2) Sin numeración en todo el sitio (N° 01, U·01, P·01, 01…, TALÓN N°, 1/6) */
+
+/* ===== 1) SALÓN Y DEPÓSITO ===== */
+/* borde superior en diagonal (misma inclinación que el fondo del bloque) */
+html body #unidades .sx{--tilt:clamp(22px,3.4vw,56px);clip-path:polygon(0 var(--tilt),100% 0,100% 100%,0 100%)}
+html body #unidades .sx .sx-in{padding-top:calc(var(--tilt) + clamp(32px,4.5vw,72px))}
+
+/* mosaico: cada foto con su proporción real, sin recortes ni textos encima */
+html body #unidades .sx .sx-ph{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto;aspect-ratio:auto;gap:clamp(10px,1.2vw,16px);align-items:stretch}
+html body #unidades .sx .sx-p{position:relative;display:flex;flex-direction:column;margin:0;overflow:hidden;clip-path:none;background:#0A1020;border-left:8px solid var(--rojo)}
+html body #unidades .sx .sx-p::before{display:none}
+html body #unidades .sx .sx-p img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;transition:none}
+html body #unidades .sx .sx-p:hover img{transform:none}
+html body #unidades .sx .sx-p figcaption{position:static;display:flex;flex-direction:column;gap:2px;padding:12px 16px;background:#0A1020;color:#fff;font:700 13px/1.3 var(--font-display);letter-spacing:.02em}
+html body #unidades .sx .sx-p1{grid-column:1/-1;grid-row:auto}
+html body #unidades .sx .sx-p1 figcaption b{font:800 clamp(17px,1.7vw,24px)/1.1 var(--font-display);text-transform:uppercase;letter-spacing:-.01em}
+html body #unidades .sx .sx-p1 figcaption span{color:#d5deef;font-weight:600}
+/* logo: tarjeta cuadrada con el logotipo entero */
+html body #unidades .sx .sx-p3{position:relative;min-height:0;aspect-ratio:auto;background:radial-gradient(circle at 50% 40%,#16379f,#0A1020 78%)}
+html body #unidades .sx .sx-p3 img{position:absolute;inset:0;width:100%;height:100%;padding:clamp(14px,2.4vw,34px);box-sizing:border-box;object-fit:contain}
+
+@media(min-width:900px){
+  html body #unidades .sx .sx-ph{grid-template-columns:minmax(0,1.8fr) minmax(0,1fr);grid-template-rows:auto 1fr}
+  html body #unidades .sx .sx-p1{grid-column:1;grid-row:1/3}
+}
+@media(max-width:899px){
+  html body #unidades .sx .sx-p3{aspect-ratio:1}
+  html body #unidades .sx .sx-ph::before{inset:12px -8px -12px 8px}
+}
+
+/* ===== 2) SIN NUMERACIÓN ===== */
+/* títulos de sección «N° 01» / «N° 13·B» */
+html body main>section h2::before,
+html body main>section h2[data-sub]::before{content:none!important;display:none!important}
+/* entregas: se conserva solo el dato real (mes) cuando existe, sin «E·01» */
+html body .eg li::after{content:none!important;display:none!important}
+html body #entregas .eg li[data-m]::after,
+html body #entregas .eg li[data-m]:nth-child(1)::after{content:attr(data-m)!important;display:block!important}
+/* unidades «U·01», preguntas «P·01», operaciones «O·01», financiación «F·01», guía «G·01»/«Paso», «T·01», «R·01», «TALÓN N°» */
+html body #stockGrid .car::after,
+html body #operaciones .oc::after,
+html body :is(#financiacion,#guia,#visita) .xt::after,
+html body #preguntas .fa summary::before,
+html body #financiacion .pdg .pdc::before,
+html body #guia .gd summary::before,
+html body #guia#guia#guia .gd summary::before,
+html body #operaciones .stp li::before,
+html body #contacto .rgl li::before,
+html body #como-comprar .stp li::before,
+html body #como-comprar .stp li:hover::before{content:none!important;display:none!important}
+/* «cómo comprar»: sin la columna del número gigante */
+html body #como-comprar .stp li{grid-template-columns:minmax(0,1fr)!important}
+/* índice de modelos (si está presente) */
+html body #mdl a::before{content:none!important;display:none!important}
+/* contadores de fotos «1/6» */
+html body .g-c{display:none!important}
+html body #unidades .sx .clip-v::after{content:none!important;display:none!important}
