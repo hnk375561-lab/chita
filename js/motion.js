@@ -279,7 +279,7 @@ function initScroll({ desktop }) {
 function initNavigation() {
   const header = qs("header");
   if (!header) return noop;
-  let hidden = false, acc = 0, lastY = 0;
+  let hidden = false;
   const setHidden = (value) => {
     if (value === hidden) return;
     hidden = value;

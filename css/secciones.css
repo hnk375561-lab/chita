@@ -58,14 +58,14 @@ html body #como-comprar .tk-list{--p:0;position:relative;display:grid;gap:clamp(
 /* riel: línea gris punteada + tramo rojo que avanza con el scroll */
 html body #como-comprar .tk-list::before,html body #como-comprar .tk-list::after{
   content:"";position:absolute;left:calc(var(--nw) / 2 - 1.5px);top:calc(var(--nw) / 2);bottom:calc(var(--nw) / 2);width:3px}
-html body #como-comprar .tk-list{--nw:68px}
+html body #como-comprar .tk-list{--nw:30px}
 html body #como-comprar .tk-list::before{background:repeating-linear-gradient(180deg,rgba(10,16,32,.32) 0 6px,transparent 6px 12px)}
 html body #como-comprar .tk-list::after{background:var(--rojo);transform-origin:top;transform:scaleY(var(--p));will-change:transform}
 html body #como-comprar .tk-step{position:relative;display:grid;grid-template-columns:var(--nw) minmax(0,1fr);gap:clamp(14px,1.8vw,24px);align-items:start;margin:0}
 html body #como-comprar .tk-n{
   position:relative;z-index:2;display:grid;place-items:center;width:var(--nw);height:var(--nw);
   background:var(--ink);color:#fff;font:800 24px/1 var(--font-display,Arial,sans-serif);letter-spacing:.02em;
-  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);transition:background-color .45s,transform .45s cubic-bezier(.22,.8,.24,1)}
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%);transition:background-color .45s,transform .45s cubic-bezier(.22,.8,.24,1)}
 html body #como-comprar .tk-step.on .tk-n{background:var(--rojo);transform:scale(1.06)}
 html body #como-comprar .tk-card{
   --cut:calc(100% - 168px);position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) 168px;align-items:stretch;
@@ -96,7 +96,7 @@ html.rv-on body #como-comprar .tk-step.on .tk-stamp{opacity:.9;transform:rotate(
 html.rv-on body #como-comprar .tk-step{transition:opacity .6s ease,translate .6s cubic-bezier(.22,.8,.24,1)}
 html.rv-on body #como-comprar .tk-step:not(.seen){opacity:0;translate:0 26px}
 @media(max-width:699px){
-  html body #como-comprar .tk-list{--nw:46px}
+  html body #como-comprar .tk-list{--nw:30px}
   html body #como-comprar .tk-n{font-size:17px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
   html body #como-comprar .tk-card{--cut:50%;grid-template-columns:minmax(0,1fr);-webkit-mask:none;mask:none;border-left-width:5px}
   html body #como-comprar .tk-ico{display:none}
@@ -143,3 +143,14 @@ html body #unidades#unidades #qc::before{content:"";flex:none;width:12px;height:
 @media(min-width:760px){
   html body #unidades#unidades .ff{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) auto!important;grid-template-areas:"q o c" "m m m"!important;align-items:end}
 }
+
+/* Cómo comprar: sin numeración. El nodo de la línea es un marcador liso que se enciende al llegar a cada paso. */
+html body #como-comprar .tk-n::after{content:"";display:block;width:10px;height:10px;background:#fff}
+html body #como-comprar .tk-step.on .tk-n{transform:none}
+
+/* Video «Mirá nuestro reel»: el texto es un enlace a Instagram */
+html body .clip-visita figcaption span a{color:#fff;text-decoration:underline;text-decoration-color:var(--rojo);text-decoration-thickness:2px;text-underline-offset:4px}
+html body .clip-visita figcaption span a:is(:hover,:focus-visible){text-decoration-color:#fff}
+html body .clip-visita figcaption span a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+/* Filtros en celular: con la barra plegada no queda espacio vacío entre filas */
+@media(max-width:759px){html body #unidades#unidades .ff:not(.open){gap:0!important}}

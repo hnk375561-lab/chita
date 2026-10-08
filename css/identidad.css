@@ -1177,7 +1177,10 @@ html body #como-comprar .stp li:hover .stp-seal,html body #como-comprar .stp li:
    El número sigue el orden real de STOCK (U·01, U·02…); no inventa una numeración comercial. */
 @keyframes ficha-corte{from{clip-path:polygon(0 0,0 0,0 100%,0 100%)}to{clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}}
 html body #dlg .fch::before{content:attr(data-remito)!important}
-html body #dlg .fcs .ct img{object-fit:cover!important;object-position:50% 50%!important}
+/* Ficha: la foto se muestra entera (4:5) y nunca se agranda más allá de su tamaño real: antes se recortaba a apaisado y se estiraba, y se veía pixelada */
+html body #dlg .fcs{background:var(--ink)!important}
+html body #dlg .fcs .ct img{object-fit:contain!important;object-position:50% 50%!important;background:var(--ink)!important}
+@media(max-width:999px){html body #dlg .fcs{aspect-ratio:4/5!important;max-height:74svh}}
 /* v51: el corte se anima sobre el marco (.ct, fijo), no sobre el carril .ctk: el carril mide 1 foto de ancho y su clip-path final recortaba todas las fotos desde la 2.ª */
 html body #dlg[open] .fcs .ct{animation:ficha-corte .65s var(--ease) backwards}
 html body #dlg .fcs .ctk{animation:none!important;clip-path:none!important}
@@ -1946,9 +1949,9 @@ html body #operaciones .oc .ob a{margin-top:auto!important;align-self:flex-start
  html body #unidades .fm-chip,html body #unidades .series-note,html body #unidades .chita-state,html body #unidades .mc-state,html body #unidades .meta{font-size:12px!important}
  html body header nav{position:relative;mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 28px),transparent)}
  html body header nav.nav-end{mask-image:linear-gradient(90deg,transparent,#000 14px,#000 100%);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 100%)}
- html body #contacto .mp-fallback{display:flex;position:absolute;z-index:3;left:12px;right:12px;bottom:12px;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;background:rgba(1,20,59,.92);color:#fff;font-size:12px}
+ html body #contacto .mp-fallback{display:none;position:absolute;z-index:3;left:12px;right:12px;bottom:12px;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;background:rgba(1,20,59,.92);color:#fff;font-size:12px}
 }
-.mp-fallback{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:#01143b;color:#fff;font-size:13px}
+.mp-fallback{display:none;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:#01143b;color:#fff;font-size:13px}
 .mp-fallback strong{font-weight:800}.mp-fallback span{opacity:.85}.mp-fallback a{color:#fff;text-decoration:underline;font-weight:700}
 @media(min-width:900px){.mp-fallback{position:absolute;z-index:3;left:22px;bottom:22px;max-width:360px}}
 
@@ -2065,3 +2068,6 @@ html body #unidades #stockGrid .car-cta{grid-column:1/-1;flex-direction:row;flex
  html body #unidades #stockGrid .car .vf{font-size:11px!important;min-height:34px!important}
  html body #unidades #stockGrid .car .g-a.l{left:4px}html body #unidades #stockGrid .car .g-a.r{right:4px}
 }
+
+/* Dónde estamos: la tarjeta de dirección de respaldo del mapa duplicaba la dirección y se encimaba con los enlaces (Opiniones / Instagram / Facebook). */
+html body #contacto .mp .mp-fallback{display:none!important}
