@@ -45,7 +45,7 @@ html body #unidades .lz-reels{position:relative;margin:clamp(28px,4vw,56px) calc
     linear-gradient(0deg,transparent 0 20%,rgba(255,255,255,.28) 20% 20.25%,transparent 20.25%),
     linear-gradient(90deg,rgba(1,20,59,.75) 0,transparent 22%,transparent 78%,rgba(1,20,59,.75) 100%),
     linear-gradient(180deg,#0A2C8C 0,#071C5E 100%);box-shadow:inset 0 4px 0 rgba(255,255,255,.18),inset 0 -8px 0 var(--rojo);outline:none}
-html body #unidades .lz-wm{position:absolute;left:50%;top:46%;z-index:0;transform:translate(-50%,-50%);pointer-events:none;user-select:none;
+html body #unidades .lz-wm{display:none!important;position:absolute;left:50%;top:46%;z-index:0;transform:translate(-50%,-50%);pointer-events:none;user-select:none;
   font:900 clamp(120px,24vw,380px)/.8 var(--font-display,Arial,sans-serif);letter-spacing:-.04em;color:rgba(255,255,255,.07)}
 html body #unidades .lz-stage{position:relative;z-index:1;height:calc(var(--cw) * 1.7778 + 28px);contain:layout paint}
 html body #unidades .lz-card{position:absolute;left:50%;top:14px;width:var(--cw);aspect-ratio:9/16;margin:0 0 0 calc(var(--cw) / -2);
