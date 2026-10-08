@@ -11,9 +11,11 @@ html body section#opiniones.rv2{
   /* azul chapa plano + columnas del talonario + corte diagonal (mismo lenguaje que el salón) */
   background:
     repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 8.3333%),
-    radial-gradient(ellipse 40% 62% at 74% 50%,rgba(255,255,255,.13),transparent 72%),
-    linear-gradient(112deg,transparent 0 57.8%,rgba(255,255,255,.16) 57.8% 58%,#071C5E 58% 100%),
-    linear-gradient(180deg,transparent 70%,rgba(1,20,59,.4) 100%),
+    linear-gradient(45deg,#C1121F 0 50%,transparent 50%) 0 100%/clamp(90px,11vw,170px) clamp(90px,11vw,170px) no-repeat,
+    radial-gradient(ellipse 36% 60% at 76% 50%,rgba(255,255,255,.14),transparent 72%),
+    linear-gradient(112deg,transparent 0 53%,#fff 53% 53.15%,#C1121F 53.15% 55.2%,transparent 55.2% 100%),
+    linear-gradient(112deg,transparent 0 55.2%,#071C5E 55.2% 78%,#01143B 100%),
+    radial-gradient(ellipse 60% 70% at 18% 40%,rgba(255,255,255,.1),transparent 70%),
     #0A2C8C!important;
 }
 html body #opiniones .rv2-wrap{
@@ -147,7 +149,8 @@ html body #financiacion .pdc .cup i.cup-d small{color:#fff!important}
 html body #preguntas .fin p{color:#fff!important}
 @media(max-width:959px){html body section#opiniones.rv2{background:
     repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 8.3333%),
-    radial-gradient(ellipse 80% 40% at 50% 68%,rgba(255,255,255,.13),transparent 72%),
-    linear-gradient(112deg,transparent 0 57.8%,rgba(255,255,255,.16) 57.8% 58%,#071C5E 58% 100%),
-    linear-gradient(180deg,transparent 70%,rgba(1,20,59,.4) 100%),
+    linear-gradient(45deg,#C1121F 0 50%,transparent 50%) 0 100%/90px 90px no-repeat,
+    radial-gradient(ellipse 80% 38% at 50% 66%,rgba(255,255,255,.14),transparent 72%),
+    linear-gradient(112deg,transparent 0 53%,#fff 53% 53.2%,#C1121F 53.2% 56%,transparent 56% 100%),
+    linear-gradient(112deg,transparent 0 56%,#071C5E 56% 80%,#01143B 100%),
     #0A2C8C!important}}
