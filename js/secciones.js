@@ -233,31 +233,17 @@ html body #contacto .mp .maplibregl-ctrl-attrib a{color:#fff!important}
 @media(max-width:560px){html body #contacto .mp .maplibregl-ctrl-attrib{margin-right:0!important;margin-bottom:68px!important;font-size:10px}html body #contacto .mp .mp-ctl{bottom:84px}}
 @media(prefers-reduced-motion:reduce){html body #contacto .mp .mp-ctl button{transition:none}}
 
-/* ───────── FICHA · franjas laterales ─────────
-   Mismas franjas de «Conocé el lugar»: base tinta, rayas finas, banda roja y banda azul en diagonal (104°).
-   Van en los costados de la ficha (izquierda y derecha, espejadas) y el contenido queda en el centro.
-   --g = ancho de cada franja. El patrón se repite cada --p, así siempre se ve el juego rojo/azul completo. */
-@media(min-width:1000px){
-  html body dialog#dlg{
-    --g:clamp(40px,5vw,76px);--p:calc(var(--g) * .97);
-    --fj:transparent 0 calc(var(--p) * .26),rgba(255,255,255,.55) calc(var(--p) * .26) calc(var(--p) * .285),#C1121F calc(var(--p) * .285) calc(var(--p) * .50),transparent calc(var(--p) * .50) calc(var(--p) * .56),rgba(255,255,255,.32) calc(var(--p) * .56) calc(var(--p) * .585),#0A2C8C calc(var(--p) * .585) var(--p);
-    width:min(calc(1180px + 2 * var(--g)),100vw);
-    padding:0 var(--g);
-    background:
-      repeating-linear-gradient(256deg,var(--fj)) right top/var(--g) 100% no-repeat,
-      repeating-linear-gradient(104deg,var(--fj)) left top/var(--g) 100% no-repeat,
-      repeating-linear-gradient(104deg,rgba(255,255,255,.05) 0 1px,transparent 1px 22px) 0 0/100% 100% no-repeat,
-      #0A1020;
-  }
-  html body dialog#dlg .fcx{right:calc(var(--g) + 14px)}
+/* ───────── FICHA · franjas a los costados de la foto ─────────
+   La foto es vertical y queda centrada; las barras oscuras de los lados ahora llevan las franjas de «Conocé el lugar»
+   (rayas finas, banda roja con hilo blanco y banda azul, en diagonal de 104°), espejadas izquierda/derecha.
+   El fondo de la imagen pasa a transparente para que se vean; si la foto es horizontal y ocupa todo, las franjas quedan detrás. */
+html body dialog#dlg .fcs{
+  --p:104px;
+  --fj:transparent 0 calc(var(--p) * .26),rgba(255,255,255,.55) calc(var(--p) * .26) calc(var(--p) * .285),#C1121F calc(var(--p) * .285) calc(var(--p) * .50),transparent calc(var(--p) * .50) calc(var(--p) * .56),rgba(255,255,255,.32) calc(var(--p) * .56) calc(var(--p) * .585),#0A2C8C calc(var(--p) * .585) var(--p);
+  background:
+    repeating-linear-gradient(256deg,var(--fj)) right top/50% 100% no-repeat,
+    repeating-linear-gradient(104deg,var(--fj)) left top/50% 100% no-repeat,
+    repeating-linear-gradient(104deg,rgba(255,255,255,.05) 0 1px,transparent 1px 22px),
+    #0A1020 !important;
 }
-/* celular: la ficha ocupa toda la pantalla, así que la franja es angosta (rojo + azul) */
-@media(max-width:999px){
-  html body dialog#dlg{
-    --g:12px;padding:0 var(--g);
-    background:
-      linear-gradient(270deg,#C1121F 0 5px,transparent 5px 7px,#0A2C8C 7px) right top/var(--g) 100% no-repeat,
-      linear-gradient(90deg,#C1121F 0 5px,transparent 5px 7px,#0A2C8C 7px) left top/var(--g) 100% no-repeat,
-      #0A1020;
-  }
-}
+html body dialog#dlg .fcs .ct img{background:transparent!important}
