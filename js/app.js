@@ -79,7 +79,7 @@ function ext(c){var n=c.nota||"",pu=n.match(/(\d)\s*puertas/i),h=edad(c);if(pu)h
 function eqm(c){var e=eqs(c);return e.length?'<div class="fce"><b>Equipamiento</b><ul>'+e.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+"</ul></div>":""}
 function setHash(h){try{history.replaceState(null,"",location.href.split("#")[0]+h)}catch(x){}}
 var ci=0,lf;
-function fimgs(c,f){return f.map(function(s,k){return '<img src="'+esc(s)+'" alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")}
+function fimgs(c,f){return f.map(function(s,k){var q=ss(s);return '<img src="'+esc(s)+'"'+(q!==s?' srcset="'+esc(q)+'" sizes="(min-width:900px) 700px,100vw"':'')+' alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")}
 /* Carril de km (v19): cada unidad es una pista; la barra es su kilometraje frente al máximo de la flota publicada */
 function kmN(c){return parseInt(String(c.km==null?"":c.km).replace(/\D/g,""),10)||0}
 function kl(c){var k=kmN(c),mx=Math.max.apply(null,STOCK.map(kmN));if(!mx)return"";
