@@ -60,7 +60,8 @@ html body #como-comprar .tk-list::before,html body #como-comprar .tk-list::after
   content:"";position:absolute;left:calc(var(--nw) / 2 - 1.5px);top:calc(var(--nw) / 2);bottom:calc(var(--nw) / 2);width:3px}
 html body #como-comprar .tk-list{--nw:30px}
 html body #como-comprar .tk-list::before{background:repeating-linear-gradient(180deg,rgba(10,16,32,.32) 0 6px,transparent 6px 12px)}
-html body #como-comprar .tk-list::after{background:var(--rojo);transform-origin:top;transform:scaleY(var(--p));will-change:transform}
+html body #como-comprar .tk-list::after{content:none}
+html body #como-comprar .tk-fill{position:absolute;left:calc(var(--nw) / 2 - 1.5px);top:calc(var(--nw) / 2);bottom:calc(var(--nw) / 2);width:3px;background:var(--rojo);transform-origin:top;transform:scaleY(0);will-change:transform;pointer-events:none;z-index:0}
 html body #como-comprar .tk-step{position:relative;display:grid;grid-template-columns:var(--nw) minmax(0,1fr);gap:clamp(14px,1.8vw,24px);align-items:start;margin:0}
 html body #como-comprar .tk-n{
   position:relative;z-index:2;display:grid;place-items:center;width:var(--nw);height:var(--nw);
@@ -74,8 +75,12 @@ html body #como-comprar .tk-card{
           mask:radial-gradient(circle 16px at var(--cut) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle 16px at var(--cut) 100%,#0000 97%,#000) bottom/100% 51% no-repeat;
   transition:transform .4s cubic-bezier(.22,.8,.24,1),border-color .4s}
 html body #como-comprar .tk-step.on .tk-card{border-left-color:var(--rojo)}
-html body #como-comprar .tk-step{z-index:1;filter:drop-shadow(0 16px 14px rgba(10,16,32,.2))}
-html body #como-comprar .tk-step.on{filter:drop-shadow(0 22px 20px rgba(10,44,140,.34))}
+html body #como-comprar .tk-step{z-index:1}
+html body #como-comprar .tk-step::before,html body #como-comprar .tk-step::after{content:"";position:absolute;z-index:-1;pointer-events:none;
+  inset:10px 4px -4px calc(var(--nw) + clamp(14px,1.8vw,24px) + 4px)}
+html body #como-comprar .tk-step::before{box-shadow:0 16px 22px -8px rgba(10,16,32,.28)}
+html body #como-comprar .tk-step::after{box-shadow:0 22px 30px -8px rgba(10,44,140,.42);opacity:0;transition:opacity .45s ease}
+html body #como-comprar .tk-step.on::after{opacity:1}
 @media(hover:hover){html body #como-comprar .tk-card:hover{transform:translateX(6px)}}
 html body #como-comprar .tk-ico{display:grid;place-items:center;align-self:center;width:74px;height:74px;margin:0 0 0 clamp(16px,1.8vw,26px);border-radius:50%;background:var(--chapa);color:#fff;box-shadow:0 0 0 6px rgba(10,44,140,.14),0 0 0 7px var(--chapa);transition:background-color .45s,box-shadow .45s}
 html body #como-comprar .tk-step.on .tk-ico{background:var(--rojo);box-shadow:0 0 0 6px rgba(193,18,31,.16),0 0 0 7px var(--rojo)}
@@ -110,7 +115,7 @@ html.rv-on body #como-comprar .tk-step:not(.seen){opacity:0;translate:0 26px}
   html body #como-comprar .tk-stamp{font-size:14px}
 }
 @media(prefers-reduced-motion:reduce){
-  html body #como-comprar .tk-list::after{transform:scaleY(1)}
+  html body #como-comprar .tk-fill{transform:scaleY(1)!important}
   html.rv-on body #como-comprar .tk-step:not(.seen),html.rv-on body #como-comprar .tk-step:not(.on) .tk-stamp{opacity:1;translate:none;transform:rotate(-7deg)}
   html.rv-on body #operaciones#operaciones#operaciones .og .oc{opacity:1;transform:none}
   html body #operaciones#operaciones#operaciones .oc .oi{animation:none}
@@ -160,3 +165,11 @@ html body .clip-visita figcaption span a:is(:hover,:focus-visible){text-decorati
 html body .clip-visita figcaption span a:focus-visible{outline:3px solid #fff;outline-offset:3px}
 /* Filtros en celular: con la barra plegada no queda espacio vacío entre filas */
 @media(max-width:759px){html body #unidades#unidades .ff:not(.open){gap:0!important}}
+
+/* Rendimiento: cada paso se pinta una sola vez; al entrar en pantalla solo se compone (transform/opacity). */
+html body #como-comprar .tk-step{contain:layout style}
+@media(max-width:699px){html body #como-comprar .tk-step::before{inset:8px 2px -3px calc(var(--nw) + clamp(14px,1.8vw,24px) + 2px)}html body #como-comprar .tk-step::after{display:none}}
+
+/* Dónde estamos · mapa: sin filtros sobre el cartel del pin (sobre un elemento recortado obligan a repintar en cada scroll). La sombra es estática. */
+html body #contacto .mp .mpp{filter:none!important;box-shadow:0 8px 0 -2px rgba(0,0,0,.28)}
+html body #contacto .mp{isolation:isolate}

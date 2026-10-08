@@ -31,20 +31,25 @@ if(cards.length){
 /* ── Talón de compra ── */
 var list=document.getElementById("tkList");
 if(list){
- var steps=[].slice.call(list.querySelectorAll(".tk-step")),inView=false,raf=0;
+ var steps=[].slice.call(list.querySelectorAll(".tk-step")),inView=false,raf=0,fill=document.createElement("i");
+ fill.className="tk-fill";fill.setAttribute("aria-hidden","true");list.insertBefore(fill,list.firstChild);
+ var nw=parseFloat(getComputedStyle(list).getPropertyValue("--nw"))||30,lastP=-1;
+ function measure(){nw=parseFloat(getComputedStyle(list).getPropertyValue("--nw"))||30}
  function paint(){
   raf=0;
-  var vh=innerHeight,r=list.getBoundingClientRect(),nw=parseFloat(getComputedStyle(list).getPropertyValue("--nw"))||68,
-   line=vh*.62,p=(line-r.top-nw/2)/Math.max(1,r.height-nw);
-  p=Math.max(0,Math.min(1,p));list.style.setProperty("--p",p.toFixed(3));
-  steps.forEach(function(s){var b=s.getBoundingClientRect(),on=b.top+nw/2<=line;if(on!==s.classList.contains("on"))s.classList.toggle("on",on)})}
+  /* primero se lee todo, después se escribe: sin recalcular el layout dos veces por frame */
+  var vh=innerHeight,r=list.getBoundingClientRect(),line=vh*.62,
+   p=Math.max(0,Math.min(1,(line-r.top-nw/2)/Math.max(1,r.height-nw))),
+   ons=steps.map(function(s){return s.getBoundingClientRect().top+nw/2<=line});
+  if(Math.abs(p-lastP)>.002){lastP=p;fill.style.transform="scaleY("+p.toFixed(3)+")"}
+  steps.forEach(function(s,i){if(ons[i]!==s.classList.contains("on"))s.classList.toggle("on",ons[i])})}
  function q(){if(!raf)raf=requestAnimationFrame(paint)}
- if(RM||!IO){steps.forEach(function(s){s.classList.add("seen","on")});list.style.setProperty("--p","1")}
+ if(RM||!IO){steps.forEach(function(s){s.classList.add("seen","on")});fill.style.transform="scaleY(1)"}
  else{
   var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("seen");so.unobserve(e.target)}})},{threshold:.1});
   steps.forEach(function(s){so.observe(s)});
   new IntersectionObserver(function(es){inView=es[0].isIntersecting;if(inView)q()},{rootMargin:"120px 0px"}).observe(list);
   addEventListener("scroll",function(){if(inView)q()},{passive:true});
-  addEventListener("resize",q,{passive:true});
+  addEventListener("resize",function(){measure();q()},{passive:true});
   paint()}}
 })();

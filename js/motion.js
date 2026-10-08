@@ -570,10 +570,10 @@ function initMapExperience() {
 }
 
 function initSeams({ desktop }) {
-  const SHEET = new Set(["versus", "contacto", "financiacion", "guia", "visita"]);
+  const SHEET = new Set(["versus", "financiacion", "guia", "visita"]); /* "contacto" (mapa) fuera: un recorte animado repinta el iframe en cada frame */
   const ctx = gsap.context(() => {
     qsa("main > section").forEach((section) => {
-      if (section.id === "unidades" || section.id === "bd" || section.classList.contains("bd")) return;
+      if (section.id === "unidades" || section.id === "contacto" || section.id === "bd" || section.classList.contains("bd")) return;
       const inner = qs(":scope > .w", section);
       const k = desktop ? 1 : 0.45;
 
@@ -592,7 +592,7 @@ function initSeams({ desktop }) {
        Se omiten Unidades (portón), el banner, Modelos (panel sticky) y la última antes del pie. */
     const k2 = desktop ? 1 : 0.5;
     qsa("main > section").forEach((section) => {
-      if (["unidades", "bd", "modelos", "preguntas"].includes(section.id) || section.classList.contains("bd")) return;
+      if (["unidades", "bd", "modelos", "preguntas", "contacto", "como-comprar"].includes(section.id) || section.classList.contains("bd")) return;
       const inner = qs(":scope > .w", section);
       if (!inner) return;
       gsap.fromTo(inner,
@@ -615,13 +615,12 @@ function initSectionEntrances({ desktop }) {
   const k = desktop ? 1 : .55;
   const ctx = gsap.context(() => {});
   const recipes = {
-    unidades:(s,i)=>gsap.fromTo(i,{y:120*k,rotateX:7,transformPerspective:1200},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
+    unidades:(s,i)=>gsap.fromTo(i,{y:60*k},{y:0,ease:EASE.linear,clearProps:"transform",scrollTrigger:scrub(s,"top 96%","top 60%")}),
     modelos:(s,i)=>gsap.fromTo(i,{x:-90*k,clipPath:"inset(0 100% 0 0)"},{x:0,clipPath:"inset(0 0% 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 42%")}),
     versus:(s,i)=>gsap.fromTo(i,{scale:.82,rotateY:desktop?-12:0,opacity:.2,transformPerspective:1400},{scale:1,rotateY:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 32%")}),
     nosotros:(s,i)=>gsap.fromTo(i,{y:100*k,clipPath:"inset(14% 0 0 0)"},{y:0,clipPath:"inset(0% 0 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 38%")}),
     trayectoria:(s,i)=>gsap.fromTo(i,{x:80*k,opacity:.25},{x:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 95%","top 40%")}),
-    contacto:(s,i)=>gsap.fromTo(i,{y:70*k,scale:.96},{y:0,scale:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 38%")}),
-    local:(s,i)=>gsap.fromTo(i,{x:-70*k,skewX:desktop?-3:0},{x:0,skewX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 36%")}),
+        local:(s,i)=>gsap.fromTo(i,{x:-70*k,skewX:desktop?-3:0},{x:0,skewX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 36%")}),
     opiniones:(s,i)=>gsap.fromTo(i,{y:-70*k,rotateX:desktop?-8:0,transformPerspective:1000},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
     bd:(s,i)=>gsap.fromTo(i,{scale:.7,opacity:.1,rotate:desktop?-3:0},{scale:1,opacity:1,rotate:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 102%","top 46%")}),
     financiacion:(s,i)=>gsap.fromTo(i,{scale:.9,y:60*k},{scale:1,y:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
@@ -790,7 +789,7 @@ function initParallax({ desktop }) {
     /* DÓNDE ESTAMOS · el mapa se abre como un iris y llega acercándose. */
     const map = qs("#contacto .mp");
     if (map) {
-      gsap.fromTo(map, { clipPath: "circle(18% at 50% 62%)", scale: 1.08 }, { clipPath: "circle(82% at 50% 50%)", scale: 1, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub("#contacto", "top 98%", "top 28%") });
+      /* sin iris ni zoom: recortar y escalar un iframe a pantalla completa lo repinta en cada frame (lag) */
       gsap.fromTo(map.querySelector(".mph"), { opacity:0, y:12 }, { opacity:1, y:0, ease:EASE.linear, immediateRender:false, scrollTrigger:scrub("#contacto", "top 92%", "top 56%") });
     }
 
@@ -1030,7 +1029,7 @@ function initSceneChoreography({ desktop }) {
     /* Contacto: el mapa abre una ventana y el panel de dirección viaja a contratiempo. */
     scene("contacto", (s) => {
       const map = qs(".mp", s), copy = qs(".lc", s);
-      if (map) gsap.fromTo(map, { clipPath: "inset(12% 9% 12% 9% round 28px)", scale: 1.08 }, { clipPath: "inset(0% 0% 0% 0% round 0px)", scale: 1, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 96%", "top 28%") });
+      void map; /* sin recorte ni zoom sobre el iframe del mapa (lag) */
       if (copy) gsap.fromTo(copy, { xPercent: -7 * k }, { xPercent: 4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
     });
     /* Local: el recorrido visual flota detrás de los hitos, mientras las señales entran por capas. */
