@@ -103,6 +103,19 @@ html body #unidades .lz-fig figcaption::before{content:"";display:block;width:34
 @media(min-width:900px){html body #unidades .lz-mos{grid-template-columns:1.5fr 1fr;grid-template-rows:1fr 1fr}
 html body #unidades .lz-fig,html body #unidades .lz-fig:first-child{aspect-ratio:auto;min-height:230px}
 html body #unidades .lz-fig:first-child{grid-column:1;grid-row:1/span 2;min-height:480px}}
+/* Frente del local: la foto grande + el logo de Chita (las otras dos fotos se quitaron por baja calidad) */
+html body #unidades .lz-fig.lz-logo{grid-column:1/-1;aspect-ratio:16/8;display:grid;place-items:center;background:radial-gradient(circle at 50% 38%,#17295a 0%,#0b1330 72%);border-left:6px solid var(--rojo)}
+html body #unidades .lz-fig.lz-logo::after{display:none}
+html body #unidades .lz-fig.lz-logo img{width:auto;height:72%;max-width:80%;aspect-ratio:1;object-fit:contain;border-radius:50%;box-shadow:0 18px 40px rgba(0,0,0,.45);transition:none}
+html body #unidades .lz-fig.lz-logo figcaption{left:0;right:0;text-align:center;bottom:14px}
+html body #unidades .lz-fig.lz-logo figcaption::before{margin:0 auto 9px}
+@media(hover:hover){html body #unidades .lz-fig.lz-logo:hover img{transform:none}}
+@media(min-width:900px){
+ html body #unidades .lz-mos{grid-template-columns:1.6fr 1fr;grid-template-rows:auto}
+ html body #unidades .lz-fig.lz-logo{grid-column:2;grid-row:1;aspect-ratio:auto;min-height:480px}
+ html body #unidades .lz-fig.lz-logo img{height:auto;width:78%;max-width:78%}
+ html body #unidades .lz-fig:first-child{grid-row:1}
+}
 html body #unidades .lz-lb{width:min(1100px,94vw);max-height:92vh;padding:0;border:0;background:#05080f;color:#fff;overflow:hidden}
 html body #unidades .lz-lb::backdrop{background:rgba(3,6,12,.86)}
 html body #unidades .lz-lb img{display:block;width:100%;height:auto;max-height:calc(92vh - 56px);object-fit:contain}

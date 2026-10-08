@@ -1,0 +1,7 @@
+/* CHITA · sin movimiento atado al scroll.
+   Complementa a js/motion.js (freezeScrollMotion): apaga también las animaciones CSS «animation-timeline: view()»
+   para que ningún texto, tarjeta ni sello se mueva, escale o gire mientras se scrollea. Se carga al final. */
+html body #opiniones .rv2-side,
+html body #opiniones .rv2-fill,
+html body #como-comprar .cc2-step,
+html body footer .fin7{animation:none!important;animation-timeline:auto!important}

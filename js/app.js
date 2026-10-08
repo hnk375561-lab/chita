@@ -115,9 +115,12 @@ STOCK.forEach(function(c,ci){var s=Object.prototype.hasOwnProperty.call(HCOVER,c
 var hL=SL.length;
 function hsub(c){return c.anio+" · "+(c.km||"Km: consultar")+" · "+(c.combustible||"—")}
 function hslide(x,i){var c=STOCK[x.c];return '<div class="hx-s" data-t="'+esc(c.titulo)+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' de '+hL+': '+esc(c.titulo)+'"><img data-src="'+esc(x.src)+'" alt="'+esc(c.titulo+" "+c.anio)+'" width="800" height="1000" decoding="async" draggable="false"></div>'}
-var f0=HZ.firstElementChild;
+/* El carrusel de unidades del hero necesita su bloque en index.html (#hs, #hzs, #hrail…). Si ese bloque no está, se omite en vez de romper todo el script. */
+var HERO=!!(HZ&&HR&&HV&&HF&&HN&&HM&&HW&&HC&&HNAV&&$("hprev")&&$("hnext")&&$("hs"));
+var f0=HERO?HZ.firstElementChild:null;
 /* La primera foto ya viene en el HTML (la misma que el preload): se conserva y se completan sus datos; las demás se crean sin descargarse */
 if(f0&&hL){var c0=STOCK[SL[0].c];f0.setAttribute("data-t",c0.titulo);f0.setAttribute("role","group");f0.setAttribute("aria-roledescription","slide");f0.setAttribute("aria-label","1 de "+hL+": "+c0.titulo);var i0=f0.querySelector("img");i0.src=SL[0].src;i0.alt=c0.titulo+" "+c0.anio;f0.style.setProperty("--bg","url('"+SL[0].src+"')");HZ.insertAdjacentHTML("beforeend",SL.slice(1).map(function(x,j){return hslide(x,j+1)}).join(""))}
+if(HERO){
 hsl=HZ.querySelectorAll(".hx-s");
 function hl(i){var s=hsl[i],m=s&&s.querySelector("img");if(m&&m.getAttribute("data-src")){m.src=m.getAttribute("data-src");m.removeAttribute("data-src")}if(s&&m&&!s.style.getPropertyValue("--bg"))s.style.setProperty("--bg","url('"+m.src+"')")}
 /* Si una foto no carga, la unidad no queda en blanco: el marco muestra su nombre sobre el fondo de marca */
@@ -143,20 +146,22 @@ HF.addEventListener("click",function(){open_(SL[hi].c)});HW.setAttribute("aria-l
 hstate();
 /* La primera foto la pide el HTML; la siguiente y la anterior se precargan cuando el navegador está libre, nunca todas juntas */
 (window.requestIdleCallback||function(f){setTimeout(f,1200)})(function(){hl(1%hL);hl(hL-1)},{timeout:3000});
+window.chitaHero={go:heroGo,next:function(){heroGo(hi+1,1)},get i(){return hi},n:hL};
+}
 /* El hero mide la pantalla restando aviso de demo y cabecera: así entra completo, sin cortar título ni botones */
 function hxTop(){var d=document.querySelector(".demo"),h=document.querySelector("header"),r=document.getElementById("hero");if(!r)return;var t=(d?Math.max(0,d.getBoundingClientRect().bottom+scrollY):0)+(h?h.offsetHeight:0);r.style.setProperty("--hx-top",Math.round(t)+"px")}
 hxTop();window.addEventListener("resize",hxTop);window.addEventListener("load",hxTop);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(hxTop);
 function fromHash(){var m=/^#unidad-(.+)$/.exec(location.hash||"");if(!m)return;for(var i=0;i<STOCK.length;i++)if(slug(STOCK[i])===m[1]){open_(i);return}}
 window.addEventListener("hashchange",fromHash);fromHash();
 /* Hero v11: ambiente (foto de la unidad desenfocada de fondo, con fundido), datos en celdas y sello de la agencia. Solo datos que ya están en el sitio. */
-(function(){var R=$("hero");if(!R||!hL)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
+(function(){var R=$("hero");if(!R||!hL||!HERO)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
 function amb(src,first){var n=first?0:cu^1,a=Ls[n],o=Ls[cu];a.style.backgroundImage="url('"+src+"')";a.classList.add("on");if(!first){o.classList.remove("on");cu=n}}
 amb(SL[0].src,true);document.addEventListener("chita:hero",function(e){amb(SL[e.detail.to].src)});
 var cap=HM&&HM.parentNode;if(cap){var sp=document.createElement("dl");sp.className="hx-spec";sp.setAttribute("aria-hidden","true");HM.insertAdjacentElement("afterend",sp);
 function spec(c){sp.innerHTML='<div><dt>Año</dt><dd>'+esc(c.anio||"—")+'</dd></div><div><dt>Km</dt><dd>'+esc(c.km||"Consultar")+'</dd></div><div><dt>Combustible</dt><dd>'+esc(c.combustible||"—")+'</dd></div>'}
 spec(STOCK[SL[0].c]);document.addEventListener("chita:hero",function(e){spec(STOCK[SL[e.detail.to].c])})}
 var cp=R.querySelector(".hx-copy");if(cp){var ft=document.createElement("p");ft.className="hx-foot hx-ui";ft.textContent=STOCK.length+" unidades publicadas · "+N.direccion+", Concepción del Uruguay";cp.appendChild(ft)}})();
-window.chitaHero={go:heroGo,next:function(){heroGo(hi+1,1)},get i(){return hi},n:hL};
+
 
 /* Vender o permutar: una unidad por vez (segunda foto de cada una). motion.js anima el cambio con el evento chita:vr */
 (function(){var VR=$("vr"),VZ=$("vrs"),VN=$("vrN"),VM=$("vrM"),VI=$("vrI"),VB=$("vrr"),vi=0,VS=[];

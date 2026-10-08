@@ -144,6 +144,7 @@ function createInertia() {
     state,
     /* gain puede ser una función: se reevalúa en cada refresh (p. ej. columnas de una grilla responsive). */
     add(el, prop, gain, unit = "", max = Infinity) {
+      return; /* sin efectos de inercia: los textos y tarjetas no se mueven al scrollear */
       if (!el || items.has(el)) return;
       const fn = typeof gain === "function" ? gain : null;
       items.set(el, { set: gsap.quickSetter(el, prop, unit), gain: fn ? fn() : gain, fn, max, vis: false });
@@ -1119,6 +1120,28 @@ function initSceneChoreography({ desktop }) {
   return () => ctx.revert();
 }
 
+/* ════════════════════════════════════════════════════════════════════════════════════════
+   SIN MOVIMIENTO ATADO AL SCROLL
+   Los textos, secciones y el mapa no se desplazan, escalan, inclinan ni se recortan mientras se scrollea.
+   Cada animación «scrub» se descarta y sus elementos vuelven a su estado natural (el del CSS).
+   Las entradas de una sola vez (revelado al aparecer) y el scroll suave de Lenis se mantienen.
+   ════════════════════════════════════════════════════════════════════════════════════════ */
+function freezeScrollMotion() {
+  const targets = new Set();
+  const collect = (anim) => {
+    if (!anim) return;
+    if (typeof anim.getChildren === "function") anim.getChildren(true, true, true).forEach(collect);
+    else if (typeof anim.targets === "function") anim.targets().forEach((el) => { if (el && el.nodeType === 1) targets.add(el); });
+  };
+  ScrollTrigger.getAll().forEach((t) => {
+    if (!t.vars || !t.vars.scrub) return;
+    collect(t.animation);
+    if (t.animation) t.animation.kill();
+    t.kill();
+  });
+  if (targets.size) gsap.set([...targets], { clearProps: "transform,clipPath,opacity,letterSpacing,willChange" });
+}
+
 function initMotion() {
   const mm = gsap.matchMedia();
 
@@ -1148,6 +1171,8 @@ function initMotion() {
       initInteractions(flags)
     ];
     ScrollTrigger.sort();
+    freezeScrollMotion();
+    ScrollTrigger.addEventListener("refresh", freezeScrollMotion);
 
     /* Layout tardío (fuentes, imágenes lazy, iframe del mapa): un refresh agrupado, no uno por evento. */
     let refreshTimer = 0;
@@ -1168,6 +1193,7 @@ function initMotion() {
 
     return () => {
       clearTimeout(refreshTimer);
+      ScrollTrigger.removeEventListener("refresh", freezeScrollMotion);
       window.removeEventListener("load", refresh);
       resizeObserver?.disconnect();
       cleanups.reverse().forEach((fn) => typeof fn === "function" && fn());
