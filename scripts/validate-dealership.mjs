@@ -8,7 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const d = JSON.parse(fs.readFileSync(path.join(root, 'data/dealership.json'), 'utf8'));
 const errors = [];
 if (d.publicacion.official !== true) errors.push('publicacion.official debe ser true');
-if (d.identity.cuit !== null) errors.push('CUIT debe ser null hasta confirmación');
+if (d.identity.cuit !== null && d.identity.cuitConfirmed !== true) errors.push('CUIT debe ser null hasta confirmación (el dueño lo carga en data/pendientes.json)');
 if (d.hours.display && d.hours.status === 'not-found') errors.push('hours.display cargado pero status sigue en not-found');
 for (const page of ['index.html', 'privacidad.html', 'reserva.html']) {
   const h = fs.readFileSync(path.join(root, page), 'utf8');

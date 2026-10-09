@@ -1,0 +1,10 @@
+{
+  "_ayuda": "Completá solo lo que el dueño confirmó. Los campos en null se ignoran. Después: node scripts/aplicar-pendientes.mjs",
+  "contacto": { "email": null },
+  "identidad": { "razonSocial": null, "cuit": null, "domicilioLegal": null },
+  "fotos": { "autorizadas": null },
+  "vehiculos": [
+    { "titulo": "Fiat Palio Attractive 1.4N", "anio": null, "km": null, "precio": null, "estado": null }
+  ],
+  "produccion": { "dominio": null, "confirmar": false }
+}
