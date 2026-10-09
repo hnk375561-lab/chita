@@ -234,16 +234,21 @@ html body #contacto .mp .maplibregl-ctrl-attrib a{color:#fff!important}
 @media(prefers-reduced-motion:reduce){html body #contacto .mp .mp-ctl button{transition:none}}
 
 /* ───────── FICHA · franjas a los costados de la foto ─────────
-   La foto es vertical y queda centrada; las barras oscuras de los lados ahora llevan las franjas de «Conocé el lugar»
-   (rayas finas, banda roja con hilo blanco y banda azul, en diagonal de 104°), espejadas izquierda/derecha.
-   El fondo de la imagen pasa a transparente para que se vean; si la foto es horizontal y ocupa todo, las franjas quedan detrás. */
+   Las barras oscuras a los lados de la foto llevan franjas finas en diagonal (como el cartel «Conocé el lugar»):
+   fondo azul tinta con rayitas tenues, una banda roja fina, un hilo blanco y una banda azul. Todas inclinadas igual ("/"),
+   con mucho aire entre sí. La imagen tiene fondo transparente para que se vean; las franjas quedan detrás de la foto. */
 html body dialog#dlg .fcs{
-  --p:104px;
-  --fj:transparent 0 calc(var(--p) * .26),rgba(255,255,255,.55) calc(var(--p) * .26) calc(var(--p) * .285),#C1121F calc(var(--p) * .285) calc(var(--p) * .50),transparent calc(var(--p) * .50) calc(var(--p) * .56),rgba(255,255,255,.32) calc(var(--p) * .56) calc(var(--p) * .585),#0A2C8C calc(var(--p) * .585) var(--p);
+  --p:190px;
   background:
-    repeating-linear-gradient(256deg,var(--fj)) right top/50% 100% no-repeat,
-    repeating-linear-gradient(104deg,var(--fj)) left top/50% 100% no-repeat,
-    repeating-linear-gradient(104deg,rgba(255,255,255,.05) 0 1px,transparent 1px 22px),
-    #0A1020 !important;
+    repeating-linear-gradient(145deg,
+      transparent 0 calc(var(--p) * .30),
+      rgba(255,255,255,.38) calc(var(--p) * .30) calc(var(--p) * .315),
+      transparent calc(var(--p) * .315) calc(var(--p) * .36),
+      #C1121F calc(var(--p) * .36) calc(var(--p) * .45),
+      transparent calc(var(--p) * .45) calc(var(--p) * .49),
+      #0A2C8C calc(var(--p) * .49) calc(var(--p) * .66),
+      transparent calc(var(--p) * .66) var(--p)),
+    repeating-linear-gradient(145deg,rgba(255,255,255,.045) 0 1px,transparent 1px 18px),
+    linear-gradient(180deg,#0B1330,#070C1E) !important;
 }
 html body dialog#dlg .fcs .ct img{background:transparent!important}
