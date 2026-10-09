@@ -232,3 +232,24 @@ html body #contacto .mp .maplibregl-ctrl-attrib{margin:0 205px 12px 0!important;
 html body #contacto .mp .maplibregl-ctrl-attrib a{color:#fff!important}
 @media(max-width:560px){html body #contacto .mp .maplibregl-ctrl-attrib{margin-right:0!important;margin-bottom:68px!important;font-size:10px}html body #contacto .mp .mp-ctl{bottom:84px}}
 @media(prefers-reduced-motion:reduce){html body #contacto .mp .mp-ctl button{transition:none}}
+
+
+/* ───────── FICHA · franjas a los costados de la foto ─────────
+   Las barras oscuras a los lados de la foto llevan franjas finas en diagonal (como el cartel «Conocé el lugar»):
+   fondo azul tinta con rayitas tenues, una banda roja fina, un hilo blanco y una banda azul. Todas inclinadas igual ("/"),
+   con mucho aire entre sí. La imagen tiene fondo transparente para que se vean; las franjas quedan detrás de la foto. */
+html body dialog#dlg .fcs{
+  --p:190px;
+  background:
+    repeating-linear-gradient(145deg,
+      transparent 0 calc(var(--p) * .30),
+      rgba(255,255,255,.38) calc(var(--p) * .30) calc(var(--p) * .315),
+      transparent calc(var(--p) * .315) calc(var(--p) * .36),
+      #C1121F calc(var(--p) * .36) calc(var(--p) * .45),
+      transparent calc(var(--p) * .45) calc(var(--p) * .49),
+      #0A2C8C calc(var(--p) * .49) calc(var(--p) * .66),
+      transparent calc(var(--p) * .66) var(--p)),
+    repeating-linear-gradient(145deg,rgba(255,255,255,.045) 0 1px,transparent 1px 18px),
+    linear-gradient(180deg,#0B1330,#070C1E) !important;
+}
+html body dialog#dlg .fcs .ct img{background:transparent!important}

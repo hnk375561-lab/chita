@@ -1,254 +1,52 @@
-/* CHITA · secciones.css (se carga al final)
-   1) Agendá tu visita: «Tu visita» y el logo ya no se pisan (la columna entera es la que queda fija, no solo la tarjeta).
-   2) Comprá, vendé o permutá: tarjetas con foto 4:5 reservada de antemano (sin saltos), carga con fundido y entrada limpia.
-   3) El talón de compra: pasos como entradas con número, ícono, sello y un riel que se llena al hacer scroll.
-   Solo se animan transform y opacity. Con «reducir movimiento» todo queda en su estado final. */
+/* CHITA · secciones.js
+   1) «Comprá, vendé o permutá»: marca cada tarjeta con .ld cuando su foto cargó
+      (css/secciones.css deja la foto en opacity:0 hasta que existe .ld).
+   2) «Cómo comprar»: el riel rojo se llena con el scroll y se enciende el paso actual.
+   Los estilos de este archivo viven en css/secciones.css. */
+(function () {
+  "use strict";
 
-/* ───────── 1 · VISITA ───────── */
-@media(min-width:780px){
-  html body #visita#visita#visita#visita .vx-right{display:flex;flex-direction:column;gap:22px;align-self:start;position:sticky;top:92px;grid-column:2;grid-row:2/4;min-width:0}
-  html body #visita#visita#visita#visita .vx-right .vx-sum{position:relative!important;top:auto!important;grid-column:auto;grid-row:auto}
-  html body #visita#visita#visita#visita .vx-right .vx-brand{grid-column:auto;grid-row:auto;align-self:center;padding:0}
-}
-@media(max-width:779px){
-  html body #visita#visita#visita#visita .vx-right{display:flex;flex-direction:column;gap:22px}
-  html body #visita#visita#visita#visita .vx-right .vx-sum{position:relative!important;top:auto!important}
-}
+  /* ---- 1 · fotos de operaciones ---- */
+  function listo(box) { box.classList.add("ld"); }
+  document.querySelectorAll("#operaciones .oc .oi").forEach(function (box) {
+    var img = box.querySelector("img");
+    if (!img) { listo(box); return; }
+    if (img.complete) { listo(box); return; }          // ya cargó (o falló): no esperar
+    img.addEventListener("load", function () { listo(box); }, { once: true });
+    img.addEventListener("error", function () { listo(box); }, { once: true });
+  });
+  /* red de seguridad: si algo quedó sin marcar, no dejar el brillo gris para siempre */
+  setTimeout(function () {
+    document.querySelectorAll("#operaciones .oc .oi:not(.ld)").forEach(listo);
+  }, 4000);
 
-/* ───────── 2 · OPERACIONES ───────── */
-html body #operaciones#operaciones#operaciones .og .oc{
-  display:flex;flex-direction:column;background:#fff;overflow:hidden;
-  transition:transform .4s cubic-bezier(.22,.8,.24,1),box-shadow .4s ease,opacity .5s ease}
-html body #operaciones#operaciones#operaciones .oc .oi{
-  position:relative;flex:none;aspect-ratio:4/5!important;overflow:hidden;
-  background:linear-gradient(105deg,#d5d9e1 30%,#eceef2 50%,#d5d9e1 70%) 0 0/220% 100%!important;
-  animation:opsh 1.3s linear infinite}
-html body #operaciones#operaciones#operaciones .oc .oi.ld{animation:none;background:#d5d9e1!important}
-@keyframes opsh{to{background-position:-220% 0}}
-html body #operaciones#operaciones#operaciones .oc .oi img{
-  position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover!important;object-position:var(--op,50% 50%);
-  opacity:0;transform:scale(1.06);will-change:auto;
-  transition:opacity .6s ease,transform 1.3s cubic-bezier(.2,.7,.2,1)}
-html body #operaciones#operaciones#operaciones .oc .oi.ld img{opacity:1;transform:none}
-html body #operaciones#operaciones#operaciones .oc:nth-child(1) .oi{--op:68% 50%}
-html body #operaciones#operaciones#operaciones .oc:nth-child(2) .oi{--op:62% 50%}
-html body #operaciones#operaciones#operaciones .oc:nth-child(3) .oi{--op:66% 50%}
-html body #operaciones#operaciones#operaciones .oc:nth-child(4) .oi{--op:58% 50%}
-html body #operaciones#operaciones#operaciones .oc .oi::after{
-  content:""!important;display:block!important;position:absolute;inset:auto 0 0 0;height:42%;
-  background:linear-gradient(0deg,rgba(10,16,32,.7),transparent);pointer-events:none}
-html body #operaciones#operaciones#operaciones .oc .oc-no{
-  position:absolute;z-index:3;left:0;top:14px;padding:8px 14px 8px 12px;background:var(--ink);color:#fff;
-  font:800 12px/1 var(--font-display,Arial,sans-serif);letter-spacing:.18em;
-  border-left:4px solid var(--rojo);transition:background-color .3s}
-html body #operaciones#operaciones#operaciones .oc:is(:hover,:focus-within) .oc-no{background:var(--rojo)}
-@media(hover:hover){html body #operaciones#operaciones#operaciones .oc:hover .oi.ld img{transform:scale(1.05)}
-  html body #operaciones#operaciones#operaciones .og .oc:hover{transform:translateY(-6px);box-shadow:0 26px 40px -22px rgba(11,18,32,.6)}}
-html body #operaciones#operaciones#operaciones .oc .ob{flex:1;display:flex;flex-direction:column;padding:20px 22px 24px}
-html body #operaciones#operaciones#operaciones .oc .ob p{flex:1}
-/* entrada: aparecen de a una cuando entran en pantalla (las dispara js/secciones.js) */
-html.rv-on body #operaciones#operaciones#operaciones .og .oc{opacity:0;transform:translateY(34px)}
-html.rv-on body #operaciones#operaciones#operaciones .og .oc.in{opacity:1;transform:none;transition-delay:var(--d,0s)}
-@media(hover:hover){html.rv-on body #operaciones#operaciones#operaciones .og .oc.in:hover{transition-delay:0s}}
+  /* ---- 2 · riel de «Cómo comprar» ---- */
+  var list = document.querySelector("#como-comprar .tk-list");
+  if (!list) return;
+  var steps = [].slice.call(list.querySelectorAll(".tk-step"));
+  if (!steps.length) return;
+  var fill = list.querySelector(".tk-fill");
+  if (!fill) { fill = document.createElement("i"); fill.className = "tk-fill"; fill.setAttribute("aria-hidden", "true"); list.insertBefore(fill, list.firstChild); }
 
-/* ───────── 3 · TALÓN DE COMPRA ───────── */
-html body #como-comprar .tk-main{display:grid;gap:clamp(24px,3vw,44px);align-items:start}
-@media(min-width:960px){html body #como-comprar .tk-main{grid-template-columns:minmax(0,1fr) 300px}}
-html body #como-comprar .tk-list{--p:0;position:relative;display:grid;gap:clamp(16px,1.8vw,24px);margin:0;padding:0;list-style:none}
-/* riel: línea gris punteada + tramo rojo que avanza con el scroll */
-html body #como-comprar .tk-list::before,html body #como-comprar .tk-list::after{
-  content:"";position:absolute;left:calc(var(--nw) / 2 - 1.5px);top:calc(var(--nw) / 2);bottom:calc(var(--nw) / 2);width:3px}
-html body #como-comprar .tk-list{--nw:30px}
-html body #como-comprar .tk-list::before{background:repeating-linear-gradient(180deg,rgba(10,16,32,.32) 0 6px,transparent 6px 12px)}
-html body #como-comprar .tk-list::after{content:none}
-html body #como-comprar .tk-fill{position:absolute;left:calc(var(--nw) / 2 - 1.5px);top:calc(var(--nw) / 2);bottom:calc(var(--nw) / 2);width:3px;background:var(--rojo);transform-origin:top;transform:scaleY(0);will-change:transform;pointer-events:none;z-index:0}
-html body #como-comprar .tk-step{position:relative;display:grid;grid-template-columns:var(--nw) minmax(0,1fr);gap:clamp(14px,1.8vw,24px);align-items:start;margin:0}
-html body #como-comprar .tk-n{
-  position:relative;z-index:2;display:grid;place-items:center;width:var(--nw);height:var(--nw);
-  background:var(--ink);color:#fff;font:800 24px/1 var(--font-display,Arial,sans-serif);letter-spacing:.02em;
-  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%);transition:background-color .45s,transform .45s cubic-bezier(.22,.8,.24,1)}
-html body #como-comprar .tk-step.on .tk-n{background:var(--rojo);transform:scale(1.06)}
-html body #como-comprar .tk-card{
-  --cut:calc(100% - 210px);position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) 210px;align-items:stretch;
-  background:#fff;border-left:14px solid var(--ink);color:var(--ink);
-  -webkit-mask:radial-gradient(circle 16px at var(--cut) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle 16px at var(--cut) 100%,#0000 97%,#000) bottom/100% 51% no-repeat;
-          mask:radial-gradient(circle 16px at var(--cut) 0,#0000 97%,#000) top/100% 51% no-repeat,radial-gradient(circle 16px at var(--cut) 100%,#0000 97%,#000) bottom/100% 51% no-repeat;
-  transition:transform .4s cubic-bezier(.22,.8,.24,1),border-color .4s}
-html body #como-comprar .tk-step.on .tk-card{border-left-color:var(--rojo)}
-html body #como-comprar .tk-step{z-index:1}
-html body #como-comprar .tk-step::before,html body #como-comprar .tk-step::after{content:"";position:absolute;z-index:-1;pointer-events:none;
-  inset:10px 4px -4px calc(var(--nw) + clamp(14px,1.8vw,24px) + 4px)}
-html body #como-comprar .tk-step::before{box-shadow:0 16px 22px -8px rgba(10,16,32,.28)}
-html body #como-comprar .tk-step::after{box-shadow:0 22px 30px -8px rgba(10,44,140,.42);opacity:0;transition:opacity .45s ease}
-html body #como-comprar .tk-step.on::after{opacity:1}
-@media(hover:hover){html body #como-comprar .tk-card:hover{transform:translateX(6px)}}
-html body #como-comprar .tk-ico{display:grid;place-items:center;align-self:center;width:74px;height:74px;margin:0 0 0 clamp(16px,1.8vw,26px);border-radius:50%;background:var(--chapa);color:#fff;box-shadow:0 0 0 6px rgba(10,44,140,.14),0 0 0 7px var(--chapa);transition:background-color .45s,box-shadow .45s}
-html body #como-comprar .tk-step.on .tk-ico{background:var(--rojo);box-shadow:0 0 0 6px rgba(193,18,31,.16),0 0 0 7px var(--rojo)}
-html body #como-comprar .tk-ico svg{width:36px;height:36px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-html body #como-comprar .tk-txt{padding:clamp(18px,1.9vw,26px) clamp(16px,2vw,28px)}
-html body #como-comprar .tk-txt h3{margin:0 0 8px;color:var(--ink)!important;font:800 clamp(23px,2.4vw,34px)/1.04 var(--font-display,Arial,sans-serif);letter-spacing:-.01em}
-html body #como-comprar .tk-txt p{margin:0;max-width:46ch;color:#37405a!important;font:400 clamp(15px,1.1vw,17px)/1.5 var(--b,system-ui,sans-serif)}
-html body #como-comprar .tk-go{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:0 0 3px;border-bottom:2px solid var(--rojo);
-  color:var(--rojo)!important;font:800 13px/1 var(--font-display,Arial,sans-serif);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
-html body #como-comprar .tk-go i{font-style:normal;transition:transform .25s}
-html body #como-comprar .tk-go:is(:hover,:focus-visible) i{transform:translateX(5px)}
-html body #como-comprar .tk-go:focus-visible{outline:3px solid var(--chapa);outline-offset:4px}
-/* talón: la parte que se desprende, con el sello */
-html body #como-comprar .tk-stub{position:relative;display:grid;place-content:center;gap:12px;justify-items:center;padding:14px 14px 40px;color:#fff;
-  background:repeating-linear-gradient(-50deg,rgba(255,255,255,.07) 0 10px,transparent 10px 20px),linear-gradient(160deg,#0A2C8C,#071C5E);border-left:3px dashed rgba(255,255,255,.55);transition:background-color .45s}
-html body #como-comprar .tk-step.on .tk-stub{background:repeating-linear-gradient(-50deg,rgba(255,255,255,.1) 0 10px,transparent 10px 20px),linear-gradient(160deg,#D91A28,#9E0F1A)}
-html body #como-comprar .tk-stub::after{content:"";position:absolute;left:18px;right:18px;bottom:12px;height:20px;opacity:.7;background:repeating-linear-gradient(90deg,#fff 0 2px,transparent 2px 5px,#fff 5px 6px,transparent 6px 8px,#fff 8px 11px,transparent 11px 14px)}
-html body #como-comprar .tk-stub small{font:700 12px/1 var(--b,system-ui,sans-serif);letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.92)}
-html body #como-comprar .tk-stamp{display:inline-block;padding:9px 14px;border:3px double #fff;color:#fff;background:rgba(255,255,255,.1);
-  font:800 17px/1 var(--font-display,Arial,sans-serif);letter-spacing:.14em;text-transform:uppercase;transform:rotate(-7deg);opacity:1}
-html.rv-on body #como-comprar .tk-step:not(.on) .tk-stamp{opacity:0;transform:rotate(-7deg) scale(1.7)}
-html.rv-on body #como-comprar .tk-step.on .tk-stamp{opacity:1;transform:rotate(-7deg);transition:opacity .25s ease .25s,transform .45s cubic-bezier(.3,1.5,.5,1) .25s}
-html.rv-on body #como-comprar .tk-step{transition:opacity .6s ease,translate .6s cubic-bezier(.22,.8,.24,1)}
-html.rv-on body #como-comprar .tk-step:not(.seen){opacity:0;translate:0 26px}
-@media(max-width:699px){
-  html body #como-comprar .tk-list{--nw:30px}
-  html body #como-comprar .tk-n{font-size:17px;clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,0 100%)}
-  html body #como-comprar .tk-card{--cut:50%;grid-template-columns:minmax(0,1fr);-webkit-mask:none;mask:none;border-left-width:5px}
-  html body #como-comprar .tk-ico{display:none}
-  html body #como-comprar .tk-stub{grid-auto-flow:column;justify-content:space-between;align-items:center;border-left:0;border-top:3px dashed rgba(255,255,255,.55);padding:14px 18px 34px}
-  html body #como-comprar .tk-stub::after{left:18px;right:18px;bottom:10px;height:16px}
-  html body #como-comprar .tk-stamp{font-size:14px}
-}
-@media(prefers-reduced-motion:reduce){
-  html body #como-comprar .tk-fill{transform:scaleY(1)!important}
-  html.rv-on body #como-comprar .tk-step:not(.seen),html.rv-on body #como-comprar .tk-step:not(.on) .tk-stamp{opacity:1;translate:none;transform:rotate(-7deg)}
-  html.rv-on body #operaciones#operaciones#operaciones .og .oc{opacity:1;transform:none}
-  html body #operaciones#operaciones#operaciones .oc .oi{animation:none}
-}
-@media (scripting:none){
-  html body #operaciones#operaciones#operaciones .oc .oi img{opacity:1;transform:none}
-}
-
-/* ============================================================================================
-   UNIDADES · cabecera y filtros (rediseño)
-   Barra clara y legible en lugar del bloque oscuro: etiquetas de 11 px, campos de 48 px, marcas como
-   botones táctiles, contador pegado a la barra y sin el rótulo suelto «REMITOS PUBLICADOS».
-   ============================================================================================ */
-html body #unidades#unidades .head::after{content:none!important;display:none!important}
-html body #unidades#unidades .head{margin-bottom:clamp(16px,2vw,24px)!important;padding-bottom:clamp(16px,1.8vw,22px)!important;border-bottom:3px solid var(--ink)}
-html body #unidades#unidades .head>div{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px clamp(18px,2.4vw,36px)}
-html body #unidades#unidades #unidades-title{margin:0!important;padding-left:clamp(14px,1.4vw,20px);border-left:10px solid var(--rojo);font-size:clamp(40px,4.6vw,68px)!important;line-height:.92!important;letter-spacing:-.03em!important}
-html body #unidades#unidades .head .sub{margin:0!important;padding-bottom:4px;max-width:46ch!important;font:500 clamp(15px,1.2vw,17px)/1.45 var(--b,system-ui,sans-serif)!important;color:#2B3544!important}
-
-html body #unidades#unidades .ff{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-areas:"q" "o" "c" "m"!important;gap:14px 18px!important;
-  padding:clamp(16px,1.8vw,24px)!important;background:#fff!important;color:var(--ink)!important;border:2px solid var(--ink)!important;border-left:10px solid var(--rojo)!important;box-shadow:none!important}
-html body #unidades#unidades .ff label{display:grid;gap:6px;margin:0;font:800 11px/1.2 var(--font-display)!important;letter-spacing:.14em!important;text-transform:uppercase;color:var(--ink)!important}
-html body #unidades#unidades .ff :is(input,select){width:100%;min-height:48px!important;height:48px!important;padding:0 14px!important;border:2px solid var(--ink)!important;border-radius:0!important;background:#fff!important;color:var(--ink)!important;font:600 16px/1.2 var(--b,system-ui,sans-serif)!important;letter-spacing:0!important;box-shadow:none!important}
-html body #unidades#unidades .ff input::placeholder{color:#5b6479!important;opacity:1}
-html body #unidades#unidades .ff :is(input,select):focus-visible{outline:3px solid var(--chapa)!important;outline-offset:2px;border-color:var(--chapa)!important}
-html body #unidades#unidades .ff #fc{min-height:48px!important;height:48px!important;min-width:128px!important;padding:0 22px!important;border:0!important;border-radius:0!important;background:var(--ink)!important;color:#fff!important;font:800 12px/1 var(--font-display)!important;letter-spacing:.14em!important;text-transform:uppercase;cursor:pointer;transition:background-color .2s}
-html body #unidades#unidades .ff #fc:not(:disabled):is(:hover,:focus-visible){background:var(--rojo)!important}
-html body #unidades#unidades .ff #fc:disabled{opacity:.35;cursor:not-allowed}
-html body #unidades#unidades .ff .fmchips{padding:14px 0 0!important;border-top:2px dashed rgba(10,16,32,.3);gap:8px!important}
-html body #unidades#unidades .fm-chip{min-height:42px!important;padding:0 16px!important;border:2px solid var(--ink)!important;border-radius:0!important;background:#fff!important;color:var(--ink)!important;font:800 12px/1 var(--font-display)!important;letter-spacing:.1em!important;text-transform:uppercase;cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}
-html body #unidades#unidades .fm-chip:is(:hover,:focus-visible){background:var(--ink)!important;color:#fff!important;outline:0}
-html body #unidades#unidades .fm-chip:focus-visible{outline:3px solid var(--chapa)!important;outline-offset:2px}
-html body #unidades#unidades .fm-chip.on{background:var(--rojo)!important;border-color:var(--rojo)!important;color:#fff!important}
-html body #unidades#unidades #qc{display:flex;align-items:center;gap:10px;margin:14px 0 clamp(16px,2vw,24px)!important;font:800 12px/1.2 var(--font-display)!important;letter-spacing:.14em!important;text-transform:uppercase;color:var(--ink)!important}
-html body #unidades#unidades #qc::before{content:"";flex:none;width:12px;height:12px;background:var(--rojo)}
-@media(min-width:760px){
-  html body #unidades#unidades .ff{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) auto!important;grid-template-areas:"q o c" "m m m"!important;align-items:end}
-}
-
-/* Cómo comprar: sin numeración. El nodo de la línea es un marcador liso que se enciende al llegar a cada paso. */
-html body #como-comprar .tk-n::after{content:"";display:block;width:10px;height:10px;background:#fff}
-html body #como-comprar .tk-step.on .tk-n{transform:none}
-
-/* Video «Mirá nuestro reel»: el texto es un enlace a Instagram */
-html body .clip-visita figcaption span a{color:#fff;text-decoration:underline;text-decoration-color:var(--rojo);text-decoration-thickness:2px;text-underline-offset:4px}
-html body .clip-visita figcaption span a:is(:hover,:focus-visible){text-decoration-color:#fff}
-html body .clip-visita figcaption span a:focus-visible{outline:3px solid #fff;outline-offset:3px}
-/* Filtros en celular: con la barra plegada no queda espacio vacío entre filas */
-@media(max-width:759px){html body #unidades#unidades .ff:not(.open){gap:0!important}}
-
-/* Rendimiento: cada paso se pinta una sola vez; al entrar en pantalla solo se compone (transform/opacity). */
-html body #como-comprar .tk-step{contain:layout style}
-@media(max-width:699px){html body #como-comprar .tk-step::before{inset:8px 2px -3px calc(var(--nw) + clamp(14px,1.8vw,24px) + 2px)}html body #como-comprar .tk-step::after{display:none}}
-
-/* Dónde estamos · mapa: sin filtros sobre el cartel del pin (sobre un elemento recortado obligan a repintar en cada scroll). La sombra es estática. */
-html body #contacto .mp .mpp{filter:none!important;box-shadow:0 8px 0 -2px rgba(0,0,0,.28)}
-html body #contacto .mp{isolation:isolate}
-
-/* ───────── Cómo comprar · segunda pasada de rendimiento ─────────
-   · Sin máscara: la muesca del talón son dos círculos del color del fondo (una máscara obliga a una superficie de render por tarjeta en cada frame de scroll).
-   · Sin transiciones de color al encenderse un paso: cambian de golpe (animar fondos repinta tarjeta, ícono y talón durante 450 ms). */
-html body #como-comprar .tk-card{-webkit-mask:none;mask:none;overflow:hidden;transition:none}
-html body #como-comprar .tk-card::before,html body #como-comprar .tk-card::after{content:"";position:absolute;z-index:3;width:32px;height:32px;border-radius:50%;background:var(--paper2);pointer-events:none;
-  left:calc(100% - 210px - 16px)}
-html body #como-comprar .tk-card::before{top:-16px}
-html body #como-comprar .tk-card::after{bottom:-16px}
-html body #como-comprar .tk-n,html body #como-comprar .tk-ico,html body #como-comprar .tk-stub{transition:none}
-html body #como-comprar .tk-step::after{transition:opacity .25s ease}
-@media(max-width:699px){html body #como-comprar .tk-card::before,html body #como-comprar .tk-card::after{display:none}}
-@media(hover:hover){html body #como-comprar .tk-card:hover{transform:none}}
-
-/* ───────── Hero · carrusel de fondo (pasada de autos) ─────────
-   Calidad: velo oscuro casi eliminado (antes tapaba el 30–80 % de la foto); el sombreado ahora es un degradado solo en bordes y en el costado donde queda el texto.
-   Giro y perspectiva: cada panel queda "plegado" con su propia perspectiva, alternando el giro (+/−) como una pared de vidrieras; es un transform estático por panel,
-   el movimiento sigue siendo solo el desplazamiento de la cinta (transform) → no suma costo de pintura. */
-html body main>.hero.hx .hx-pn{transform:perspective(1200px) rotateY(-7deg) scale(1.06);transform-origin:50% 50%;backface-visibility:hidden;background:#0A1020}
-html body main>.hero.hx .hx-pn:nth-child(even){transform:perspective(1200px) rotateY(7deg) scale(1.06)}
-html body main>.hero.hx .hx-pn img{image-rendering:auto;filter:none;transform:none}
-html body main>.hero.hx .hx-pn::after{opacity:1;
-  background:
-    linear-gradient(90deg,rgba(2,10,32,.42) 0,rgba(2,10,32,0) 34%,rgba(2,10,32,0) 78%,rgba(2,10,32,.3) 100%),
-    linear-gradient(180deg,rgba(2,10,32,.5) 0,rgba(2,10,32,0) 22%,rgba(2,10,32,0) 74%,rgba(2,10,32,.55) 100%)}
-html body main>.hero.hx .hx-pn:nth-child(even)::after{transform:scaleX(-1)}
-@media(max-width:899px){
-  html body main>.hero.hx .hx-pn{transform:perspective(900px) rotateY(-5deg) scale(1.05)}
-  html body main>.hero.hx .hx-pn:nth-child(even){transform:perspective(900px) rotateY(5deg) scale(1.05)}
-}
-
-/* ───────── Dónde estamos · mapa propio (Leaflet) ─────────
-   El cartel «1712» es un marcador del mapa (anclado a Gral. Galarza 1712) y «Centrar» devuelve la vista a Chita.
-   Se ocultan el iframe de Google y el cartel flotante de antes cuando el mapa propio está activo (.lf). */
-html body #contacto .mp.lf :is(iframe,.mpp,.mpf){display:none!important}
-html body #contacto .mp.lf:not(.lf-touch) .mph{display:none!important}
-html body #contacto .mp .mp-lf{position:absolute;inset:0;z-index:0;isolation:isolate;background:#d9ddea;cursor:grab;font-family:inherit;outline:0}
-html body #contacto .mp .mp-lf:active{cursor:grabbing}
-html body #contacto .mp .mpl{z-index:4}
-html body #contacto .mp .mph{z-index:4}
-html body #contacto .mp .chita-pin{width:122px;padding-bottom:12px;background:none;border:0;pointer-events:none}
-html body #contacto .mp .chita-pin::after{content:"";position:absolute;left:50%;bottom:0;margin-left:-9px;width:0;height:0;border:9px solid transparent;border-top:12px solid #0A1020;border-bottom:0}
-html body #contacto .mp .chita-pin .cp{position:relative;display:block;width:122px;background:#fff;border:4px solid #0A1020;text-align:center;
-  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
-html body #contacto .mp .chita-pin .cp i{display:block;background:#0A2C8C;color:#fff;font:800 11px/1 var(--font-display,Arial,sans-serif);font-style:normal;letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;padding:7px 0}
-html body #contacto .mp .chita-pin .cp b{display:block;background:#fff;color:#0A1020;font:800 38px/1 var(--font-display,Arial,sans-serif);padding:8px 0 9px}
-html body #contacto .mp .mp-ctl{position:absolute;z-index:4;right:12px;bottom:68px;display:grid;gap:6px;justify-items:end}
-html body #contacto .mp .mp-ctl button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0 14px;border:1px solid rgba(143,211,228,.6);border-radius:0;
-  background:rgba(6,17,26,.94);color:#fff;font:800 13px/1 var(--font-display,Arial,sans-serif);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 28px -10px rgba(0,0,0,.85);transition:background-color .2s,border-color .2s}
-html body #contacto .mp .mp-ctl .mp-z{width:44px;padding:0;font-size:24px;letter-spacing:0}
-html body #contacto .mp .mp-ctl button:is(:hover,:focus-visible){background:#0A2C8C;border-color:#fff}
-html body #contacto .mp .mp-ctl button:focus-visible{outline:3px solid #fff;outline-offset:2px}
-html body #contacto .mp .mp-ctl .mp-c svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
-html body #contacto .mp .mp-ctl .mp-c.off{background:var(--rojo,#C1121F);border-color:#fff}
-html body #contacto .mp .maplibregl-ctrl-bottom-right{z-index:3}
-html body #contacto .mp .maplibregl-ctrl-attrib{margin:0 205px 12px 0!important;padding:2px 7px;background:rgba(6,17,26,.72)!important;color:#cfe3ee;font:11px/1.5 var(--b,system-ui,sans-serif)}
-html body #contacto .mp .maplibregl-ctrl-attrib a{color:#fff!important}
-@media(max-width:560px){html body #contacto .mp .maplibregl-ctrl-attrib{margin-right:0!important;margin-bottom:68px!important;font-size:10px}html body #contacto .mp .mp-ctl{bottom:84px}}
-@media(prefers-reduced-motion:reduce){html body #contacto .mp .mp-ctl button{transition:none}}
-
-/* ───────── FICHA · franjas a los costados de la foto ─────────
-   Las barras oscuras a los lados de la foto llevan franjas finas en diagonal (como el cartel «Conocé el lugar»):
-   fondo azul tinta con rayitas tenues, una banda roja fina, un hilo blanco y una banda azul. Todas inclinadas igual ("/"),
-   con mucho aire entre sí. La imagen tiene fondo transparente para que se vean; las franjas quedan detrás de la foto. */
-html body dialog#dlg .fcs{
-  --p:190px;
-  background:
-    repeating-linear-gradient(145deg,
-      transparent 0 calc(var(--p) * .30),
-      rgba(255,255,255,.38) calc(var(--p) * .30) calc(var(--p) * .315),
-      transparent calc(var(--p) * .315) calc(var(--p) * .36),
-      #C1121F calc(var(--p) * .36) calc(var(--p) * .45),
-      transparent calc(var(--p) * .45) calc(var(--p) * .49),
-      #0A2C8C calc(var(--p) * .49) calc(var(--p) * .66),
-      transparent calc(var(--p) * .66) var(--p)),
-    repeating-linear-gradient(145deg,rgba(255,255,255,.045) 0 1px,transparent 1px 18px),
-    linear-gradient(180deg,#0B1330,#070C1E) !important;
-}
-html body dialog#dlg .fcs .ct img{background:transparent!important}
+  var tick = 0;
+  function update() {
+    tick = 0;
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var line = vh * 0.55;                               // «línea de lectura»
+    var lr = list.getBoundingClientRect();
+    var p = (line - lr.top) / Math.max(1, lr.height);
+    p = Math.max(0, Math.min(1, p));
+    fill.style.transform = "scaleY(" + p.toFixed(3) + ")";
+    list.style.setProperty("--p", (p * 100).toFixed(1));
+    var cur = -1;
+    steps.forEach(function (s, i) {
+      var r = s.getBoundingClientRect();
+      if (r.top < line) { s.classList.add("seen"); cur = i; }
+    });
+    steps.forEach(function (s, i) { s.classList.toggle("on", i === cur); });
+  }
+  function req() { if (!tick) tick = requestAnimationFrame(update); }
+  window.addEventListener("scroll", req, { passive: true });
+  window.addEventListener("resize", req);
+  update();
+})();
