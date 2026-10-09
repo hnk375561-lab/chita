@@ -1,7 +1,7 @@
 name: Verificar todo (sin hacer nada a mano)
 
-# Gratis en repos públicos. Se corre solo en cada push a main, y también a mano:
-# GitHub → Actions → "Verificar todo" → Run workflow. No bloquea el deploy; es un informe.
+# Gratis en repos públicos. Corre solo en cada push a main y a mano (Actions > Verificar todo > Run workflow).
+# No bloquea el deploy. El informe completo queda en la rama "informes" (archivo REPORTE.md) y en Artifacts.
 on:
   push:
     branches: [main]
@@ -16,132 +16,178 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  verificar:
+  base:
+    name: Datos, sintaxis, enlaces, Lighthouse
     runs-on: ubuntu-22.04
-    timeout-minutes: 45
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Instalar dependencias y navegadores (Chromium + WebKit/Safari)
-        run: |
-          npm install --no-audit --no-fund
-          npx playwright install --with-deps chromium webkit
-          mkdir -p informe
-
-      - name: 1 · Datos, SEO de demo y consistencia (npm test)
+      - run: npm install --no-audit --no-fund && mkdir -p informe
+      - name: Datos y consistencia (npm test)
         id: datos
         continue-on-error: true
-        run: npm test
-
-      - name: 2 · Sintaxis de todos los JS
+        run: npm test 2>&1 | tee informe/datos.txt; exit ${PIPESTATUS[0]}
+      - name: Sintaxis de todos los JS
         id: sintaxis
         continue-on-error: true
-        run: for f in js/*.js scripts/*.mjs; do node --check "$f" || exit 1; done
-
-      - name: 3 · Armar el sitio publicado (_site)
+        run: |
+          rc=0
+          for f in js/*.js scripts/*.mjs; do node --check "$f" 2>&1 || { echo "FALLA: $f"; rc=1; }; done 2>&1 | tee informe/sintaxis.txt
+          exit ${PIPESTATUS[0]}
+      - name: Armar el sitio publicado
         id: build
         continue-on-error: true
-        run: node scripts/build-site.mjs
-
-      - name: 4 · Enlaces internos y externos (por red)
+        run: node scripts/build-site.mjs 2>&1 | tee informe/build.txt; exit ${PIPESTATUS[0]}
+      - name: Enlaces internos y externos
         id: enlaces
         continue-on-error: true
         run: node scripts/check-links.mjs --external 2>&1 | tee informe/enlaces.txt; exit ${PIPESTATUS[0]}
-
-      - name: 5 · Navegador real, escritorio y móvil (Chromium, 5 tamaños de pantalla)
-        id: chromium
-        continue-on-error: true
-        run: |
-          set +e
-          npm run check:all -- --all-devices 2>&1 | tee informe/chromium.txt; code=${PIPESTATUS[0]}
-          cp -r check-report informe/chromium-capturas 2>/dev/null
-          exit $code
-
-      - name: 6 · Motor de Safari (WebKit)
-        id: webkit
-        continue-on-error: true
-        run: |
-          set +e
-          npm run check:safari 2>&1 | tee informe/webkit.txt; code=${PIPESTATUS[0]}
-          cp -r check-report informe/webkit-capturas 2>/dev/null
-          exit $code
-
-      - name: 7 · Lighthouse (rendimiento, accesibilidad, buenas prácticas, SEO) móvil y escritorio
+      - name: Lighthouse movil y escritorio
         id: lighthouse
         continue-on-error: true
         run: |
           npx --yes http-server _site -p 8080 -s &
           for i in $(seq 1 30); do curl -sf http://localhost:8080/index.html >/dev/null && break; sleep 1; done
-          FLAGS="--chrome-flags=--headless=new\ --no-sandbox"
           for pagina in index reserva; do
-            npx --yes lighthouse@12 http://localhost:8080/$pagina.html --quiet --output=json --output=html --output-path=informe/lh-$pagina-movil --chrome-flags="--headless=new --no-sandbox"
-            npx --yes lighthouse@12 http://localhost:8080/$pagina.html --quiet --preset=desktop --output=json --output=html --output-path=informe/lh-$pagina-escritorio --chrome-flags="--headless=new --no-sandbox"
+            npx --yes lighthouse@12 http://localhost:8080/$pagina.html --quiet --output=json --output-path=informe/lh-$pagina-movil.json --chrome-flags="--headless=new --no-sandbox"
+            npx --yes lighthouse@12 http://localhost:8080/$pagina.html --quiet --preset=desktop --output=json --output-path=informe/lh-$pagina-escritorio.json --chrome-flags="--headless=new --no-sandbox"
           done
           kill %1 2>/dev/null || true
-
-      - name: 8 · El sitio YA publicado (github.io), escritorio y móvil
-        id: vivo
-        continue-on-error: true
-        run: |
-          set +e
-          npm run check:all -- --url=https://hnk375561-lab.github.io/chita/ 2>&1 | tee informe/publicado.txt; code=${PIPESTATUS[0]}
-          cp -r check-report informe/publicado-capturas 2>/dev/null
-          exit $code
-
-      - name: 9 · Puerta de producción (informativo, debe fallar mientras sea demo)
-        id: prod
-        continue-on-error: true
-        run: npm run test:prod 2>&1 | tee informe/produccion.txt; exit ${PIPESTATUS[0]}
-
-      - name: Resumen
+      - name: Puerta de produccion (informativo, debe fallar mientras sea demo)
+        run: npm run test:prod 2>&1 | tee informe/produccion.txt; true
+      - name: Resultado del job
         if: always()
         run: |
-          {
-            echo "## Informe de verificación"
-            echo
-            echo "| Chequeo | Resultado |"
-            echo "|---|---|"
-            row() { case "$2" in success) r="✅ OK";; failure) r="❌ FALLA";; skipped) r="⏭ no corrió";; *) r="$2";; esac; echo "| $1 | $r |"; }
-            row "Datos y consistencia (npm test)" "${{ steps.datos.outcome }}"
-            row "Sintaxis JS" "${{ steps.sintaxis.outcome }}"
-            row "Build del sitio" "${{ steps.build.outcome }}"
-            row "Enlaces internos y externos" "${{ steps.enlaces.outcome }}"
-            row "Navegador Chromium (5 pantallas)" "${{ steps.chromium.outcome }}"
-            row "Safari / WebKit" "${{ steps.webkit.outcome }}"
-            row "Lighthouse" "${{ steps.lighthouse.outcome }}"
-            row "Sitio ya publicado" "${{ steps.vivo.outcome }}"
-            echo "| Puerta de producción (**se espera ❌ en demo**) | ${{ steps.prod.outcome }} |"
-            echo
-            echo "### Puntajes Lighthouse (0-100)"
-            echo
-            echo "| Página | Rendimiento | Accesibilidad | Buenas prácticas | SEO |"
-            echo "|---|---|---|---|---|"
-            node -e '
-              const fs=require("fs");
-              for (const f of fs.readdirSync("informe").filter(n=>/^lh-.*\.report\.json$/.test(n))) {
-                const c=JSON.parse(fs.readFileSync("informe/"+f)).categories;
-                const s=k=>Math.round((c[k]?.score??0)*100);
-                console.log(`| ${f.replace(".report.json","").replace("lh-","")} | ${s("performance")} | ${s("accessibility")} | ${s("best-practices")} | ${s("seo")} |`);
-              }' || true
-            echo
-            echo "Capturas de cada falla y los informes completos: sección **Artifacts** al final de esta página."
-          } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Guardar capturas e informes
+          echo "datos=${{ steps.datos.outcome }}" > informe/resultado.txt
+          echo "sintaxis=${{ steps.sintaxis.outcome }}" >> informe/resultado.txt
+          echo "build=${{ steps.build.outcome }}" >> informe/resultado.txt
+          echo "enlaces=${{ steps.enlaces.outcome }}" >> informe/resultado.txt
+          echo "lighthouse=${{ steps.lighthouse.outcome }}" >> informe/resultado.txt
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: informe-verificacion
+          name: informe-base
           path: informe/
-          retention-days: 30
-
-      - name: Fallar si algo importante falló (todo menos la puerta de producción)
+      - name: Fallar si algo fallo
         if: always()
+        run: grep -q failure informe/resultado.txt && exit 1 || exit 0
+
+  navegador:
+    name: Navegador Chromium (${{ matrix.nombre }})
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { nombre: escritorio, args: "--desktop" }
+          - { nombre: movil, args: "--mobile" }
+          - { nombre: otros-dispositivos, args: "--all-devices" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund && npx playwright install --with-deps chromium && mkdir -p informe
+      - name: Chequeo completo
         run: |
-          bad=0
-          for o in "${{ steps.datos.outcome }}" "${{ steps.sintaxis.outcome }}" "${{ steps.build.outcome }}" "${{ steps.enlaces.outcome }}" "${{ steps.chromium.outcome }}" "${{ steps.webkit.outcome }}" "${{ steps.lighthouse.outcome }}" "${{ steps.vivo.outcome }}"; do
-            [ "$o" = "failure" ] && bad=1
-          done
-          exit $bad
+          npm run check:all -- ${{ matrix.args }} 2>&1 | tee informe/chromium-${{ matrix.nombre }}.txt; code=${PIPESTATUS[0]}
+          cp -r check-report informe/capturas 2>/dev/null || true
+          echo "exit=$code" > informe/resultado.txt
+          exit $code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: informe-chromium-${{ matrix.nombre }}
+          path: informe/
+
+  safari:
+    name: Safari (WebKit)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund && npx playwright install --with-deps webkit && mkdir -p informe
+      - name: Chequeo completo
+        run: |
+          npm run check:safari 2>&1 | tee informe/webkit.txt; code=${PIPESTATUS[0]}
+          cp -r check-report informe/capturas 2>/dev/null || true
+          echo "exit=$code" > informe/resultado.txt
+          exit $code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: informe-safari
+          path: informe/
+
+  publicado:
+    name: Sitio ya publicado (github.io)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund && npx playwright install --with-deps chromium && mkdir -p informe
+      - name: Chequeo completo sobre la URL publicada
+        run: |
+          npm run check:all -- --url=https://hnk375561-lab.github.io/chita/ 2>&1 | tee informe/publicado.txt; code=${PIPESTATUS[0]}
+          cp -r check-report informe/capturas 2>/dev/null || true
+          echo "exit=$code" > informe/resultado.txt
+          exit $code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: informe-publicado
+          path: informe/
+
+  reportar:
+    name: Informe final
+    needs: [base, navegador, safari, publicado]
+    if: always()
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: recibido
+      - name: Armar REPORTE.md y publicarlo en la rama informes
+        run: |
+          mkdir -p informes && cp -r recibido/* informes/ 2>/dev/null || true
+          {
+            echo "# Informe de verificacion"
+            echo "Commit: ${{ github.sha }} · $(date -u +%F' '%T) UTC"
+            echo
+            echo "| Job | Resultado |"; echo "|---|---|"
+            echo "| Datos, sintaxis, enlaces, Lighthouse | ${{ needs.base.result }} |"
+            echo "| Chromium (escritorio, movil, otros dispositivos) | ${{ needs.navegador.result }} |"
+            echo "| Safari / WebKit | ${{ needs.safari.result }} |"
+            echo "| Sitio ya publicado | ${{ needs.publicado.result }} |"
+            echo
+            echo "## Lighthouse (0-100)"; echo
+            echo "| Pagina | Rendimiento | Accesibilidad | Buenas practicas | SEO |"; echo "|---|---|---|---|---|"
+            node -e '
+              const fs=require("fs"),d="informes/informe-base";
+              if(fs.existsSync(d)) for (const f of fs.readdirSync(d).filter(n=>/^lh-.*\.json$/.test(n))) {
+                const c=JSON.parse(fs.readFileSync(d+"/"+f)).categories, s=k=>Math.round((c[k]?.score??0)*100);
+                console.log("| "+f.replace(".json","").replace("lh-","")+" | "+s("performance")+" | "+s("accessibility")+" | "+s("best-practices")+" | "+s("seo")+" |");
+              }' || true
+            for t in informes/*/*.txt; do
+              echo; echo "## $t"; echo '```'; tail -n 70 "$t"; echo '```'
+            done
+          } > informes/REPORTE.md
+          cd informes && git init -q -b informes && git add -A
+          git -c user.name="verificar" -c user.email="verificar@users.noreply.github.com" commit -q -m "Informe ${{ github.sha }}"
+          git push -q --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:refs/heads/informes
+          cat REPORTE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Fallar si algun job fallo
+        if: ${{ needs.base.result != 'success' || needs.navegador.result != 'success' || needs.safari.result != 'success' || needs.publicado.result != 'success' }}
+        run: exit 1
