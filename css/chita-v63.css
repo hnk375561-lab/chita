@@ -1,0 +1,44 @@
+/* CHITA · v63 — se carga el último.
+   1) #horarios: el fondo oscuro desaparecía y el texto blanco quedaba sobre gris claro (ilegible).
+   2) #operaciones (Comprar / Vender / Permutar / Consignar): tarjetas más legibles y con un ícono propio cada una.
+   Cambio mínimo: no toca otras reglas; para deshacerlo basta con quitar el <link> de este archivo en index.html. */
+
+/* ───────────── 1 · HORARIOS ─────────────
+   Causa: identidad.css:25 y motion.css:11 aplican `main>section{background-image:none!important}` a TODAS las secciones.
+   .hor armaba su fondo oscuro solo con gradientes (background-image) y no tenía background-color: al anularse los
+   gradientes quedaba el gris de la página, con texto blanco encima.
+   Arreglo: color de fondo sólido (nadie lo anula) + los mismos gradientes, con !important y mayor especificidad. */
+html body main>section#horarios.hor{
+  background-color:#070d1f;
+  background-image:
+    linear-gradient(104deg,transparent 0 6%,rgba(255,255,255,.1) 6% 6.1%,transparent 6.1% 8%,rgba(193,18,31,.8) 8% 8.5%,transparent 8.5%),
+    repeating-linear-gradient(104deg,rgba(255,255,255,.04) 0 1px,transparent 1px 44px),
+    radial-gradient(ellipse 65% 100% at 10% 0%,rgba(10,44,140,.5),transparent 70%),
+    linear-gradient(180deg,#070d1f 0,#0a1430 100%)!important;
+}
+/* la regla tricolor del borde inferior: motion.css:13 oculta todos los ::after de las secciones */
+html body main>section#horarios.hor::after{display:block!important}
+
+/* ───────────── 2 · OPERACIONES: tarjetas ─────────────
+   (selector con 4 veces el id para ganarle a secciones.css y identidad.css, que usan !important) */
+
+/* zona del ícono: menos alta (antes 4/5 = casi media tarjeta de azul vacío) */
+html body #operaciones#operaciones#operaciones#operaciones .og .oc .oi{aspect-ratio:16/10!important}
+html body #operaciones#operaciones#operaciones#operaciones .oc .oi svg.op-ic{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* texto */
+html body #operaciones#operaciones#operaciones#operaciones .oc .ob{padding:22px 24px 26px;gap:0}
+html body #operaciones#operaciones#operaciones#operaciones .oc .ob h3{font-size:clamp(28px,2.4vw,36px)!important;line-height:1!important;margin:0 0 10px}
+html body #operaciones#operaciones#operaciones#operaciones .oc .ob p{font-size:clamp(16px,1.15vw,18px)!important;line-height:1.5!important;color:#2c3548!important;margin:0 0 18px}
+
+/* botón: más grande, con área táctil de 48 px */
+html body #operaciones#operaciones#operaciones#operaciones .oc .ob a{
+  display:inline-flex!important;align-items:center;gap:8px;min-height:48px;
+  padding:0 22px 0 18px!important;font-size:14px!important;letter-spacing:.1em}
+html body #operaciones#operaciones#operaciones#operaciones .oc .ob a:focus-visible{outline:3px solid var(--tinta,#0A1020);outline-offset:3px}
+
+/* en celular: una columna, tarjetas con aire */
+@media(max-width:639px){
+  html body #operaciones#operaciones#operaciones#operaciones .oc .ob{padding:20px 20px 24px}
+  html body #operaciones#operaciones#operaciones#operaciones .oc .ob a{width:100%;justify-content:space-between}
+}

@@ -59,6 +59,11 @@ function fallback() {
 
 function loadAssets(done) {
   if (window.L && window.L.map) return done();
+  /* Leaflet posiciona cada mosaico con translate3d: con el mapa a todo el ancho son decenas de capas de GPU que se
+     componen, además, debajo del degradado del panel. Con L_DISABLE_3D los mosaicos van con left/top dentro de UNA sola
+     capa (el contenedor .dn-map ya tiene contain:paint). Debe definirse ANTES de cargar leaflet.js.
+     Para volver al comportamiento anterior: borrar esta línea. */
+  window.L_DISABLE_3D = true;
   var css = document.createElement("link");
   css.rel = "stylesheet"; css.href = "js/vendor/leaflet.css";
   document.head.appendChild(css);
@@ -109,7 +114,7 @@ function init() {
   L.control.attribution({ position: "bottomright", prefix: false }).addAttribution(ATTR).addTo(map);
 
   var ok = 0, bad = 0;
-  var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 2, updateInterval: 300, updateWhenZooming: false, crossOrigin: false,
+  var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 1, updateInterval: 300, updateWhenZooming: false, crossOrigin: false,
     /* si un mosaico no llega (el servidor limita pedidos, red lenta) queda un hueco transparente en vez de una imagen rota */
     errorTileUrl: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" });
   tiles.on("tileload", function () { ok++; mp.classList.add("rd"); });
