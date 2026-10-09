@@ -201,3 +201,11 @@ El dato aparece en `index.html` (sección Entregas) y no tenía registro propio.
 
 ## 2026-10-07 · Ford Focus SE 2.0N 4P 2015 sumado al stock
 Fuente: publicación de Instagram de Chita («Ford Focus SE 2.0N 4P - 2015 - 159.000km») y cartel de la foto de portada. Publicado: título, año, km, combustible «Nafta» (la «N» del título, igual que en las otras fichas), «4 puertas» (la «4P») y 7 fotos. No se publica precio, transmisión, equipamiento ni estado de disponibilidad. Pendiente con Chita: confirmar transmisión y disponibilidad.
+
+
+## Auditoría de fichas y fotos (2026-10-09)
+- Las 10 fichas de `STOCK` apuntan a archivos que existen, y las variantes `-480`/`-800`, `w480`/`w800` y `hero/t-N` muestran la misma imagen que el original (166 comparadas).
+- Revisadas a ojo las fotos de las 10 unidades: marca, modelo y color coinciden con el título de cada ficha. No se verificó que sean las unidades actuales del negocio.
+- **Sin fuente registrada en `data/`:** año, km y versión de Clio Dynamique 2016, Tracker Premier 1.8N 2018, Kangoo Comfort 2022, Kangoo Authentique 2018, Kia K3 EX Cross 2025, Peugeot 301 Allure 2018 y Partner Patagónica 2014. Solo Tracker 1.2T, Focus SE y Palio (en conflicto) tienen fuente. Pedir al dueño la lista de su stock o la captura de cada publicación.
+- Las 12 fotos de "Entregas" muestran clientes con la cara visible y patentes legibles. Mientras `photos.authorized` no esté registrado, no publicar fuera de la demo.
+- Se quitó de `js/app.js` un mapeo muerto "Palio ... Serie 2" que apuntaba a la foto 35 (un Fiat Punto). Ninguna ficha lo usaba.
