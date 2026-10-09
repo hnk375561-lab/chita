@@ -186,9 +186,12 @@ function start(now) {
   if (now) loadAssets(init); else calm(function () { loadAssets(function () { calm(init); }); });
 }
 
-if ("IntersectionObserver" in window) {
-  var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); start(false); } }, { rootMargin: "700px 0px" });
-  io.observe(mp);
-} else addEventListener("load", function () { setTimeout(function () { start(false); }, 800); });
-mp.addEventListener("pointerdown", function () { start(true); }, { passive: true });
+/* El mapa NO carga solo al llegar a la sección: Leaflet, los mosaicos y las capas de GPU cuestan justo cuando la
+   persona está scrolleando. Se arma al tocar el botón (o el mapa). Mientras tanto se ve la ficha con el pin y los
+   enlaces a Google Maps / Waze / Apple Maps. */
+var go = document.createElement("button");
+go.type = "button"; go.className = "mp-go"; go.textContent = "Ver mapa interactivo";
+mp.appendChild(go);
+go.addEventListener("click", function (e) { e.stopPropagation(); go.remove(); start(true); });
+mp.addEventListener("pointerdown", function () { if (go.parentNode) go.remove(); start(true); }, { passive: true });
 })();

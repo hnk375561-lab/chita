@@ -42,3 +42,12 @@ html body #operaciones#operaciones#operaciones#operaciones .oc .ob a:focus-visib
   html body #operaciones#operaciones#operaciones#operaciones .oc .ob{padding:20px 20px 24px}
   html body #operaciones#operaciones#operaciones#operaciones .oc .ob a{width:100%;justify-content:space-between}
 }
+
+/* ───────────── 3 · MAPA: botón para cargarlo (mapa.js ya no lo arma solo al hacer scroll) ───────────── */
+html body #contacto.dn .dn-map .mp-go{
+  position:absolute;z-index:4;left:calc(50% + var(--dnw)/2);top:calc(50% + 24px);transform:translateX(-50%);
+  min-height:48px;padding:0 22px;border:0;border-radius:0;cursor:pointer;
+  background:#C1121F;color:#fff;font:800 14px/1 var(--font-display,Arial,sans-serif);letter-spacing:.1em;text-transform:uppercase}
+html body #contacto.dn .dn-map .mp-go:hover,html body #contacto.dn .dn-map .mp-go:focus-visible{background:#fff;color:#0A1020}
+html body #contacto.dn .dn-map .mp-go:focus-visible{outline:3px solid #0A1020;outline-offset:3px}
+@media(max-width:900px){html body #contacto.dn .dn-map .mp-go{left:50%}}
