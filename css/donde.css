@@ -3,9 +3,9 @@
    rgba(1,20,59)) se disuelve hacia la derecha. Sin filtros, sin capas translúcidas a pantalla completa, sin mix-blend.
    Controles y cartel del pin: color explícito con !important, porque identidad.css pinta de blanco todo botón/span dentro de #contacto. */
 html body #contacto.dn{--dnw:min(600px,52vw);min-height:0!important;display:block!important;background:#01143B!important;padding:0!important;position:relative;overflow:hidden;isolation:isolate}
-html body #contacto.dn .dn-w{position:relative;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;display:block!important;min-height:clamp(620px,86svh,820px)}
+html body #contacto.dn .dn-w{position:relative;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;min-height:max(640px,100svh);display:flex!important;align-items:stretch}
 /* panel */
-html body #contacto.dn .dn-info{position:relative;z-index:3;display:flex;flex-direction:column;gap:16px;width:var(--dnw);min-width:0;box-sizing:border-box;padding:clamp(40px,6vh,72px) 0 clamp(40px,6vh,72px) clamp(20px,4vw,64px);color:#fff;pointer-events:none}
+html body #contacto.dn .dn-info{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;align-self:stretch;gap:16px;width:var(--dnw);min-width:0;box-sizing:border-box;padding:clamp(40px,6vh,72px) 0 clamp(40px,6vh,72px) clamp(20px,4vw,64px);color:#fff;pointer-events:none}
 html body #contacto.dn .dn-info>*{pointer-events:auto;position:relative;z-index:1;margin-right:clamp(20px,3vw,40px)}
 html body #contacto.dn .dn-info::before{content:"";position:absolute;z-index:0;top:0;bottom:0;left:0;width:calc(100% + clamp(120px,16vw,260px));background:linear-gradient(90deg,#01143B 0,#01143B calc(100% - clamp(120px,16vw,260px)),rgba(1,20,59,.88) calc(100% - clamp(120px,16vw,260px) + 12%),rgba(1,20,59,0) 100%);pointer-events:none}
 html body #contacto.dn .dn-eb{margin:0!important;padding:0 0 0 12px!important;border-left:6px solid #C1121F;font:800 13px/1.1 var(--font-display,Arial,sans-serif)!important;letter-spacing:.2em!important;text-transform:uppercase!important;color:#fff!important}
@@ -82,3 +82,12 @@ html body #unidades #stockGrid .car .g-a svg{width:18px;height:18px}
 
 /* Carrusel de videos: un recorte (clip-path) sobre un video en reproducción se recalcula en cada fotograma. La tarjeta activa va sin recorte. */
 html body #unidades .lz-card.is-a,html body #unidades .lz-card.is-live{clip-path:none!important}
+
+/* «Frente del local»: la foto vertical estiraba la fila (más de 1000 px de alto). Fila de alto fijo; la foto se recorta con cover. */
+@media(min-width:900px){
+  html body #unidades .lz-mos{grid-template-rows:clamp(340px,34vw,500px)!important}
+  html body #unidades .lz-fig,html body #unidades .lz-fig:first-child,html body #unidades .lz-fig.lz-logo{min-height:0!important;height:100%}
+  html body #unidades .lz-fig img{position:absolute;inset:0;width:100%;height:100%}
+  html body #unidades .lz-fig:first-child img{object-position:50% 58%}
+  html body #unidades .lz-fig.lz-logo img{position:relative;inset:auto;width:auto;height:auto;max-height:78%;max-width:78%;aspect-ratio:1}
+}
