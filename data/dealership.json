@@ -71,9 +71,9 @@
     }
   },
   "hours": {
-    "display": "Lunes a viernes de 9:00 a 17:00 · Sábados de 8:30 a 12:00 · Domingos cerrados. Feriados: consultá por WhatsApp.",
-    "status": "public-source-google-maps-2026-10-08",
-    "note": "Publicado el 2026-10-08 con el horario de la ficha de Google Maps (vigente; coincide con LatinoPlaces, que la copia) y con el criterio de repetición entre fuentes: sábado 8:30–12:00 (Google, GTM, LatinoPlaces) y domingo cerrado (todas). Lunes a viernes 9–17: Google muestra mar–vie; el lunes habitual no se ve porque la captura cae en feriado, pero todas las fuentes agrupan lunes a viernes. Pendiente de ok escrito del dueño (APLICAR-TODO 4.13). Cylex, InfoisInfo, GTM y ZonaAuto son versiones anteriores con corte de mediodía.",
+    "display": "Martes a viernes de 9:00 a 17:00 · Sábados de 8:30 a 12:00 · Domingos cerrados. Lunes y feriados: consultá por WhatsApp.",
+    "status": "verified-google-maps-2026-10-08",
+    "note": "Horario tomado tal cual de la ficha de Google Maps del negocio (captura 2026-10-08): martes a viernes 9:00–17:00, sábado 8:30–12:00, domingo cerrado. El lunes solo figura el feriado del 12/10 (\"Horario especial\"), sin horario habitual: por eso el sitio dice \"Lunes y feriados: consultá por WhatsApp\" y no inventa horario de lunes. Cylex, InfoisInfo, GTM y ZonaAuto son versiones anteriores con corte de mediodía; LatinoPlaces copia a Google.",
     "versions": [
       {
         "source": "Cylex (horario cargado 27/12/2022, actualizado 18/07/2024)",
@@ -83,11 +83,12 @@
       },
       {
         "source": "Google Maps (ficha del negocio; captura 2026-10-08)",
-        "lv": "mar–vie 09:00–17:00 (lunes habitual sin dato: el 12/10 figura cerrado por feriado)",
+        "lv": "mar–vie 09:00–17:00",
         "sab": "08:30–12:00",
         "dom": "Cerrado",
         "feriados": "Horario especial",
-        "checkedAt": "2026-10-08"
+        "checkedAt": "2026-10-08",
+        "lunes": "sin horario habitual en la ficha (12/10 figura cerrado por feriado, \"Horario especial\")"
       },
       {
         "source": "GTM",

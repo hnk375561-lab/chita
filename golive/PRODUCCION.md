@@ -5,7 +5,7 @@ El sitio ya es el oficial de Chita Automotores (sin avisos de demo, con JSON-LD 
 La puerta de salida es `npm run test:prod` (`node scripts/validate-dealership.mjs --prod`). **Falla a propósito** mientras quede algo de esta lista. `npm test` (modo demo) exige lo contrario y es el que corre el workflow de Pages.
 
 ## Datos que faltan (los tiene que dar el dueño)
-1. **Ok escrito del horario** publicado el 2026-10-08 (lun–vie 9–17, sáb 8:30–12, dom cerrado; fuente Google Maps). Confirmar también el lunes habitual y cómo avisan los feriados.
+1. **Lunes habitual** (opcional): el horario publicado sale de la ficha de Google Maps (mar–vie 9–17, sáb 8:30–12, dom cerrado); el lunes no figura, por eso el sitio dice "Lunes y feriados: consultá por WhatsApp". Si el dueño confirma el lunes, cambiar `NEGOCIO.horarios` y `hours.display` y sumar `Monday` al JSON-LD.
 2. Email oficial (`chitaautomotores@gmail.com` figura en el Facebook del negocio) y razón social, CUIT, domicilio legal para la sección "Responsable" de `privacidad.html`. Estado fiscal y CUIT tienen fuentes en conflicto: no se publican.
 3. Autorización para usar fotos y videos (hoy salen de Instagram/Facebook); decidir si se tapan patentes visibles. Registrarla en `data/dealership.json` (`photos.authorized`).
 4. Marcas 0 km actuales, condiciones de financiación, qué significa "Recibimos tu usado", consignación.

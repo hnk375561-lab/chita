@@ -209,3 +209,7 @@ Fuente: publicación de Instagram de Chita («Ford Focus SE 2.0N 4P - 2015 - 159
 - **Sin fuente registrada en `data/`:** año, km y versión de Clio Dynamique 2016, Tracker Premier 1.8N 2018, Kangoo Comfort 2022, Kangoo Authentique 2018, Kia K3 EX Cross 2025, Peugeot 301 Allure 2018 y Partner Patagónica 2014. Solo Tracker 1.2T, Focus SE y Palio (en conflicto) tienen fuente. Pedir al dueño la lista de su stock o la captura de cada publicación.
 - Las 12 fotos de "Entregas" muestran clientes con la cara visible y patentes legibles. Mientras `photos.authorized` no esté registrado, no publicar fuera de la demo.
 - Se quitó de `js/app.js` un mapeo muerto "Palio ... Serie 2" que apuntaba a la foto 35 (un Fiat Punto). Ninguna ficha lo usaba.
+
+## Horario verificado en Google Maps (2026-10-09)
+- Publicado: martes a viernes 9:00–17:00, sábados 8:30–12:00, domingos cerrados; lunes y feriados por WhatsApp. Fuente: ficha de Google Maps del negocio, captura del 2026-10-08 (jueves, viernes, martes y miércoles 9–17; sábado 8:30–12; domingo cerrado; lunes 12/10 cerrado por feriado).
+- Reemplaza el "Lunes a viernes" publicado antes, que era una inferencia.
