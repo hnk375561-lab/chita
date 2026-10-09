@@ -201,3 +201,35 @@ html body #contacto .hrs-l li.is-hoy b{background:linear-gradient(90deg,var(--in
 html body #contacto .hrs-l li.is-hoy span{color:#fff}
 html body #contacto .hrs-l a{color:#fff;text-underline-offset:.2em;text-decoration-thickness:2px}
 @media(max-width:420px){html body #contacto .hrs-l li{grid-template-columns:100px 1fr}}
+
+/* ───────────── Rediseño v7 · «Hoy» en banda horizontal + regla a todo el ancho ─────────────
+   Antes: columna izquierda flotando a media altura con un divisor punteado, y «Consultá por WhatsApp» se salía del panel.
+   Ahora: arriba una banda «Hoy» (patente + sello + frase), debajo la regla de la semana ocupando todo el ancho.
+   Los horarios siguen saliendo del HTML (data-*): no hay datos nuevos. */
+html body #horarios{scroll-margin-top:72px}
+html body .hor{--hor-ct:clamp(200px,19vw,248px)}
+html body .hor-g{grid-template-columns:minmax(0,1fr)!important;gap:clamp(18px,2.4vw,28px)}
+html body .hor-pl{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:16px clamp(20px,3vw,40px);
+  padding:0!important;border:0!important;
+}
+html body .hor-pl::before,html body .hor-pl::after{display:none!important}
+html body .hor-plate{flex:0 1 340px;min-width:260px}
+html body .hor-st{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;justify-items:initial}
+html body .hor-s{max-width:none;font-size:clamp(1.05rem,1.6vw,1.3rem)}
+/* Lunes: «por consulta» en vez de una caja vacía */
+html body .hor-r[data-ask] .hor-bar{
+  display:flex;align-items:center;justify-content:center;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 8px,transparent 8px 16px);
+  border:2px dashed rgba(185,190,196,.7);
+}
+html body .hor-r[data-ask] .hor-bar::after{
+  content:"Por consulta";font:800 .72rem/1 var(--font-display,Arial,sans-serif);letter-spacing:.18em;text-transform:uppercase;color:#fff;
+}
+html body .hor-r.is-hoy[data-ask] .hor-bar{border-color:var(--rojo-claro,#EE4B55)}
+html body .hor-h{white-space:normal;flex-wrap:wrap}
+html body .hor-h a{white-space:nowrap}
+@media(max-width:759px){
+  html body .hor-plate{flex:1 1 100%}
+  html body .hor-r[data-ask] .hor-bar::after{font-size:.62rem}
+}

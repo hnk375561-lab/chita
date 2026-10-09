@@ -68,14 +68,23 @@ function loadAssets(done) {
   document.head.appendChild(s);
 }
 
+/* En escritorio el panel azul tapa la parte izquierda del mapa: Chita se centra en la parte libre (a la derecha del panel) */
+function offX() {
+  var info = document.querySelector("#contacto .dn-info");
+  if (!info || !matchMedia("(min-width:901px)").matches) return 0;
+  return Math.round(info.getBoundingClientRect().width / 2);
+}
+function homeCenter() {
+  return map.unproject(map.project(L.latLng(CHITA), ZOOM).subtract([offX(), 0]), ZOOM);
+}
 function goHome(animate) {
   if (!map) return;
-  map.setView(CHITA, ZOOM, { animate: !!animate && !RM, duration: .6 });
+  map.setView(homeCenter(), ZOOM, { animate: !!animate && !RM, duration: .6 });
   moved = false; sync();
 }
 function sync() {
   if (!btnC || !map) return;
-  var c = map.latLngToContainerPoint(L.latLng(CHITA)).distanceTo(map.getSize().divideBy(2));
+  var c = map.latLngToContainerPoint(L.latLng(CHITA)).distanceTo(map.getSize().divideBy(2).add([offX(), 0]));
   var away = c > 24 || Math.abs(map.getZoom() - ZOOM) > .01;
   btnC.classList.toggle("off", away);
   btnC.setAttribute("aria-label", away ? "Volver a Chita" : "Mapa centrado en Chita");

@@ -26,10 +26,3 @@ html body #mdl a::before{content:none!important;display:none!important}
 html body .g-c{display:none!important}
 
 
-
-/* Objetivos táctiles de al menos 32px sin mover el diseño */
-/* chevron del menú: más ancho, con márgenes que compensan para que el ícono no se corra */
-html body header .nvc{width:32px;min-height:32px;margin:0 -3px 0 -5px}
-@media(max-width:899px){html body header .nvc{width:32px;min-height:40px;margin:0 -1px 0 -7px}}
-/* título de cada tarjeta de auto (botón que abre la ficha) */
-@media(max-width:899px),(pointer:coarse){html body #unidades button.st{min-height:32px}}

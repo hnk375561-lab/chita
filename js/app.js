@@ -5,10 +5,10 @@
 var N=NEGOCIO,$=function(i){return document.getElementById(i)},RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 /*PRE:start*/var IDIM={"1":[800,1000],"2":[800,1000],"3":[800,1000],"4":[800,1000],"5":[800,1000],"6":[800,1000],"7":[800,1000],"8":[800,1000],"9":[800,1000],"10":[800,1000],"11":[800,1000],"12":[800,1000],"13":[800,1000],"14":[800,1000],"15":[800,1000],"16":[800,1000],"17":[800,1000],"18":[800,1000],"19":[800,1000],"20":[800,1000],"21":[800,1000],"22":[800,1000],"23":[800,1000],"24":[800,1000],"25":[800,1000],"26":[800,1000],"27":[800,1000],"28":[800,1000],"29":[800,1000],"30":[800,1000],"31":[800,1000],"32":[800,1000],"33":[800,1000],"34":[800,1000],"35":[800,1000],"36":[800,1000],"37":[800,1000],"38":[800,1000],"39":[800,1000],"40":[800,1000],"41":[472,590],"42":[800,1000],"43":[800,1000],"44":[800,1000],"45":[800,1000],"46":[800,1000],"47":[800,1000],"48":[800,1000],"49":[800,1000],"50":[800,1000],"51":[800,1000],"52":[800,1000],"53":[800,1000],"54":[800,1000],"55":[800,1000],"56":[800,1000],"57":[472,590],"58":[800,1000],"59":[800,1000],"60":[800,1000],"61":[800,1000],"62":[800,1000],"63":[800,1000],"64":[800,1000]};function ims(u){var m=/^assets\/w800\/(\d+)\.webp$/.exec(u||"");return m&&IDIM[m[1]]?m[1]:null}function ss(u){var n=ims(u);if(n)return"assets/w480/"+n+".webp 480w, assets/w800/"+n+".webp 800w";var m=/^(assets\/[a-z0-9-]+)\.webp$/.exec(u);return m&&!/-(480|800)$/.test(m[1])?m[1]+"-480.webp 480w, "+m[1]+"-800.webp 800w":u}function wh(u){var n=ims(u);if(!n&&/^assets\/[a-z0-9-]+\.webp$/.test(u))return'width="800" height="600"';return n?'width=\"'+IDIM[n][0]+'\" height=\"'+IDIM[n][1]+'\"':'width=\"1280\" height=\"960\"'}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]})}
-function wa(t){return /^\d{8,}$/.test(N.whatsapp)?"https://wa.me/"+N.whatsapp+"?text="+encodeURIComponent(t||"Hola! Quiero consultar por los autos disponibles."):"tel:"+N.telefonoTel}
+function wa(t){return /^\d{8,}$/.test(N.whatsapp)?"https://wa.me/"+N.whatsapp+"?text="+encodeURIComponent(t||"Hola! Quiero consultar por las unidades disponibles."):"tel:"+N.telefonoTel}
 function isWebContact(u){return /^https:\/\/wa\.me\//.test(u)}
 function callFallback(s,t){s.textContent="";s.appendChild(document.createTextNode("Consulta lista: llamá al "+NEGOCIO.telefono+" o copiá el mensaje para pegarlo donde prefieras. "));var c=document.createElement("button");c.type="button";c.className="btn";c.textContent="Copiar mensaje";c.addEventListener("click",function(){var ok=function(){c.textContent="Mensaje copiado"};if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){c.textContent="Copialo manualmente: "+t})}else{c.textContent="Copialo manualmente: "+t}});s.appendChild(c);var a=document.createElement("a");a.className="btn p";a.href="tel:"+NEGOCIO.telefonoTel;a.textContent="Llamar";s.appendChild(document.createTextNode(" "));s.appendChild(a)}
-function ask(c){return "Hola! Vi el "+c.titulo+" "+c.anio+" en la página y quería consultar si sigue disponible."}
+function ask(c){return "Hola! Vi el "+c.titulo+" "+c.anio+" en la página y quisiera consultar si sigue disponible."}
 var IW={};
 var CSZ="(min-width:900px) 380px,(min-width:640px) 50vw,100vw";
 function SSET(s){return String(s)}
@@ -22,22 +22,22 @@ function garr(){return '<button type="button" class="g-a l" data-d="-1" aria-lab
 function card(c){var i=STOCK.indexOf(c),f=ph(c),t=[],n=c.nota||"";if(/única mano/i.test(n))t.push("Única mano");if(/permuta/i.test(n))t.push("Permuta");
 var im=f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+f.map(function(s,k){return '<img src="'+esc(s)+'" srcset="'+ss(s)+'" sizes="'+CSZ+'" alt="'+esc(c.titulo)+', foto '+(k+1)+' de '+f.length+'" loading="'+(k?'lazy':'eager')+'" decoding="async" '+wh(s)+' draggable="false"'+(k?' aria-hidden="true"':'')+'>'}).join("")+'</div></div>'+(f.length>1?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos a confirmar</span>';
 var e=eqs(c),eh=e.slice(0,4).map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+(e.length>4?'<li class="mas">+'+(e.length-4)+' más en la ficha</li>':"");
-return '<article class="car" data-i="'+i+'"><div class="im" data-gal>'+im+'</div><h3><button type="button" class="st" data-i="'+i+'">'+esc(c.titulo)+'</button></h3><p class="meta">'+esc(c.anio||"")+' · '+esc(c.km||"Km: consultar")+(c.combustible?' · '+esc(c.combustible):'')+'</p>'+est(c)+(t.length?'<p class="tg">'+t.join(" · ")+'</p>':'')+(eh?'<ul class="eqp" aria-label="Equipamiento">'+eh+'</ul>':'')+'<div class="pr"><button type="button" class="st vf" data-i="'+i+'" aria-label="Ver detalles de '+esc(c.titulo)+'">Ver detalles ›</button></div><a class="btn wab" href="'+wa(ask(c))+'"'+(isWebContact(wa(ask(c)))?' target="_blank" rel="noopener noreferrer"':'')+' aria-label="Consultar por '+esc(c.titulo)+'">Consultar</a></article>'}
+return '<article class="car" data-i="'+i+'"><div class="im" data-gal>'+im+'</div><h3><button type="button" class="st" data-i="'+i+'">'+esc(c.titulo)+'</button></h3><p class="meta">'+esc(c.anio||"")+' · '+esc(c.km||"Km: consultar")+(c.combustible?' · '+esc(c.combustible):'')+'</p>'+est(c)+(t.length?'<p class="tg">'+t.join(" · ")+'</p>':'')+(eh?'<ul class="eqp" aria-label="Equipamiento">'+eh+'</ul>':'')+'<div class="pr"><button type="button" class="st vf" data-i="'+i+'" aria-label="Ver ficha completa de '+esc(c.titulo)+'">Ver ficha completa ›</button></div><a class="btn wab" href="'+wa(ask(c))+'"'+(isWebContact(wa(ask(c)))?' target="_blank" rel="noopener noreferrer"':'')+' aria-label="Consultar esta unidad: '+esc(c.titulo)+'">Consultar</a></article>'}
 /*PRE:end*/
 window.SSET=SSET;window.wa=wa;window.ask=ask;
 document.querySelectorAll("[data-wa]").forEach(function(a){var u=wa(a.getAttribute("data-wa"));a.href=u;if(isWebContact(u)){a.target="_blank";a.rel="noopener noreferrer";if(/^Llamar?(nos)?$/.test(a.textContent.trim()))a.textContent="Escribinos"}else{a.removeAttribute("target");a.removeAttribute("rel")}});
-if(isWebContact(wa("")))document.querySelectorAll('form button[type="submit"]').forEach(function(b){if(b.firstChild&&/por WhatsApp/.test(b.firstChild.nodeValue||""))b.firstChild.nodeValue="Armar consulta"});
+if(isWebContact(wa("")))document.querySelectorAll('form button[type="submit"]').forEach(function(b){if(b.firstChild&&/Preparar consulta/.test(b.firstChild.nodeValue||""))b.firstChild.nodeValue=b.firstChild.nodeValue.replace("Preparar consulta","Enviar consulta")});
 document.querySelectorAll("[data-map]").forEach(function(a){a.href=N.mapsPlace});
 $("reviewsLink").href=N.mapsReviews;$("reviewsLink2").href=N.mapsReviews;
 var dir="<strong>"+esc(N.direccion)+"</strong>"+(N.referencia?" <span class='k'>("+esc(N.referencia)+")</span>":"")+"<br>"+esc(N.ciudad);
 $("addr").innerHTML=dir;$("fAddr").textContent=N.direccion+", "+N.ciudad;
 var p=$("phoneLink");p.href="tel:"+N.telefonoTel;p.textContent="Llamar al "+N.telefono;
 $("fPhone").href="tel:"+N.telefonoTel;$("fPhone").textContent="Tel. "+N.telefono;$("barCall").href="tel:"+N.telefonoTel;
-if(N.horarios&&!$("hrs").hasAttribute("data-static"))$("hrs").innerHTML="<h3>Horarios de atención</h3><p>"+esc(N.horarios)+"</p>";
+if(N.horarios)$("hrs").innerHTML="<h3>Horarios de atención</h3><p>"+esc(N.horarios)+"</p>";
 document.querySelectorAll("[data-ig]").forEach(function(a){a.href="https://www.instagram.com/"+N.instagram+"/"});
 document.querySelectorAll("[data-fb]").forEach(function(a){a.href=N.facebook});document.querySelectorAll("[data-tel]").forEach(function(a){a.href="tel:"+N.telefonoTel});
 $("igLink").textContent="Instagram @"+N.instagram;
-function render(){$("stockGrid").innerHTML=STOCK.map(card).join("");$("stockStatus").textContent=STOCK.length+(STOCK.length===1?" auto":" autos")}
+function render(){$("stockGrid").innerHTML=STOCK.map(card).join("");$("stockStatus").textContent=STOCK.length+(STOCK.length===1?" unidad":" unidades")}
 /* Galería propia: pista con transform, flechas, arrastre, miniaturas y teclado. La usan las tarjetas y la ficha */
 var SUP=0;
 function gRoot(ct){return ct.closest("[data-gal]")}
@@ -87,13 +87,13 @@ D.setAttribute("aria-label","Ficha: "+c.titulo);
 D.innerHTML='<button class="fcx" type="button" data-x aria-label="Cerrar ficha"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+
 '<div class="fc"><div class="fcg" data-gal><div class="fcs">'+(f.length?'<div class="ct" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Fotos de '+esc(c.titulo)+'" data-k="0"><div class="ctk">'+fimgs(c,f)+'</div></div>'+(multi?garr()+'<span class="g-c" aria-hidden="true">1/'+f.length+'</span><span class="g-s" aria-hidden="true">'+f.map(function(s,k){return k?'<i></i>':'<i class="on"></i>'}).join('')+'</span>':''):'<span class="noph">Fotos a confirmar</span>')+'</div>'+
 (multi?'<div class="g-t" role="group" aria-label="Miniaturas de fotos">'+fthumbs(c,f)+'</div>':'')+BRAND+'</div>'+
-'<div class="fci"><div class="fcb"><div class="fcu"><button type="button" data-n="'+(i-1)+'" data-k="p" aria-label="Unidad anterior">← Anterior</button><span>Auto '+(i+1)+' de '+n+'</span><button type="button" data-n="'+(i+1)+'" data-k="s" aria-label="Unidad siguiente">Siguiente →</button></div>'+
+'<div class="fci"><div class="fcb"><div class="fcu"><button type="button" data-n="'+(i-1)+'" data-k="p" aria-label="Unidad anterior">← Anterior</button><span>Unidad '+(i+1)+' de '+n+'</span><button type="button" data-n="'+(i+1)+'" data-k="s" aria-label="Unidad siguiente">Siguiente →</button></div>'+
 '<h3 class="fch">'+esc(c.titulo)+'</h3>'+est(c)+
 '<dl class="fcd"><div><dt>Año</dt><dd>'+esc(c.anio||"—")+'</dd></div><div><dt>Km</dt><dd>'+esc(c.km||"Consultar")+'</dd></div><div><dt>Combustible</dt><dd>'+esc(c.combustible||"—")+'</dd></div><div><dt>Precio</dt><dd>'+esc(c.precio||"Consultar")+'</dd></div>'+ext(c)+'</dl>'+eqm(c)+
 (c.nota?'<p class="fcn">'+esc(c.nota)+'</p>':'')+
-'<p class="fcn s">Datos y fotos de referencia. «A confirmar» es lo que no figura en la publicación. Precio, disponibilidad y estado: confirmalos con nosotros antes de decidir.</p>'+
+'<p class="fcn s">Datos y fotos orientativos. «A confirmar» quiere decir que la publicación no lo informa. Confirmá precio, disponibilidad y estado con nosotros antes de decidir.</p>'+
 '<div class="fcr"><button class="btn" type="button" data-sh>Copiar enlace</button><a class="btn" href="https://wa.me/?text='+encodeURIComponent(c.titulo+" "+c.anio+": "+shareUrl(i))+'" target="_blank" rel="noopener noreferrer">Compartir enlace</a></div><p class="fcn s" role="status" data-shs></p></div>'+
-'<div class="fcft"><a class="btn p" href="'+wa(ask(c))+'">Consultar por este auto</a></div></div></div>';
+'<div class="fcft"><a class="btn p" href="'+wa(ask(c))+'">Consultar esta unidad</a></div></div></div>';
 var ct=D.querySelector(".ct");if(ct)gLoad(ct);
 setHash("#unidad-"+slug(c));if(!was){lf=document.activeElement;document.documentElement.style.overflow="hidden";D.showModal()}else{var t=D.querySelector('[data-k="'+(keep||"")+'"]')||D.querySelector(".fcx");t.focus()}D.scrollTop=0}
 D.addEventListener("close",function(){if(/^#unidad-/.test(location.hash))setHash("");document.documentElement.style.overflow="";if(lf&&lf.focus)lf.focus()});
@@ -108,19 +108,16 @@ var b=e.target.closest("[data-n]");if(b)open_(+b.getAttribute("data-n"),b.getAtt
 /* Hero v10: carrusel de unidades (portada de cada una, sin recorte ni zoom). motion.js solo anima la entrada.
    Cada unidad se presenta con la foto de portada que Chita rotuló: marca, modelo, año y km vienen impresos en la propia foto.
    Se vinculan por título; una unidad sin entrada usa su primera foto, y null la omite (misma unidad que otra ya presente). */
-var HCOVER={"Renault Clio Dynamique 1.2N":"assets/w800/8.webp","Chevrolet Tracker Premier 1.8N":"assets/w800/27.webp","Fiat Palio Attractive 1.4N":"assets/w800/22.webp","Renault Kangoo Comfort 1.6N":"assets/w800/41.webp","Renault Kangoo Authentique 1.6N":"assets/w800/47.webp","Kia K3 EX Cross 1.6N":"assets/w800/53.webp","Peugeot 301 Allure 1.6 HDI":"assets/w800/57.webp","Peugeot Partner Patagónica 1.4N":"assets/w800/61.webp","Chevrolet Tracker Premier 1.2T":"assets/tracker-2021-1.webp"};
-var HTHUMB={"assets/w800/8.webp":"assets/hero/t-8.webp","assets/w800/27.webp":"assets/hero/t-27.webp","assets/w800/22.webp":"assets/hero/t-22.webp","assets/w800/41.webp":"assets/hero/t-41.webp","assets/w800/47.webp":"assets/hero/t-47.webp","assets/w800/53.webp":"assets/hero/t-53.webp","assets/w800/57.webp":"assets/hero/t-57.webp","assets/w800/61.webp":"assets/hero/t-61.webp","assets/w800/9.webp":"assets/hero/t-9.webp"};
+var HCOVER={"Renault Clio Dynamique 1.2N":"assets/w800/8.webp","Chevrolet Tracker Premier 1.8N":"assets/w800/27.webp","Fiat Palio Attractive 1.4N":"assets/w800/22.webp","Chevrolet Tracker Premier 1.8N · Serie 2":null,"Fiat Palio Attractive 1.4N · Serie 2":"assets/w800/35.webp","Renault Kangoo Comfort 1.6N":"assets/w800/41.webp","Renault Kangoo Authentique 1.6N":"assets/w800/47.webp","Kia K3 EX Cross 1.6N":"assets/w800/53.webp","Peugeot 301 Allure 1.6 HDI":"assets/w800/57.webp","Peugeot Partner Patagónica 1.4N":"assets/w800/61.webp","Chevrolet Tracker Premier 1.2T":"assets/tracker-2021-1.webp"};
+var HTHUMB={"assets/w800/8.webp":"assets/hero/t-8.webp","assets/w800/27.webp":"assets/hero/t-27.webp","assets/w800/22.webp":"assets/hero/t-22.webp","assets/w800/35.webp":"assets/hero/t-35.webp","assets/w800/41.webp":"assets/hero/t-41.webp","assets/w800/47.webp":"assets/hero/t-47.webp","assets/w800/53.webp":"assets/hero/t-53.webp","assets/w800/57.webp":"assets/hero/t-57.webp","assets/w800/61.webp":"assets/hero/t-61.webp","assets/w800/9.webp":"assets/hero/t-9.webp"};
 var HZ=$("hzs"),HN=$("hn"),HM=$("hm"),HW=$("hw"),HF=$("hf"),HC=$("hcount"),HR=$("hrail"),HV=$("hv"),HNAV=$("hnav"),hi=0,SL=[],hsl,hAnim=null;
 STOCK.forEach(function(c,ci){var s=Object.prototype.hasOwnProperty.call(HCOVER,c.titulo)?HCOVER[c.titulo]:ph(c)[0];if(s)SL.push({c:ci,src:s})});
 var hL=SL.length;
 function hsub(c){return c.anio+" · "+(c.km||"Km: consultar")+" · "+(c.combustible||"—")}
 function hslide(x,i){var c=STOCK[x.c];return '<div class="hx-s" data-t="'+esc(c.titulo)+'" role="group" aria-roledescription="slide" aria-label="'+(i+1)+' de '+hL+': '+esc(c.titulo)+'"><img data-src="'+esc(x.src)+'" alt="'+esc(c.titulo+" "+c.anio)+'" width="800" height="1000" decoding="async" draggable="false"></div>'}
-/* El carrusel de unidades del hero necesita su bloque en index.html (#hs, #hzs, #hrail…). Si ese bloque no está, se omite en vez de romper todo el script. */
-var HERO=!!(HZ&&HR&&HV&&HF&&HN&&HM&&HW&&HC&&HNAV&&$("hprev")&&$("hnext")&&$("hs"));
-var f0=HERO?HZ.firstElementChild:null;
+var f0=HZ.firstElementChild;
 /* La primera foto ya viene en el HTML (la misma que el preload): se conserva y se completan sus datos; las demás se crean sin descargarse */
 if(f0&&hL){var c0=STOCK[SL[0].c];f0.setAttribute("data-t",c0.titulo);f0.setAttribute("role","group");f0.setAttribute("aria-roledescription","slide");f0.setAttribute("aria-label","1 de "+hL+": "+c0.titulo);var i0=f0.querySelector("img");i0.src=SL[0].src;i0.alt=c0.titulo+" "+c0.anio;f0.style.setProperty("--bg","url('"+SL[0].src+"')");HZ.insertAdjacentHTML("beforeend",SL.slice(1).map(function(x,j){return hslide(x,j+1)}).join(""))}
-if(HERO){
 hsl=HZ.querySelectorAll(".hx-s");
 function hl(i){var s=hsl[i],m=s&&s.querySelector("img");if(m&&m.getAttribute("data-src")){m.src=m.getAttribute("data-src");m.removeAttribute("data-src")}if(s&&m&&!s.style.getPropertyValue("--bg"))s.style.setProperty("--bg","url('"+m.src+"')")}
 /* Si una foto no carga, la unidad no queda en blanco: el marco muestra su nombre sobre el fondo de marca */
@@ -132,7 +129,7 @@ function hstate(){HC.textContent=(hi+1)+" de "+hL;HR.querySelectorAll(".hx-t").f
 function heroGo(n,dir){n=(n+hL)%hL;if(n===hi||!hL)return;var f=hi,c=STOCK[SL[n].c];hi=n;hl(n);hl((n+1)%hL);hl((n-1+hL)%hL);dir=dir||(n>f?1:-1);
 if(hAnim){hAnim.finish();hAnim=null}
 var a=hsl[f],b=hsl[n];a.classList.remove("on");a.classList.add("out");b.classList.add("on");
-HN.textContent=c.titulo;HM.textContent=hsub(c);HW.href=wa(ask(c));HW.setAttribute("aria-label","Consultar por "+c.titulo);hstate();
+HN.textContent=c.titulo;HM.textContent=hsub(c);HW.href=wa(ask(c));HW.setAttribute("aria-label","Consultar esta unidad: "+c.titulo);hstate();
 function done(){a.classList.remove("out")}
 /* Cambio de unidad: cortina lateral sobre la foto anterior. Solo clip-path: la foto nueva entra sin escala ni opacidad */
 if(RM||!b.animate){done()}else{hAnim=b.animate([{clipPath:dir>0?"inset(0 0 0 100%)":"inset(0 100% 0 0)"},{clipPath:"inset(0 0 0 0)"}],{duration:650,easing:"cubic-bezier(.7,0,.2,1)"});hAnim.onfinish=function(){hAnim=null;done()};hAnim.oncancel=done}
@@ -142,46 +139,24 @@ HR.addEventListener("click",function(e){var b=e.target.closest(".hx-t");if(b)her
 $("hs").addEventListener("keydown",function(e){if(e.key==="ArrowRight"){e.preventDefault();heroGo(hi+1,1)}else if(e.key==="ArrowLeft"){e.preventDefault();heroGo(hi-1,-1)}});
 /* Deslizar la foto (táctil, lápiz o mouse) */
 (function(){var x0=null,y0=0;HV.addEventListener("pointerdown",function(e){if(e.button>0)return;x0=e.clientX;y0=e.clientY});HV.addEventListener("pointerup",function(e){if(x0===null)return;var dx=e.clientX-x0,dy=e.clientY-y0;x0=null;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.4)heroGo(hi+(dx<0?1:-1),dx<0?1:-1)});HV.addEventListener("pointercancel",function(){x0=null})})();
-HF.addEventListener("click",function(){open_(SL[hi].c)});HW.setAttribute("aria-label","Consultar por "+STOCK[SL[0].c].titulo);HW.href=wa(ask(STOCK[SL[0].c]));
+HF.addEventListener("click",function(){open_(SL[hi].c)});HW.setAttribute("aria-label","Consultar esta unidad: "+STOCK[SL[0].c].titulo);HW.href=wa(ask(STOCK[SL[0].c]));
 hstate();
 /* La primera foto la pide el HTML; la siguiente y la anterior se precargan cuando el navegador está libre, nunca todas juntas */
 (window.requestIdleCallback||function(f){setTimeout(f,1200)})(function(){hl(1%hL);hl(hL-1)},{timeout:3000});
-window.chitaHero={go:heroGo,next:function(){heroGo(hi+1,1)},get i(){return hi},n:hL};
-}
 /* El hero mide la pantalla restando aviso de demo y cabecera: así entra completo, sin cortar título ni botones */
 function hxTop(){var d=document.querySelector(".demo"),h=document.querySelector("header"),r=document.getElementById("hero");if(!r)return;var t=(d?Math.max(0,d.getBoundingClientRect().bottom+scrollY):0)+(h?h.offsetHeight:0);r.style.setProperty("--hx-top",Math.round(t)+"px")}
 hxTop();window.addEventListener("resize",hxTop);window.addEventListener("load",hxTop);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(hxTop);
 function fromHash(){var m=/^#unidad-(.+)$/.exec(location.hash||"");if(!m)return;for(var i=0;i<STOCK.length;i++)if(slug(STOCK[i])===m[1]){open_(i);return}}
 window.addEventListener("hashchange",fromHash);fromHash();
-/* Hero · fondo "pasada": las portadas de los autos publicados corren en bucle detrás del hero, cada una entre columnas rojas (CSS en identidad.css + chita-perf.css).
-   Se arma acá porque el CSS espera .hx-pass > .hx-trk[--n,--m] > .hx-pn > img. N fotos + K clones; el bucle recorre N paneles (hxp2). */
-(function(){var R=$("hero");if(!R||!SL.length||R.querySelector(".hx-pass"))return;
-var seen={},L=[];SL.forEach(function(o){if(!seen[o.src]){seen[o.src]=1;L.push(o.src)}});
-var N=L.length;if(!N)return;
-function sets(src){var m=/^assets\/w800\/(\d+)\.webp$/.exec(src);if(m)return "assets/w480/"+m[1]+".webp 480w, "+src+" 800w";
- m=/^(.*)\.webp$/.exec(src);return m&&/-(480|800)\.webp$/.test(src)?"":m?m[1]+"-480.webp 480w, "+m[1]+"-800.webp 800w":""}
-function pn(src,i,clone){var f=document.createElement("figure");f.className="hx-pn";var im=new Image(),ss=sets(src);
- im.alt="";im.width=800;im.height=1000;im.decoding="async";im.draggable=false;im.loading=i<3?"eager":"lazy";
- if(ss){im.srcset=ss;im.sizes="(min-width:900px) 40vw, 70vw"}im.src=src;f.appendChild(im);if(clone)f.setAttribute("aria-hidden","true");return f}
-var P=document.createElement("div");P.className="hx-pass";P.setAttribute("aria-hidden","true");
-var T=document.createElement("div");T.className="hx-trk";P.appendChild(T);
-L.forEach(function(s,i){T.appendChild(pn(s,i,false))});
-R.insertBefore(P,R.firstChild);
-var K=-1;
-function fill(){var h=P.offsetHeight||R.offsetHeight||600,w=h*.8,k=Math.min(N*2,Math.ceil(innerWidth/w)+1);if(k===K)return;
- while(T.children.length>N)T.removeChild(T.lastChild);
- for(var i=0;i<k;i++)T.appendChild(pn(L[i%N],N+i,true));
- T.style.setProperty("--n",N);T.style.setProperty("--m",N+k);K=k}
-fill();var rt=0;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(fill,200)},{passive:true});addEventListener("load",fill,{once:true})})();
 /* Hero v11: ambiente (foto de la unidad desenfocada de fondo, con fundido), datos en celdas y sello de la agencia. Solo datos que ya están en el sitio. */
-(function(){var R=$("hero");if(!R||!hL||!HERO)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
+(function(){var R=$("hero");if(!R||!hL)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
 function amb(src,first){var n=first?0:cu^1,a=Ls[n],o=Ls[cu];a.style.backgroundImage="url('"+src+"')";a.classList.add("on");if(!first){o.classList.remove("on");cu=n}}
 amb(SL[0].src,true);document.addEventListener("chita:hero",function(e){amb(SL[e.detail.to].src)});
 var cap=HM&&HM.parentNode;if(cap){var sp=document.createElement("dl");sp.className="hx-spec";sp.setAttribute("aria-hidden","true");HM.insertAdjacentElement("afterend",sp);
 function spec(c){sp.innerHTML='<div><dt>Año</dt><dd>'+esc(c.anio||"—")+'</dd></div><div><dt>Km</dt><dd>'+esc(c.km||"Consultar")+'</dd></div><div><dt>Combustible</dt><dd>'+esc(c.combustible||"—")+'</dd></div>'}
 spec(STOCK[SL[0].c]);document.addEventListener("chita:hero",function(e){spec(STOCK[SL[e.detail.to].c])})}
-var cp=R.querySelector(".hx-copy");if(cp){var ft=document.createElement("p");ft.className="hx-foot hx-ui";ft.textContent=STOCK.length+" autos publicados · "+N.direccion+", Concepción del Uruguay";cp.appendChild(ft)}})();
-
+var cp=R.querySelector(".hx-copy");if(cp){var ft=document.createElement("p");ft.className="hx-foot hx-ui";ft.textContent=STOCK.length+" unidades publicadas · "+N.direccion+", Concepción del Uruguay";cp.appendChild(ft)}})();
+window.chitaHero={go:heroGo,next:function(){heroGo(hi+1,1)},get i(){return hi},n:hL};
 
 /* Vender o permutar: una unidad por vez (segunda foto de cada una). motion.js anima el cambio con el evento chita:vr */
 (function(){var VR=$("vr"),VZ=$("vrs"),VN=$("vrN"),VM=$("vrM"),VI=$("vrI"),VB=$("vrr"),vi=0,VS=[];
@@ -206,25 +181,23 @@ window.chitaVr={go:vrGo,next:function(){vrGo(vi+1,1)},get i(){return vi},n:vL}})
 $("fqc").textContent=N.direccion+" · "+N.telefono;
 
 /* Formulario: valida y arma el mensaje de contacto segun la intencion elegida */
-/* Validación sin reportValidity(): evita el error de Chromium "invalid form control is not focusable"; el aviso va en el texto de estado */
-function formOk(f){if(f.checkValidity())return true;var b=f.querySelector(":invalid"),st=f.querySelector(".fs");if(st)st.textContent=(b&&b.validationMessage)||"Revisá los datos.";try{if(b&&b.getClientRects().length)b.focus({preventScroll:false})}catch(_){}return false}
 var FM=$("canjeForm"),FS=$("fStatus"),YR=new Date().getFullYear()+1;
 function kmVal(v){return v.replace(/[.\s]/g,"")}
 function check(){var m=FM.modelo,a=FM.anio,k=FM.km,y=+a.value;
-m.setCustomValidity(m.value.trim()?"":"Escribí la marca y el modelo.");
-a.setCustomValidity(/^\d{4}$/.test(a.value)&&y>=1950&&y<=YR?"":"Escribí un año de 4 dígitos entre 1950 y "+YR+".");
-k.setCustomValidity(!k.value||/^\d{1,7}$/.test(kmVal(k.value))?"":"Escribí solo números, por ejemplo 85000.")}
+m.setCustomValidity(m.value.trim()?"":"Ingresá la marca y el modelo.");
+a.setCustomValidity(/^\d{4}$/.test(a.value)&&y>=1950&&y<=YR?"":"Ingresá un año de 4 dígitos entre 1950 y "+YR+".");
+k.setCustomValidity(!k.value||/^\d{1,7}$/.test(kmVal(k.value))?"":"Ingresá solo números, por ejemplo 85000.")}
 var INT={vender:"Hola! Quiero vender mi auto: ",permutar:"Hola! Quiero permutar mi auto por otro: ",consignar:"Hola! Quiero consultar por dejar mi auto en consignación: ",consulta:"Hola! Quiero consultar por mi auto: "};
 function msgText(){var m=FM.modelo.value.trim(),a=FM.anio.value.trim(),k=kmVal(FM.km.value),ok=/^\d{1,7}$/.test(k),t=(INT[FM.interes.value]||INT.consulta)+(m||"…")+(a?", año "+a:"")+(ok&&k?", "+Number(k).toLocaleString("es-AR")+" km":"");return t+((m||a||(ok&&k))?".":"")}
 var NU=$("nsU");if(NU)NU.textContent=STOCK.length;
 var PV=$("wpT");function pv(){if(PV)PV.textContent=msgText()}
 FM.addEventListener("input",function(){check();FS.textContent="";pv()});check();pv();
-FM.addEventListener("submit",function(e){e.preventDefault();check();if(!formOk(FM))return;
+FM.addEventListener("submit",function(e){e.preventDefault();check();if(!FM.reportValidity())return;
 var u=wa(msgText());
 if(isWebContact(u)){FS.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";FS.appendChild(l);FS.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(FS,msgText())}});
 /* Visita y búsqueda: arman un mensaje de contacto que envía la persona; no se guarda nada */
 $("vsU").insertAdjacentHTML("beforeend",STOCK.map(function(c,i){return '<label class="ck"><input type="checkbox" name="u" value="'+i+'"><span>'+esc(c.titulo+" "+c.anio)+'</span></label>'}).join(""));
-function waForm(f,build){var s=f.querySelector(".fs");f.addEventListener("submit",function(e){e.preventDefault();if(!formOk(f))return;var m=build(f),u=wa(m);if(isWebContact(u)){s.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";s.appendChild(l);s.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(s,m)}})}
-waForm($("visitaForm"),function(f){var s=[].slice.call(f.querySelectorAll("input[name=u]:checked")).map(function(x){var c=STOCK[+x.value];return c.titulo+" "+c.anio}),w=f.cuando.value.trim();return "Hola! Quiero coordinar una visita para ver "+(s.length?s.join(", "):"algunos autos")+"."+(w?" Me queda cómodo: "+w+".":"")+" ¿Me confirman si siguen disponibles y en qué horario puedo ir?"});
+function waForm(f,build){var s=f.querySelector(".fs");f.addEventListener("submit",function(e){e.preventDefault();if(!f.reportValidity())return;var m=build(f),u=wa(m);if(isWebContact(u)){s.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";s.appendChild(l);s.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(s,m)}})}
+waForm($("visitaForm"),function(f){var s=[].slice.call(f.querySelectorAll("input[name=u]:checked")).map(function(x){var c=STOCK[+x.value];return c.titulo+" "+c.anio}),w=f.cuando.value.trim();return "Hola! Quiero coordinar una visita para ver "+(s.length?s.join(", "):"algunas unidades")+"."+(w?" Me queda cómodo: "+w+".":"")+" ¿Me confirman si siguen disponibles y en qué horario puedo ir?"});
 waForm($("buscoForm"),function(f){var a=f.anio.value.trim(),p=f.presu.value.trim(),c=f.comb.value;return "Hola! Estoy buscando un auto: "+f.modelo.value.trim()+(a?", año "+a+" en adelante":"")+(c?", "+c:"")+(p?", presupuesto aproximado "+p:"")+". ¿Tienen o van a tener algo parecido?"});
 })();

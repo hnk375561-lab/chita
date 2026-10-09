@@ -45,10 +45,6 @@ ScrollTrigger.config({ ignoreMobileResize: true, limitCallbacks: true });
 
 /* ── Utilidades ─────────────────────────────────────────────────────────────────────── */
 const root = document.documentElement;
-/* PERF · Rueda del mouse: con Lenis (true) cada frame de scroll pasa por JS en el hilo principal y cualquier trabajo de pintado
-   se nota como tirón. Con false el scroll de rueda es el nativo del navegador (corre en el compositor) y Lenis se usa solo
-   para los saltos a anclas (menú, botones). Para volver al scroll suavizado de antes: poner true. */
-const SMOOTH_WHEEL = false;
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const MQ = {
   motion: "(prefers-reduced-motion: no-preference)",
@@ -148,7 +144,6 @@ function createInertia() {
     state,
     /* gain puede ser una función: se reevalúa en cada refresh (p. ej. columnas de una grilla responsive). */
     add(el, prop, gain, unit = "", max = Infinity) {
-      return; /* sin efectos de inercia: los textos y tarjetas no se mueven al scrollear */
       if (!el || items.has(el)) return;
       const fn = typeof gain === "function" ? gain : null;
       items.set(el, { set: gsap.quickSetter(el, prop, unit), gain: fn ? fn() : gain, fn, max, vis: false });
@@ -186,7 +181,7 @@ function initScroll({ desktop }) {
   const lenis = new Lenis({
     lerp: desktop ? 0.12 : 0.14,
     wheelMultiplier: 1,
-    smoothWheel: SMOOTH_WHEEL,
+    smoothWheel: true,
     syncTouch: false,
     allowNestedScroll: true,
     autoRaf: false
@@ -279,7 +274,7 @@ function initScroll({ desktop }) {
 function initNavigation() {
   const header = qs("header");
   if (!header) return noop;
-  let hidden = false;
+  let hidden = false, acc = 0, lastY = 0;
   const setHidden = (value) => {
     if (value === hidden) return;
     hidden = value;
@@ -291,7 +286,17 @@ function initNavigation() {
   const ctx = gsap.context(() => {
     ScrollTrigger.create({ start: 8, end: "max", onToggle: (self) => header.classList.toggle("s", self.isActive) });
 
-    /* El header queda siempre fijo y visible (sin esconderse al bajar). */
+    /* Dirección: baja → se esconde; sube → vuelve. 48 px de recorrido acumulado para evitar parpadeos. */
+    ScrollTrigger.create({
+      start: 0, end: "max",
+      onUpdate: (self) => {
+        const y = self.scroll(), dy = y - lastY; lastY = y;
+        if (Math.sign(dy) !== Math.sign(acc)) acc = 0;
+        acc += dy;
+        if (y < 640 || header.matches(":focus-within")) { setHidden(false); return; }
+        if (acc > 48) setHidden(true); else if (acc < -24) setHidden(false);
+      }
+    });
 
     qsa('nav a[href^="#"]', header).forEach((link) => {
       const section = document.getElementById(link.getAttribute("href").slice(1));
@@ -570,10 +575,10 @@ function initMapExperience() {
 }
 
 function initSeams({ desktop }) {
-  const SHEET = new Set(["versus", "financiacion", "guia", "visita"]); /* "contacto" (mapa) fuera: un recorte animado repinta el iframe en cada frame */
+  const SHEET = new Set(["versus", "contacto", "financiacion", "guia", "visita"]);
   const ctx = gsap.context(() => {
     qsa("main > section").forEach((section) => {
-      if (section.id === "unidades" || section.id === "contacto" || section.id === "bd" || section.classList.contains("bd")) return;
+      if (section.id === "unidades" || section.id === "bd" || section.classList.contains("bd")) return;
       const inner = qs(":scope > .w", section);
       const k = desktop ? 1 : 0.45;
 
@@ -592,7 +597,7 @@ function initSeams({ desktop }) {
        Se omiten Unidades (portón), el banner, Modelos (panel sticky) y la última antes del pie. */
     const k2 = desktop ? 1 : 0.5;
     qsa("main > section").forEach((section) => {
-      if (["unidades", "bd", "modelos", "preguntas", "contacto", "como-comprar", "entregas"].includes(section.id) || section.classList.contains("bd")) return;
+      if (["unidades", "bd", "modelos", "preguntas"].includes(section.id) || section.classList.contains("bd")) return;
       const inner = qs(":scope > .w", section);
       if (!inner) return;
       gsap.fromTo(inner,
@@ -615,15 +620,18 @@ function initSectionEntrances({ desktop }) {
   const k = desktop ? 1 : .55;
   const ctx = gsap.context(() => {});
   const recipes = {
-    unidades:(s,i)=>gsap.fromTo(i,{y:60*k},{y:0,ease:EASE.linear,clearProps:"transform",scrollTrigger:scrub(s,"top 96%","top 60%")}),
+    unidades:(s,i)=>gsap.fromTo(i,{y:120*k,rotateX:7,transformPerspective:1200},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
     modelos:(s,i)=>gsap.fromTo(i,{x:-90*k,clipPath:"inset(0 100% 0 0)"},{x:0,clipPath:"inset(0 0% 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 42%")}),
     versus:(s,i)=>gsap.fromTo(i,{scale:.82,rotateY:desktop?-12:0,opacity:.2,transformPerspective:1400},{scale:1,rotateY:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 32%")}),
     nosotros:(s,i)=>gsap.fromTo(i,{y:100*k,clipPath:"inset(14% 0 0 0)"},{y:0,clipPath:"inset(0% 0 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 38%")}),
     trayectoria:(s,i)=>gsap.fromTo(i,{x:80*k,opacity:.25},{x:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 95%","top 40%")}),
-        local:(s,i)=>gsap.fromTo(i,{x:-70*k,skewX:desktop?-3:0},{x:0,skewX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 36%")}),
+    contacto:(s,i)=>gsap.fromTo(i,{y:70*k,scale:.96},{y:0,scale:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 38%")}),
+    local:(s,i)=>gsap.fromTo(i,{x:-70*k,skewX:desktop?-3:0},{x:0,skewX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 36%")}),
     opiniones:(s,i)=>gsap.fromTo(i,{y:-70*k,rotateX:desktop?-8:0,transformPerspective:1000},{y:0,rotateX:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
     bd:(s,i)=>gsap.fromTo(i,{scale:.7,opacity:.1,rotate:desktop?-3:0},{scale:1,opacity:1,rotate:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 102%","top 46%")}),
+    "como-comprar":(s,i)=>gsap.fromTo(i,{x:90*k,clipPath:"inset(0 0 0 100%)"},{x:0,clipPath:"inset(0 0 0 0%)",ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 42%")}),
     financiacion:(s,i)=>gsap.fromTo(i,{scale:.9,y:60*k},{scale:1,y:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
+    operaciones:(s,i)=>gsap.fromTo(i,{y:90*k,rotateZ:desktop?1.6:0},{y:0,rotateZ:0,ease:EASE.linear,scrollTrigger:scrub(s,"top 94%","top 40%")}),
     guia:(s,i)=>gsap.fromTo(i,{clipPath:"circle(10% at 50% 50%)",scale:1.12},{clipPath:"circle(76% at 50% 50%)",scale:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 100%","top 40%")}),
     equipo:(s,i)=>gsap.fromTo(i,{x:-65*k,y:55*k,opacity:.15},{x:0,y:0,opacity:1,ease:EASE.linear,scrollTrigger:scrub(s,"top 96%","top 40%")}),
     visita:(s,i)=>gsap.fromTo(i,{y:110*k,clipPath:"inset(100% 0 0 0)"},{y:0,clipPath:"inset(0% 0 0 0)",ease:EASE.linear,scrollTrigger:scrub(s,"top 98%","top 42%")}),
@@ -693,6 +701,23 @@ function initReveals({ desktop }, inertia) {
     /* MODELOS · las filas entran desde la izquierda, una tras otra. */
     const rows = qsa("#mdl > li");
     void rows;
+
+    /* OPERACIONES · tarjetas alternando lado + foto con persiana; la imagen interior queda con parallax. */
+    const ops = qsa("#operaciones .oc");
+    gsap.set(ops, { opacity: 0, y: 70 * d, x: (i) => (i % 2 ? 46 : -46) * d, rotate: (i) => (i % 2 ? 2 : -2) * (desktop ? 1 : 0), transformOrigin: "50% 100%" });
+    gsap.set(ops.map((c) => qs(".oi", c)), { clipPath: "inset(0 0 100% 0)" });
+    batch(ops, (g) => g.forEach((card, i) => {
+      gsap.to(card, { opacity: 1, y: 0, x: 0, rotate: 0, duration: 1.15, ease: EASE.expo, delay: i * 0.12, clearProps: "opacity,transform" });
+      gsap.to(qs(".oi", card), { clipPath: "inset(0 0 0% 0)", duration: 1.2, ease: EASE.mask, delay: i * 0.12 + 0.08, clearProps: "clipPath" });
+    }), { start: "top 90%", max: 4 });
+    ops.forEach((card) => {
+      const img = qs(".oi img", card);
+      if (!img) return;
+      undo.push(claim(img, { transition: "none" }));          // el CSS anima transform con transition: choca con el scrub
+      gsap.set(img, { scale: 1.22 });
+      gsap.fromTo(img, { yPercent: -7 * (desktop ? 1 : 0.5) }, { yPercent: 7 * (desktop ? 1 : 0.5), ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(card, "top bottom", "bottom top") });
+      if (desktop) inertia?.add(img, "y", -0.9, "px", 14);
+    });
 
     /* RESEÑAS · caída con perspectiva; las estrellas se encienden una a una. */
     const reviews = qsa("#opiniones .rvc");
@@ -789,7 +814,7 @@ function initParallax({ desktop }) {
     /* DÓNDE ESTAMOS · el mapa se abre como un iris y llega acercándose. */
     const map = qs("#contacto .mp");
     if (map) {
-      /* sin iris ni zoom: recortar y escalar un iframe a pantalla completa lo repinta en cada frame (lag) */
+      gsap.fromTo(map, { clipPath: "circle(18% at 50% 62%)", scale: 1.08 }, { clipPath: "circle(82% at 50% 50%)", scale: 1, ease: EASE.linear, immediateRender: true, scrollTrigger: scrub("#contacto", "top 98%", "top 28%") });
       gsap.fromTo(map.querySelector(".mph"), { opacity:0, y:12 }, { opacity:1, y:0, ease:EASE.linear, immediateRender:false, scrollTrigger:scrub("#contacto", "top 92%", "top 56%") });
     }
 
@@ -880,7 +905,7 @@ function initOdometer() {
    Delegación de eventos (las tarjetas se repintan con los filtros). Sin cursor custom ni magnetismo.
    Touch: solo feedback de presión.
    ════════════════════════════════════════════════════════════════════════════════════════ */
-const TILT = ".pdc, .rvc, .vqb";
+const TILT = ".oc, .pdc, .rvc, .vqb";
 const ICON = "header .ic";
 
 function initInteractions({ desktop, fine }) {
@@ -1029,7 +1054,7 @@ function initSceneChoreography({ desktop }) {
     /* Contacto: el mapa abre una ventana y el panel de dirección viaja a contratiempo. */
     scene("contacto", (s) => {
       const map = qs(".mp", s), copy = qs(".lc", s);
-      void map; /* sin recorte ni zoom sobre el iframe del mapa (lag) */
+      if (map) gsap.fromTo(map, { clipPath: "inset(12% 9% 12% 9% round 28px)", scale: 1.08 }, { clipPath: "inset(0% 0% 0% 0% round 0px)", scale: 1, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 96%", "top 28%") });
       if (copy) gsap.fromTo(copy, { xPercent: -7 * k }, { xPercent: 4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
     });
     /* Local: el recorrido visual flota detrás de los hitos, mientras las señales entran por capas. */
@@ -1049,10 +1074,24 @@ function initSceneChoreography({ desktop }) {
       if (lead) gsap.fromTo(lead, { xPercent: -5 * k }, { xPercent: 5 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
       if (footer) gsap.fromTo(footer, { yPercent: 16 * k }, { yPercent: -12 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
     });
+    /* Cómo comprar: dos columnas cruzan velocidades distintas; los pasos se dibujan en lectura. */
+    scene("como-comprar", (s) => {
+      const a = qs(".ccA", s), b = qs(".ccB", s);
+      if (a) gsap.fromTo(a, { xPercent: -5 * k }, { xPercent: 5 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      if (b) gsap.fromTo(b, { xPercent: 6 * k }, { xPercent: -6 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+      qsa(".stp li", s).forEach((step, i) => gsap.fromTo(step, { clipPath: "inset(0 0 0 100%)", x: 22 * k }, { clipPath: "inset(0 0 0 0%)", x: (i % 2 ? -3 : 0) * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 90%", "bottom 44%") }));
+    });
     /* Financiación: profundidad de tarjetas y una declaración que se estira con el scroll. */
     scene("financiacion", (s) => {
       qsa(".pdc", s).forEach((card, i) => gsap.fromTo(card, { z: -80 * k, yPercent: (i - 1) * 3 * k, scale: .96 }, { z: 40 * k, yPercent: (1 - i) * 3 * k, scale: 1.015, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") }));
       const statement = qs(".xl", s); if (statement) gsap.fromTo(statement, { xPercent: -3 * k, scaleX: .97, transformOrigin: "0 50%" }, { xPercent: 3 * k, scaleX: 1.03, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 88%", "bottom 20%") });
+    });
+    /* Operaciones: galería de tarjetas con alternancia de zoom y desplazamiento interno. */
+    scene("operaciones", (s) => {
+      qsa(".oc", s).forEach((card, i) => {
+        gsap.fromTo(card, { yPercent: (i % 2 ? 2 : -2) * k, rotateZ: (i % 2 ? 1 : -1) * .7 }, { yPercent: (i % 2 ? -2 : 2) * k, rotateZ: 0, ease: EASE.linear, scrollTrigger: scrubScene(s, "top bottom", "bottom top") });
+        const image = qs(".oi img", card); if (image) gsap.fromTo(image, { scale: 1.08, xPercent: -4 * k }, { scale: 1.2, xPercent: 4 * k, ease: EASE.linear, scrollTrigger: scrubScene(s, "top 92%", "bottom 16%") });
+      });
     });
     /* Guía: acordeones como hojas que se abren desde el centro, manteniendo lectura estable. */
     scene("guia", (s) => {
@@ -1078,28 +1117,6 @@ function initSceneChoreography({ desktop }) {
     });
   });
   return () => ctx.revert();
-}
-
-/* ════════════════════════════════════════════════════════════════════════════════════════
-   SIN MOVIMIENTO ATADO AL SCROLL
-   Los textos, secciones y el mapa no se desplazan, escalan, inclinan ni se recortan mientras se scrollea.
-   Cada animación «scrub» se descarta y sus elementos vuelven a su estado natural (el del CSS).
-   Las entradas de una sola vez (revelado al aparecer) y el scroll suave de Lenis se mantienen.
-   ════════════════════════════════════════════════════════════════════════════════════════ */
-function freezeScrollMotion() {
-  const targets = new Set();
-  const collect = (anim) => {
-    if (!anim) return;
-    if (typeof anim.getChildren === "function") anim.getChildren(true, true, true).forEach(collect);
-    else if (typeof anim.targets === "function") anim.targets().forEach((el) => { if (el && el.nodeType === 1) targets.add(el); });
-  };
-  ScrollTrigger.getAll().forEach((t) => {
-    if (!t.vars || !t.vars.scrub) return;
-    collect(t.animation);
-    if (t.animation) t.animation.kill();
-    t.kill();
-  });
-  if (targets.size) gsap.set([...targets], { clearProps: "transform,clipPath,opacity,letterSpacing,willChange" });
 }
 
 function initMotion() {
@@ -1131,8 +1148,6 @@ function initMotion() {
       initInteractions(flags)
     ];
     ScrollTrigger.sort();
-    freezeScrollMotion();
-    ScrollTrigger.addEventListener("refresh", freezeScrollMotion);
 
     /* Layout tardío (fuentes, imágenes lazy, iframe del mapa): un refresh agrupado, no uno por evento. */
     let refreshTimer = 0;
@@ -1153,7 +1168,6 @@ function initMotion() {
 
     return () => {
       clearTimeout(refreshTimer);
-      ScrollTrigger.removeEventListener("refresh", freezeScrollMotion);
       window.removeEventListener("load", refresh);
       resizeObserver?.disconnect();
       cleanups.reverse().forEach((fn) => typeof fn === "function" && fn());

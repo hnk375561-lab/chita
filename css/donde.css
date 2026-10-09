@@ -1,57 +1,84 @@
-/* CHITA · «Dónde estamos» compacto + arreglos de lag. Se carga el último (la cascada importa).
-   Lag que se saca: antes el mapa llevaba un filtro CSS de 6 funciones sobre los mosaicos (se repinta en cada arrastre/zoom),
-   una capa translúcida a pantalla completa encima, sombras con filter en el cartel, y la sección medía 100svh.
-   Ahora: sin filtros, sin capas encima, panel de altura fija y el mapa se arma solo con el scroll quieto. */
-html body #contacto.dn{min-height:0!important;display:block!important;background:#01143B!important;padding:clamp(28px,4.5vw,56px) 0!important;position:relative;overflow:visible}
-.dn-w{width:min(1200px,100% - 32px);margin:0 auto;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(16px,2.4vw,32px);align-items:stretch}
-.dn-info{display:flex;flex-direction:column;gap:16px;min-width:0;color:#fff}
-html body #contacto.dn .dn-eb{margin:0;padding:0 0 0 12px;border-left:6px solid var(--rojo,#C1121F);font:800 13px/1.1 var(--font-display,Arial,sans-serif);letter-spacing:.2em;text-transform:uppercase;color:#fff}
+/* CHITA · «Dónde estamos» a pantalla completa + arreglos de fichas. Se carga el último (la cascada importa).
+   Mapa: ocupa todo el ancho de la sección. El panel azul va pegado al borde izquierdo y su degradado (el mismo azul del hero,
+   rgba(1,20,59)) se disuelve hacia la derecha. Sin filtros, sin capas translúcidas a pantalla completa, sin mix-blend.
+   Controles y cartel del pin: color explícito con !important, porque identidad.css pinta de blanco todo botón/span dentro de #contacto. */
+html body #contacto.dn{--dnw:min(600px,52vw);min-height:0!important;display:block!important;background:#01143B!important;padding:0!important;position:relative;overflow:hidden;isolation:isolate}
+html body #contacto.dn .dn-w{position:relative;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;display:block!important;min-height:clamp(620px,86svh,820px)}
+/* panel */
+html body #contacto.dn .dn-info{position:relative;z-index:3;display:flex;flex-direction:column;gap:16px;width:var(--dnw);min-width:0;box-sizing:border-box;padding:clamp(40px,6vh,72px) 0 clamp(40px,6vh,72px) clamp(20px,4vw,64px);color:#fff;pointer-events:none}
+html body #contacto.dn .dn-info>*{pointer-events:auto;position:relative;z-index:1;margin-right:clamp(20px,3vw,40px)}
+html body #contacto.dn .dn-info::before{content:"";position:absolute;z-index:0;top:0;bottom:0;left:0;width:calc(100% + clamp(120px,16vw,260px));background:linear-gradient(90deg,#01143B 0,#01143B calc(100% - clamp(120px,16vw,260px)),rgba(1,20,59,.88) calc(100% - clamp(120px,16vw,260px) + 12%),rgba(1,20,59,0) 100%);pointer-events:none}
+html body #contacto.dn .dn-eb{margin:0!important;padding:0 0 0 12px!important;border-left:6px solid #C1121F;font:800 13px/1.1 var(--font-display,Arial,sans-serif)!important;letter-spacing:.2em!important;text-transform:uppercase!important;color:#fff!important}
 html body #contacto.dn .dn-eb::before,html body #contacto.dn .dn-eb::after{display:none!important}
-html body #contacto.dn address{margin:0;font-style:normal;color:var(--plata,#B9BEC4);font:500 clamp(15px,1.4vw,18px)/1.35 var(--b,Arial,sans-serif)}
-html body #contacto.dn address strong{display:block;font:800 clamp(30px,3.6vw,52px)/.95 var(--font-display,Arial,sans-serif)!important;letter-spacing:-.02em;text-transform:uppercase;color:#fff;margin:0 0 6px}
-html body #contacto.dn .hrs{margin:0!important;padding:14px 0 0!important;border-top:2px dashed rgba(255,255,255,.28)!important}
-.dn-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.dn-c{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:52px;padding:0 14px;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.28);border-left:4px solid var(--chapa,#0A2C8C);color:#fff;font:700 14px/1.15 var(--font-display,Arial,sans-serif);text-decoration:none;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none;transition:background-color .16s,color .16s,transform .16s}
-.dn-c::after{content:"→";opacity:.7;flex:none}
-.dn-c--p{background:var(--rojo,#C1121F);border-color:var(--rojo,#C1121F);border-left-color:#fff}
-.dn-c:hover,.dn-c:focus-visible{background:#fff;color:#0A1020}
-.dn-c:active{transform:translateY(1px)}
-.dn-c:focus-visible,.dn-bar a:focus-visible,.mp-ctl button:focus-visible{outline:3px solid #fff;outline-offset:2px}
-.dn-c.is-ok{background:#1b7f4b;border-color:#1b7f4b;color:#fff}
-.dn-soc{display:flex;flex-wrap:wrap;gap:6px 18px;font:600 14px/1.2 var(--b,Arial,sans-serif)}
-.dn-soc a{display:inline-flex;align-items:center;min-height:44px;color:#fff;text-decoration:underline;text-underline-offset:3px}
-.dn-soc a:hover{color:var(--plata,#B9BEC4)}
-/* panel del mapa */
-.dn-map{position:relative;min-height:clamp(340px,40vw,460px);background:#cfdbe8;border:3px solid #fff;border-left:10px solid var(--rojo,#C1121F);overflow:hidden;isolation:isolate;contain:layout paint}
-.dn-ph{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,transparent 0 47%,rgba(10,44,140,.1) 47% 53%,transparent 53%) 0 0/120px 100%,linear-gradient(0deg,transparent 0 47%,rgba(10,44,140,.1) 47% 53%,transparent 53%) 0 0/100% 90px,#cfdbe8;transition:opacity .4s}
-.dn-map.rd .dn-ph{opacity:0;pointer-events:none}
-.dn-pin{position:absolute;left:50%;top:50%;transform:translate(-50%,calc(-100% - 9px))}
-.dn-map .mp-lf{position:absolute;inset:0;z-index:1;background:#cfdbe8;cursor:grab;outline:0;font-family:inherit;touch-action:pan-y pinch-zoom}
-.dn-map .mp-lf:active{cursor:grabbing}
-.dn-map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2}
-.dn-map iframe:not([src]){display:none}
-.cp{display:block;position:relative;width:96px;background:#fff;border:3px solid #0A1020;text-align:center;box-shadow:0 5px 0 -1px rgba(0,0,0,.28)}
-.cp i{display:block;padding:5px 0;background:var(--chapa,#0A2C8C);color:#fff;font:800 11px/1 var(--font-display,Arial,sans-serif);font-style:normal;letter-spacing:.14em;text-transform:uppercase}
-.cp b{display:block;padding:6px 0 7px;color:#0A1020;font:800 30px/1 var(--font-display,Arial,sans-serif)}
-.cp::after{content:"";position:absolute;left:50%;top:100%;margin-left:-9px;border:9px solid transparent;border-top-color:#0A1020;border-bottom:0}
-.dn-map .chita-pin{background:none;border:0}
-.dn-map .mph{position:absolute;left:12px;top:12px;z-index:5;padding:6px 10px;background:rgba(1,20,59,.88);color:#fff;font:700 12px/1.2 var(--b,Arial,sans-serif);letter-spacing:.04em;pointer-events:none;transition:opacity .25s}
-.dn-map.on .mph,.dn-map:not(.lf) .mph{opacity:0}
-.dn-map .mp-ctl{position:absolute;right:12px;top:12px;z-index:6;display:flex;flex-direction:column;gap:6px}
-.dn-map .mp-ctl button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;padding:0 10px;background:#fff;color:#0A1020;border:2px solid #0A1020;border-radius:0;font:800 20px/1 var(--font-display,Arial,sans-serif);cursor:pointer}
-.dn-map .mp-ctl button:hover{background:#0A1020;color:#fff}
-.dn-map .mp-ctl .mp-c{font-size:12px}
-.dn-map .mp-ctl .mp-c svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
-.dn-map .mp-ctl .mp-c.off{opacity:.55}
-.dn-map .leaflet-control-attribution{font:11px/1.4 var(--b,Arial,sans-serif);background:rgba(255,255,255,.88);padding:1px 6px;margin:0 0 46px}
-.dn-bar{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:linear-gradient(rgba(1,20,59,0),rgba(1,20,59,.7))}
-.dn-bar a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;background:rgba(1,20,59,.94);color:#fff;border:1px solid rgba(255,255,255,.5);font:700 13px/1 var(--font-display,Arial,sans-serif);text-decoration:none}
-.dn-bar a:hover{background:#fff;color:#0A1020}
+html body #contacto.dn address{margin:0!important;font-style:normal;color:#D6E0E6;font:500 clamp(15px,1.4vw,18px)/1.35 var(--b,Arial,sans-serif)!important}
+html body #contacto.dn address strong{display:block;font:800 clamp(32px,3.8vw,56px)/.95 var(--font-display,Arial,sans-serif)!important;letter-spacing:-.02em!important;text-transform:uppercase!important;color:#fff!important;margin:0 0 8px!important}
+html body #contacto.dn .hrs{margin-top:0!important;margin-bottom:0!important;padding:14px 0 0!important;border-top:2px dashed rgba(255,255,255,.28)!important}
+html body #contacto.dn .dn-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+html body #contacto.dn .dn-c{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:52px;padding:0 14px;box-sizing:border-box;background:rgba(1,20,59,.9)!important;border:1px solid rgba(255,255,255,.3);border-left:4px solid #0A2C8C;color:#fff!important;font:700 14px/1.15 var(--font-display,Arial,sans-serif)!important;text-decoration:none;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none;transition:background-color .16s,color .16s}
+html body #contacto.dn .dn-c::after{content:"→";opacity:.7;flex:none}
+html body #contacto.dn .dn-c--p{background:#C1121F!important;border-color:#C1121F;border-left-color:#fff}
+html body #contacto.dn .dn-c:hover,html body #contacto.dn .dn-c:focus-visible{background:#fff!important;color:#0A1020!important}
+html body #contacto.dn .dn-c.is-ok{background:#1b7f4b!important;border-color:#1b7f4b;color:#fff!important}
+html body #contacto.dn .dn-soc{display:flex;flex-wrap:wrap;gap:6px 18px;font:600 14px/1.2 var(--b,Arial,sans-serif)}
+html body #contacto.dn .dn-soc a{display:inline-flex;align-items:center;min-height:44px;color:#fff!important;text-decoration:underline;text-underline-offset:3px}
+html body #contacto.dn .dn-soc a:hover{color:#B9BEC4!important}
+html body #contacto.dn .dn-c:focus-visible,html body #contacto.dn .dn-bar a:focus-visible,html body #contacto.dn .mp-ctl button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+/* mapa: toda la sección */
+html body #contacto.dn .dn-map{position:absolute!important;inset:0!important;z-index:1;display:block!important;width:auto!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;background:#cfdbe8;overflow:hidden;isolation:isolate;contain:layout paint}
+html body #contacto.dn .dn-ph{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,transparent 0 47%,rgba(10,44,140,.1) 47% 53%,transparent 53%) 0 0/120px 100%,linear-gradient(0deg,transparent 0 47%,rgba(10,44,140,.1) 47% 53%,transparent 53%) 0 0/100% 90px,#cfdbe8;transition:opacity .4s}
+html body #contacto.dn .dn-map.rd .dn-ph{opacity:0;pointer-events:none}
+html body #contacto.dn .dn-pin{position:absolute;left:calc(50% + var(--dnw)/2);top:50%;transform:translate(-50%,calc(-100% - 9px))}
+html body #contacto.dn .dn-map .mp-lf{position:absolute;inset:0;z-index:1;background:#cfdbe8;cursor:grab;outline:0;font-family:inherit;touch-action:pan-y pinch-zoom}
+html body #contacto.dn .dn-map .mp-lf:active{cursor:grabbing}
+html body #contacto.dn .dn-map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2}
+html body #contacto.dn .dn-map iframe:not([src]){display:none}
+/* cartel del pin «Chita 1712» (colores explícitos: legible aunque otra regla pinte de blanco) */
+html body #contacto.dn .cp{display:block;position:relative;width:104px;background:#fff!important;border:3px solid #0A1020;text-align:center;box-shadow:0 5px 0 -1px rgba(0,0,0,.28)}
+html body #contacto.dn .cp i{display:block;padding:6px 0;background:#0A2C8C!important;color:#fff!important;font:800 11px/1 var(--font-display,Arial,sans-serif)!important;font-style:normal;letter-spacing:.14em;text-transform:uppercase}
+html body #contacto.dn .cp b{display:block;padding:6px 0 7px;background:#fff!important;color:#0A1020!important;font:800 34px/1 var(--font-display,Arial,sans-serif)!important}
+html body #contacto.dn .cp::after{content:"";position:absolute;left:50%;top:100%;margin-left:-9px;border:9px solid transparent;border-top-color:#0A1020;border-bottom:0}
+html body #contacto.dn .dn-map .chita-pin{background:none;border:0}
+/* ayuda, controles y barra de rutas */
+html body #contacto.dn .dn-map .mph{position:absolute;right:72px;left:auto;top:12px;z-index:5;padding:6px 10px;background:rgba(1,20,59,.9);color:#fff!important;font:700 12px/1.2 var(--b,Arial,sans-serif);letter-spacing:.04em;pointer-events:none;transition:opacity .25s}
+html body #contacto.dn .dn-map.on .mph,html body #contacto.dn .dn-map:not(.lf) .mph{opacity:0}
+html body #contacto.dn .dn-map .mp-ctl{position:absolute;right:12px;top:12px;bottom:auto;z-index:6;display:flex;flex-direction:column;gap:6px;justify-items:stretch}
+html body #contacto.dn .dn-map .mp-ctl button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;padding:0 10px;background:#fff!important;color:#0A1020!important;border:2px solid #0A1020;border-radius:0;font:800 22px/1 var(--font-display,Arial,sans-serif)!important;cursor:pointer;-webkit-appearance:none;appearance:none}
+html body #contacto.dn .dn-map .mp-ctl button:hover{background:#0A1020!important;color:#fff!important}
+html body #contacto.dn .dn-map .mp-ctl .mp-z{width:auto;padding:0}
+html body #contacto.dn .dn-map .mp-ctl .mp-c{font-size:12px!important}
+html body #contacto.dn .dn-map .mp-ctl .mp-c span{color:inherit!important}
+html body #contacto.dn .dn-map .mp-ctl .mp-c svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+html body #contacto.dn .dn-map .mp-ctl .mp-c.off{opacity:.6}
+html body #contacto.dn .dn-map .leaflet-control-attribution{font:11px/1.4 var(--b,Arial,sans-serif)!important;background:rgba(255,255,255,.9);color:#0A1020!important;padding:1px 6px;margin:0 0 54px}
+html body #contacto.dn .dn-map .leaflet-control-attribution a{color:#0A2C8C!important}
+html body #contacto.dn .dn-bar{position:absolute;right:0;bottom:0;left:auto;z-index:5;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px;padding:10px 12px;background:none}
+html body #contacto.dn .dn-bar a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;background:rgba(1,20,59,.94);color:#fff!important;border:1px solid rgba(255,255,255,.5);font:700 13px/1 var(--font-display,Arial,sans-serif);text-decoration:none}
+html body #contacto.dn .dn-bar a:hover{background:#fff;color:#0A1020!important}
 @media (max-width:900px){
-  .dn-w{grid-template-columns:minmax(0,1fr)}
-  .dn-map{min-height:340px;order:2}
-  .dn-map .leaflet-control-attribution{margin-bottom:96px}
+  html body #contacto.dn{--dnw:100%}
+  html body #contacto.dn .dn-w{display:flex!important;flex-direction:column;min-height:0}
+  html body #contacto.dn .dn-info{width:100%;padding:36px 20px 28px}
+  html body #contacto.dn .dn-info>*{margin-right:0}
+  html body #contacto.dn .dn-info::before{width:100%;background:#01143B}
+  html body #contacto.dn .dn-map{position:relative!important;inset:auto!important;height:420px!important;order:2}
+  html body #contacto.dn .dn-pin{left:50%}
+  html body #contacto.dn .dn-bar{left:0;justify-content:flex-start}
 }
-@media (max-width:420px){.dn-acts{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:420px){html body #contacto.dn .dn-acts{grid-template-columns:minmax(0,1fr)}}
+
+/* ───── Fichas de «Nuestros autos» ─────
+   1) Las fotos llenan el marco entero: sin fondo de marca ni franjas, sin margen interior ni contorno.
+   2) Flechas: una regla vieja (transform:none!important sobre .ctk) congelaba el carril; ahora se desliza otra vez.
+   3) Flechas siempre visibles (antes solo aparecían al pasar el mouse). */
+html body #unidades #stockGrid .car .im{background:#0A1020!important;background-image:none!important}
+html body #unidades #stockGrid .car .im .ct{inset:0!important;height:100%!important;outline:0!important}
+html body #unidades #stockGrid .car .ctk{display:flex;height:100%;transform:translate3d(calc(var(--k,0)*-100% + var(--dx,0px)),0,0)!important;transition:transform .45s cubic-bezier(.16,1,.3,1)!important}
+html body #unidades #stockGrid .car .ct.dr .ctk{transition:none!important}
+html body #unidades #stockGrid .car .ctk img{flex:0 0 100%;width:100%;height:100%;object-fit:cover}
+html body #unidades #stockGrid .car .g-a{opacity:1!important;z-index:6;width:38px;height:38px;margin-top:-19px;background:rgba(10,16,32,.78);border:1px solid rgba(255,255,255,.55)}
+html body #unidades #stockGrid .car .g-a[disabled]{opacity:0!important;pointer-events:none}
+html body #unidades #stockGrid .car .g-a svg{width:18px;height:18px}
+@media (prefers-reduced-motion:reduce){html body #unidades #stockGrid .car .ctk{transition:none!important}}
+
 /* Carrusel de videos: un recorte (clip-path) sobre un video en reproducción se recalcula en cada fotograma. La tarjeta activa va sin recorte. */
 html body #unidades .lz-card.is-a,html body #unidades .lz-card.is-live{clip-path:none!important}

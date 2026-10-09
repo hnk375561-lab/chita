@@ -58,7 +58,7 @@ function waHref(c){return typeof wa==="function"&&typeof ask==="function"?wa(ask
 L.innerHTML=S.map(function(c,i){
   var n=fotos(c).length,k=kmTxt(c),f=c.foto;
   var meta=[c.anio,k?k+" km":"Km: consultar",n+(n===1?" foto":" fotos")].join(" · ");
-  return'<li><a href="#unidad-'+slug(c)+'" data-i="'+i+'" aria-label="'+esc(c.titulo+", "+c.anio+", "+(k?k+" kilómetros":"km a consultar")+", "+n+(n===1?" foto":" fotos")+". Ver detalles")+'">'
+  return'<li><a href="#unidad-'+slug(c)+'" data-i="'+i+'" aria-label="'+esc(c.titulo+", "+c.anio+", "+(k?k+" kilómetros":"kilometraje a consultar")+", "+n+(n===1?" foto":" fotos")+". Abrir la ficha")+'">'
     +'<img src="'+esc(f)+'" srcset="'+esc(SS(f))+'" sizes="64px" alt="" width="64" height="80" loading="lazy" decoding="async">'
     +'<span class="ix-n" aria-hidden="true">'+pad(i+1)+'</span>'
     +'<span class="ix-t"><small>'+esc(brand(c))+'</small><b>'+esc(model(c))+'</b><span class="ix-m">'+esc(meta)+'</span></span>'
@@ -77,7 +77,7 @@ function build(i){
     +'<dl class="ix-sp"><div><dt>Año</dt>'+dd(c.anio)+'</div><div><dt>Kilómetros</dt>'+dd(k,"km")+'</div><div><dt>Combustible</dt>'+dd(c.combustible)+'</div><div><dt>Fotos</dt>'+dd(String(n))+'</div></dl>'
     +(c.nota?'<p class="ix-nota">'+esc(c.nota)+'</p>':"")
     +(n>1?'<div class="ix-th" role="group" aria-label="Fotos de '+esc(c.titulo)+'">'+ph.map(function(p,j){return'<button type="button" class="'+(j?"":"on")+'" data-k="'+j+'" aria-label="Ver foto '+(j+1)+' de '+n+'"'+(j?"":' aria-current="true"')+'><img src="'+esc(p)+'" srcset="'+esc(SS(p))+'" sizes="70px" alt="" width="70" height="88" loading="lazy" decoding="async"></button>'}).join("")+'</div>':"")
-    +'<div class="ix-act"><a class="btn p" href="#unidad-'+sl+'">Ver detalles</a><a class="btn" href="'+esc(waHref(c))+'" target="_blank" rel="noopener noreferrer" aria-label="Consultar por '+esc(c.titulo)+'">Consultar</a></div></div>';
+    +'<div class="ix-act"><a class="btn p" href="#unidad-'+sl+'">Ver ficha completa</a><a class="btn" href="'+esc(waHref(c))+'" target="_blank" rel="noopener noreferrer" aria-label="Consultar por '+esc(c.titulo)+'">Consultar</a></div></div>';
   return el}
 function pre(i){if(PL[i])return;PL[i]=1;fotos(S[i]).forEach(function(s){var m=new Image();m.decoding="async";m.src=s})}
 function go(i){
