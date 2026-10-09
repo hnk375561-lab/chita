@@ -33,7 +33,7 @@ var dir="<strong>"+esc(N.direccion)+"</strong>"+(N.referencia?" <span class='k'>
 $("addr").innerHTML=dir;$("fAddr").textContent=N.direccion+", "+N.ciudad;
 var p=$("phoneLink");p.href="tel:"+N.telefonoTel;p.textContent="Llamar al "+N.telefono;
 $("fPhone").href="tel:"+N.telefonoTel;$("fPhone").textContent="Tel. "+N.telefono;$("barCall").href="tel:"+N.telefonoTel;
-if(N.horarios)$("hrs").innerHTML="<h3>Horarios de atención</h3><p>"+esc(N.horarios)+"</p>";
+if(N.horarios&&!$("hrs").hasAttribute("data-static"))$("hrs").innerHTML="<h3>Horarios de atención</h3><p>"+esc(N.horarios)+"</p>";
 document.querySelectorAll("[data-ig]").forEach(function(a){a.href="https://www.instagram.com/"+N.instagram+"/"});
 document.querySelectorAll("[data-fb]").forEach(function(a){a.href=N.facebook});document.querySelectorAll("[data-tel]").forEach(function(a){a.href="tel:"+N.telefonoTel});
 $("igLink").textContent="Instagram @"+N.instagram;

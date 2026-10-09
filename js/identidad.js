@@ -3,8 +3,8 @@
    Ahora un IntersectionObserver avisa solo cuando cambia la sección que cruza la línea del 40 % de la pantalla. */
 (function(){
 var S=[].slice.call(document.querySelectorAll("main>section[id]"));if(!S.length)return;
-var N={entregas:"Entregas",unidades:"Autos","catalogo-comparador":"Comparar",contacto:"Dónde estamos",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
-var AL={entregas:"unidades","catalogo-comparador":"unidades",financiacion:"como-comprar",guia:"como-comprar",visita:"contacto",opiniones:"contacto",local:"contacto"};
+var N={entregas:"Entregas",horarios:"Horarios",unidades:"Autos","catalogo-comparador":"Comparar",contacto:"Dónde estamos",opiniones:"Reseñas","como-comprar":"Cómo comprar",financiacion:"Financiación",operaciones:"Vender o permutar",guia:"Guía",visita:"Visita",preguntas:"Preguntas"};
+var AL={entregas:"unidades",horarios:"contacto","catalogo-comparador":"unidades",financiacion:"como-comprar",guia:"como-comprar",visita:"contacto",opiniones:"contacto",local:"contacto"};
 var c=document.createElement("div");c.className="cl";c.setAttribute("aria-hidden","true");c.innerHTML="<b hidden></b>";/* tarjeta inferior izquierda eliminada: ya no se agrega al documento; el menú sigue marcándose */
 var lab=c.firstChild,cur="",links=[].slice.call(document.querySelectorAll("header nav a")),RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 function show(id){
