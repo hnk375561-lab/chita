@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import crypto from 'node:crypto';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const out = path.join(root, '_site');
 
@@ -68,6 +69,12 @@ const bundle = CSS.map((n) => fs.readFileSync(path.join(root, 'css', n + '.css')
 const minCss = esb(['--loader=css', '--minify'], bundle);
 fs.writeFileSync(path.join(out, 'css/chita.min.css'), minCss);
 CSS.forEach((n, i) => { html = html.replace(linkOf(n) + '\n', i === 0 ? linkOf('chita.min') + '\n' : '').replace(linkOf(n), i === 0 ? linkOf('chita.min') : ''); });
+fs.writeFileSync(idxPath, html);
+// 1c) Nombre con hash de contenido: permite caché "immutable" sin riesgo de servir CSS viejo.
+const cssHash = crypto.createHash('sha1').update(minCss).digest('hex').slice(0, 8);
+fs.renameSync(path.join(out, 'css/chita.min.css'), path.join(out, `css/chita.${cssHash}.css`));
+html = html.replace('css/chita.min.css', `css/chita.${cssHash}.css`);
+if (html.includes('chita.min.css')) throw new Error('index.html aún referencia chita.min.css');
 fs.writeFileSync(idxPath, html);
 
 // 1b) Los CSS originales quedan duplicados en _site: se quitan (index.html ya usa chita.min.css).
