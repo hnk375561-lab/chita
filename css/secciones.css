@@ -249,3 +249,18 @@ html body dialog#dlg .fcs::before{
 html body dialog#dlg .fcs .ct{z-index:1}
 html body dialog#dlg .fcs .ct img{background:transparent!important}
 html body dialog#dlg .fcs .g-a,html body dialog#dlg .fcs .g-c,html body dialog#dlg .fcs .g-s{z-index:5}
+
+/* ───────── Dónde estamos · mapa propio: tinte de marca, ficha por encima y atribución (v63) ─────────
+   Con el mapa propio activo se quitan las capas de color del iframe (quedaban POR ENCIMA del mapa y teñían la ficha);
+   el tinte azul/plata se aplica a los mosaicos y la ficha queda limpia. */
+html body #contacto .mp.lf::before,html body #contacto .mp.lf::after{display:none!important}
+html body #contacto .mp .mp-lf{background:#c9cfdf}
+html body #contacto .mp .mp-lf .leaflet-tile-pane{filter:grayscale(1) sepia(.35) hue-rotate(185deg) saturate(2.2) contrast(1.08) brightness(.9)}
+html body #contacto .mp .mp-lf .chita-pin{filter:drop-shadow(0 6px 8px rgba(0,0,0,.45))}
+html body #contacto .mp .mp-lf :focus-visible{outline:3px solid #fff;outline-offset:-3px}
+html body #contacto .mp .leaflet-control-attribution{margin:0 236px 12px 0;padding:2px 7px;background:rgba(6,17,26,.78);color:#cfe3ee;font:11px/1.5 var(--b,system-ui,sans-serif)!important;letter-spacing:0!important}
+html body #contacto .mp .leaflet-control-attribution a{color:#fff;text-decoration:underline}
+@media(max-width:560px){html body #contacto .mp .leaflet-control-attribution{margin:0 0 68px;font-size:10px!important}}
+/* en celular, hasta tocarlo, el mapa no atrapa el scroll de la página */
+html body #contacto .mp .mp-lf.leaflet-container{touch-action:pan-y pinch-zoom}
+html body #contacto .mp.lf-touch.on .mp-lf.leaflet-container{touch-action:none}

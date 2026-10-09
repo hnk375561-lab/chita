@@ -112,7 +112,16 @@
         "sab": "08:30–12:00",
         "dom": "no indica"
       }
-    ]
+    ],
+    "schedule": {
+      "lun": "consultar",
+      "mar": "09:00-17:00",
+      "mie": "09:00-17:00",
+      "jue": "09:00-17:00",
+      "vie": "09:00-17:00",
+      "sab": "08:30-12:00",
+      "dom": "cerrado"
+    }
   },
   "foundation": {
     "claim": null,

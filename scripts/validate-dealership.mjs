@@ -26,6 +26,24 @@ const pairs = [['mapsPlace', d.location.mapsPlaceUrl], ['mapsReviews', d.locatio
   ['whatsapp', d.contact.whatsApp], ['instagram', d.contact.instagram], ['facebook', d.contact.facebook]];
 for (const [k, v] of pairs) if (get(k) !== v) errors.push(`NEGOCIO.${k} ("${get(k)}") no coincide con dealership.json ("${v}")`);
 if ((get('horarios') || '') !== (d.hours.display || '')) errors.push('NEGOCIO.horarios no coincide con hours.display');
+// Horarios: la regla de #horarios y el bloque compacto de «Dónde estamos» deben coincidir con hours.schedule
+{
+  const sch = d.hours.schedule;
+  if (!sch) errors.push('data/dealership.json: falta hours.schedule');
+  else {
+    const dias = ['lun', 'mar', 'mie', 'jue', 'vie', 'sab', 'dom'];
+    const sec = (indexHtml.match(/<section id="horarios"[\s\S]*?<\/section>/) || [])[0] || '';
+    if (!sec) errors.push('index.html: falta la sección #horarios');
+    dias.forEach((k, i) => {
+      const li = (sec.match(new RegExp(`<li class="hor-r" data-d="${i + 1}"([^>]*)>`)) || [])[1];
+      if (li === undefined) { errors.push(`#horarios: falta la fila del día ${i + 1} (${k})`); return; }
+      const v = sch[k];
+      const got = /data-ask/.test(li) ? 'consultar' : /data-closed/.test(li) ? 'cerrado'
+        : ((li.match(/data-a="([^"]+)"/) || [])[1] + '-' + (li.match(/data-c="([^"]+)"/) || [])[1]);
+      if (got !== v) errors.push(`#horarios: ${k} dice "${got}" y hours.schedule dice "${v}"`);
+    });
+  }
+}
 // Precios: solo "Consultar" salvo que el dueño confirme por escrito
 const stock = html.split('var STOCK')[1] || '';
 for (const m of stock.matchAll(/precio:\s*"([^"]*)"/g)) if (m[1] !== 'Consultar') errors.push(`Precio publicado sin confirmar: ${m[1]}`);

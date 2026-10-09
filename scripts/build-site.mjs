@@ -59,7 +59,7 @@ const ESBUILD = ['--yes', 'esbuild@0.28.2'];
 const esb = (args, input) => execFileSync('npx', [...ESBUILD, ...args], { input, maxBuffer: 64 * 1024 * 1024 }).toString();
 
 // 1) Los CSS de index.html, en el MISMO orden, en un solo archivo minificado.
-const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56', 'chita-v57', 'chita-v58', 'chita-v59', 'chita-perf', 'chita-v60', 'chita-v61', 'chita-v62', 'lugar', 'quieto', 'secciones', 'chita-perf2']; // mismo orden que index.html (la cascada importa)
+const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56', 'chita-v57', 'chita-v58', 'chita-v59', 'chita-perf', 'chita-v60', 'chita-v61', 'chita-v62', 'lugar', 'quieto', 'secciones', 'horarios', 'chita-perf2']; // mismo orden que index.html (la cascada importa)
 const idxPath = path.join(out, 'index.html');
 let html = fs.readFileSync(idxPath, 'utf8');
 const linkOf = (n) => `<link rel="stylesheet" href="css/${n}.css">`;
@@ -83,7 +83,7 @@ const otrasPaginas = FILES.filter((f) => /\.html$/.test(f) && f !== 'index.html'
 for (const n of CSS) if (!otrasPaginas.includes(`css/${n}.css`)) fs.rmSync(path.join(out, 'css', n + '.css'), { force: true });
 
 // 2) JS propio minificado (espacios y sintaxis; sin renombrar variables). vendor/ ya viene minificado.
-const JS = ['js/app.js', 'js/identidad.js', 'js/recorrido.js', 'js/reserva.js', 'js/motion.js', 'js/motion/core.js', 'js/clips.js', 'js/chita-v58.js', 'js/secciones.js', 'js/lugar.js', 'js/hero-rail.js'];
+const JS = ['js/app.js', 'js/identidad.js', 'js/recorrido.js', 'js/reserva.js', 'js/motion.js', 'js/motion/core.js', 'js/clips.js', 'js/chita-v58.js', 'js/secciones.js', 'js/horarios.js', 'js/mapa.js', 'js/lugar.js', 'js/hero-rail.js'];
 for (const f of JS) fs.writeFileSync(path.join(out, f), esb(['--minify-whitespace', '--minify-syntax', '--legal-comments=none'], fs.readFileSync(path.join(root, f), 'utf8')));
 console.log('CSS:', (bundle.length / 1024).toFixed(0), 'KB →', (minCss.length / 1024).toFixed(0), 'KB (1 archivo)');
 console.log('_site listo:', [...FILES, ...DIRS.map((d) => d + '/')].join(', '));
