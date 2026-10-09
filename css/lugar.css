@@ -96,7 +96,7 @@ html body #unidades .lz-b .s-w{display:none}
 html body #unidades .lz-reels.is-snd .lz-b .s-x{display:none}
 html body #unidades .lz-reels.is-snd .lz-b .s-w{display:block}
 html body #unidades .lz-sg{flex:1;min-width:0;display:flex;gap:6px;align-items:center}
-html body #unidades .lz-seg{flex:1;height:30px;padding:0;border:0;background:none;cursor:pointer;display:grid;align-items:center}
+html body #unidades .lz-seg{flex:1;height:32px;padding:0;border:0;background:none;cursor:pointer;display:grid;align-items:center}
 html body #unidades .lz-seg i{display:block;height:6px;border-radius:0;background:rgba(255,255,255,.28);position:relative;overflow:hidden}
 html body #unidades .lz-seg i::after{content:"";position:absolute;inset:0;background:var(--rojo);transform-origin:left;transform:scaleX(var(--p,0))}
 html body #unidades .lz-seg.on i{background:rgba(255,255,255,.4)}
