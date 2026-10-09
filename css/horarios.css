@@ -1,168 +1,114 @@
-/* CHITA · Horarios — «La regla» (v63)
+/* CHITA · Horarios (v64) — fondo oscuro como «El frente del local»
    Dos piezas con los mismos datos (los horarios ya publicados, tomados de Google Maps):
-   1) #horarios: sección alta con la patente del día, el sello de estado y la regla de la semana.
+   1) #horarios: estado de hoy a la izquierda y la semana en lista a la derecha. js/horarios.js pinta .is-hoy, el sello y la patente.
    2) #hrs: versión compacta dentro del panel de «Dónde estamos».
-   Paleta cerrada: tinta, papel, azul chapa, rojo, plata. Sin verdes ni ámbar: abierto = azul, cerrado = rojo.
-   Movimiento: un solo gesto (SELLO), solo transform/opacity, apagado con prefers-reduced-motion. */
+   Todo estático: sin clip-path, sin filtros, sin sombras duras, sin franjas decorativas. Solo transform/opacity en el sello (una vez). */
 
 /* ───────────── 1 · Sección #horarios ───────────── */
+html body #horarios{scroll-margin-top:72px}
 html body .hor{
-  --hor-cn:84px;            /* ancho de la chapa del día */
-  --hor-ct:176px;           /* ancho de la columna de horas (solo escritorio) */
-  position:relative;isolation:isolate;
-  background:var(--paper,#ECEDEA);color:var(--ink,#0A1020);
-  padding:clamp(56px,8vw,116px) 0 clamp(56px,7vw,100px);
+  position:relative;isolation:isolate;overflow:hidden;color:#fff;
+  border-top:6px solid var(--rojo,#C1121F);
+  padding:clamp(56px,8vw,116px) 0 clamp(60px,7.4vw,108px);
+  /* mismo fondo que .lz-front (cap. «El frente del local»), sin la banda roja/azul del costado */
+  background:
+    linear-gradient(104deg,transparent 0 6%,rgba(255,255,255,.1) 6% 6.1%,transparent 6.1% 8%,rgba(193,18,31,.8) 8% 8.5%,transparent 8.5%),
+    repeating-linear-gradient(104deg,rgba(255,255,255,.04) 0 1px,transparent 1px 44px),
+    radial-gradient(ellipse 65% 100% at 10% 0%,rgba(10,44,140,.5),transparent 70%),
+    linear-gradient(180deg,#070d1f 0,#0a1430 100%);
 }
-html body .hor::before{ /* perforación de talonario en el borde superior */
-  content:"";position:absolute;left:0;right:0;top:0;height:14px;z-index:1;pointer-events:none;
-  background:radial-gradient(circle at 12px 0,var(--ink,#0A1020) 0 7px,transparent 7.5px) 0 0/24px 14px repeat-x;
+html body .hor::before{display:none!important}
+html body .hor::after{ /* regla tricolor del borde inferior, igual que el frente del local */
+  content:"";display:block;position:absolute;z-index:0;left:0;right:0;bottom:0;top:auto;width:auto;height:8px;pointer-events:none;opacity:1;
+  background:linear-gradient(90deg,var(--rojo,#C1121F) 0 33%,#fff 33% 34%,#0A2C8C 34% 100%);
 }
 html body .hor-w{
+  position:relative;z-index:1;
   width:min(1180px,calc(100% - 2*clamp(20px,4vw,64px)));margin-inline:auto;
-  display:grid;gap:clamp(26px,3.6vw,48px);
+  display:grid;gap:clamp(28px,3.8vw,52px);
 }
 html body .hor-hd{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 40px}
 html body .hor-hd h2{
-  margin:0;font:800 clamp(2.5rem,7.4vw,5.6rem)/.9 var(--font-display,"Arial Narrow",Arial,sans-serif);
+  margin:0;color:#fff;font:800 clamp(2.5rem,7.4vw,5.6rem)/.9 var(--font-display,"Arial Narrow",Arial,sans-serif);
   letter-spacing:-.015em;text-transform:uppercase;
 }
-html body .hor-hd p{margin:0;max-width:32ch;font:600 clamp(1rem,1.5vw,1.15rem)/1.4 var(--b,system-ui,sans-serif);color:var(--mute,#4F5864)}
+html body .hor-hd h2::after{content:"";display:block;width:clamp(96px,13vw,170px);height:10px;margin-top:16px;background:linear-gradient(90deg,#C1121F 0 68%,#fff 68% 72%,#0A2C8C 72%);transform:skewX(-32deg);transform-origin:left}
+html body .hor-hd p{margin:0;max-width:32ch;font:600 clamp(1rem,1.5vw,1.15rem)/1.4 var(--b,system-ui,sans-serif);color:#C9D3E3}
 
-html body .hor-g{display:grid;gap:clamp(22px,3vw,36px);align-items:stretch}
-@media(min-width:960px){html body .hor-g{grid-template-columns:minmax(360px,.86fr) 1.5fr;column-gap:clamp(28px,3.2vw,44px)}}
+html body .hor-g{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,52px);align-items:start}
+@media(min-width:960px){html body .hor-g{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}}
 
-/* — Talón izquierdo: patente del día + sello — */
-html body .hor-pl{
-  position:relative;display:grid;align-content:center;gap:clamp(20px,2.6vw,30px);
-  padding:0 0 4px;
-}
-@media(min-width:960px){
-  html body .hor-pl{padding:0 clamp(24px,3vw,40px) 0 0;border-right:3px dashed var(--ink,#0A1020)}
-  /* muescas de la perforación */
-  html body .hor-pl::before,html body .hor-pl::after{
-    content:"";position:absolute;right:-17px;width:31px;height:31px;border-radius:50%;background:var(--paper,#ECEDEA);z-index:2;
-  }
-  html body .hor-pl::before{top:-16px}
-  html body .hor-pl::after{bottom:-16px}
-}
-html body .hor-plate{
-  --c:36px;margin:0;border:5px solid var(--ink,#0A1020);background:#fff;
-  clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,0 100%);
-}
-html body .hor-plate i{
-  display:block;padding:12px 0 11px;background:var(--chapa,#0A2C8C);color:#fff;text-align:center;
-  font:800 clamp(.82rem,1.25vw,1rem)/1 var(--font-display,Arial,sans-serif);font-style:normal;
-  letter-spacing:.3em;text-indent:.3em;text-transform:uppercase;
-}
-html body .hor-plate b{
-  display:block;padding:clamp(18px,2.6vw,32px) 10px clamp(20px,2.8vw,34px);text-align:center;
-  font:800 clamp(2.3rem,9vw,3.9rem)/1 var(--font-display,Arial,sans-serif);letter-spacing:.01em;white-space:nowrap;
-  font-variant-numeric:tabular-nums;color:var(--ink,#0A1020);
-}
-html body .hor-plate b small{display:block;margin-top:.35em;font:600 .3em/1.2 var(--b,system-ui,sans-serif);letter-spacing:0;color:var(--mute,#4F5864)}
-@media(min-width:960px){html body .hor-plate b{font-size:clamp(1.9rem,3.2vw,3rem)}}
-html body .hor-plate[data-ask] b,html body .hor-plate[data-closed] b{font-size:clamp(2rem,6vw,3rem)}
-
-html body .hor-st{display:grid;gap:14px;justify-items:start}
+/* — Izquierda: estado de hoy — */
+html body .hor-pl{display:grid;gap:clamp(20px,2.6vw,30px);align-content:start;padding:0;border:0}
+html body .hor-st{order:1;display:grid;gap:14px;justify-items:start}
 html body .hor-sello{
-  --k:var(--chapa,#0A2C8C);
-  display:inline-block;color:var(--k);border:4px solid var(--k);outline:2px solid var(--k);outline-offset:3px;
-  padding:.3em .62em .26em;font:800 clamp(1.5rem,2.8vw,2.1rem)/1 var(--font-display,Arial,sans-serif);
+  --k:#fff;display:inline-block;color:var(--k);border:4px solid var(--k);outline:2px solid var(--k);outline-offset:3px;
+  padding:.3em .62em .26em;font:800 clamp(2rem,4.4vw,3.4rem)/1 var(--font-display,Arial,sans-serif);
   letter-spacing:.1em;text-indent:.1em;text-transform:uppercase;transform:rotate(-3deg);transform-origin:left center;
 }
-html body .hor-st[data-state="closed"] .hor-sello{--k:var(--rojo,#C1121F)}
-html body .hor-st[data-state="ask"] .hor-sello{--k:var(--ink,#0A1020);border-style:dashed;outline-style:dashed}
-html body .hor-s{margin:0;font:600 clamp(1.02rem,1.5vw,1.2rem)/1.4 var(--b,system-ui,sans-serif);max-width:30ch}
-html body .hor-s span{display:block;margin-top:.25em;font-weight:500;font-size:.88em;color:var(--mute,#4F5864)}
+html body .hor-st[data-state="closed"] .hor-sello{--k:#FF5A64}
+html body .hor-st[data-state="ask"] .hor-sello{--k:var(--plata,#B9BEC4);border-style:dashed;outline-style:dashed}
+html body .hor-s{margin:0;max-width:none;color:#fff;font:700 clamp(1.15rem,2vw,1.55rem)/1.3 var(--b,system-ui,sans-serif)}
+html body .hor-s span{display:block;margin-top:.25em;font-weight:500;font-size:.88em;color:#C9D3E3}
 
-/* — La regla: la semana sobre un eje de 8 a 18 h — */
-html body .hor-rg{
-  position:relative;background:var(--ink,#0A1020);color:#fff;
-  border-left:10px solid var(--rojo,#C1121F);
-  clip-path:polygon(0 0,calc(100% - 44px) 0,100% 44px,100% 100%,0 100%);
-  padding:clamp(20px,2.6vw,36px) clamp(16px,2.6vw,36px) clamp(12px,1.6vw,22px) clamp(14px,2vw,28px);
-  --now:0;--line:none;
+/* patente del día: sin caja, sin sombra; etiqueta con barra roja + horas grandes */
+html body .hor-plate{order:2;margin:0;padding:0;border:0;background:none;box-shadow:none;clip-path:none;max-width:none}
+html body .hor-plate i{
+  display:block;margin:0 0 12px;padding:0 0 0 12px;border-left:6px solid var(--rojo,#C1121F);background:none;color:#fff;text-align:left;
+  font:800 13px/1.1 var(--font-display,Arial,sans-serif);font-style:normal;letter-spacing:.2em;text-indent:0;text-transform:uppercase;
 }
-html body .hor-ax{
-  display:grid;grid-template-columns:var(--hor-cn) 1fr var(--hor-ct);align-items:end;margin:0 0 6px;
-  font:700 .8rem/1 var(--font-display,Arial,sans-serif);letter-spacing:.08em;color:var(--plata,#B9BEC4);
+html body .hor-plate b{
+  display:block;margin:0;padding:0;text-align:left;color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums;
+  font:800 clamp(2.6rem,6.4vw,5rem)/1 var(--font-display,Arial,sans-serif);letter-spacing:-.01em;
 }
-html body .hor-ax div{position:relative;grid-column:2;height:1.3em;margin:0 14px}
-html body .hor-ax span{position:absolute;bottom:0;left:calc(var(--p)*100%);transform:translateX(-50%);font-variant-numeric:tabular-nums}
-html body .hor-ax span:first-child{transform:none}
-html body .hor-ax span:last-child{transform:translateX(-100%)}
+html body .hor-plate[data-ask] b,html body .hor-plate[data-closed] b{font-size:clamp(2.2rem,5vw,3.6rem)}
+html body .hor-plate b small{display:block;margin-top:.35em;font:600 .3em/1.2 var(--b,system-ui,sans-serif);letter-spacing:0;color:#C9D3E3}
+html body .hor-plate b::before,html body .hor-plate b::after{content:none}
 
-html body .hor-reg{list-style:none;margin:0;padding:0}
+/* — Derecha: la semana en lista (mismo lenguaje que el panel de «Dónde estamos») — */
+html body .hor-rg{position:relative;background:none;color:#fff;border:0;outline:0;box-shadow:none;clip-path:none;padding:0}
+html body .hor-ax,html body .hor-tr{display:none!important}
+html body .hor-reg{list-style:none;margin:0;padding:0;border-top:2px dashed rgba(255,255,255,.28)}
 html body .hor-r{
-  position:relative;display:grid;grid-template-columns:var(--hor-cn) 1fr var(--hor-ct);
-  min-height:60px;border-top:1px dashed rgba(185,190,196,.32);
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px 18px;
+  min-height:0;padding:clamp(14px,1.7vw,19px) clamp(10px,1.4vw,16px);border-top:0;border-bottom:1px dashed rgba(255,255,255,.28);background:none;
 }
 html body .hor-n{
-  align-self:center;margin:9px 0;padding:10px 6px 9px 1.05em;text-align:center;
-  background:linear-gradient(90deg,var(--chapa,#0A2C8C) 0 .65em,#fff .65em);color:var(--ink,#0A1020);
-  font:800 .95rem/1 var(--font-display,Arial,sans-serif);letter-spacing:.16em;text-indent:.16em;text-transform:uppercase;
-  clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);
+  display:block;margin:0;padding:0;background:none!important;clip-path:none;text-align:left;text-indent:0;letter-spacing:0;text-transform:none;
+  color:#fff;font:800 clamp(1.05rem,1.6vw,1.3rem)/1.2 var(--font-display,Arial,sans-serif);
 }
-html body .hor-tr{
-  position:relative;display:block;margin:0 14px;
-  background:repeating-linear-gradient(90deg,transparent 0 calc(20% - 1px),rgba(185,190,196,.2) calc(20% - 1px) 20%);
-}
-html body .hor-bar{
-  position:absolute;top:13px;bottom:13px;left:calc(var(--a)*100%);width:calc((var(--c) - var(--a))*100%);
-  background:var(--paper,#ECEDEA);
-  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);
-}
-html body .hor-r[data-ask] .hor-bar{background:none;border:2px dashed var(--plata,#B9BEC4);clip-path:none}
-html body .hor-r[data-closed] .hor-tr{
-  background:repeating-linear-gradient(-45deg,rgba(185,190,196,.22) 0 2px,transparent 2px 10px);
-}
-html body .hor-r[data-closed] .hor-bar{display:none}
-/* hoy */
-html body .hor-r.is-hoy{background:rgba(255,255,255,.07)}
-html body .hor-r.is-hoy .hor-n{background:linear-gradient(90deg,var(--rojo,#C1121F) 0 .65em,#fff .65em)}
-html body .hor-r.is-hoy .hor-bar{background:var(--rojo,#C1121F)}
-html body .hor-r.is-hoy[data-ask] .hor-bar{background:none;border-color:var(--rojo,#C1121F)}
-/* línea de «ahora» (la mueve js/horarios.js) */
-html body .hor-r .hor-tr::after{
-  content:"";position:absolute;top:0;bottom:0;left:calc(var(--now)*100%);width:3px;margin-left:-1.5px;
-  background:var(--rojo-claro,#EE4B55);display:var(--line,none);pointer-events:none;
-}
-html body .hor-h{
-  display:flex;align-items:center;gap:.4em;padding:0 4px 0 6px;
-  font:600 1rem/1.25 var(--b,system-ui,sans-serif);color:#fff;white-space:nowrap;
-}
-html body .hor-h time{font:800 1.35rem/1 var(--font-display,Arial,sans-serif);letter-spacing:.01em;font-variant-numeric:tabular-nums}
-html body .hor-r[data-closed] .hor-h{color:var(--plata,#B9BEC4);font-weight:500}
-html body .hor-h a{color:#fff;text-underline-offset:.2em;text-decoration-thickness:2px}
-html body .hor-h a:hover{color:var(--rojo-claro,#EE4B55)}
+html body .hor-n span[aria-hidden]{display:none}
+html body .hor-n .sr{position:static!important;width:auto!important;height:auto!important;margin:0!important;clip:auto!important;clip-path:none!important;overflow:visible!important;white-space:normal!important}
+html body .hor-h{display:block;padding:0;white-space:normal;text-align:right;color:#C9D3E3;font:600 clamp(1rem,1.5vw,1.15rem)/1.25 var(--b,system-ui,sans-serif)}
+html body .hor-h time{background:none;padding:0;color:#fff;font:800 clamp(1.15rem,1.8vw,1.45rem)/1 var(--font-display,Arial,sans-serif);letter-spacing:.01em;font-variant-numeric:tabular-nums}
+html body .hor-h a{color:#fff;font-weight:700;text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:2px}
+html body .hor-h a:hover{color:#FF8A92}
+html body .hor-r[data-closed] .hor-n,html body .hor-r[data-closed] .hor-h{color:var(--plata,#B9BEC4);font-weight:600}
+/* hoy: fila roja de lado a lado, como «Mar a Vie» en el panel de «Dónde estamos» */
+html body .hor-r.is-hoy{background:var(--rojo,#C1121F);border-bottom-color:var(--rojo,#C1121F)}
+html body .hor-r.is-hoy .hor-n,html body .hor-r.is-hoy .hor-h,html body .hor-r.is-hoy .hor-h time,html body .hor-r.is-hoy .hor-h a{color:#fff}
+html body .hor-r.is-hoy .hor-n::after{content:" · hoy";font-weight:700;letter-spacing:.02em}
+@media(hover:hover){html body .hor-r:not(.is-hoy):hover{background:rgba(255,255,255,.05)}}
 html body .hor-h a:focus-visible,html body .hor-ft a:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
+/* pie */
 html body .hor-ft{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 28px}
-html body .hor-ft p{margin:0;max-width:44ch;font:600 clamp(1rem,1.4vw,1.1rem)/1.45 var(--b,system-ui,sans-serif)}
+html body .hor-ft p{margin:0;max-width:44ch;color:#fff;font:600 clamp(1rem,1.4vw,1.1rem)/1.45 var(--b,system-ui,sans-serif)}
 html body .hor-ft .hor-acts{display:flex;flex-wrap:wrap;gap:12px}
+html body .hor .btn:not(.p){background:transparent!important;color:#fff!important;box-shadow:inset 0 0 0 2px #fff!important}
+html body .hor .btn:not(.p):hover,html body .hor .btn:not(.p):focus-visible{background:#fff!important;color:var(--ink,#0A1020)!important}
 
-/* — Móvil: la hora pasa a una segunda línea bajo la barra — */
-@media(max-width:759px){
-  html body .hor{--hor-cn:66px;--hor-ct:0px}
-  html body .hor-ax,html body .hor-r{grid-template-columns:var(--hor-cn) 1fr}
-  html body .hor-ax div{grid-column:2}
-  html body .hor-r{min-height:0}
-  html body .hor-n{padding:9px 4px 8px .9em;font-size:.82rem;letter-spacing:.1em;text-indent:.1em;margin:10px 0 0;align-self:start;height:34px;display:flex;align-items:center;justify-content:center}
-  html body .hor-tr{min-height:54px;margin-right:6px}
-  html body .hor-h{grid-column:1 / -1;white-space:normal;padding:2px 6px 11px calc(var(--hor-cn) + 14px)}
-  html body .hor-rg{clip-path:polygon(0 0,calc(100% - 28px) 0,100% 28px,100% 100%,0 100%);border-left-width:8px}
-}
-
-/* — SELLO: el sello entra grande y se asienta (una sola vez) — */
+/* — SELLO: entra grande y se asienta (una sola vez) — */
 @media(prefers-reduced-motion:no-preference){
   html body .hor:not(.is-in) .hor-sello{opacity:0;transform:rotate(-3deg) scale(1.7)}
   html body .hor.is-in .hor-sello{animation:hor-sello .42s cubic-bezier(.2,.9,.1,1) both}
   @keyframes hor-sello{from{opacity:0;transform:rotate(-3deg) scale(1.7)}to{opacity:1;transform:rotate(-3deg) scale(1)}}
 }
-@media(prefers-contrast:more){
-  html body .hor-r .hor-tr{background:none}
-  html body .hor-r{border-top-color:#fff}
+@media(max-width:759px){
+  html body .hor-r{gap:2px 12px}
+  html body .hor-plate b{white-space:normal}
 }
+@media(prefers-contrast:more){html body .hor-r{border-bottom-color:#fff}}
 
 /* ───────────── 2 · Bloque compacto dentro de «Dónde estamos» (#hrs) ─────────────
    Dentro de #contacto hay una regla global con !important (peso 400, sin mayúsculas, interletrado fijo):
@@ -201,66 +147,3 @@ html body #contacto .hrs-l li.is-hoy b{background:linear-gradient(90deg,var(--in
 html body #contacto .hrs-l li.is-hoy span{color:#fff}
 html body #contacto .hrs-l a{color:#fff;text-underline-offset:.2em;text-decoration-thickness:2px}
 @media(max-width:420px){html body #contacto .hrs-l li{grid-template-columns:100px 1fr}}
-
-/* ───────────── Rediseño v8 · estado gigante + lista de días (opción A) ─────────────
-   Sin gráfico de barras, sin eje de horas, sin clip-path (menos pintura al hacer scroll).
-   Los horarios siguen saliendo del HTML (data-*), horarios.js no cambia. */
-html body #horarios{scroll-margin-top:72px}
-html body .hor-g{display:grid;grid-template-columns:minmax(0,1fr)!important;gap:clamp(20px,3vw,40px);align-items:start}
-@media(min-width:960px){html body .hor-g{grid-template-columns:minmax(0,5fr) minmax(0,6fr)!important}}
-/* estado de hoy */
-html body .hor-pl{display:grid;gap:18px;padding:0!important;border:0!important;align-content:start}
-html body .hor-pl::before,html body .hor-pl::after{display:none!important}
-html body .hor-st{order:1;display:grid;gap:12px;justify-items:start}
-html body .hor-sello{font-size:clamp(2rem,4.4vw,3.4rem)!important}
-html body .hor-s{max-width:none;font:700 clamp(1.15rem,2vw,1.55rem)/1.3 var(--b,system-ui,sans-serif)}
-html body .hor-plate{order:2;clip-path:none!important;border-width:4px;border-radius:0;max-width:340px}
-html body .hor-plate b{font-size:clamp(1.7rem,3vw,2.4rem)}
-/* lista de la semana */
-html body .hor-rg{clip-path:none!important;background:#fff;color:var(--ink,#0A1020);border:0;border-top:8px solid var(--rojo,#C1121F);padding:6px clamp(14px,2vw,24px)}
-html body .hor-ax,html body .hor-tr{display:none!important}
-html body .hor-r{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;min-height:0;padding:14px 0;border-top:1px solid rgba(10,16,32,.14);background:none}
-html body .hor-r:first-child{border-top:0}
-html body .hor-n{display:block;margin:0;padding:0;background:none!important;clip-path:none!important;text-align:left;text-indent:0;letter-spacing:0;text-transform:none;font:800 clamp(1.05rem,1.6vw,1.25rem)/1.2 var(--font-display,Arial,sans-serif);color:var(--ink,#0A1020)}
-html body .hor-n span[aria-hidden]{display:none}
-html body .hor-n .sr{position:static!important;width:auto!important;height:auto!important;margin:0!important;clip:auto!important;clip-path:none!important;overflow:visible!important;white-space:normal!important}
-html body .hor-h{display:block;padding:0;white-space:normal;text-align:right;font:600 clamp(1rem,1.5vw,1.15rem)/1.25 var(--b,system-ui,sans-serif);color:var(--ink,#0A1020)}
-html body .hor-h time{font:800 clamp(1.1rem,1.7vw,1.35rem)/1 var(--font-display,Arial,sans-serif);color:var(--ink,#0A1020)}
-html body .hor-h a{color:var(--chapa,#0A2C8C);font-weight:700}
-html body .hor-r[data-closed] .hor-h{color:#5b6472;font-weight:600}
-html body .hor-r.is-hoy{background:var(--rojo,#C1121F);margin-inline:calc(-1*clamp(14px,2vw,24px));padding-inline:clamp(14px,2vw,24px);border-top-color:var(--rojo,#C1121F)}
-html body .hor-r.is-hoy+.hor-r{border-top-color:transparent}
-html body .hor-r.is-hoy .hor-n,html body .hor-r.is-hoy .hor-h,html body .hor-r.is-hoy .hor-h time{color:#fff}
-html body .hor-r.is-hoy .hor-n::after{content:" · hoy";font-weight:600;opacity:.9}
-@media(prefers-contrast:more){html body .hor-r{border-top-color:#0A1020}}
-@media(max-width:759px){html body .hor-h{grid-column:auto!important;padding:0!important}html body .hor-r{min-height:0!important}}
-
-/* ───────────── Pulido final v9 · estático (sin movimiento, sin filtros, sin clip-path) ─────────────
-   Franja de marca en el borde, subrayado en cuña bajo el título, tarjeta de la semana con sombra dura,
-   fila de hoy con marcador, días cerrados rayados y chapa «HOY» como boleto. */
-html body .hor{position:relative;overflow:hidden}
-html body .hor-w{position:relative;z-index:1}
-html body .hor::after{content:""!important;display:block!important;position:absolute;z-index:0;top:0;bottom:0;right:0;width:clamp(36px,5.2vw,84px);pointer-events:none;
-  background:repeating-linear-gradient(115deg,transparent 0 18px,#0A2C8C 18px 30px,transparent 30px 40px,#fff 40px 43px,#C1121F 43px 52px,transparent 52px 66px);opacity:.95}
-@media(max-width:759px){html body .hor::after{width:14px;background:linear-gradient(180deg,#0A2C8C 0 70%,#C1121F 70%)}}
-html body .hor-hd h2::after{content:"";display:block;width:clamp(96px,13vw,170px);height:10px;margin-top:16px;background:linear-gradient(90deg,#C1121F 0 68%,#fff 68% 72%,#0A2C8C 72%);transform:skewX(-32deg);transform-origin:left}
-/* tarjeta de la semana */
-html body .hor-rg{box-shadow:10px 10px 0 #0A2C8C,10px 10px 0 2px #0A1020;outline:2px solid #0A1020;outline-offset:0}
-html body .hor-r{transition:background-color .18s}
-@media(hover:hover){html body .hor-r:not(.is-hoy):hover{background:rgba(10,44,140,.07)}}
-html body .hor-r[data-closed]{background:repeating-linear-gradient(-45deg,rgba(10,16,32,.05) 0 8px,transparent 8px 16px)}
-html body .hor-r.is-hoy{box-shadow:inset 8px 0 0 #fff,inset 10px 0 0 #0A1020}
-html body .hor-r.is-hoy .hor-n::before{content:"";display:inline-block;width:.55em;height:.55em;margin:0 .6em 0 .35em;background:#fff;border-radius:50%;vertical-align:.08em;box-shadow:0 0 0 3px rgba(255,255,255,.3)}
-html body .hor-r.is-hoy .hor-n::after{content:" · hoy";font-weight:700;opacity:1;letter-spacing:.02em}
-html body .hor-h time{background:rgba(10,16,32,.06);padding:.22em .45em .18em;border-radius:3px}
-html body .hor-r.is-hoy .hor-h time{background:rgba(255,255,255,.2)}
-/* chapa «HOY» como boleto */
-html body .hor-plate{box-shadow:9px 9px 0 #C1121F,9px 9px 0 2px #0A1020;background:#fff}
-html body .hor-plate i{background:repeating-linear-gradient(-55deg,rgba(255,255,255,.1) 0 6px,transparent 6px 12px),#0A2C8C!important}
-html body .hor-plate b{position:relative}
-html body .hor-plate b::before,html body .hor-plate b::after{content:"";position:absolute;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;background:#ECEDEA;border:4px solid #0A1020}
-html body .hor-plate b::before{left:-13px}
-html body .hor-plate b::after{right:-13px}
-/* sello: doble filete interior un poco más marcado */
-html body .hor-sello{text-shadow:0 1px 0 rgba(255,255,255,.65)}
-@media(max-width:759px){html body .hor-rg{box-shadow:6px 6px 0 #0A2C8C,6px 6px 0 2px #0A1020}html body .hor-plate{box-shadow:6px 6px 0 #C1121F,6px 6px 0 2px #0A1020}}

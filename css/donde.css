@@ -82,3 +82,13 @@ html body #unidades #stockGrid .car .g-a svg{width:18px;height:18px}
 
 /* Carrusel de videos: un recorte (clip-path) sobre un video en reproducción se recalcula en cada fotograma. La tarjeta activa va sin recorte. */
 html body #unidades .lz-card.is-a,html body #unidades .lz-card.is-live{clip-path:none!important}
+
+/* ───── v64 · mapa liviano (lag al mover / pasar por el mapa) ─────
+   · Los mosaicos de Leaflet no animan opacidad (cada fundido repinta la capa de mosaicos).
+   · El fondo de espera (.dn-ph, con dos degradados) se oculta del todo cuando ya hay mosaicos: no queda pintado debajo del mapa.
+   · Las capas del mapa y del degradado del panel van en su propia capa de la GPU: mover el mapa no repinta el degradado ni viceversa. */
+html body #contacto.dn .dn-map .leaflet-tile,html body #contacto.dn .dn-map .leaflet-fade-anim .leaflet-tile{transition:none!important}
+html body #contacto.dn .dn-map.rd .dn-ph{visibility:hidden;transition:none}
+html body #contacto.dn .dn-map .leaflet-map-pane{will-change:transform}
+html body #contacto.dn .dn-info::before{transform:translateZ(0)}
+

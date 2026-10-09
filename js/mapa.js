@@ -103,13 +103,13 @@ function init() {
     center: CHITA, zoom: ZOOM, minZoom: 12, maxZoom: 19,
     zoomControl: false, attributionControl: false,
     scrollWheelZoom: false, doubleClickZoom: true, boxZoom: false,
-    zoomSnap: 1, wheelPxPerZoomLevel: 90, inertia: !RM, fadeAnimation: !RM, zoomAnimation: !RM,
+    zoomSnap: 1, wheelPxPerZoomLevel: 90, inertia: false, fadeAnimation: false, zoomAnimation: false, markerZoomAnimation: false, bounceAtZoomLimits: false,
     keyboard: true, tap: false
   });
   L.control.attribution({ position: "bottomright", prefix: false }).addAttribution(ATTR).addTo(map);
 
   var ok = 0, bad = 0;
-  var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 1, updateWhenZooming: false, crossOrigin: false });
+  var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 2, updateInterval: 300, updateWhenZooming: false, crossOrigin: false });
   tiles.on("tileload", function () { ok++; mp.classList.add("rd"); });
   tiles.on("tileerror", function () { bad++; if (!ok && bad >= 6) fallback(); });
   tiles.addTo(map);

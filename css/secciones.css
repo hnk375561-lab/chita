@@ -37,11 +37,6 @@ html body #operaciones#operaciones#operaciones .oc:nth-child(4) .oi{--op:58% 50%
 html body #operaciones#operaciones#operaciones .oc .oi::after{
   content:""!important;display:block!important;position:absolute;inset:auto 0 0 0;height:42%;
   background:linear-gradient(0deg,rgba(10,16,32,.7),transparent);pointer-events:none}
-html body #operaciones#operaciones#operaciones .oc .oc-no{
-  position:absolute;z-index:3;left:0;top:14px;padding:8px 14px 8px 12px;background:var(--ink);color:#fff;
-  font:800 12px/1 var(--font-display,Arial,sans-serif);letter-spacing:.18em;
-  border-left:4px solid var(--rojo);transition:background-color .3s}
-html body #operaciones#operaciones#operaciones .oc:is(:hover,:focus-within) .oc-no{background:var(--rojo)}
 @media(hover:hover){html body #operaciones#operaciones#operaciones .oc:hover .oi.ld img{transform:scale(1.05)}
   html body #operaciones#operaciones#operaciones .og .oc:hover{transform:translateY(-6px);box-shadow:0 26px 40px -22px rgba(11,18,32,.6)}}
 html body #operaciones#operaciones#operaciones .oc .ob{flex:1;display:flex;flex-direction:column;padding:20px 22px 24px}

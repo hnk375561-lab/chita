@@ -1115,13 +1115,18 @@ function initMotion() {
     const { inertia } = scroll;
 
     /* Orden = orden de la página (ScrollTrigger mide los pines en secuencia; el hero tiene prioridad). */
-    /* SIN MOVIMIENTO ATADO AL SCROLL: títulos, párrafos, tarjetas, fotos y mapa no se desplazan, escalan, giran ni se recortan
-       al hacer scroll ni al entrar en pantalla. Quedan solo: apertura del hero, menú, odómetro de números e interacciones de botones.
-       (initBanner, initTypography, initSeams, initSectionEntrances, initSceneChoreography, initReveals, initParallax,
-       initSectionBackdrops e initMapExperience siguen definidas más abajo pero ya no se ejecutan.) */
     const cleanups = [
       initNavigation(),
       home ? initHero(flags, scroll) : null,
+      home ? initBanner(flags) : null,
+      home ? initTypography(flags, inertia) : null,
+      home ? initSeams(flags) : null,
+      home ? initSectionEntrances(flags) : null,
+      home ? initSceneChoreography(flags) : null,
+      home ? initReveals(flags, inertia) : null,
+      home ? initParallax(flags) : null,
+      home ? initSectionBackdrops(flags) : null,
+      home ? initMapExperience() : null,
       home ? initOdometer() : null,
       initInteractions(flags)
     ];
