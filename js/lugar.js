@@ -84,7 +84,9 @@ if(!canFs)bF.hidden=true;
 bF.addEventListener("click",function(){
  var c=cards[cur],v=vid(cur),rq=c.requestFullscreen||c.webkitRequestFullscreen;
  hold=false;play();
- if(rq){var r=rq.call(c);if(r&&r.catch)r.catch(function(){})}else if(v.webkitEnterFullscreen){v.webkitEnterFullscreen()}});
+ try{if(rq){var r=rq.call(c);if(r&&r.catch)r.catch(function(){})}else if(v.webkitEnterFullscreen){
+ var go=function(){try{v.webkitEnterFullscreen()}catch(_){}};
+ if(v.readyState>=1)go();else v.addEventListener("loadedmetadata",function h(){v.removeEventListener("loadedmetadata",h);go()})}}catch(_){}});
 
 /* deslizar para cambiar · tocar una tarjeta lateral la trae al centro, tocar la central pausa o reanuda */
 var sx0=0,down=false;
