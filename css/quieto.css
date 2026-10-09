@@ -5,3 +5,16 @@ html body #opiniones .rv2-side,
 html body #opiniones .rv2-fill,
 html body #como-comprar .cc2-step,
 html body footer .fin7{animation:none!important;animation-timeline:auto!important}
+
+/* ── v63 · sin movimiento al scrollear (todo el sitio) ──
+   Animaciones CSS atadas al scroll (animation-timeline: view()): fuera. El contenido queda en su estado final. */
+html body :is(.xt .xl,.xt .xk,.xb .xp,.xb .xs,.bdp,.loc .xt,.loc .xb){animation:none!important;animation-timeline:auto!important}
+html body #opiniones :is(.rv2-side,.rv2-fill),
+html body #como-comprar .cc2-step{animation:none!important;animation-timeline:auto!important;opacity:1!important;transform:none!important;translate:none!important}
+/* «Cómo comprar»: los pasos ya no entran deslizándose */
+html body #como-comprar .tk-step{opacity:1!important;translate:none!important;transition-property:box-shadow,background-color,border-color,color!important}
+/* Barra roja superior de cada sección: fija, no crece al entrar */
+html body main>section>.tl{transform:scaleX(.18)!important;transition:none!important}
+/* fotos de secciones pendientes (.pp .ppf): sin cortina ni zoom al entrar */
+html body .rj .pp .ppf{clip-path:none!important;transition:none!important}
+html body .rj .pp .ppf img{transform:none!important;transition:none!important}

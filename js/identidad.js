@@ -110,7 +110,7 @@ label();
 })();
 /* CHITA · v3 — El Riel y El Corte. Sin dependencias, 1 IntersectionObserver, solo datos ya publicados. */
 (function(){
-var d=document,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,main=d.querySelector("main");if(!main)return;
+var d=document,RM=true/* sin reveals al scrollear: no se agrega .cj y todas las secciones nacen con .in */,main=d.querySelector("main");if(!main)return;
 if(!RM)d.documentElement.classList.add("cj");
 /* EL RIEL */
 var hero=d.getElementById("hero");

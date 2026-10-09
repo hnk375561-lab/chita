@@ -234,3 +234,33 @@ html body .hor-r.is-hoy .hor-n,html body .hor-r.is-hoy .hor-h,html body .hor-r.i
 html body .hor-r.is-hoy .hor-n::after{content:" · hoy";font-weight:600;opacity:.9}
 @media(prefers-contrast:more){html body .hor-r{border-top-color:#0A1020}}
 @media(max-width:759px){html body .hor-h{grid-column:auto!important;padding:0!important}html body .hor-r{min-height:0!important}}
+
+/* ───────────── Pulido final v9 · estático (sin movimiento, sin filtros, sin clip-path) ─────────────
+   Franja de marca en el borde, subrayado en cuña bajo el título, tarjeta de la semana con sombra dura,
+   fila de hoy con marcador, días cerrados rayados y chapa «HOY» como boleto. */
+html body .hor{position:relative;overflow:hidden}
+html body .hor-w{position:relative;z-index:1}
+html body .hor::after{content:""!important;display:block!important;position:absolute;z-index:0;top:0;bottom:0;right:0;width:clamp(36px,5.2vw,84px);pointer-events:none;
+  background:repeating-linear-gradient(115deg,transparent 0 18px,#0A2C8C 18px 30px,transparent 30px 40px,#fff 40px 43px,#C1121F 43px 52px,transparent 52px 66px);opacity:.95}
+@media(max-width:759px){html body .hor::after{width:14px;background:linear-gradient(180deg,#0A2C8C 0 70%,#C1121F 70%)}}
+html body .hor-hd h2::after{content:"";display:block;width:clamp(96px,13vw,170px);height:10px;margin-top:16px;background:linear-gradient(90deg,#C1121F 0 68%,#fff 68% 72%,#0A2C8C 72%);transform:skewX(-32deg);transform-origin:left}
+/* tarjeta de la semana */
+html body .hor-rg{box-shadow:10px 10px 0 #0A2C8C,10px 10px 0 2px #0A1020;outline:2px solid #0A1020;outline-offset:0}
+html body .hor-r{transition:background-color .18s}
+@media(hover:hover){html body .hor-r:not(.is-hoy):hover{background:rgba(10,44,140,.07)}}
+html body .hor-r[data-closed]{background:repeating-linear-gradient(-45deg,rgba(10,16,32,.05) 0 8px,transparent 8px 16px)}
+html body .hor-r.is-hoy{box-shadow:inset 8px 0 0 #fff,inset 10px 0 0 #0A1020}
+html body .hor-r.is-hoy .hor-n::before{content:"";display:inline-block;width:.55em;height:.55em;margin:0 .6em 0 .35em;background:#fff;border-radius:50%;vertical-align:.08em;box-shadow:0 0 0 3px rgba(255,255,255,.3)}
+html body .hor-r.is-hoy .hor-n::after{content:" · hoy";font-weight:700;opacity:1;letter-spacing:.02em}
+html body .hor-h time{background:rgba(10,16,32,.06);padding:.22em .45em .18em;border-radius:3px}
+html body .hor-r.is-hoy .hor-h time{background:rgba(255,255,255,.2)}
+/* chapa «HOY» como boleto */
+html body .hor-plate{box-shadow:9px 9px 0 #C1121F,9px 9px 0 2px #0A1020;background:#fff}
+html body .hor-plate i{background:repeating-linear-gradient(-55deg,rgba(255,255,255,.1) 0 6px,transparent 6px 12px),#0A2C8C!important}
+html body .hor-plate b{position:relative}
+html body .hor-plate b::before,html body .hor-plate b::after{content:"";position:absolute;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;background:#ECEDEA;border:4px solid #0A1020}
+html body .hor-plate b::before{left:-13px}
+html body .hor-plate b::after{right:-13px}
+/* sello: doble filete interior un poco más marcado */
+html body .hor-sello{text-shadow:0 1px 0 rgba(255,255,255,.65)}
+@media(max-width:759px){html body .hor-rg{box-shadow:6px 6px 0 #0A2C8C,6px 6px 0 2px #0A1020}html body .hor-plate{box-shadow:6px 6px 0 #C1121F,6px 6px 0 2px #0A1020}}

@@ -906,7 +906,7 @@ a.pdc .pds::after{content:"→";margin-left:.55em;display:inline-block;transitio
 
 /* Entrada suave de los bloques nuevos (solo si el navegador lo soporta y no hay reducción de movimiento) */
 @supports (animation-timeline:view()){@media(prefers-reduced-motion:no-preference){
-.xt .xl,.xt .xk,.xb .xp,.xb .xs,.bdp,.loc .xt,.loc .xb{animation:xin both linear;animation-timeline:view();animation-range:entry 0% entry 70%}
+.xt .xl,.xt .xk,.xb .xp,.xb .xs,.bdp,.loc .xt,.loc .xb{animation:xin both linear;animation-timeline:view();animation-range:entry 0% entry 28%}
 @keyframes xin{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}}}
 /* ===== Compactación vertical (menos scroll) =====
    Solo espacios vacíos y tamaños de tipografía. Fotos, textos y contenido intactos. */
@@ -1467,3 +1467,73 @@ main>.hero.hx{grid-template-columns:minmax(380px,.7fr) minmax(0,1.3fr);height:cl
   #contacto .xt,#contacto .xb{width:min(100%,560px);padding:24px 28px;background:rgba(6,17,26,.94);border:1px solid rgba(143,211,228,.3);box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
   #contacto .xt p.xp,#contacto .xb p.xp{padding-left:18px}
 }
+
+
+/* ═════════════ v12 · Identidad Chita: marco de marca + «Comprá, vendé o permutá» ═════════════
+   Marco = fondo azul/rojo con doble línea blanca (el mismo del banner de Chita) + filete interior + logo. */
+:root{--mk-line:rgba(255,255,255,.55);--mk-red:#b30f14}
+
+/* — Comprá, vendé o permutá — */
+#operaciones .oh{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:22px 40px;padding:0 0 30px;margin:0 0 36px;border-bottom:1px solid #d3dce1}
+#operaciones .oht{max-width:800px}
+#operaciones .oe{display:inline-flex;align-items:center;gap:12px;font:600 13px/1 var(--font-text);letter-spacing:.16em;text-transform:uppercase;color:var(--cyd)}
+#operaciones .oe::before{content:"";width:34px;height:3px;background:linear-gradient(90deg,var(--cn) 0 62%,var(--mk-red) 62%);transform:skewX(-30deg)}
+#operaciones .oh h2{margin:12px 0 10px}
+#operaciones .oh .sub{margin:0}
+.oq{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.oq li{padding:11px 22px 11px 24px;font:600 13.5px/1 var(--font-text);letter-spacing:.03em;color:#fff;background:var(--cn);clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%)}
+.oq li:nth-child(2){background:var(--cd)}.oq li:nth-child(3){background:var(--mk-red)}
+#operaciones .og{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+@media(max-width:1099px){#operaciones .og{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:639px){#operaciones .og{grid-template-columns:1fr}.oq li{font-size:12.5px;padding:10px 18px 10px 20px}}
+#operaciones .oc{position:relative;display:flex;flex-direction:column;background:#fff;border:0!important;border-radius:0;box-shadow:0 24px 44px -30px rgba(1,20,59,.6);overflow:visible;transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+#operaciones .oc::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;z-index:5;opacity:1!important;background:linear-gradient(90deg,var(--cn) 0 68%,#fff 68% 70%,var(--mk-red) 70%);pointer-events:none}
+@media(hover:hover){#operaciones .oc:hover{transform:translateY(-5px);box-shadow:0 34px 54px -30px rgba(1,20,59,.7)}}
+#operaciones .oi{position:relative;aspect-ratio:1/1!important;overflow:hidden;background:var(--cd) url(../images/fondo-marca.webp) 50% 50%/cover no-repeat!important}
+#operaciones .oi img{position:absolute!important;left:12px;top:16px;width:calc(100% - 24px)!important;height:calc(100% - 28px)!important;object-fit:cover!important;object-position:50% 56%!important;transform:none!important;background:transparent!important;outline:1px solid var(--mk-line);outline-offset:-1px}
+#operaciones .oi::after{left:22px!important;top:26px!important;width:40px!important;height:40px!important}
+.os{position:absolute;left:12px;bottom:12px;right:12px;z-index:2;display:flex;flex-wrap:wrap;align-items:stretch;font-family:var(--font-text);filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));pointer-events:none}
+#operaciones .os,#operaciones .os b,#operaciones .os i,#operaciones .os em,#operaciones .oq li,.os,.os b,.os i,.os em,.oq li{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif!important}
+.os b,.os i,.os em{display:block;font-style:normal;line-height:1;white-space:nowrap;color:#fff}
+.os b{padding:7px 12px 7px 9px;background:var(--mk-red);font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.os i{margin-left:-5px;padding:7px 13px 7px 14px;background:var(--cn);font-weight:600;font-size:11px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.os em{margin-left:-5px;padding:7px 10px 7px 13px;background:rgba(6,17,26,.88);font-weight:500;font-size:10.5px;letter-spacing:.03em;color:#e8eef2;clip-path:polygon(8px 0,100% 0,100% 100%,0 100%)}
+#operaciones .ob{display:flex;flex-direction:column;gap:8px;padding:22px 22px 24px;flex:1}
+.on{display:flex;align-items:center;gap:12px;font:400 14px/1 var(--font-display);letter-spacing:.2em;color:var(--cn)}
+.on::after{content:"";width:28px;height:2px;background:var(--mk-red);transform:skewX(-30deg)}
+#operaciones .oc h3{margin:2px 0 0;font:400 clamp(30px,2.4vw,38px)/1 var(--font-display)}
+#operaciones .oc .ob p{margin:0;font-size:17px;line-height:1.5;color:var(--ink)}
+#operaciones .oc .ob p.ox{margin-top:6px;padding-top:12px;border-top:1px solid #e3e9ec;font-size:15.5px;color:var(--mute)}
+#operaciones .oa{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:auto;padding-top:18px}
+#operaciones .oa a{margin:0;padding-top:0}
+#operaciones .oa .btn{min-height:48px;padding:0 24px;display:flex;align-items:center;justify-content:center;text-align:center}
+#operaciones .oa .ol{align-self:center;color:var(--cyd);font-size:16px;text-decoration:underline;text-decoration-color:rgba(20,111,136,.4);text-underline-offset:.3em}
+#operaciones .oa .ol:hover{color:var(--ink);text-decoration-color:var(--ink)}
+@media(prefers-reduced-motion:reduce){#operaciones .oc{transition:none}}
+/* La regla de tipografía unificada fuerza peso/mayúsculas/espaciado: las etiquetas del banner lo recuperan */
+#operaciones .os b{font-weight:700!important;letter-spacing:.14em!important;text-transform:uppercase!important}
+#operaciones .os i{font-weight:600!important;letter-spacing:.01em!important}
+#operaciones .os em{font-weight:500!important;letter-spacing:.03em!important}
+#operaciones .oq li{font-weight:600!important;letter-spacing:.02em!important}
+
+/* ── El cartel: la placa real, a su tamaño, sobre el fondo de marca ── */
+.vcart{display:flex;align-items:center;justify-content:center;background:var(--cd) url(../images/fondo-marca.webp) 50% 50%/cover no-repeat}
+.vcart::after{content:"";position:absolute;inset:14px;border:1px solid var(--mk-line);pointer-events:none}
+.plq{position:relative;margin:0;display:flex;flex-direction:column;align-items:center;gap:0;box-shadow:0 30px 60px -24px rgba(0,0,0,.85)}
+.plq img{display:block;width:min(411px,70%);height:auto;background:#fff}
+.plq figcaption{width:100%;padding:11px 14px;text-align:center;font:600 12px/1 "Instrument Sans",system-ui,sans-serif!important;letter-spacing:.16em;text-transform:uppercase!important;color:#fff;background:linear-gradient(90deg,var(--cn) 0 70%,var(--mk-red) 70%)}
+
+/* ── MARCO DE MARCA en todas las fotos: fondo azul/rojo + doble línea + filete + logo ── */
+.car .im,.mdp,.no .ph,.vdi,.vsi,.fq{background:var(--cd) url(../images/fondo-marca.webp) 50% 50%/cover no-repeat!important}
+.car .im::before,.no .ph::before,.fq::before{content:"";position:absolute;inset:0;z-index:2;border-top:4px solid transparent;border-image:linear-gradient(90deg,var(--cn) 0 68%,#fff 68% 70%,var(--mk-red) 70%) 1;pointer-events:none}
+.car .im .ct{inset:10px 10px 12px;height:auto;outline:1px solid var(--mk-line);outline-offset:-1px}
+.car .im .ct img{object-fit:cover!important;background:transparent!important}
+.no .ph img{object-fit:cover!important;position:absolute;inset:12px;width:calc(100% - 24px);height:calc(100% - 24px);outline:1px solid var(--mk-line);outline-offset:-1px}
+.no .ph{position:relative}
+.no .ph::after{content:"";position:absolute;left:22px;top:26px;z-index:3;width:44px;height:44px;border-radius:50%;background:url(../images/logo-chita-256.webp) center/cover no-repeat;box-shadow:0 6px 16px -6px rgba(0,0,0,.55)}
+.mdp>img{inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);outline:1px solid var(--mk-line);outline-offset:-1px;object-fit:cover!important}
+.vr .vrz,.vrv{background:var(--cd) url(../images/fondo-marca.webp) 50% 50%/cover no-repeat}
+.vrv::after{border-color:var(--mk-line)}
+#local .plq{width:min(420px,74%);display:block}
+#local .plq img{position:static!important;display:block;width:100%!important;height:auto!important;max-width:none;aspect-ratio:411/104;object-fit:contain!important}
+#local .plq figcaption{display:block;box-sizing:border-box;font-family:"Instrument Sans",system-ui,sans-serif!important;font-weight:600!important;letter-spacing:.16em!important;text-transform:uppercase!important}
