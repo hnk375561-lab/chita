@@ -49,7 +49,7 @@ jobs:
         id: lighthouse
         continue-on-error: true
         run: |
-          npx --yes serve@14 _site -l 8080 --no-clean-urls >/dev/null 2>&1 &
+          node scripts/serve-gzip.mjs _site 8080 >/dev/null 2>&1 &
           for i in $(seq 1 30); do curl -sf http://localhost:8080/index.html >/dev/null && break; sleep 1; done
           for pagina in index reserva; do
             npx --yes lighthouse@12 http://localhost:8080/$pagina.html --quiet --output=json --output-path=informe/lh-$pagina-movil.json --chrome-flags="--headless=new --no-sandbox"
