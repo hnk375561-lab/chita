@@ -176,3 +176,14 @@ html body #unidades .lz-card:fullscreen{clip-path:none}
 html body #unidades .lz-card:fullscreen::before{display:none}
 html body #unidades .lz-card:-webkit-full-screen{clip-path:none}
 html body #unidades .lz-card:-webkit-full-screen::before{display:none}
+
+/* v64 · Frente del local (móvil): el logo redondo ya no se corta ni se pisa con el pie.
+   Antes la altura salía de un aspect-ratio 16/8 y el círculo (72 % de esa altura + pie absoluto) quedaba recortado abajo.
+   Ahora la ficha crece con su contenido: círculo con tamaño propio y el nombre debajo, en el flujo. */
+@media(max-width:899px){
+  html body #unidades .lz-fig.lz-logo{aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px 16px 26px}
+  html body #unidades .lz-fig.lz-logo img{flex:none;width:min(62vw,250px);height:auto;max-width:none;aspect-ratio:1}
+  html body #unidades .lz-fig.lz-logo figcaption{position:static;left:auto;right:auto;bottom:auto;text-align:center}
+  html body #unidades .lz-fig.lz-logo figcaption::before{margin:0 auto 9px}
+}
+

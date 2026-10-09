@@ -1,3 +1,34 @@
+diff --git a/css/chita-v59.css b/css/chita-v59.css
+index 9d91039..535125f 100644
+--- a/css/chita-v59.css
++++ b/css/chita-v59.css
+@@ -4,10 +4,11 @@
+ html body #contacto .mp .mpp{pointer-events:none!important;user-select:none;-webkit-user-select:none;will-change:auto}
+ 
+ /* 2) Cómo comprar: el reel y un bloque de marca debajo, quietos juntos al hacer scroll. */
+-html body #como-comprar .cc2-side{display:grid;gap:14px;align-content:start;width:min(300px,100%);min-width:0}
++/* móvil/tablet: el reel ocupa casi todo el ancho de la pantalla (antes 300 px fijos) */
++html body #como-comprar .cc2-side{display:grid;gap:14px;align-content:start;width:min(100%,460px);margin-inline:auto;min-width:0}
+ html body #como-comprar .cc2-main .cc2-side .clip-visita{position:static;top:auto;width:100%;margin-top:0}
+ @media(min-width:1100px){
+-  html body #como-comprar .cc2-main .cc2-side{width:100%;position:sticky;top:96px}
++  html body #como-comprar .cc2-main .cc2-side{width:100%;margin-inline:0;position:sticky;top:96px}
+ }
+ html body #como-comprar .cc2-brand{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px 14px 24px;background:var(--ink);color:#fff;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+ html body #como-comprar .cc2-brand::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--rojo)}
+diff --git a/css/chita-v60.css b/css/chita-v60.css
+index a23f0d1..7a66b2f 100644
+--- a/css/chita-v60.css
++++ b/css/chita-v60.css
+@@ -70,7 +70,7 @@ html body #reelb{bottom:17%;right:10px;min-height:34px;min-width:34px;padding:0
+ html body #reelb .rs-ic{width:16px;height:16px}
+ @media(min-width:900px){html body #reelb{bottom:17%}}
+ @media(max-width:899px){
+-  html body main>.hero.hx>.hx-pass2{inset:auto 0 0 0;top:clamp(500px,135vw,640px);height:auto;clip-path:none}
++  html body main>.hero.hx>.hx-pass2{position:absolute;z-index:0;inset:auto 0 0 0;top:calc(clamp(500px,135vw,640px) - 1px);height:auto;overflow:hidden;pointer-events:none;background:var(--ink);contain:layout paint}
+   html body main>.hero.hx>.hx-pass2 .hx-pn::after{opacity:.4}
+   html body main>.hero.hx>.hx-pass2 .hx-trk{animation-direction:reverse}
+   html body .hx-h1{margin-bottom:8px!important}
 diff --git a/css/donde.css b/css/donde.css
 index 3742d98..beff606 100644
 --- a/css/donde.css
@@ -330,6 +361,25 @@ index bf0bc1a..7d291cf 100644
 -/* sello: doble filete interior un poco más marcado */
 -html body .hor-sello{text-shadow:0 1px 0 rgba(255,255,255,.65)}
 -@media(max-width:759px){html body .hor-rg{box-shadow:6px 6px 0 #0A2C8C,6px 6px 0 2px #0A1020}html body .hor-plate{box-shadow:6px 6px 0 #C1121F,6px 6px 0 2px #0A1020}}
+diff --git a/css/lugar.css b/css/lugar.css
+index 792d097..be2a2c2 100644
+--- a/css/lugar.css
++++ b/css/lugar.css
+@@ -176,3 +176,14 @@ html body #unidades .lz-card:fullscreen{clip-path:none}
+ html body #unidades .lz-card:fullscreen::before{display:none}
+ html body #unidades .lz-card:-webkit-full-screen{clip-path:none}
+ html body #unidades .lz-card:-webkit-full-screen::before{display:none}
++
++/* v64 · Frente del local (móvil): el logo redondo ya no se corta ni se pisa con el pie.
++   Antes la altura salía de un aspect-ratio 16/8 y el círculo (72 % de esa altura + pie absoluto) quedaba recortado abajo.
++   Ahora la ficha crece con su contenido: círculo con tamaño propio y el nombre debajo, en el flujo. */
++@media(max-width:899px){
++  html body #unidades .lz-fig.lz-logo{aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px 16px 26px}
++  html body #unidades .lz-fig.lz-logo img{flex:none;width:min(62vw,250px);height:auto;max-width:none;aspect-ratio:1}
++  html body #unidades .lz-fig.lz-logo figcaption{position:static;left:auto;right:auto;bottom:auto;text-align:center}
++  html body #unidades .lz-fig.lz-logo figcaption::before{margin:0 auto 9px}
++}
++
 diff --git a/css/secciones.css b/css/secciones.css
 index 7e436e5..a02d059 100644
 --- a/css/secciones.css
@@ -359,6 +409,33 @@ index faafa77..76e9a59 100644
  <div class="fm"><div><h3>Cómo funciona</h3><ol class="stp"><li><div><b>Completá los datos</b><span>Marca, modelo y año. Los kilómetros son opcionales.</span></div></li><li><div><b>Se arma el mensaje</b><span>Con los datos de tu auto ya escritos.</span></div></li><li><div><b>La enviás vos</b><span>Te respondemos por WhatsApp. El sitio no guarda tus datos.</span></div></li></ol></div>
  <div class="fr"><form id="canjeForm" novalidate><p class="pde" id="opLabel">Vender o permutar</p><h3 id="opTitle">Contanos tu auto</h3><p class="lead" id="opLead">Completá los datos y se abre WhatsApp con el mensaje armado.</p>
  <label>Marca y modelo<input type="text" name="modelo" required maxlength="60" autocomplete="off" placeholder="Ej.: Ford Fiesta"></label>
+diff --git a/js/app.js b/js/app.js
+index 979c219..21910d5 100644
+--- a/js/app.js
++++ b/js/app.js
+@@ -172,7 +172,21 @@ function fill(){var h=P.offsetHeight||R.offsetHeight||600,w=h*.8,k=Math.min(N*2,
+  while(T.children.length>N)T.removeChild(T.lastChild);
+  for(var i=0;i<k;i++)T.appendChild(pn(L[i%N],N+i,true));
+  T.style.setProperty("--n",N);T.style.setProperty("--m",N+k);K=k}
+-fill();var rt=0;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(fill,200)},{passive:true});addEventListener("load",fill,{once:true})})();
++/* Móvil: segunda pasada (.hx-pass2) en el tramo que la primera no cubre (detrás del reel y los recuadros), así no queda el fondo liso.
++   Mismas fotos (el navegador ya las tiene), sentido contrario, y la pausa/arranque la manejan las mismas reglas de #hero que la primera. */
++var P2=null,T2=null,K2=-1,mq=matchMedia("(max-width:899px)");
++function fill2(){
++ if(!mq.matches){if(P2){P2.remove();P2=null;T2=null;K2=-1}return}
++ if(!P2){P2=document.createElement("div");P2.className="hx-pass2";P2.setAttribute("aria-hidden","true");
++  T2=document.createElement("div");T2.className="hx-trk";P2.appendChild(T2);
++  L.forEach(function(s,i){var f=pn(s,N+i,true);f.querySelector("img").loading="lazy";T2.appendChild(f)});
++  R.insertBefore(P2,P.nextSibling);K2=-1}
++ var h=P2.offsetHeight||600,w=h*.8,k=Math.min(N*2,Math.ceil(innerWidth/w)+1);if(k===K2)return;
++ while(T2.children.length>N)T2.removeChild(T2.lastChild);
++ for(var i=0;i<k;i++){var f=pn(L[i%N],N+i,true);f.querySelector("img").loading="lazy";T2.appendChild(f)}
++ T2.style.setProperty("--n",N);T2.style.setProperty("--m",N+k);K2=k}
++function fillAll(){fill();fill2()}
++fillAll();var rt=0;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(fillAll,200)},{passive:true});addEventListener("load",fillAll,{once:true})})();
+ /* Hero v11: ambiente (foto de la unidad desenfocada de fondo, con fundido), datos en celdas y sello de la agencia. Solo datos que ya están en el sitio. */
+ (function(){var R=$("hero");if(!R||!hL||!HERO)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
+ function amb(src,first){var n=first?0:cu^1,a=Ls[n],o=Ls[cu];a.style.backgroundImage="url('"+src+"')";a.classList.add("on");if(!first){o.classList.remove("on");cu=n}}
 diff --git a/js/mapa.js b/js/mapa.js
 index 51facbb..9d9ab8e 100644
 --- a/js/mapa.js

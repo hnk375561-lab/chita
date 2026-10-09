@@ -172,7 +172,21 @@ function fill(){var h=P.offsetHeight||R.offsetHeight||600,w=h*.8,k=Math.min(N*2,
  while(T.children.length>N)T.removeChild(T.lastChild);
  for(var i=0;i<k;i++)T.appendChild(pn(L[i%N],N+i,true));
  T.style.setProperty("--n",N);T.style.setProperty("--m",N+k);K=k}
-fill();var rt=0;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(fill,200)},{passive:true});addEventListener("load",fill,{once:true})})();
+/* Móvil: segunda pasada (.hx-pass2) en el tramo que la primera no cubre (detrás del reel y los recuadros), así no queda el fondo liso.
+   Mismas fotos (el navegador ya las tiene), sentido contrario, y la pausa/arranque la manejan las mismas reglas de #hero que la primera. */
+var P2=null,T2=null,K2=-1,mq=matchMedia("(max-width:899px)");
+function fill2(){
+ if(!mq.matches){if(P2){P2.remove();P2=null;T2=null;K2=-1}return}
+ if(!P2){P2=document.createElement("div");P2.className="hx-pass2";P2.setAttribute("aria-hidden","true");
+  T2=document.createElement("div");T2.className="hx-trk";P2.appendChild(T2);
+  L.forEach(function(s,i){var f=pn(s,N+i,true);f.querySelector("img").loading="lazy";T2.appendChild(f)});
+  R.insertBefore(P2,P.nextSibling);K2=-1}
+ var h=P2.offsetHeight||600,w=h*.8,k=Math.min(N*2,Math.ceil(innerWidth/w)+1);if(k===K2)return;
+ while(T2.children.length>N)T2.removeChild(T2.lastChild);
+ for(var i=0;i<k;i++){var f=pn(L[i%N],N+i,true);f.querySelector("img").loading="lazy";T2.appendChild(f)}
+ T2.style.setProperty("--n",N);T2.style.setProperty("--m",N+k);K2=k}
+function fillAll(){fill();fill2()}
+fillAll();var rt=0;addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(fillAll,200)},{passive:true});addEventListener("load",fillAll,{once:true})})();
 /* Hero v11: ambiente (foto de la unidad desenfocada de fondo, con fundido), datos en celdas y sello de la agencia. Solo datos que ya están en el sitio. */
 (function(){var R=$("hero");if(!R||!hL||!HERO)return;var B=document.createElement("div");B.className="hx-bg";B.setAttribute("aria-hidden","true");B.innerHTML="<i></i><i></i>";R.insertBefore(B,R.firstChild);var Ls=B.children,cu=0;
 function amb(src,first){var n=first?0:cu^1,a=Ls[n],o=Ls[cu];a.style.backgroundImage="url('"+src+"')";a.classList.add("on");if(!first){o.classList.remove("on");cu=n}}

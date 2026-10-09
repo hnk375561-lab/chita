@@ -70,7 +70,7 @@ html body #reelb{bottom:17%;right:10px;min-height:34px;min-width:34px;padding:0 
 html body #reelb .rs-ic{width:16px;height:16px}
 @media(min-width:900px){html body #reelb{bottom:17%}}
 @media(max-width:899px){
-  html body main>.hero.hx>.hx-pass2{inset:auto 0 0 0;top:clamp(500px,135vw,640px);height:auto;clip-path:none}
+  html body main>.hero.hx>.hx-pass2{position:absolute;z-index:0;inset:auto 0 0 0;top:calc(clamp(500px,135vw,640px) - 1px);height:auto;overflow:hidden;pointer-events:none;background:var(--ink);contain:layout paint}
   html body main>.hero.hx>.hx-pass2 .hx-pn::after{opacity:.4}
   html body main>.hero.hx>.hx-pass2 .hx-trk{animation-direction:reverse}
   html body .hx-h1{margin-bottom:8px!important}

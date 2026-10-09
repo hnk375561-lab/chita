@@ -4,10 +4,11 @@
 html body #contacto .mp .mpp{pointer-events:none!important;user-select:none;-webkit-user-select:none;will-change:auto}
 
 /* 2) Cómo comprar: el reel y un bloque de marca debajo, quietos juntos al hacer scroll. */
-html body #como-comprar .cc2-side{display:grid;gap:14px;align-content:start;width:min(300px,100%);min-width:0}
+/* móvil/tablet: el reel ocupa casi todo el ancho de la pantalla (antes 300 px fijos) */
+html body #como-comprar .cc2-side{display:grid;gap:14px;align-content:start;width:min(100%,460px);margin-inline:auto;min-width:0}
 html body #como-comprar .cc2-main .cc2-side .clip-visita{position:static;top:auto;width:100%;margin-top:0}
 @media(min-width:1100px){
-  html body #como-comprar .cc2-main .cc2-side{width:100%;position:sticky;top:96px}
+  html body #como-comprar .cc2-main .cc2-side{width:100%;margin-inline:0;position:sticky;top:96px}
 }
 html body #como-comprar .cc2-brand{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px 14px 24px;background:var(--ink);color:#fff;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
 html body #como-comprar .cc2-brand::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--rojo)}
