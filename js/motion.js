@@ -592,7 +592,7 @@ function initSeams({ desktop }) {
        Se omiten Unidades (portón), el banner, Modelos (panel sticky) y la última antes del pie. */
     const k2 = desktop ? 1 : 0.5;
     qsa("main > section").forEach((section) => {
-      if (["unidades", "bd", "modelos", "preguntas", "contacto", "como-comprar"].includes(section.id) || section.classList.contains("bd")) return;
+      if (["unidades", "bd", "modelos", "preguntas", "contacto", "como-comprar", "entregas"].includes(section.id) || section.classList.contains("bd")) return;
       const inner = qs(":scope > .w", section);
       if (!inner) return;
       gsap.fromTo(inner,

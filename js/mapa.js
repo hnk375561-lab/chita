@@ -1,26 +1,49 @@
-/* CHITA · «Dónde estamos» — mapa propio (Leaflet).
-   Qué resuelve: antes el mapa era un iframe de Google y la ficha «Chita 1712» era un elemento pegado a la pantalla,
-   así que al arrastrar el mapa la ficha se quedaba en el medio y dejaba de señalar el local.
-   Ahora la ficha es un marcador del mapa, anclado a la coordenada de Gral. Galarza 1712: el mapa se mueve y hace zoom
-   como siempre y la ficha queda siempre sobre Chita.
-   · Leaflet y su CSS se cargan recién cuando la sección está por entrar en pantalla (no pesan en la carga inicial).
-   · En escritorio la rueda hace zoom solo después de hacer clic en el mapa (no secuestra el scroll de la página).
-   · En celular un dedo mueve el mapa solo después de tocarlo (no atrapa el scroll); «Tocá para mover el mapa».
-   · Si Leaflet o los mosaicos no cargan, vuelve al mapa de Google de siempre.
-   · Para cambiar de proveedor de mosaicos, editar TILES (y su atribución). */
+/* CHITA · «Dónde estamos» — mapa propio (Leaflet) + botón «Copiar dirección».
+   Lag que resuelve: Leaflet (JS+CSS) y los mosaicos ya no se piden ni se arman mientras la persona hace scroll:
+   se espera a que el scroll se quede quieto (y al ratón libre del navegador). Sin filtros CSS sobre los mosaicos.
+   · Si la persona toca el mapa, carga al instante.
+   · En escritorio la rueda hace zoom solo después de hacer clic (no secuestra el scroll). En celular, un dedo mueve el mapa tras tocarlo.
+   · Si Leaflet o los mosaicos no cargan, vuelve al mapa de Google (data-fb) y la ficha estática queda a la vista.
+   · Cambiar de proveedor de mosaicos: editar TILES y ATTR. */
 (function () {
 "use strict";
-var mp = document.querySelector("#contacto .mp");
+
+/* Copiar dirección: no depende del mapa */
+var cb = document.querySelector("#contacto [data-copy]");
+if (cb) {
+  var t0 = cb.textContent;
+  var say = function (m, ok) { cb.textContent = m; cb.classList.toggle("is-ok", !!ok); setTimeout(function () { cb.textContent = t0; cb.classList.remove("is-ok"); }, 1800); };
+  cb.addEventListener("click", function () {
+    var txt = cb.getAttribute("data-copy");
+    var fb = function () {
+      var a = document.createElement("textarea"); a.value = txt; a.setAttribute("readonly", ""); a.style.cssText = "position:fixed;opacity:0";
+      document.body.appendChild(a); a.select(); var r = false; try { r = document.execCommand("copy"); } catch (e) {} a.remove();
+      say(r ? "Copiada ✓" : "No se pudo copiar", r);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { say("Copiada ✓", true); }, fb); else fb();
+  });
+}
+
+var mp = document.querySelector("#contacto .dn-map");
 if (!mp) return;
 
-var CHITA = [-32.486865, -58.250318];           // Gral. Galarza 1712 (misma coordenada del mapa anterior)
+var CHITA = [-32.486865, -58.250318];           // Gral. Galarza 1712
 var ZOOM = 17;
 var TILES = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 var ATTR = '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>';
 var RM = matchMedia("(prefers-reduced-motion:reduce)").matches;
 var touch = matchMedia("(pointer:coarse)").matches || "ontouchstart" in window && !matchMedia("(pointer:fine)").matches;
 var iframe = mp.querySelector("iframe");
-var started = false, map = null, el = null, moved = false, dead = false;
+var started = false, map = null, el = null, moved = false, dead = false, btnC = null, lastScroll = 0;
+
+addEventListener("scroll", function () { lastScroll = performance.now(); }, { passive: true });
+/* Ejecuta fn cuando el scroll lleva ≥180 ms quieto y el navegador está libre */
+function calm(fn) {
+  (function chk() {
+    if (performance.now() - lastScroll < 180) { setTimeout(chk, 120); return; }
+    (window.requestIdleCallback || function (f) { setTimeout(f, 1); })(fn, { timeout: 1200 });
+  })();
+}
 
 function fallback() {
   dead = true;
@@ -32,7 +55,6 @@ function fallback() {
     iframe.src = iframe.getAttribute("data-fb");
     iframe.removeAttribute("data-fb");
   }
-  mp.classList.add("rd");
 }
 
 function loadAssets(done) {
@@ -46,35 +68,21 @@ function loadAssets(done) {
   document.head.appendChild(s);
 }
 
-/* En escritorio el panel de la dirección tapa la izquierda: el punto de Chita se ubica en el centro de la parte libre. */
-function homeCenter(z) {
-  if (!map) return null;
-  var off = 0;
-  if (innerWidth >= 900) {
-    var lc = document.querySelector("#contacto .lc");
-    if (lc) off = Math.max(0, (lc.getBoundingClientRect().right - mp.getBoundingClientRect().left) / 2);
-  }
-  var p = map.project(L.latLng(CHITA), z).subtract([off, 0]);
-  return map.unproject(p, z);
-}
 function goHome(animate) {
   if (!map) return;
-  var a = animate && !RM;
-  map.setView(homeCenter(ZOOM), ZOOM, { animate: a, duration: .6 });
+  map.setView(CHITA, ZOOM, { animate: !!animate && !RM, duration: .6 });
   moved = false; sync();
 }
-
-var btnC = null;
 function sync() {
   if (!btnC || !map) return;
-  var c = map.latLngToContainerPoint(homeCenter(map.getZoom())).distanceTo(map.getSize().divideBy(2));
+  var c = map.latLngToContainerPoint(L.latLng(CHITA)).distanceTo(map.getSize().divideBy(2));
   var away = c > 24 || Math.abs(map.getZoom() - ZOOM) > .01;
   btnC.classList.toggle("off", away);
   btnC.setAttribute("aria-label", away ? "Volver a Chita" : "Mapa centrado en Chita");
 }
 
 function init() {
-  if (dead) return;
+  if (dead || map) return;
   el = document.createElement("div");
   el.className = "mp-lf";
   el.setAttribute("role", "region");
@@ -92,26 +100,21 @@ function init() {
   L.control.attribution({ position: "bottomright", prefix: false }).addAttribution(ATTR).addTo(map);
 
   var ok = 0, bad = 0;
-  var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 2, updateWhenIdle: false, crossOrigin: false });
+  var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 1, updateWhenZooming: false, crossOrigin: false });
   tiles.on("tileload", function () { ok++; mp.classList.add("rd"); });
   tiles.on("tileerror", function () { bad++; if (!ok && bad >= 6) fallback(); });
   tiles.addTo(map);
 
-  /* La ficha: marcador del mapa. La punta de la flecha toca exactamente la coordenada. */
-  var icon = L.divIcon({
-    className: "chita-pin", iconSize: null, iconAnchor: [0, 0],
-    html: '<span class="cp"><i>Chita</i><b>1712</b></span>'
-  });
+  /* Ficha: marcador del mapa. La punta de la flecha (9 px bajo la ficha) toca exactamente la coordenada. */
+  var icon = L.divIcon({ className: "chita-pin", iconSize: null, iconAnchor: [0, 0], html: '<span class="cp"><i>Chita</i><b>1712</b></span>' });
   var mk = L.marker(CHITA, { icon: icon, interactive: false, keyboard: false, zIndexOffset: 1000 }).addTo(map);
   function anchor() {
     var n = mk.getElement(); if (!n) return;
-    var w = n.offsetWidth || 122, h = n.offsetHeight || 100;
-    n.style.marginLeft = (-w / 2) + "px"; n.style.marginTop = (-h) + "px";
+    n.style.marginLeft = (-(n.offsetWidth || 102) / 2) + "px"; n.style.marginTop = (-(n.offsetHeight || 96) - 9) + "px";
   }
   anchor();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(anchor);
 
-  /* Controles */
   var ctl = document.createElement("div");
   ctl.className = "mp-ctl";
   ctl.innerHTML =
@@ -150,18 +153,26 @@ function init() {
 
   map.on("dragstart zoomstart", function () { moved = true; });
   map.on("moveend zoomend", sync);
-
   goHome(false);
-  var t = 0;
-  addEventListener("resize", function () { clearTimeout(t); t = setTimeout(function () { if (!map) return; map.invalidateSize(); if (!moved) goHome(false); else sync(); }, 150); });
-  if ("ResizeObserver" in window) new ResizeObserver(function () { if (map) map.invalidateSize(); }).observe(mp);
+
+  /* Un solo observador de tamaño (reemplaza al listener de resize): recalcula el mapa y, si no se movió, lo recentra */
+  if ("ResizeObserver" in window) {
+    var rt = 0;
+    new ResizeObserver(function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { if (!map) return; map.invalidateSize(); if (!moved) goHome(false); else sync(); }, 120);
+    }).observe(mp);
+  }
 }
 
-function start() { if (started) return; started = true; loadAssets(init); }
+function start(now) {
+  if (started) return; started = true;
+  if (now) loadAssets(init); else calm(function () { loadAssets(function () { calm(init); }); });
+}
 
 if ("IntersectionObserver" in window) {
-  var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); start(); } }, { rootMargin: "1400px 0px" });
+  var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); start(false); } }, { rootMargin: "700px 0px" });
   io.observe(mp);
-} else addEventListener("load", function () { setTimeout(start, 800); });
-mp.addEventListener("pointerdown", start, { passive: true });
+} else addEventListener("load", function () { setTimeout(function () { start(false); }, 800); });
+mp.addEventListener("pointerdown", function () { start(true); }, { passive: true });
 })();

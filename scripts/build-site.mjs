@@ -59,7 +59,7 @@ const ESBUILD = ['--yes', 'esbuild@0.28.2'];
 const esb = (args, input) => execFileSync('npx', [...ESBUILD, ...args], { input, maxBuffer: 64 * 1024 * 1024 }).toString();
 
 // 1) Los CSS de index.html, en el MISMO orden, en un solo archivo minificado.
-const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56', 'chita-v57', 'chita-v58', 'chita-v59', 'chita-perf', 'chita-v60', 'chita-v61', 'chita-v62', 'lugar', 'quieto', 'secciones', 'horarios', 'chita-perf2']; // mismo orden que index.html (la cascada importa)
+const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56', 'chita-v57', 'chita-v58', 'chita-v59', 'chita-perf', 'chita-v60', 'chita-v61', 'chita-v62', 'lugar', 'quieto', 'secciones', 'horarios', 'chita-perf2', 'donde']; // mismo orden que index.html (la cascada importa)
 const idxPath = path.join(out, 'index.html');
 let html = fs.readFileSync(idxPath, 'utf8');
 const linkOf = (n) => `<link rel="stylesheet" href="css/${n}.css">`;

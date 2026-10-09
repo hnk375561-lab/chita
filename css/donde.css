@@ -1,0 +1,57 @@
+/* CHITA · «Dónde estamos» compacto + arreglos de lag. Se carga el último (la cascada importa).
+   Lag que se saca: antes el mapa llevaba un filtro CSS de 6 funciones sobre los mosaicos (se repinta en cada arrastre/zoom),
+   una capa translúcida a pantalla completa encima, sombras con filter en el cartel, y la sección medía 100svh.
+   Ahora: sin filtros, sin capas encima, panel de altura fija y el mapa se arma solo con el scroll quieto. */
+html body #contacto.dn{min-height:0!important;display:block!important;background:#01143B!important;padding:clamp(28px,4.5vw,56px) 0!important;position:relative;overflow:visible}
+.dn-w{width:min(1200px,100% - 32px);margin:0 auto;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(16px,2.4vw,32px);align-items:stretch}
+.dn-info{display:flex;flex-direction:column;gap:16px;min-width:0;color:#fff}
+html body #contacto.dn .dn-eb{margin:0;padding:0 0 0 12px;border-left:6px solid var(--rojo,#C1121F);font:800 13px/1.1 var(--font-display,Arial,sans-serif);letter-spacing:.2em;text-transform:uppercase;color:#fff}
+html body #contacto.dn .dn-eb::before,html body #contacto.dn .dn-eb::after{display:none!important}
+html body #contacto.dn address{margin:0;font-style:normal;color:var(--plata,#B9BEC4);font:500 clamp(15px,1.4vw,18px)/1.35 var(--b,Arial,sans-serif)}
+html body #contacto.dn address strong{display:block;font:800 clamp(30px,3.6vw,52px)/.95 var(--font-display,Arial,sans-serif)!important;letter-spacing:-.02em;text-transform:uppercase;color:#fff;margin:0 0 6px}
+html body #contacto.dn .hrs{margin:0!important;padding:14px 0 0!important;border-top:2px dashed rgba(255,255,255,.28)!important}
+.dn-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dn-c{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:52px;padding:0 14px;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.28);border-left:4px solid var(--chapa,#0A2C8C);color:#fff;font:700 14px/1.15 var(--font-display,Arial,sans-serif);text-decoration:none;text-align:left;cursor:pointer;-webkit-appearance:none;appearance:none;transition:background-color .16s,color .16s,transform .16s}
+.dn-c::after{content:"→";opacity:.7;flex:none}
+.dn-c--p{background:var(--rojo,#C1121F);border-color:var(--rojo,#C1121F);border-left-color:#fff}
+.dn-c:hover,.dn-c:focus-visible{background:#fff;color:#0A1020}
+.dn-c:active{transform:translateY(1px)}
+.dn-c:focus-visible,.dn-bar a:focus-visible,.mp-ctl button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.dn-c.is-ok{background:#1b7f4b;border-color:#1b7f4b;color:#fff}
+.dn-soc{display:flex;flex-wrap:wrap;gap:6px 18px;font:600 14px/1.2 var(--b,Arial,sans-serif)}
+.dn-soc a{display:inline-flex;align-items:center;min-height:44px;color:#fff;text-decoration:underline;text-underline-offset:3px}
+.dn-soc a:hover{color:var(--plata,#B9BEC4)}
+/* panel del mapa */
+.dn-map{position:relative;min-height:clamp(340px,40vw,460px);background:#cfdbe8;border:3px solid #fff;border-left:10px solid var(--rojo,#C1121F);overflow:hidden;isolation:isolate;contain:layout paint}
+.dn-ph{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,transparent 0 47%,rgba(10,44,140,.1) 47% 53%,transparent 53%) 0 0/120px 100%,linear-gradient(0deg,transparent 0 47%,rgba(10,44,140,.1) 47% 53%,transparent 53%) 0 0/100% 90px,#cfdbe8;transition:opacity .4s}
+.dn-map.rd .dn-ph{opacity:0;pointer-events:none}
+.dn-pin{position:absolute;left:50%;top:50%;transform:translate(-50%,calc(-100% - 9px))}
+.dn-map .mp-lf{position:absolute;inset:0;z-index:1;background:#cfdbe8;cursor:grab;outline:0;font-family:inherit;touch-action:pan-y pinch-zoom}
+.dn-map .mp-lf:active{cursor:grabbing}
+.dn-map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:2}
+.dn-map iframe:not([src]){display:none}
+.cp{display:block;position:relative;width:96px;background:#fff;border:3px solid #0A1020;text-align:center;box-shadow:0 5px 0 -1px rgba(0,0,0,.28)}
+.cp i{display:block;padding:5px 0;background:var(--chapa,#0A2C8C);color:#fff;font:800 11px/1 var(--font-display,Arial,sans-serif);font-style:normal;letter-spacing:.14em;text-transform:uppercase}
+.cp b{display:block;padding:6px 0 7px;color:#0A1020;font:800 30px/1 var(--font-display,Arial,sans-serif)}
+.cp::after{content:"";position:absolute;left:50%;top:100%;margin-left:-9px;border:9px solid transparent;border-top-color:#0A1020;border-bottom:0}
+.dn-map .chita-pin{background:none;border:0}
+.dn-map .mph{position:absolute;left:12px;top:12px;z-index:5;padding:6px 10px;background:rgba(1,20,59,.88);color:#fff;font:700 12px/1.2 var(--b,Arial,sans-serif);letter-spacing:.04em;pointer-events:none;transition:opacity .25s}
+.dn-map.on .mph,.dn-map:not(.lf) .mph{opacity:0}
+.dn-map .mp-ctl{position:absolute;right:12px;top:12px;z-index:6;display:flex;flex-direction:column;gap:6px}
+.dn-map .mp-ctl button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:44px;min-height:44px;padding:0 10px;background:#fff;color:#0A1020;border:2px solid #0A1020;border-radius:0;font:800 20px/1 var(--font-display,Arial,sans-serif);cursor:pointer}
+.dn-map .mp-ctl button:hover{background:#0A1020;color:#fff}
+.dn-map .mp-ctl .mp-c{font-size:12px}
+.dn-map .mp-ctl .mp-c svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.dn-map .mp-ctl .mp-c.off{opacity:.55}
+.dn-map .leaflet-control-attribution{font:11px/1.4 var(--b,Arial,sans-serif);background:rgba(255,255,255,.88);padding:1px 6px;margin:0 0 46px}
+.dn-bar{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:linear-gradient(rgba(1,20,59,0),rgba(1,20,59,.7))}
+.dn-bar a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;background:rgba(1,20,59,.94);color:#fff;border:1px solid rgba(255,255,255,.5);font:700 13px/1 var(--font-display,Arial,sans-serif);text-decoration:none}
+.dn-bar a:hover{background:#fff;color:#0A1020}
+@media (max-width:900px){
+  .dn-w{grid-template-columns:minmax(0,1fr)}
+  .dn-map{min-height:340px;order:2}
+  .dn-map .leaflet-control-attribution{margin-bottom:96px}
+}
+@media (max-width:420px){.dn-acts{grid-template-columns:minmax(0,1fr)}}
+/* Carrusel de videos: un recorte (clip-path) sobre un video en reproducción se recalcula en cada fotograma. La tarjeta activa va sin recorte. */
+html body #unidades .lz-card.is-a,html body #unidades .lz-card.is-live{clip-path:none!important}

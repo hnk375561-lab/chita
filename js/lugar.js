@@ -52,9 +52,12 @@ function go(i,mode){
 function toggle(){var v=vid(cur);if(v.paused){hold=false;play()}else{hold=true;v.pause()}}
 /* Precarga del video siguiente: mientras se ve el actual, el que sigue ya baja en segundo plano (pausado, sin decodificar),
    así el paso al próximo es inmediato en vez de arrancar de cero. Solo el actual y el siguiente conservan archivo; el resto se suelta. */
-var wt=0;
+var wt=0,lastS=0,pt=0;
+addEventListener("scroll",function(){lastS=performance.now()},{passive:true});
+function calmPlay(){clearTimeout(pt);(function chk(){if(!inView||hold)return;if(performance.now()-lastS<220){pt=setTimeout(chk,140);return}var v=vid(cur);if(v.paused&&!document.hidden)play()})()}
 function warm(){
  if(cn.saveData||document.hidden)return;
+ if(performance.now()-lastS<400){warmSoon(800);return}
  var nx=(cur+1)%n;
  cards.forEach(function(c,i){if(i!==cur&&i!==nx&&vid(i).getAttribute("src"))stop(i)});
  var v=vid(nx);
@@ -63,7 +66,7 @@ function warmSoon(ms){clearTimeout(wt);wt=setTimeout(warm,ms)}
 
 cards.forEach(function(c,i){
  var v=c.querySelector("video");v.disablePictureInPicture=true;
- v.addEventListener("playing",function(){c.classList.remove("is-busy");c.classList.add("is-live");if(i===cur){ui();warmSoon(500)}});
+ v.addEventListener("playing",function(){c.classList.remove("is-busy");c.classList.add("is-live");if(i===cur){ui();warmSoon(1800)}});
  v.addEventListener("waiting",function(){if(i===cur&&!v.paused)c.classList.add("is-busy")});
  v.addEventListener("canplay",function(){c.classList.remove("is-busy")});
  ["play","pause","volumechange"].forEach(function(e){v.addEventListener(e,function(){if(i===cur)ui()})});
@@ -109,7 +112,7 @@ document.addEventListener("fullscreenchange",fsc);document.addEventListener("web
 
 if("IntersectionObserver" in window){
  new IntersectionObserver(function(es){inView=es[0].isIntersecting;var v=vid(cur);
-  if(inView&&auto&&!hold&&v.paused&&!document.hidden)play();
+  if(inView&&auto&&!hold&&v.paused&&!document.hidden)calmPlay();
   else if(!inView&&!v.paused&&!document.fullscreenElement&&!document.webkitFullscreenElement)v.pause()},{threshold:.35}).observe(R)}
 else inView=true;
 document.addEventListener("visibilitychange",function(){var v=vid(cur);
