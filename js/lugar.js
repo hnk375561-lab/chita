@@ -54,6 +54,21 @@ function toggle(){var v=vid(cur);if(v.paused){hold=false;play()}else{hold=true;v
    así el paso al próximo es inmediato en vez de arrancar de cero. Solo el actual y el siguiente conservan archivo; el resto se suelta. */
 var wt=0,lastS=0,pt=0;
 addEventListener("scroll",function(){lastS=performance.now()},{passive:true});
+/* PERF · mientras se scrollea por el carrusel el video se pausa (decodificar y componer cada fotograma debajo de los
+   recortes y el borde es lo que traba el scroll) y se reanuda solo cuando el scroll se queda quieto ~220 ms.
+   La interfaz no parpadea (sPaused evita que ui() muestre el botón de reproducir). Pausa del usuario (hold) y pantalla completa no se tocan. */
+var sPaused=false,spT=0;
+addEventListener("scroll",function(){
+ if(!inView)return;
+ if(document.fullscreenElement||document.webkitFullscreenElement)return;
+ var v=vid(cur);
+ if(!v.paused&&!hold){sPaused=true;R.classList.add("is-sp");v.pause()}
+ if(!sPaused)return;
+ clearTimeout(spT);
+ spT=setTimeout(function(){
+  if(!sPaused)return;sPaused=false;R.classList.remove("is-sp");
+  var w=vid(cur);
+  if(inView&&!hold&&!document.hidden&&w.paused)play();else ui()},220)},{passive:true});
 function calmPlay(){clearTimeout(pt);(function chk(){if(!inView||hold)return;if(performance.now()-lastS<220){pt=setTimeout(chk,140);return}var v=vid(cur);if(v.paused&&!document.hidden)play()})()}
 function warm(){
  if(cn.saveData||document.hidden)return;
@@ -69,7 +84,7 @@ cards.forEach(function(c,i){
  v.addEventListener("playing",function(){c.classList.remove("is-busy");c.classList.add("is-live");if(i===cur){ui();warmSoon(1800)}});
  v.addEventListener("waiting",function(){if(i===cur&&!v.paused)c.classList.add("is-busy")});
  v.addEventListener("canplay",function(){c.classList.remove("is-busy")});
- ["play","pause","volumechange"].forEach(function(e){v.addEventListener(e,function(){if(i===cur)ui()})});
+ ["play","pause","volumechange"].forEach(function(e){v.addEventListener(e,function(){if(i===cur&&!(e==="pause"&&sPaused))ui()})});
  v.addEventListener("timeupdate",function(){if(i===cur&&v.duration>0&&segs[i])setP(i,v.currentTime/v.duration)});
  v.addEventListener("ended",function(){if(i===cur&&auto)go(cur+1,2)});
  v.addEventListener("error",function(){var lt=v.getAttribute("data-lite");

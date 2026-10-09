@@ -51,3 +51,6 @@ html body #contacto.dn .dn-map .mp-go{
 html body #contacto.dn .dn-map .mp-go:hover,html body #contacto.dn .dn-map .mp-go:focus-visible{background:#fff;color:#0A1020}
 html body #contacto.dn .dn-map .mp-go:focus-visible{outline:3px solid #0A1020;outline-offset:3px}
 @media(max-width:900px){html body #contacto.dn .dn-map .mp-go{left:50%}}
+
+/* ───────────── 4 · CARRUSEL DE VIDEOS: sin parpadeo del botón ▶ mientras el video se pausa por el scroll ───────────── */
+html body #unidades .lz-reels.is-sp .lz-card .lz-pl{opacity:0!important;transition:none}

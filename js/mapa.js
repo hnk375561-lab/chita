@@ -119,6 +119,11 @@ function init() {
     errorTileUrl: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" });
   tiles.on("tileload", function () { ok++; mp.classList.add("rd"); });
   tiles.on("tileerror", function () { bad++; if (!ok && bad >= 6) fallback(); });
+  /* decodificar los PNG fuera del hilo principal (Leaflet no lo hace) */
+  tiles.on("tileloadstart", function (e) { try { e.tile.decoding = "async"; } catch (_) {} });
+  /* centrar YA en la parte libre (a la derecha del panel) ANTES de pedir mosaicos: antes se pedían los de Chita centrada
+     y enseguida los del desplazamiento, o sea el doble de pedidos y decodificaciones justo al cargar */
+  goHome(false);
   tiles.addTo(map);
 
   /* Ficha: marcador del mapa. La punta de la flecha (9 px bajo la ficha) toca exactamente la coordenada. */
