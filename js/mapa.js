@@ -20,9 +20,10 @@ var ATTR = '© <a href="https://www.openstreetmap.org/copyright" target="_blank"
 var RM = matchMedia("(prefers-reduced-motion:reduce)").matches;
 var touch = matchMedia("(pointer:coarse)").matches || "ontouchstart" in window && !matchMedia("(pointer:fine)").matches;
 var iframe = mp.querySelector("iframe");
-var started = false, map = null, el = null, moved = false;
+var started = false, map = null, el = null, moved = false, dead = false;
 
 function fallback() {
+  dead = true;
   if (map) { try { map.remove(); } catch (e) {} map = null; }
   mp.classList.remove("lf", "lf-touch", "on");
   [].forEach.call(mp.querySelectorAll(".mp-lf,.mp-ctl"), function (n) { n.remove(); });
@@ -47,6 +48,7 @@ function loadAssets(done) {
 
 /* En escritorio el panel de la dirección tapa la izquierda: el punto de Chita se ubica en el centro de la parte libre. */
 function homeCenter(z) {
+  if (!map) return null;
   var off = 0;
   if (innerWidth >= 900) {
     var lc = document.querySelector("#contacto .lc");
@@ -56,6 +58,7 @@ function homeCenter(z) {
   return map.unproject(p, z);
 }
 function goHome(animate) {
+  if (!map) return;
   var a = animate && !RM;
   map.setView(homeCenter(ZOOM), ZOOM, { animate: a, duration: .6 });
   moved = false; sync();
@@ -71,6 +74,7 @@ function sync() {
 }
 
 function init() {
+  if (dead) return;
   el = document.createElement("div");
   el.className = "mp-lf";
   el.setAttribute("role", "region");
@@ -120,7 +124,7 @@ function init() {
     ctl.addEventListener(ev, function (e) { e.stopPropagation(); }, { passive: true });
   });
   ctl.addEventListener("click", function (e) {
-    var b = e.target.closest("button"); if (!b) return;
+    var b = e.target.closest("button"); if (!b || !map) return;
     if (b.classList.contains("mp-c")) goHome(true);
     else map.setZoom(map.getZoom() + (+b.getAttribute("data-z")));
   });
@@ -129,10 +133,12 @@ function init() {
   mp.classList.add("lf");
   if (touch) { mp.classList.add("lf-touch"); map.dragging.disable(); map.touchZoom.disable(); }
   function on() {
+    if (!map || dead) return;
     mp.classList.add("on"); el.setAttribute("data-lenis-prevent", "");
     if (touch) { map.dragging.enable(); map.touchZoom.enable(); } else map.scrollWheelZoom.enable();
   }
   function off() {
+    if (!map || dead) return;
     mp.classList.remove("on"); el.removeAttribute("data-lenis-prevent");
     if (touch) { map.dragging.disable(); map.touchZoom.disable(); } else map.scrollWheelZoom.disable();
   }
@@ -147,7 +153,7 @@ function init() {
 
   goHome(false);
   var t = 0;
-  addEventListener("resize", function () { clearTimeout(t); t = setTimeout(function () { map.invalidateSize(); if (!moved) goHome(false); else sync(); }, 150); });
+  addEventListener("resize", function () { clearTimeout(t); t = setTimeout(function () { if (!map) return; map.invalidateSize(); if (!moved) goHome(false); else sync(); }, 150); });
   if ("ResizeObserver" in window) new ResizeObserver(function () { if (map) map.invalidateSize(); }).observe(mp);
 }
 
