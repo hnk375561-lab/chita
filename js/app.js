@@ -206,6 +206,8 @@ window.chitaVr={go:vrGo,next:function(){vrGo(vi+1,1)},get i(){return vi},n:vL}})
 $("fqc").textContent=N.direccion+" · "+N.telefono;
 
 /* Formulario: valida y arma el mensaje de contacto segun la intencion elegida */
+/* Validación sin reportValidity(): evita el error de Chromium "invalid form control is not focusable"; el aviso va en el texto de estado */
+function formOk(f){if(f.checkValidity())return true;var b=f.querySelector(":invalid"),st=f.querySelector(".fs");if(st)st.textContent=(b&&b.validationMessage)||"Revisá los datos.";try{if(b&&b.getClientRects().length)b.focus({preventScroll:false})}catch(_){}return false}
 var FM=$("canjeForm"),FS=$("fStatus"),YR=new Date().getFullYear()+1;
 function kmVal(v){return v.replace(/[.\s]/g,"")}
 function check(){var m=FM.modelo,a=FM.anio,k=FM.km,y=+a.value;
@@ -217,12 +219,12 @@ function msgText(){var m=FM.modelo.value.trim(),a=FM.anio.value.trim(),k=kmVal(F
 var NU=$("nsU");if(NU)NU.textContent=STOCK.length;
 var PV=$("wpT");function pv(){if(PV)PV.textContent=msgText()}
 FM.addEventListener("input",function(){check();FS.textContent="";pv()});check();pv();
-FM.addEventListener("submit",function(e){e.preventDefault();check();if(!(function(f){if(f.checkValidity())return true;var b=f.querySelector(":invalid");if(b&&b.getClientRects().length&&getComputedStyle(b).visibility!=="hidden"){try{b.focus({preventScroll:false});f.reportValidity()}catch(_){}}return false})(FM))return;
+FM.addEventListener("submit",function(e){e.preventDefault();check();if(!formOk(FM))return;
 var u=wa(msgText());
 if(isWebContact(u)){FS.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";FS.appendChild(l);FS.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(FS,msgText())}});
 /* Visita y búsqueda: arman un mensaje de contacto que envía la persona; no se guarda nada */
 $("vsU").insertAdjacentHTML("beforeend",STOCK.map(function(c,i){return '<label class="ck"><input type="checkbox" name="u" value="'+i+'"><span>'+esc(c.titulo+" "+c.anio)+'</span></label>'}).join(""));
-function waForm(f,build){var s=f.querySelector(".fs");f.addEventListener("submit",function(e){e.preventDefault();if(!(function(f){if(f.checkValidity())return true;var b=f.querySelector(":invalid");if(b&&b.getClientRects().length&&getComputedStyle(b).visibility!=="hidden"){try{b.focus({preventScroll:false});f.reportValidity()}catch(_){}}return false})(f))return;var m=build(f),u=wa(m);if(isWebContact(u)){s.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";s.appendChild(l);s.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(s,m)}})}
+function waForm(f,build){var s=f.querySelector(".fs");f.addEventListener("submit",function(e){e.preventDefault();if(!formOk(f))return;var m=build(f),u=wa(m);if(isWebContact(u)){s.textContent="Abriendo WhatsApp con tu consulta. Si no se abrió, ";var l=document.createElement("a");l.href=u;l.target="_blank";l.rel="noopener noreferrer";l.textContent="tocá acá";s.appendChild(l);s.appendChild(document.createTextNode("."));window.open(u,"_blank","noopener")}else{callFallback(s,m)}})}
 waForm($("visitaForm"),function(f){var s=[].slice.call(f.querySelectorAll("input[name=u]:checked")).map(function(x){var c=STOCK[+x.value];return c.titulo+" "+c.anio}),w=f.cuando.value.trim();return "Hola! Quiero coordinar una visita para ver "+(s.length?s.join(", "):"algunos autos")+"."+(w?" Me queda cómodo: "+w+".":"")+" ¿Me confirman si siguen disponibles y en qué horario puedo ir?"});
 waForm($("buscoForm"),function(f){var a=f.anio.value.trim(),p=f.presu.value.trim(),c=f.comb.value;return "Hola! Estoy buscando un auto: "+f.modelo.value.trim()+(a?", año "+a+" en adelante":"")+(c?", "+c:"")+(p?", presupuesto aproximado "+p:"")+". ¿Tienen o van a tener algo parecido?"});
 })();
