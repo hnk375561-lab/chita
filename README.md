@@ -3,7 +3,7 @@
 Sitio oficial de Chita Automotores, Concepción del Uruguay. Sitio estático (HTML/CSS/JS; el movimiento usa GSAP + ScrollTrigger + Lenis, servidos desde `js/vendor/`).
 
 ## Archivos
-- `js/motion.js`: capa de movimiento en un solo archivo (GSAP = motor, ScrollTrigger = narrativa, Lenis = scroll), cargada como módulo desde `index.html`. `js/motion/core.js` y `js/motion/vendor.js` los comparten `viaje.js` y `reserva.js`. Ver `docs/MOTION.md`.
+- `js/motion.js`: capa de movimiento en un solo archivo (GSAP = motor, ScrollTrigger = narrativa, Lenis = scroll), cargada como módulo desde `index.html`. `js/motion/core.js` y `js/motion/vendor.js` los usa `reserva.js`. Ver `docs/MOTION.md`.
 - **Galería de fotos** (tarjetas y ficha): pista con `transform` manejada por `index.html` (`gGo`, `gStep`), sin scroll nativo. Flechas, arrastre táctil y de mouse, teclado (← →), contador, segmentos y, en la ficha, miniaturas. Los botones de flecha se deshabilitan en los extremos.
 - **Ficha** (`<dialog id="dlg">`): escritorio en dos columnas (galería + datos con pie fijo de consulta); en móvil ocupa toda la pantalla y el botón «Consultar esta unidad» queda fijo abajo. Clases con prefijo `fc`.
 - **Vender o permutar**: el formulario «Contanos tu auto» arma el mensaje de WhatsApp (`msgText()`) o, sin WhatsApp válido, ofrece copiarlo y llamar; a su lado, un carrusel de una unidad por vez (`window.chitaVr`, animado por `js/motion.js`).
