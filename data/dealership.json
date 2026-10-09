@@ -62,7 +62,7 @@
     "instagram": "chita.automotores",
     "facebook": "https://www.facebook.com/Chitaautomotores",
     "status": "telefono fijo 03442 44-2782 verificado en directorios; WhatsApp Ventas 3442-647442 confirmado en la bio de Facebook y en el perfil de WhatsApp del negocio (capturas del 3/10/2026); Gestoría 3442-547671 publicada en Instagram y Facebook",
-    "emailCandidate": "chitaautomotores@gmail.com figura públicamente en La Guía Local (consulta 2026-10-06); no está confirmado directamente por Chita y no se publica como email oficial hasta recibir confirmación.",
+    "emailCandidate": "chitaautomotores@gmail.com figura en la información de contacto de la página de Facebook del negocio (captura 2026-10-08) y antes en La Guía Local y Cylex. No se publica como email oficial hasta recibir confirmación del dueño.",
     "gestoriaPhone": "03442 54-7671",
     "gestoriaPhoneTel": "+543442547671",
     "phoneAlternativeUnverified": {
@@ -71,9 +71,9 @@
     }
   },
   "hours": {
-    "display": null,
-    "status": "conflicting-sources",
-    "note": "Tres versiones públicas sin convergencia (ver versions). El sitio no publica horario hasta que Chita lo defina.",
+    "display": "Lunes a viernes de 9:00 a 17:00 · Sábados de 8:30 a 12:00 · Domingos cerrados. Feriados: consultá por WhatsApp.",
+    "status": "public-source-google-maps-2026-10-08",
+    "note": "Publicado el 2026-10-08 con el horario de la ficha de Google Maps (vigente; coincide con LatinoPlaces, que la copia) y con el criterio de repetición entre fuentes: sábado 8:30–12:00 (Google, GTM, LatinoPlaces) y domingo cerrado (todas). Lunes a viernes 9–17: Google muestra mar–vie; el lunes habitual no se ve porque la captura cae en feriado, pero todas las fuentes agrupan lunes a viernes. Pendiente de ok escrito del dueño (APLICAR-TODO 4.13). Cylex, InfoisInfo, GTM y ZonaAuto son versiones anteriores con corte de mediodía.",
     "versions": [
       {
         "source": "Cylex (horario cargado 27/12/2022, actualizado 18/07/2024)",
@@ -82,10 +82,12 @@
         "dom": "Cerrado"
       },
       {
-        "source": "Google Business",
-        "lv": "09:00–17:00",
+        "source": "Google Maps (ficha del negocio; captura 2026-10-08)",
+        "lv": "mar–vie 09:00–17:00 (lunes habitual sin dato: el 12/10 figura cerrado por feriado)",
         "sab": "08:30–12:00",
-        "dom": "cerrado"
+        "dom": "Cerrado",
+        "feriados": "Horario especial",
+        "checkedAt": "2026-10-08"
       },
       {
         "source": "GTM",
@@ -96,6 +98,18 @@
         "source": "ZonaAuto",
         "lv": "08:30–12:00 y 15:30–19:30",
         "sab": "09:00–12:30"
+      },
+      {
+        "source": "InfoisInfo (sin fecha; versión anterior)",
+        "lv": "08:30–12:00 y 16:00–20:00",
+        "sab": "09:00–12:00",
+        "dom": "Cerrado"
+      },
+      {
+        "source": "LatinoPlaces (copia de datos tipo Google Maps; no es fuente independiente)",
+        "lv": "09:00–17:00",
+        "sab": "08:30–12:00",
+        "dom": "no indica"
       }
     ]
   },
@@ -152,7 +166,7 @@
   },
   "social": {
     "facebookFollowers": "15.000 (dato del solicitante, sin verificar)",
-    "instagramFollowers": "8.000 (dato del solicitante, sin verificar)",
+    "instagramFollowers": "7.953 (captura 2026-10-08; 178 publicaciones)",
     "lastFacebookPost": "hace ~8 h al 2026-10-02 (dato del solicitante)"
   },
   "sources": [
@@ -221,8 +235,8 @@
     "google": {
       "rating": "4,7",
       "outOf": 5,
-      "count": 45,
-      "checkedAt": "2026-10-02",
+      "count": 46,
+      "checkedAt": "2026-10-08",
       "published": true,
       "note": "Solo con fecha y atribución. No mezclar con GTM (9,2/10, 58 reseñas, cifras propias). No se publican testimonios textuales."
     },

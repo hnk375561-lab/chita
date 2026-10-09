@@ -7,7 +7,7 @@ import { execFileSync } from 'node:child_process';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const out = path.join(root, '_site');
 
-// Lista blanca: lo que no está acá no se publica (golive/, data/, docs/, scripts/, notas, viaje.html…).
+// Lista blanca: lo que no está acá no se publica (golive/, data/, docs/, scripts/, notas…).
 const FILES = ['index.html', '404.html', 'privacidad.html', 'reserva.html', 'og-chita.png', 'site.webmanifest', 'robots.txt', 'sitemap.xml'];
 const DIRS = ['css', 'js', 'fonts', 'images', 'assets', 'video'];
 
@@ -57,8 +57,8 @@ for (const unused of ['video/reel-recorrido.mp4', 'video/hero-lite.mp4', 'images
 const ESBUILD = ['--yes', 'esbuild@0.28.2'];
 const esb = (args, input) => execFileSync('npx', [...ESBUILD, ...args], { input, maxBuffer: 64 * 1024 * 1024 }).toString();
 
-// 1) Los 12 CSS de index.html, en el MISMO orden, en un solo archivo minificado.
-const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56', 'chita-v57', 'chita-v58', 'chita-v59', 'chita-perf', 'chita-v60']; // chita-v60 va después de chita-perf (cascada)
+// 1) Los CSS de index.html, en el MISMO orden, en un solo archivo minificado.
+const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56', 'chita-v57', 'chita-v58', 'chita-v59', 'chita-perf', 'chita-v60', 'chita-v61', 'chita-v62', 'lugar', 'quieto', 'secciones', 'chita-perf2']; // mismo orden que index.html (la cascada importa)
 const idxPath = path.join(out, 'index.html');
 let html = fs.readFileSync(idxPath, 'utf8');
 const linkOf = (n) => `<link rel="stylesheet" href="css/${n}.css">`;
@@ -70,8 +70,13 @@ fs.writeFileSync(path.join(out, 'css/chita.min.css'), minCss);
 CSS.forEach((n, i) => { html = html.replace(linkOf(n) + '\n', i === 0 ? linkOf('chita.min') + '\n' : '').replace(linkOf(n), i === 0 ? linkOf('chita.min') : ''); });
 fs.writeFileSync(idxPath, html);
 
+// 1b) Los CSS originales quedan duplicados en _site: se quitan (index.html ya usa chita.min.css).
+// (se conservan los que usan las otras páginas, p. ej. reserva.html enlaza css/motion.css)
+const otrasPaginas = FILES.filter((f) => /\.html$/.test(f) && f !== 'index.html').map((f) => fs.readFileSync(path.join(out, f), 'utf8')).join('\n');
+for (const n of CSS) if (!otrasPaginas.includes(`css/${n}.css`)) fs.rmSync(path.join(out, 'css', n + '.css'), { force: true });
+
 // 2) JS propio minificado (espacios y sintaxis; sin renombrar variables). vendor/ ya viene minificado.
-const JS = ['js/app.js', 'js/identidad.js', 'js/recorrido.js', 'js/reserva.js', 'js/motion.js', 'js/motion/core.js', 'js/clips.js', 'js/chita-v58.js'];
+const JS = ['js/app.js', 'js/identidad.js', 'js/recorrido.js', 'js/reserva.js', 'js/motion.js', 'js/motion/core.js', 'js/clips.js', 'js/chita-v58.js', 'js/secciones.js', 'js/lugar.js', 'js/hero-rail.js'];
 for (const f of JS) fs.writeFileSync(path.join(out, f), esb(['--minify-whitespace', '--minify-syntax', '--legal-comments=none'], fs.readFileSync(path.join(root, f), 'utf8')));
 console.log('CSS:', (bundle.length / 1024).toFixed(0), 'KB →', (minCss.length / 1024).toFixed(0), 'KB (1 archivo)');
 console.log('_site listo:', [...FILES, ...DIRS.map((d) => d + '/')].join(', '));

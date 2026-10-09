@@ -1,40 +1,40 @@
-# De demo a producción
+# De demo a producción (actualizado 2026-10-08)
 
-## Ahora (demo)
-- `noindex, nofollow` en `index.html`, `404.html` y `privacidad.html`; `robots.txt` con `Disallow: /`.
-- Aviso de demo arriba de todo, en el pie y en `privacidad.html#demo`.
-- Precios, horarios y datos sin confirmar figuran como "Consultar" o "a confirmar".
-- Sin JSON-LD ni sitemap a propósito: no se publican datos estructurados de un negocio sin aprobación.
+El sitio ya es el oficial de Chita Automotores (sin avisos de demo, con JSON-LD activo en `index.html`). Lo único temporal es la **indexación**: mientras `publicacion.publicIndexing` sea `false` en `data/dealership.json`, las 4 páginas llevan `noindex, nofollow` y `robots.txt` lleva `Disallow: /` (ver `CLAUDE.md`, regla 5).
+
+La puerta de salida es `npm run test:prod` (`node scripts/validate-dealership.mjs --prod`). **Falla a propósito** mientras quede algo de esta lista. `npm test` (modo demo) exige lo contrario y es el que corre el workflow de Pages.
 
 ## Datos que faltan (los tiene que dar el dueño)
-1. Horarios de atención (`NEGOCIO.horarios` y `hours.display`).
-2. Razón social, CUIT, domicilio legal y correo, para completar `privacidad.html` (sección "Responsable") y un canal formal para ejercer derechos.
-3. Confirmar que el teléfono/WhatsApp 03442 44-2782 es el oficial de atención.
-4. Cuenta oficial de Facebook (hoy es un perfil llamado "Chita Automotores") y que `@chita.automotores` sea su Instagram (no se pudo verificar).
-5. Qué unidades siguen disponibles, y sus precios si quiere publicarlos.
-6. Autorización para usar las fotos; decidir si se tapan las patentes visibles.
-6b. Autorización para usar el logo (imagen del negocio con "39 años de confianza"; hoy figura en el pie, la ficha, el 404 y la página de privacidad) y confirmar que la cifra sigue vigente.
-7. Confirmar "Comprar", 0 km (marcas), consignación (condiciones) y el lema "39 años de confianza". Hoy sí se ve: está dentro de la imagen del logo (hero, pie, ficha, 404 y privacidad) y en el `alt` del logo. Si el dueño no lo confirma, hay que usar una versión del logo sin la leyenda. La imagen para compartir (`preview.png`) ya no lo lleva ni menciona consignaciones.
-8. Si quiere mostrar el enlace de opiniones de Google (la ficha tiene 3 opiniones, una de 1 estrella hace más de 5 años).
+1. **Ok escrito del horario** publicado el 2026-10-08 (lun–vie 9–17, sáb 8:30–12, dom cerrado; fuente Google Maps). Confirmar también el lunes habitual y cómo avisan los feriados.
+2. Email oficial (`chitaautomotores@gmail.com` figura en el Facebook del negocio) y razón social, CUIT, domicilio legal para la sección "Responsable" de `privacidad.html`. Estado fiscal y CUIT tienen fuentes en conflicto: no se publican.
+3. Autorización para usar fotos y videos (hoy salen de Instagram/Facebook); decidir si se tapan patentes visibles. Registrarla en `data/dealership.json` (`photos.authorized`).
+4. Marcas 0 km actuales, condiciones de financiación, qué significa "Recibimos tu usado", consignación.
+5. Km real del Palio 2017 (128.000 o 120.000) y unidades duplicadas del stock (Tracker 1.8N 2018 y Palio 1.4N).
+6. Precios por unidad o "Consultar".
+7. Si se muestra la Gestoría (03442 54-7671; hoy está en `NEGOCIO.gestoria` pero no se renderiza).
+8. Dominio propio y quién lo administra.
 
 ## Al aprobar (checklist)
-1. `data/dealership.json` y `NEGOCIO` en `index.html`: cargar los datos confirmados, `demo.official: true`, `demo.publicIndexing: true`. Ajustar `scripts/validate-dealership.mjs` (hoy exige `noindex`, `Disallow: /` y `official === false`).
-2. Quitar `noindex, nofollow` de `index.html`, `404.html` y `privacidad.html`.
+1. `data/dealership.json`: cargar lo confirmado y poner `publicacion.publicIndexing: true`. Ajustar `scripts/validate-dealership.mjs` para que `npm test` pase a exigir lo contrario (sin `noindex`, sin `Disallow: /`).
+2. Quitar `noindex, nofollow` de `index.html`, `reserva.html`, `privacidad.html` y `404.html`.
 3. `robots.txt`:
    ```
    User-agent: *
    Allow: /
    Sitemap: https://DOMINIO-DEFINITIVO/sitemap.xml
    ```
-4. Crear `sitemap.xml` con `/` y `/privacidad.html`.
-5. `index.html`: reemplazar el dominio en `canonical`, `og:url`, `og:image` y `twitter:image`; quitar "DEMO ·" de `<title>`, `og:title`, `twitter:title` y `og:site_name`; ajustar `description` con datos confirmados.
-6. `404.html`: cambiar `<base href>` al dominio definitivo.
-7. Quitar el aviso `.demo` de arriba, la frase "Sitio demo…" del pie, la sección "Sobre esta demo" y la nota preliminar de `privacidad.html`; completar el responsable con datos reales y hacer revisar el texto por un profesional.
-8. Agregar JSON-LD `AutoDealer` solo con datos confirmados (nombre, dirección, teléfono, coordenadas de `data/dealership.json`, `sameAs` con redes oficiales, `openingHoursSpecification` cuando haya horarios). No agregar precios ni `Vehicle` sin datos confirmados.
-9. Si hay dominio propio: configurarlo en GitHub Pages (Settings > Pages > Custom domain, HTTPS) y actualizar los puntos 3 a 6.
-10. `npm test` y revisar en celular.
+4. `sitemap.xml` (raíz): reemplazar el dominio `github.io` por el definitivo (modelo en `golive/sitemap.xml`).
+5. Dominio en `index.html` (`canonical`, `og:url`, `og:image`, `twitter:image` y el JSON-LD: `url`, `image`, `logo`), en `reserva.html` (`canonical`, `og:*`) y en `404.html` (`<base href>`).
+6. JSON-LD: ya tiene nombre, dirección, teléfono, coordenadas, redes y horarios. **No agregar `aggregateRating`** (Google no muestra estrellas para reseñas propias de un negocio local), ni precios ni `Vehicle` sin datos confirmados.
+7. `privacidad.html`: completar el responsable con datos reales y hacer revisar el texto por un profesional.
+8. Si hay dominio propio: configurarlo (GitHub Pages: Settings > Pages > Custom domain + HTTPS; Netlify: Domain management) y repetir los puntos 3 a 5.
+9. `npm test`, `npm run test:prod`, `npm run check:all` y revisión en celular real.
+
+## Hospedaje
+- **GitHub Pages** (workflow `.github/workflows/pages.yml`): publica solo la lista blanca de `scripts/build-site.mjs`. El repo es público; el sitio también.
+- **Netlify** (`netlify.toml`): usa el mismo build (`[build]`), así que publica la misma lista blanca. Permite repo privado.
 
 ## Mejoras futuras (opcionales)
 - Fotos originales de todas las unidades y retiro de las vendidas.
-- Fuentes propias en vez de Google Fonts (evita la conexión a Google).
 - Página propia por unidad, si el stock crece.
+- Generar versiones `-lite` de los videos que aún no las tienen (`lz-charla`, `lz-detalle`, `lz-recorrido`, `atencion`).

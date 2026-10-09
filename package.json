@@ -15,7 +15,8 @@
     "check:desktop": "node scripts/check-all.mjs --desktop",
     "debug:anchors": "node scripts/debug-anchors.mjs",
     "check:safari": "node scripts/check-all.mjs --webkit",
-    "check:devices": "node scripts/check-all.mjs --all-devices"
+    "check:devices": "node scripts/check-all.mjs --all-devices",
+    "golive": "node scripts/golive.mjs"
   },
   "devDependencies": {
     "sharp": "^0.33.5",

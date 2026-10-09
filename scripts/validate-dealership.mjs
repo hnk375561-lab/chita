@@ -86,5 +86,28 @@ for (const page of ['404.html', 'privacidad.html']) {
 if (!/<base href="https:\/\/[^"]+\/">/.test(fs.readFileSync(path.join(root, '404.html'), 'utf8'))) errors.push('404.html: falta <base href> absoluto');
 const robotsBlocks = /Disallow:\s*\/\s*$/m.test(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8'));
 if (d.publicacion.publicIndexing === false ? !robotsBlocks : robotsBlocks) errors.push(d.publicacion.publicIndexing === false ? 'robots.txt debe tener Disallow: / (demo temporal, publicIndexing=false)' : 'robots.txt bloquea todo el sitio');
+// ── Modo producción: node scripts/validate-dealership.mjs --prod (npm run test:prod) ─────────────────
+// Es la puerta de salida: falla mientras el sitio siga en modo demo o con datos sin cargar.
+// En modo demo (sin --prod) NO se ejecuta y npm test sigue exigiendo lo contrario (CLAUDE.md, regla 5).
+if (process.argv.includes('--prod')) {
+  const pages = ['index.html', 'reserva.html', 'privacidad.html', '404.html'];
+  const text = (f) => fs.readFileSync(path.join(root, f), 'utf8');
+  const prod = (m) => errors.push('PROD: ' + m);
+  // Con --prod los chequeos de demo de arriba se invierten: se descartan los que exigen demo.
+  for (let i = errors.length - 1; i >= 0; i--) if (/demo temporal|debe tener noindex|debe tener Disallow/.test(errors[i])) errors.splice(i, 1);
+  if (d.publicacion.publicIndexing !== true) prod('publicacion.publicIndexing sigue en false');
+  for (const f of pages) if (/noindex/i.test(text(f))) prod(`${f}: tiene noindex`);
+  if (/Disallow:\s*\/\s*$/m.test(text('robots.txt'))) prod('robots.txt: Disallow: /');
+  if (!/^Sitemap:\s*https:\/\/\S+/m.test(text('robots.txt'))) prod('robots.txt: falta la línea Sitemap:');
+  for (const f of [...pages, 'sitemap.xml', 'robots.txt']) if (/github\.io/.test(text(f))) prod(`${f}: apunta a github.io (cambiar al dominio definitivo)`);
+  if (!/<script type="application\/ld\+json">/.test(text('index.html'))) prod('index.html: falta JSON-LD (golive/json-ld-autodealer.html)');
+  for (const f of pages) if (/\b(a confirmar|a cargar|EJEMPLO|Pendiente de confirmaci[oó]n|DEMO ·)/.test(text(f).replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ''))) prod(`${f}: quedan textos de demo ("a confirmar", "a cargar", "EJEMPLO", "Pendiente de confirmación")`);
+  if (!d.contact.whatsApp) prod('WhatsApp sin cargar');
+  if (!d.hours.display) prod('horarios sin publicar (hours.display vacío)');
+  if (!d.contact.email) prod('email oficial sin cargar (privacidad.html necesita un canal para ejercer derechos)');
+  if (!d.identity.legalName) prod('razón social sin cargar (privacidad.html, sección Responsable)');
+  const fotos = d.photos || d.images || {};
+  if (fotos.authorized !== true && fotos.status !== 'authorized') prod('autorización de fotos y videos sin registrar en data/dealership.json (photos.authorized)');
+}
 if (errors.length) { console.error(errors.map((e) => 'ERROR: ' + e).join('\n')); process.exit(1); }
 console.log('Datos de Chita válidos y consistentes con index.html.');

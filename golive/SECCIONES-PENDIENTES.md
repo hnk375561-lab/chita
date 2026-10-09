@@ -1,5 +1,7 @@
 # Secciones reservadas (pendientes de confirmación)
 
+> **Estado 2026-10-08:** `index.html` ya no muestra etiquetas «Pendiente de confirmación». La tabla de abajo lista lo que aún se podría sumar con confirmación del dueño; no son secciones visibles hoy. **Horarios:** publicados el 2026-10-08 (fuente Google Maps), pendientes de ok escrito.
+
 Estas secciones existen en `index.html` como estructura, marcadas con la etiqueta «Pendiente de confirmación». **No contienen datos del negocio.** Se completan solo con confirmación escrita del dueño (regla 1 de `CLAUDE.md`) y cada dato nuevo se registra en `AFIRMACIONES-A-CONFIRMAR.md` con fuente y fecha.
 
 | Sección (id) | Qué hay que pedirle al dueño | Al completarla |

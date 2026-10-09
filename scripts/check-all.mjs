@@ -27,7 +27,7 @@ const EXPECT = {
   maps: [D.location.mapsPlaceUrl, D.location.mapsReviewsUrl].filter(Boolean),
   instagram: D.contact.instagram, facebook: D.contact.facebook,
 };
-const PAGES = ['index.html', 'reserva.html', 'viaje.html', 'privacidad.html'].filter((f) => fs.existsSync(path.join(root, f)));
+const PAGES = ['index.html', 'reserva.html', 'privacidad.html'].filter((f) => fs.existsSync(path.join(root, f)));
 const outDir = path.join(root, 'check-report');
 fs.rmSync(outDir, { recursive: true, force: true }); fs.mkdirSync(outDir, { recursive: true });
 const slow = args.has('--slow') ? 2 : 1;

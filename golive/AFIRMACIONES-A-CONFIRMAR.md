@@ -1,3 +1,14 @@
+## Revisión 2026-10-08 (capturas de redes del negocio)
+- Horario Google Maps (ficha del negocio): mar–vie 09:00–17:00 · sáb 08:30–12:00 · dom cerrado. Lunes 12/10: cerrado, "Horario especial" (feriado). Lunes habitual: sin dato visible. No publicado (ver APLICAR-TODO 4.13).
+- Directorios Cylex, InfoisInfo, GTM, ZonaAuto (corte de mediodía): versiones anteriores. LatinoPlaces: copia de Google, no es fuente independiente.
+- Valoración Google: 4,7 · 46 reseñas (antes 45, consulta 2026-10-02). Sitio actualizado.
+- Teléfono 03442 44-2782 y WhatsApp +54 9 3442 64-7442: Facebook del negocio, 2026-10-08.
+- Email chitaautomotores@gmail.com: Facebook del negocio, 2026-10-08. No publicado hasta aprobación del dueño.
+- Gestoría 3442-547671: Instagram (bio), 2026-10-08. No es teléfono general; no se muestra en el sitio.
+- Instagram: 7.953 seguidores, 178 publicaciones (2026-10-08). Facebook: 15.000 sin verificar.
+- Tel. 03442-442857 (DeVenta): probable error de tipeo; descartado.
+- DeVenta menciona consignaciones, permutas, ventas por mandato y 0 km todas las marcas: directorio, sin autorización del dueño.
+
 ## Dossier 3 · 2026-10-02
 **Agregado:** sección «Trayectoria verificable» (1991 solo como año; misma dirección en diez fuentes; archivo de fachada descrito en texto como material histórico; Instagram 2025–26), dos preguntas frecuentes (marca oficial, desde cuándo) y la descripción prudente «nuevos y usados» según fuentes públicas.
 **Corregido:** el número de contacto directo se mostraba como «+54 9 03442 44-2782» (formato de WhatsApp sin confirmar); ahora «03442 44-2782».

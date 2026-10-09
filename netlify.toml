@@ -1,4 +1,12 @@
-# Publicar solo el sitio: los archivos internos devuelven 404
+# Publicar SOLO la lista blanca de scripts/build-site.mjs (mismo build que GitHub Pages)
+[build]
+  command = "node scripts/build-site.mjs"
+  publish = "_site"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Segunda barrera: los archivos internos devuelven 404
 [[redirects]]
   from = "/golive/*"
   to = "/404.html"
@@ -66,6 +74,21 @@
   force = true
 [[redirects]]
   from = "/chita-cambios/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/PERF-CAMBIOS.md"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/_config.yml"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/.github/*"
   to = "/404.html"
   status = 404
   force = true

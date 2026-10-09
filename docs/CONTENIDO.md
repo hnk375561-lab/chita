@@ -58,3 +58,7 @@ Videos: `video/ambiente.mp4` (banda/equipo) y `video/recorrido.mp4` (recorrido d
 
 ## 5. Mantenerlo vivo
 Si Chita publica seguido, el sitio se desactualiza rápido. Definir **quién** carga las unidades nuevas y retira las vendidas (cada alta: foto → `make-images` → `STOCK` → `prerender` → `test` → commit). Con GitHub Pages cada commit publica solo.
+
+
+## Fotos de unidades con datos escritos encima
+Las fotos de las tarjetas pueden llevar año y km impresos en la imagen (ej. "Año 2016 · Km 123.000"). **Cada cambio de año o km en `STOCK` exige rehacer esa foto o pedir una sin texto**; si no, la tarjeta y la foto se contradicen. Antes de publicar, comparar año y km de las 10 unidades contra su foto. Pendiente conocido: Palio 2017 (128.000 en la foto, sin km en `STOCK` hasta conciliar con 120.000).
