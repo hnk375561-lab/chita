@@ -2,6 +2,7 @@
    1) «Comprá, vendé o permutá»: marca cada tarjeta con .ld cuando su foto cargó
       (css/secciones.css deja la foto en opacity:0 hasta que existe .ld).
    2) «Cómo comprar»: el riel rojo se llena con el scroll y se enciende el paso actual.
+   3) Ficha: el fondo de los costados es la misma foto, borrosa (var --fbg en .fcs).
    Los estilos de este archivo viven en css/secciones.css. */
 (function () {
   "use strict";
@@ -19,6 +20,26 @@
   setTimeout(function () {
     document.querySelectorAll("#operaciones .oc .oi:not(.ld)").forEach(listo);
   }, 4000);
+
+  /* ---- 3 · ficha: fondo borroso con la foto actual ---- */
+  var dlg = document.getElementById("dlg");
+  if (dlg) {
+    var fl = 0;
+    var setBg = function () {
+      fl = 0;
+      var fcs = dlg.querySelector(".fcs"), ct = fcs && fcs.querySelector(".ct");
+      if (!ct) return;
+      var imgs = ct.querySelectorAll("img"), im = imgs[+ct.getAttribute("data-k") || 0];
+      var u = im && (im.currentSrc || im.src);
+      if (u && fcs.getAttribute("data-bg") !== u) {
+        fcs.setAttribute("data-bg", u);
+        fcs.style.setProperty("--fbg", 'url("' + u.replace(/"/g, "%22") + '")');
+      }
+    };
+    new MutationObserver(function () { if (!fl) fl = requestAnimationFrame(setBg); })
+      .observe(dlg, { subtree: true, childList: true, attributes: true, attributeFilter: ["data-k", "open"] });
+    setBg();
+  }
 
   /* ---- 2 · riel de «Cómo comprar» ---- */
   var list = document.querySelector("#como-comprar .tk-list");
