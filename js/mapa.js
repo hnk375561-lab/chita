@@ -109,7 +109,9 @@ function init() {
   L.control.attribution({ position: "bottomright", prefix: false }).addAttribution(ATTR).addTo(map);
 
   var ok = 0, bad = 0;
-  var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 2, updateInterval: 300, updateWhenZooming: false, crossOrigin: false });
+  var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 2, updateInterval: 300, updateWhenZooming: false, crossOrigin: false,
+    /* si un mosaico no llega (el servidor limita pedidos, red lenta) queda un hueco transparente en vez de una imagen rota */
+    errorTileUrl: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" });
   tiles.on("tileload", function () { ok++; mp.classList.add("rd"); });
   tiles.on("tileerror", function () { bad++; if (!ok && bad >= 6) fallback(); });
   tiles.addTo(map);
