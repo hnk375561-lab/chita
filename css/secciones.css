@@ -145,7 +145,7 @@ html body #unidades#unidades .ff #fc{min-height:48px!important;height:48px!impor
 html body #unidades#unidades .ff #fc:not(:disabled):is(:hover,:focus-visible){background:var(--rojo)!important}
 html body #unidades#unidades .ff #fc:disabled{opacity:.35;cursor:not-allowed}
 html body #unidades#unidades .ff .fmchips{padding:14px 0 0!important;border-top:2px dashed rgba(10,16,32,.3);gap:8px!important}
-html body #unidades#unidades .fm-chip{min-height:42px!important;padding:0 16px!important;border:2px solid var(--ink)!important;border-radius:0!important;background:#fff!important;color:var(--ink)!important;font:800 12px/1 var(--font-display)!important;letter-spacing:.1em!important;text-transform:uppercase;cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}
+html body #unidades#unidades .fm-chip{min-height:44px!important;padding:0 16px!important;border:2px solid var(--ink)!important;border-radius:0!important;background:#fff!important;color:var(--ink)!important;font:800 12px/1 var(--font-display)!important;letter-spacing:.1em!important;text-transform:uppercase;cursor:pointer;transition:background-color .15s,color .15s,border-color .15s}
 html body #unidades#unidades .fm-chip:is(:hover,:focus-visible){background:var(--ink)!important;color:#fff!important;outline:0}
 html body #unidades#unidades .fm-chip:focus-visible{outline:3px solid var(--chapa)!important;outline-offset:2px}
 html body #unidades#unidades .fm-chip.on{background:var(--rojo)!important;border-color:var(--rojo)!important;color:#fff!important}
