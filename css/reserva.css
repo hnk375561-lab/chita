@@ -51,6 +51,8 @@ em{font-style:normal}
 .calendar{flex:1;min-height:0;grid-auto-rows:minmax(0,1fr);border-left:1px solid rgba(10,16,32,.28);border-top:1px solid rgba(10,16,32,.28)}
 .day-cell{position:relative;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(4px,1vh,10px) 8px;border-right:1px solid rgba(10,16,32,.28);border-bottom:1px solid rgba(10,16,32,.28);text-align:left;color:var(--ink);background:transparent;transition:background .2s ease,color .2s ease}
 .day-cell--empty{background:rgba(10,16,32,.05)}
+/* en pantallas bajas (iPhone SE) los dias quedaban de menos de 32px: piso tactil */
+button.day-cell{min-height:32px}
 .day-cell span{font:800 clamp(18px,4.2vh,42px)/1 "Bricolage Grotesque",system-ui,sans-serif}
 .day-cell small{font:700 11px/1 "Instrument Sans",system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--red);min-height:11px}
 .day-cell:not(:disabled):hover,.day-cell:focus-visible{background:var(--blue);color:#fff}
