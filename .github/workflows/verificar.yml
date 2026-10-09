@@ -90,7 +90,7 @@ jobs:
           cp -r check-report informe/publicado-capturas 2>/dev/null
           exit $code
 
-      - name: 9 · Puerta de producción (informativo: debe fallar mientras sea demo)
+      - name: 9 · Puerta de producción (informativo, debe fallar mientras sea demo)
         id: prod
         continue-on-error: true
         run: npm run test:prod 2>&1 | tee informe/produccion.txt; exit ${PIPESTATUS[0]}
