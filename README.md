@@ -26,3 +26,4 @@ GitHub > Settings > Pages > Deploy from a branch > main / (root). URL esperada: 
 
 ## Estado
 Demo temporal en github.io: **no indexable** (`noindex, nofollow` en las páginas y `Disallow: /` en `robots.txt`) mientras `publicacion.publicIndexing` sea `false` en `data/dealership.json`. `sitemap.xml` y metadatos sociales (`og-chita.png`) presentes; el JSON-LD (`golive/json-ld-autodealer.html`) está preparado y sin activar. Ver regla 5 de `CLAUDE.md`.
+ 
