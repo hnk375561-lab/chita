@@ -372,26 +372,27 @@ function initHero() {
     /* Estado inicial. El CSS mantiene oculto el texto con .mh hasta este punto; la foto está pintada desde el
        primer frame (el telón la cubre), así que la imagen principal no espera al JS para empezar a descargarse. */
     gsap.set(headerItems, { yPercent: -120, opacity: 0 });
-    gsap.set(logo, { opacity: 0, y: 12 });
+    if (logo) gsap.set(logo, { opacity: 0, y: 12 });
     gsap.set(words, { yPercent: 118, rotate: 4, transformOrigin: "0% 100%" });
     gsap.set(lead, { opacity: 0, y: 18 });
     gsap.set(goItems, { opacity: 0, y: 16 });
-    gsap.set(infoItems, { opacity: 0, y: 16 });
+    if (infoItems.length) gsap.set(infoItems, { opacity: 0, y: 16 });
     if (veil) gsap.set(veil, { display: "block", yPercent: 0 });
     root.classList.remove("mh");
 
     const clean = [logo, lead, ...words, ...goItems, ...infoItems, veil, ...headerItems].filter(Boolean);
-    gsap.timeline({
+    /* Solo se animan los elementos que existen (GSAP avisa "target not found" con null o listas vacías). */
+    const tl = gsap.timeline({
       defaults: { ease: EASE.soft },
       onComplete: () => { gsap.set(clean, { clearProps: "all" }); ScrollTrigger.refresh(); }
-    })
-      .to(headerItems, { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: EASE.expo }, 0)
-      .to(veil || [], { yPercent: -100, duration: 1.25, ease: EASE.mask }, 0.1)
-      .to(logo, { opacity: 1, y: 0, duration: 0.8 }, 0.3)
-      .to(words, { yPercent: 0, rotate: 0, duration: 1.05, ease: EASE.expo, stagger: 0.055 }, 0.4)
+    });
+    tl.to(headerItems, { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.07, ease: EASE.expo }, 0);
+    if (veil) tl.to(veil, { yPercent: -100, duration: 1.25, ease: EASE.mask }, 0.1);
+    if (logo) tl.to(logo, { opacity: 1, y: 0, duration: 0.8 }, 0.3);
+    tl.to(words, { yPercent: 0, rotate: 0, duration: 1.05, ease: EASE.expo, stagger: 0.055 }, 0.4)
       .to(lead, { opacity: 1, y: 0, duration: 0.9 }, 0.85)
-      .to(goItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0)
-      .to(infoItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0);
+      .to(goItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0);
+    if (infoItems.length) tl.to(infoItems, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, 1.0);
   });
 
   return () => { ctx.revert(); };
@@ -696,7 +697,7 @@ function initReveals({ desktop }, inertia) {
 
     /* RESEÑAS · caída con perspectiva; las estrellas se encienden una a una. */
     const reviews = qsa("#opiniones .rvc");
-    gsap.set(reviews, { opacity: 0, y: -30 * d, rotationX: desktop ? -16 : 0, transformPerspective: 900, transformOrigin: "50% 0%" });
+    if (reviews.length) gsap.set(reviews, { opacity: 0, y: -30 * d, rotationX: desktop ? -16 : 0, transformPerspective: 900, transformOrigin: "50% 0%" });
     reviews.forEach((card) => { const stars = qsa(".rvs svg", card); if (stars.length) gsap.set(stars, { scale: 0, rotate: -50, transformOrigin: "50% 55%" }); });
     batch(reviews, (g) => g.forEach((card, i) => {
       gsap.to(card, { opacity: 1, y: 0, rotationX: 0, duration: 1, ease: "power4.out", delay: i * 0.12, clearProps: "opacity,transform" });
@@ -809,7 +810,7 @@ function initParallax({ desktop }) {
       gsap.fromTo(img, { yPercent: -5 * k }, { yPercent: 5 * k, ease: EASE.linear, immediateRender: false, scrollTrigger: scrub(img.closest(".vl") || img, "top bottom", "bottom top") });
     });
     const hints = qsa("#local .vsn li");
-    gsap.set(hints, { opacity: 0, x: 40, rotate: 1.5 });
+    if (hints.length) gsap.set(hints, { opacity: 0, x: 40, rotate: 1.5 });
     if (hints.length) once(hints[0], "top 92%", () => gsap.to(hints, { opacity: 1, x: 0, rotate: 0, duration: 1, ease: EASE.soft, stagger: 0.1, clearProps: "opacity,transform" }));
 
     /* EQUIPO · la foto grande se destapa desde abajo y se acerca. */

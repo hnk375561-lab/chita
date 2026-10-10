@@ -59,7 +59,8 @@ const ESBUILD = ['--yes', 'esbuild@0.28.2'];
 const esb = (args, input) => execFileSync('npx', [...ESBUILD, ...args], { input, maxBuffer: 64 * 1024 * 1024 }).toString();
 
 // 1) Los CSS de index.html, en el MISMO orden, en un solo archivo minificado.
-const CSS = ['site', 'motion', 'identidad', 'comparador', 'chita-v54', 'resenas-compra', 'chita-v55', 'chita-v56', 'chita-v57', 'chita-v58', 'chita-v59', 'chita-perf', 'chita-v60', 'chita-v61', 'chita-v62', 'lugar', 'quieto', 'secciones', 'horarios', 'chita-perf2', 'donde', 'header-tint']; // mismo orden que index.html (la cascada importa)
+const CSS = [...fs.readFileSync(path.join(out, 'index.html'), 'utf8').matchAll(/<link rel="stylesheet" href="css\/([\w.-]+)\.css">/g)].map((m) => m[1]); // derivada de index.html: una hoja nueva ya no queda afuera del bundle
+if (!CSS.length) throw new Error('index.html: no se encontraron hojas CSS locales');
 const idxPath = path.join(out, 'index.html');
 let html = fs.readFileSync(idxPath, 'utf8');
 const linkOf = (n) => `<link rel="stylesheet" href="css/${n}.css">`;
@@ -75,6 +76,8 @@ const cssHash = crypto.createHash('sha1').update(minCss).digest('hex').slice(0, 
 fs.renameSync(path.join(out, 'css/chita.min.css'), path.join(out, `css/chita.${cssHash}.css`));
 html = html.replace('css/chita.min.css', `css/chita.${cssHash}.css`);
 if (html.includes('chita.min.css')) throw new Error('index.html aún referencia chita.min.css');
+const suelta = html.match(/<link rel="stylesheet" href="css\/(?!chita\.[0-9a-f]{8}\.css)[^"]+">/);
+if (suelta) throw new Error('index.html (build) aún enlaza una hoja CSS suelta: ' + suelta[0]);
 fs.writeFileSync(idxPath, html);
 
 // 1b) Los CSS originales quedan duplicados en _site: se quitan (index.html ya usa chita.min.css).

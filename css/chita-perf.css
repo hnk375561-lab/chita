@@ -46,12 +46,12 @@ html body #financiacion#financiacion#financiacion .fin-bg.mos{
   background:
     repeating-linear-gradient(90deg,var(--chapa) 0 8px,transparent 8px 25%),
     linear-gradient(180deg,rgba(193,18,31,.6) 0%,rgba(193,18,31,.44) 42%,rgba(122,10,20,.72) 100%),
-    url(../images/bg-fin.webp) 50% 50%/cover no-repeat var(--rojo)!important}
+    var(--bg-fin) 50% 50%/cover no-repeat var(--rojo)!important}
 @media(max-width:899px){html body #financiacion#financiacion#financiacion .fin-bg.mos{
   background:
     repeating-linear-gradient(90deg,var(--chapa) 0 6px,transparent 6px 50%),
     linear-gradient(180deg,rgba(193,18,31,.6) 0%,rgba(193,18,31,.44) 42%,rgba(122,10,20,.72) 100%),
-    url(../images/bg-fin.webp) 50% 50%/cover no-repeat var(--rojo)!important}}
+    var(--bg-fin) 50% 50%/cover no-repeat var(--rojo)!important}}
 html.m body #financiacion#financiacion .fin-bg,html.m body #financiacion#financiacion.in .fin-bg{opacity:1!important;transition:none!important}
 html body #financiacion#financiacion#financiacion .pdl{
   background:linear-gradient(150deg,rgba(10,44,140,.82) 0%,rgba(7,28,94,.8) 100%)!important;
@@ -83,7 +83,7 @@ html body #visita#visita#visita#visita .fin-bg.mos{
   background:
     repeating-linear-gradient(90deg,var(--chapa) 0 8px,transparent 8px 25%),
     linear-gradient(180deg,rgba(11,44,140,.74),rgba(11,44,140,.6) 45%,rgba(7,28,96,.86)),
-    url(../images/bg-visita.webp) 50% 50%/cover no-repeat #0b2c8c!important}
+    var(--bg-visita) 50% 50%/cover no-repeat #0b2c8c!important}
 html body #visita#visita#visita#visita .vx-head{
   background:linear-gradient(150deg,rgba(193,18,31,.8),rgba(143,14,24,.78))!important;
   -webkit-backdrop-filter:none!important;backdrop-filter:none!important}
@@ -157,3 +157,10 @@ html body #hero .hx-pass.off .hx-trk{will-change:auto}
      Por eso el recorte se escribe acá con el --c del elemento: al soltar la animación queda exactamente el mismo corte que se ve hoy. */
   @media(min-width:900px){html.m body #hero .hx-reel{clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,0 100%);animation-fill-mode:backwards}}
 }
+/* Los 3 fondos grandes (≈620 KB) se pedían al cargar porque .fin-bg.mos siempre está en display:block.
+   Con html.bgd (lo pone el <script> del <head>) solo se aplican cuando clips.js agrega html.bg-fin / .bg-visita / .bg-guia,
+   al acercarse a la sección. Sin JS no hay .bgd y todo queda como antes. */
+:root{--bg-fin:url(../images/bg-fin.webp);--bg-visita:url(../images/bg-visita.webp);--bg-guia:url(../images/bg-guia.webp)}
+html.bgd:not(.bg-fin){--bg-fin:none}
+html.bgd:not(.bg-visita){--bg-visita:none}
+html.bgd:not(.bg-guia){--bg-guia:none}

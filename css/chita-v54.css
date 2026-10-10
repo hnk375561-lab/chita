@@ -72,6 +72,6 @@ html body :is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita):is(#f
 html body :is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita):is(#financiacion,#guia,#visita) .w>.xt{padding-right:clamp(18px,3vw,48px)!important}
 
 /* Fondo de una sola imagen (mucho más liviano que 12 fotos sueltas) */
-html body #guia#guia#guia .fin-bg.mos{display:block!important;background:url(../images/bg-guia.webp) center/cover no-repeat}
-html body #visita#visita#visita .fin-bg.mos{display:block!important;background:url(../images/bg-visita.webp) center/cover no-repeat}
-html body #financiacion#financiacion#financiacion .fin-bg.mos{display:block!important;background:url(../images/bg-fin.webp) center/cover no-repeat}
+html body #guia#guia#guia .fin-bg.mos{display:block!important;background:var(--bg-guia) center/cover no-repeat}
+html body #visita#visita#visita .fin-bg.mos{display:block!important;background:var(--bg-visita) center/cover no-repeat}
+html body #financiacion#financiacion#financiacion .fin-bg.mos{display:block!important;background:var(--bg-fin) center/cover no-repeat}

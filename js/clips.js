@@ -39,29 +39,29 @@ clips.forEach(function(f){
 /* PERF · Financiación: el fondo (images/bg-fin.webp) se baja y se decodifica ANTES de llegar a la sección (a ~2 pantallas),
    así no se decodifica en el primer frame en que aparece, que era el tirón «al llegar». */
 (function(){
-var s=document.getElementById("financiacion");if(!s||!("IntersectionObserver" in window))return;
-var sd=navigator.connection&&navigator.connection.saveData;
+var s=document.getElementById("financiacion"),H=document.documentElement,K="bg-fin";if(!s||!("IntersectionObserver" in window)){H.classList.add(K);return}
+var nc=navigator.connection||{},lo=nc.saveData||/(^|-)2g$|3g/.test(nc.effectiveType||"");
 var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
-  var im=new Image();im.decoding="async";im.src="images/bg-fin.webp";if(im.decode)im.decode().catch(function(){})},{rootMargin:(sd?"300px":"2200px")+" 0px"});
+  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-fin.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"300px":innerWidth<900?"800px":"1600px")+" 0px"});
 io.observe(s);
 })();
 
 /* PERF · Visita: mismo criterio que Financiación. El fondo (images/bg-visita.webp, 1440x2128) se baja y decodifica antes de llegar,
    para que no se decodifique en el primer frame en que aparece la sección. */
 (function(){
-var s=document.getElementById("visita");if(!s||!("IntersectionObserver" in window))return;
-var sd=navigator.connection&&navigator.connection.saveData;
+var s=document.getElementById("visita"),H=document.documentElement,K="bg-visita";if(!s||!("IntersectionObserver" in window)){H.classList.add(K);return}
+var nc=navigator.connection||{},lo=nc.saveData||/(^|-)2g$|3g/.test(nc.effectiveType||"");
 var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
-  var im=new Image();im.decoding="async";im.src="images/bg-visita.webp";if(im.decode)im.decode().catch(function(){})},{rootMargin:(sd?"300px":"2200px")+" 0px"});
+  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-visita.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"300px":innerWidth<900?"800px":"1600px")+" 0px"});
 io.observe(s);
 })();
 
 /* PERF · Guía: mismo criterio que Financiación y Visita. El fondo (images/bg-guia.webp, 1440x1600) se baja y decodifica antes de llegar. */
 (function(){
-var s=document.getElementById("guia");if(!s||!("IntersectionObserver" in window))return;
-var sd=navigator.connection&&navigator.connection.saveData;
+var s=document.getElementById("guia"),H=document.documentElement,K="bg-guia";if(!s||!("IntersectionObserver" in window)){H.classList.add(K);return}
+var nc=navigator.connection||{},lo=nc.saveData||/(^|-)2g$|3g/.test(nc.effectiveType||"");
 var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
-  var im=new Image();im.decoding="async";im.src="images/bg-guia.webp";if(im.decode)im.decode().catch(function(){})},{rootMargin:(sd?"300px":"2200px")+" 0px"});
+  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-guia.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"300px":innerWidth<900?"800px":"1600px")+" 0px"});
 io.observe(s);
 })();
 
