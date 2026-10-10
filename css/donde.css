@@ -92,3 +92,9 @@ html body #contacto.dn .dn-map.rd .dn-ph{visibility:hidden;transition:none}
 html body #contacto.dn .dn-map .leaflet-map-pane{will-change:transform}
 html body #contacto.dn .dn-info::before{transform:translateZ(0)}
 
+/* ───── v65 · los mosaicos aparecen juntos ─────
+   El panel de mosaicos de Leaflet queda transparente hasta que llegaron todos los de la vista (mapa.js agrega .rd) y entra de una vez.
+   Sin esto cada mosaico se pinta al llegar, uno por uno, justo cuando el mapa se abre. El marcador y los controles no dependen del panel. */
+html body #contacto.dn .dn-map.lf .leaflet-tile-pane{opacity:0}
+html body #contacto.dn .dn-map.lf.rd .leaflet-tile-pane{opacity:1;transition:opacity .3s ease-out}
+@media (prefers-reduced-motion:reduce){html body #contacto.dn .dn-map.lf.rd .leaflet-tile-pane{transition:none}}

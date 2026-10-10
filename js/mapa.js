@@ -4,7 +4,13 @@
    · Si la persona toca el mapa, carga al instante.
    · En escritorio la rueda hace zoom solo después de hacer clic (no secuestra el scroll). En celular, un dedo mueve el mapa tras tocarlo.
    · Si Leaflet o los mosaicos no cargan, vuelve al mapa de Google (data-fb) y la ficha estática queda a la vista.
-   · Cambiar de proveedor de mosaicos: editar TILES y ATTR. */
+   · Cambiar de proveedor de mosaicos: editar TILES y ATTR.
+   v65 · Menos tirón al abrir el mapa:
+   - Cuando la sección está a ~2 pantallas y el scroll está quieto, se baja y ejecuta Leaflet (JS+CSS) y se abre la conexión con el servidor de
+     mosaicos. Todavía NO se arma el mapa ni se piden mosaicos: eso sigue siendo al tocar. Así el toque ya no paga descarga, interpretación del
+     script ni el recálculo de estilos por sumar la hoja de Leaflet.
+   - Los mosaicos no se pintan de a uno a medida que llegan: el panel de mosaicos queda oculto hasta que están todos los de la vista
+     (o pasan 2,5 s) y aparece de una vez. Una sola pasada de pintura en vez de decenas. */
 (function () {
 "use strict";
 
@@ -57,8 +63,12 @@ function fallback() {
   }
 }
 
+var assetState = 0, waiters = [], wantInit = false;   // 0 sin pedir · 1 cargando · 2 listo
 function loadAssets(done) {
-  if (window.L && window.L.map) return done();
+  if (window.L && window.L.map) { assetState = 2; return done(); }
+  waiters.push(done);
+  if (assetState === 1) return;
+  assetState = 1;
   /* Leaflet posiciona cada mosaico con translate3d: con el mapa a todo el ancho son decenas de capas de GPU que se
      componen, además, debajo del degradado del panel. Con L_DISABLE_3D los mosaicos van con left/top dentro de UNA sola
      capa (el contenedor .dn-map ya tiene contain:paint). Debe definirse ANTES de cargar leaflet.js.
@@ -69,7 +79,8 @@ function loadAssets(done) {
   document.head.appendChild(css);
   var s = document.createElement("script");
   s.src = "js/vendor/leaflet.js"; s.async = true;
-  s.onload = done; s.onerror = fallback;
+  s.onload = function () { assetState = 2; var w = waiters.splice(0); w.forEach(function (f) { f(); }); };
+  s.onerror = function () { assetState = 0; waiters.length = 0; s.remove(); css.remove(); if (wantInit) fallback(); };
   document.head.appendChild(s);
 }
 
@@ -117,7 +128,11 @@ function init() {
   var tiles = L.tileLayer(TILES, { maxZoom: 19, attribution: ATTR, keepBuffer: 1, updateInterval: 300, updateWhenZooming: false, crossOrigin: false,
     /* si un mosaico no llega (el servidor limita pedidos, red lenta) queda un hueco transparente en vez de una imagen rota */
     errorTileUrl: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" });
-  tiles.on("tileload", function () { ok++; mp.classList.add("rd"); });
+  var shown = false;
+  function reveal() { if (shown || !map) return; shown = true; clearTimeout(rvT); mp.classList.add("rd"); }
+  var rvT = setTimeout(reveal, 2500);                 // si algún mosaico tarda, se muestra igual
+  tiles.on("tileload", function () { ok++; });
+  tiles.on("load", function () { requestAnimationFrame(reveal); });   // llegaron todos los de la vista: una sola pintura
   tiles.on("tileerror", function () { bad++; if (!ok && bad >= 6) fallback(); });
   /* decodificar los PNG fuera del hilo principal (Leaflet no lo hace) */
   tiles.on("tileloadstart", function (e) { try { e.tile.decoding = "async"; } catch (_) {} });
@@ -187,9 +202,25 @@ function init() {
 }
 
 function start(now) {
-  if (started) return; started = true;
+  if (started) return; started = true; wantInit = true;
   if (now) loadAssets(init); else calm(function () { loadAssets(function () { calm(init); }); });
 }
+
+/* Precalentamiento (sin armar el mapa): cerca de la sección, con el scroll quieto y sin ahorro de datos */
+(function () {
+  var nc = navigator.connection || {};
+  if (!("IntersectionObserver" in window) || nc.saveData || /(^|-)2g$/.test(nc.effectiveType || "")) return;
+  var io = new IntersectionObserver(function (es) {
+    if (!es.some(function (e) { return e.isIntersecting; })) return;
+    io.disconnect();
+    calm(function () {
+      if (started || dead) return;
+      var pc = document.createElement("link"); pc.rel = "preconnect"; pc.href = "https://tile.openstreetmap.org"; document.head.appendChild(pc);
+      loadAssets(function () {});
+    });
+  }, { rootMargin: "1800px 0px" });
+  io.observe(mp);
+})();
 
 /* El mapa NO carga solo al llegar a la sección: Leaflet, los mosaicos y las capas de GPU cuestan justo cuando la
    persona está scrolleando. Se arma al tocar el botón (o el mapa). Mientras tanto se ve la ficha con el pin y los

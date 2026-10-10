@@ -69,7 +69,7 @@ addEventListener("scroll",function(){
   if(!sPaused)return;sPaused=false;R.classList.remove("is-sp");
   var w=vid(cur);
   if(inView&&!hold&&!document.hidden&&w.paused)play();else ui()},220)},{passive:true});
-function calmPlay(){clearTimeout(pt);(function chk(){if(!inView||hold)return;if(performance.now()-lastS<220){pt=setTimeout(chk,140);return}var v=vid(cur);if(v.paused&&!document.hidden)play()})()}
+function calmPlay(){clearTimeout(pt);(function chk(){if(!inView||hold)return;if(performance.now()-lastS<380){pt=setTimeout(chk,140);return}var v=vid(cur);if(v.paused&&!document.hidden)play()})()}
 function warm(){
  if(cn.saveData||document.hidden)return;
  if(performance.now()-lastS<400){warmSoon(800);return}
@@ -135,6 +135,21 @@ document.addEventListener("visibilitychange",function(){var v=vid(cur);
  else if(inView&&auto&&!hold&&v.paused)play()});
 
 go(0,-1);
+
+/* PERF · llegar al carrusel sin tirón. Los 5 pósters (WebP 720 px) son <img loading="eager">, pero el navegador recién los DECODIFICA en el
+   primer cuadro en que se pintan, o sea justo cuando la persona llega. Ahora se decodifican de a uno, en pausas del scroll, cuando la sección
+   está a ~2 pantallas (mismo criterio que Financiación/Visita en clips.js). Con ahorro de datos no hace nada. */
+if("IntersectionObserver" in window&&!cn.saveData){
+ var pre=new IntersectionObserver(function(es){
+  if(!es.some(function(e){return e.isIntersecting}))return;pre.disconnect();
+  var imgs=[].slice.call(R.querySelectorAll(".lz-p")),k=0;
+  (function next(){
+   if(k>=imgs.length)return;
+   if(performance.now()-lastS<250||document.hidden){setTimeout(next,260);return}
+   var im=imgs[k++],again=function(){setTimeout(next,80)};
+   if(im.decode)im.decode().then(again,again);else again()})()
+ },{rootMargin:"2200px 0px"});
+ pre.observe(R)}
 }}
 
 /* fotos del frente: ampliar en un diálogo nativo (foco, Esc y fondo ya resueltos por el navegador) */

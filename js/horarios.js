@@ -7,6 +7,7 @@
 "use strict";
 var sec = document.getElementById("horarios");
 if (!sec) return;
+sec.classList.add("is-js");   // las animaciones de entrada solo existen si hay JS: sin JS la regla se ve completa
 
 var DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]; // 1..7
 var AXIS_A = 8, AXIS_C = 18;                                                          // horas del eje de la regla
@@ -24,6 +25,7 @@ var week = {};
     closed: r.hasAttribute("data-closed"),
     a: r.getAttribute("data-a"), c: r.getAttribute("data-c")
   };
+  r.style.setProperty("--i", d);
   if (week[d].a && week[d].c) {   // las barras salen de los mismos datos
     r.style.setProperty("--a", ((mins(week[d].a) / 60 - AXIS_A) / (AXIS_C - AXIS_A)).toFixed(4));
     r.style.setProperty("--c", ((mins(week[d].c) / 60 - AXIS_A) / (AXIS_C - AXIS_A)).toFixed(4));
@@ -67,6 +69,36 @@ function nextOpen(n) {
   return "Escribinos por WhatsApp.";
 }
 
+/* Minutos hasta la próxima apertura CONCRETA. Si en el camino hay un día «consultá por WhatsApp» (lunes) no se afirma nada: devuelve null. */
+function nextOpenMins(n) {
+  var t = week[n.d];
+  if (t && t.a && !t.closed && !t.ask && n.m < mins(t.a)) return mins(t.a) - n.m;
+  for (var i = 1; i <= 7; i++) {
+    var d = ((n.d - 1 + i) % 7) + 1, w = week[d];
+    if (!w) return null;
+    if (w.ask) return null;
+    if (w.a && !w.closed) return i * 1440 - n.m + mins(w.a);
+  }
+  return null;
+}
+function fmtDur(m) {
+  m = Math.max(1, Math.round(m));
+  if (m < 60) return m + "\u00a0min";
+  var h = Math.floor(m / 60), r = m % 60;
+  return h + "\u00a0h" + (r ? " " + r + "\u00a0min" : "");
+}
+/* Tablero «en vivo»: cuánto falta para cerrar o para abrir, y cuánto del turno ya pasó. Mismos datos del HTML, nada propio. */
+function live(n, s) {
+  if (s.st === "ask") return null;
+  var t = week[n.d];
+  if (t && t.a && !t.closed && !t.ask) {
+    var a = mins(t.a), c = mins(t.c);
+    if (n.m >= a && n.m < c) return { st: "open", k: "Cerramos en", t: fmtDur(c - n.m), p: (n.m - a) / (c - a) };
+  }
+  var m = nextOpenMins(n);
+  return m == null ? null : { st: "closed", k: "Abrimos en", t: fmtDur(m), p: 0 };
+}
+
 function paint() {
   var n = nowAR(), s = status(n);
   if (!s) return;
@@ -96,6 +128,17 @@ function paint() {
     st.hidden = false; st.setAttribute("data-state", s.st);
     st.querySelector("[data-sello]").textContent = s.sello;
     st.querySelector("[data-sub]").textContent = s.sub;
+  }
+
+  var lv = sec.querySelector("[data-lv]"), L = live(n, s);
+  if (lv) {
+    if (!L) lv.hidden = true;
+    else {
+      lv.hidden = false; lv.setAttribute("data-state", L.st);
+      lv.querySelector("[data-lk]").textContent = L.k;
+      lv.querySelector("[data-lt]").textContent = L.t;
+      lv.querySelector("[data-rail]").style.setProperty("--p", L.p.toFixed(3));
+    }
   }
 
   /* bloque compacto del panel de «Dónde estamos» */
