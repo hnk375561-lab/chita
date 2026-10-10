@@ -1,0 +1,20 @@
+
+✖ PROBLEMAS (0)
+
+⚠ A REVISAR A MANO (7)
+  [index.html] https://www.google.com/maps/place/Chita+Automotores/@-32.486865,-58.2528928,17z/data=!3m1!4b1!4m6!3m5!1s0x9…
+      → mapa: abrirlo a mano y confirmar que muestra el local
+  [index.html] https://waze.com/ul?ll=-32.486865,-58.250318&navigate=yes
+      → mapa: abrirlo a mano y confirmar que muestra el local
+  [index.html] https://www.google.com/maps/place/Chita+Automotores/@-32.486865,-58.2528928,17z
+      → mapa: abrirlo a mano y confirmar que muestra el local
+  [reserva.html] https://www.google.com/maps/place/Chita+Automotores/@-32.486865,-58.2528928,17z/data=!3m1!4b1!4m6!3m5!1s0x9…
+      → mapa: abrirlo a mano y confirmar que muestra el local
+  [index.html] https://www.facebook.com/Chitaautomotores
+      → redirige a login (normal en redes; abrir a mano)
+  [index.html] https://www.instagram.com/chita.automotores/
+      → HTTP 429 (muchos sitios bloquean bots: abrir a mano)
+  [js/mapa.js] https://tile.openstreetmap.org/{z}/{x}/{y}.png
+      → HTTP 400 (muchos sitios bloquean bots: abrir a mano)
+
+Páginas: index.html, reserva.html, privacidad.html, 404.html · JS: 14 archivos

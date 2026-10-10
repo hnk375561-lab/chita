@@ -1,0 +1,69 @@
+
+> check:all
+> node scripts/check-all.mjs --all-devices
+
+
+CHITA · verificación total  (index.html, reserva.html, privacidad.html · desktop + móvil + iphone-se + android + tablet)
+Servidor local: http://127.0.0.1:35497
+
+  ▸ estático  archivos, SEO, ids, sitemap, manifest, fotos
+  ▸ desktop  index.html      214s · 150 ok · 4 avisos · 0 fallas
+  ▸ desktop  reserva.html    12s · 23 ok · 0 avisos · 0 fallas
+  ▸ desktop  privacidad.html 8s · 15 ok · 0 avisos · 0 fallas
+  ▸ móvil    index.html      235s · 150 ok · 7 avisos · 0 fallas
+  ▸ móvil    reserva.html    12s · 24 ok · 0 avisos · 0 fallas
+  ▸ móvil    privacidad.html 8s · 16 ok · 0 avisos · 0 fallas
+  ▸ iphone-se index.html      247s · 152 ok · 9 avisos · 0 fallas
+  ▸ iphone-se reserva.html    12s · 24 ok · 0 avisos · 0 fallas
+  ▸ iphone-se privacidad.html 8s · 16 ok · 0 avisos · 0 fallas
+  ▸ android  index.html      238s · 150 ok · 7 avisos · 0 fallas
+  ▸ android  reserva.html    12s · 24 ok · 0 avisos · 0 fallas
+  ▸ android  privacidad.html 8s · 16 ok · 0 avisos · 0 fallas
+  ▸ tablet   index.html      230s · 150 ok · 5 avisos · 0 fallas
+  ▸ tablet   reserva.html    13s · 24 ok · 0 avisos · 0 fallas
+  ▸ tablet   privacidad.html 8s · 16 ok · 0 avisos · 0 fallas
+
+  ▸ red      3 sitios externos
+
+══════════════ RESUMEN ══════════════
+✔ 987 correctos   ⚠ 34 avisos   ✖ 0 fallas
+
+⚠ AVISOS (revisar a mano):
+  [desktop · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [móvil · index.html · táctil] 6 botón(es)/enlace(s) de menos de 32px, difíciles de tocar con el dedo: Ver: Autos de varias marcas | Ver: Multimarcas | Ver: Charla y autos a la vista | Ver: Un auto en detalle
+  [móvil · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «Ver autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [móvil · index.html · click] «VER AUTOS» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [móvil · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [iphone-se · index.html · táctil] 1 botón(es)/enlace(s) de menos de 32px, difíciles de tocar con el dedo: Ver: Autos de varias marcas
+  [iphone-se · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [iphone-se · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [iphone-se · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [iphone-se · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <p.hx-lead.hx-ui>
+  [iphone-se · index.html · click] «Ver autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [iphone-se · index.html · click] «VER AUTOS» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [iphone-se · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [iphone-se · index.html · click] «Ver financiación →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [android · index.html · táctil] 6 botón(es)/enlace(s) de menos de 32px, difíciles de tocar con el dedo: Ver: Autos de varias marcas | Ver: Multimarcas | Ver: Charla y autos a la vista | Ver: Un auto en detalle
+  [android · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [android · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [android · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [android · index.html · click] «Ver autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [android · index.html · click] «VER AUTOS» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [android · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [tablet · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [tablet · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [tablet · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [tablet · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.hx-copy>
+  [tablet · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [red · https://www.facebook.com/Chitaautomotores · externo] pide iniciar sesión (normal en redes: abrir a mano)
+  [red · https://www.instagram.com/chita.automotores/ · externo] pide iniciar sesión (normal en redes: abrir a mano)
+
+RESULTADO: ✔ TODO BIEN (lo que un script puede verificar)
+Siguen siendo a ojo: que Maps muestre la ficha correcta, que WhatsApp abra el chat y que Instagram/Facebook abran el perfil.
+

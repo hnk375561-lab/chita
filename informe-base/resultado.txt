@@ -1,0 +1,5 @@
+datos=success
+sintaxis=success
+build=success
+enlaces=success
+lighthouse=success

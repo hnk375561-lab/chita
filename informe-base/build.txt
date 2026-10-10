@@ -1,0 +1,3 @@
+images/: quitadas de _site 22 sin referencias (4.9 MB)
+CSS: 572 KB → 471 KB (1 archivo)
+_site listo: index.html, 404.html, privacidad.html, reserva.html, og-chita.png, site.webmanifest, robots.txt, sitemap.xml, css/, js/, fonts/, images/, assets/, video/

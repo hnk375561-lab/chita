@@ -1,0 +1,29 @@
+
+> check:all
+> node scripts/check-all.mjs --desktop
+
+
+CHITA · verificación total  (index.html, reserva.html, privacidad.html · desktop)
+Servidor local: http://127.0.0.1:33303
+
+  ▸ estático  archivos, SEO, ids, sitemap, manifest, fotos
+  ▸ desktop  index.html      216s · 150 ok · 4 avisos · 0 fallas
+  ▸ desktop  reserva.html    13s · 23 ok · 0 avisos · 0 fallas
+  ▸ desktop  privacidad.html 8s · 15 ok · 0 avisos · 0 fallas
+
+  ▸ red      3 sitios externos
+
+══════════════ RESUMEN ══════════════
+✔ 225 correctos   ⚠ 6 avisos   ✖ 0 fallas
+
+⚠ AVISOS (revisar a mano):
+  [desktop · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [red · https://www.facebook.com/Chitaautomotores · externo] pide iniciar sesión (normal en redes: abrir a mano)
+  [red · https://www.instagram.com/chita.automotores/ · externo] pide iniciar sesión (normal en redes: abrir a mano)
+
+RESULTADO: ✔ TODO BIEN (lo que un script puede verificar)
+Siguen siendo a ojo: que Maps muestre la ficha correcta, que WhatsApp abra el chat y que Instagram/Facebook abran el perfil.
+

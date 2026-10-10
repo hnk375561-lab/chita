@@ -1,0 +1,40 @@
+
+> check:all
+> node scripts/check-all.mjs --url=https://hnk375561-lab.github.io/chita/
+
+
+CHITA · verificación total  (index.html, reserva.html, privacidad.html · desktop + móvil)
+Sitio publicado: https://hnk375561-lab.github.io/chita
+
+  ▸ estático  archivos, SEO, ids, sitemap, manifest, fotos
+  ▸ desktop  index.html      216s · 150 ok · 4 avisos · 0 fallas
+  ▸ desktop  reserva.html    13s · 23 ok · 0 avisos · 0 fallas
+  ▸ desktop  privacidad.html 9s · 15 ok · 0 avisos · 0 fallas
+  ▸ móvil    index.html      241s · 151 ok · 8 avisos · 0 fallas
+  ▸ móvil    reserva.html    13s · 24 ok · 0 avisos · 0 fallas
+  ▸ móvil    privacidad.html 9s · 16 ok · 0 avisos · 0 fallas
+
+  ▸ red      3 sitios externos
+
+══════════════ RESUMEN ══════════════
+✔ 416 correctos   ⚠ 14 avisos   ✖ 0 fallas
+
+⚠ AVISOS (revisar a mano):
+  [desktop · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [desktop · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>
+  [móvil · index.html · táctil] 6 botón(es)/enlace(s) de menos de 32px, difíciles de tocar con el dedo: Ver: Autos de varias marcas | Ver: Multimarcas | Ver: Charla y autos a la vista | Ver: Un auto en detalle
+  [móvil · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.hx-copy>
+  [móvil · index.html · click] «Ver autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [móvil · index.html · click] «VER AUTOS» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [móvil · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [red · https://www.facebook.com/Chitaautomotores · externo] pide iniciar sesión (normal en redes: abrir a mano)
+  [red · https://www.instagram.com/chita.automotores/ · externo] HTTP 429 (muchos sitios bloquean bots: abrir a mano)
+
+RESULTADO: ✔ TODO BIEN (lo que un script puede verificar)
+Siguen siendo a ojo: que Maps muestre la ficha correcta, que WhatsApp abra el chat y que Instagram/Facebook abran el perfil.
+

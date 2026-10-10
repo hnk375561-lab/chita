@@ -1,0 +1,33 @@
+
+> check:all
+> node scripts/check-all.mjs --mobile
+
+
+CHITA · verificación total  (index.html, reserva.html, privacidad.html · móvil)
+Servidor local: http://127.0.0.1:36651
+
+  ▸ estático  archivos, SEO, ids, sitemap, manifest, fotos
+  ▸ móvil    index.html      242s · 151 ok · 8 avisos · 0 fallas
+  ▸ móvil    reserva.html    13s · 24 ok · 0 avisos · 0 fallas
+  ▸ móvil    privacidad.html 9s · 16 ok · 0 avisos · 0 fallas
+
+  ▸ red      3 sitios externos
+
+══════════════ RESUMEN ══════════════
+✔ 228 correctos   ⚠ 10 avisos   ✖ 0 fallas
+
+⚠ AVISOS (revisar a mano):
+  [móvil · index.html · táctil] 6 botón(es)/enlace(s) de menos de 32px, difíciles de tocar con el dedo: Ver: Autos de varias marcas | Ver: Multimarcas | Ver: Charla y autos a la vista | Ver: Un auto en detalle
+  [móvil · index.html · click] «Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [móvil · index.html · click] «(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.hx-copy>
+  [móvil · index.html · click] «Ver autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [móvil · index.html · click] «VER AUTOS» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>
+  [móvil · index.html · click] «Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>
+  [red · https://www.facebook.com/Chitaautomotores · externo] pide iniciar sesión (normal en redes: abrir a mano)
+  [red · https://www.instagram.com/chita.automotores/ · externo] HTTP 429 (muchos sitios bloquean bots: abrir a mano)
+
+RESULTADO: ✔ TODO BIEN (lo que un script puede verificar)
+Siguen siendo a ojo: que Maps muestre la ficha correcta, que WhatsApp abra el chat y que Instagram/Facebook abran el perfil.
+

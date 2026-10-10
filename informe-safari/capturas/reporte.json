@@ -1,0 +1,3104 @@
+{
+ "fecha": "2026-10-10T18:36:13.899Z",
+ "resumen": {
+  "ok": 416,
+  "avisos": 26,
+  "fallas": 0
+ },
+ "resultados": [
+  {
+   "vp": "estático",
+   "page": "index.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "declara idioma (lang)"
+  },
+  {
+   "vp": "estático",
+   "page": "index.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "tiene <title>"
+  },
+  {
+   "vp": "estático",
+   "page": "index.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "meta description ok"
+  },
+  {
+   "vp": "estático",
+   "page": "index.html",
+   "area": "móvil",
+   "status": "ok",
+   "msg": "tiene meta viewport"
+  },
+  {
+   "vp": "estático",
+   "page": "index.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "un solo <h1>"
+  },
+  {
+   "vp": "estático",
+   "page": "index.html",
+   "area": "ids",
+   "status": "ok",
+   "msg": "sin ids duplicados"
+  },
+  {
+   "vp": "estático",
+   "page": "index.html",
+   "area": "accesibilidad",
+   "status": "ok",
+   "msg": "todas las imágenes tienen alt"
+  },
+  {
+   "vp": "estático",
+   "page": "index.html",
+   "area": "archivos",
+   "status": "ok",
+   "msg": "274 referencias (src/href/srcset) apuntan a archivos reales"
+  },
+  {
+   "vp": "estático",
+   "page": "reserva.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "declara idioma (lang)"
+  },
+  {
+   "vp": "estático",
+   "page": "reserva.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "tiene <title>"
+  },
+  {
+   "vp": "estático",
+   "page": "reserva.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "meta description ok"
+  },
+  {
+   "vp": "estático",
+   "page": "reserva.html",
+   "area": "móvil",
+   "status": "ok",
+   "msg": "tiene meta viewport"
+  },
+  {
+   "vp": "estático",
+   "page": "reserva.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "un solo <h1>"
+  },
+  {
+   "vp": "estático",
+   "page": "reserva.html",
+   "area": "ids",
+   "status": "ok",
+   "msg": "sin ids duplicados"
+  },
+  {
+   "vp": "estático",
+   "page": "reserva.html",
+   "area": "accesibilidad",
+   "status": "ok",
+   "msg": "todas las imágenes tienen alt"
+  },
+  {
+   "vp": "estático",
+   "page": "reserva.html",
+   "area": "archivos",
+   "status": "ok",
+   "msg": "9 referencias (src/href/srcset) apuntan a archivos reales"
+  },
+  {
+   "vp": "estático",
+   "page": "privacidad.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "declara idioma (lang)"
+  },
+  {
+   "vp": "estático",
+   "page": "privacidad.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "tiene <title>"
+  },
+  {
+   "vp": "estático",
+   "page": "privacidad.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "meta description ok"
+  },
+  {
+   "vp": "estático",
+   "page": "privacidad.html",
+   "area": "móvil",
+   "status": "ok",
+   "msg": "tiene meta viewport"
+  },
+  {
+   "vp": "estático",
+   "page": "privacidad.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "un solo <h1>"
+  },
+  {
+   "vp": "estático",
+   "page": "privacidad.html",
+   "area": "ids",
+   "status": "ok",
+   "msg": "sin ids duplicados"
+  },
+  {
+   "vp": "estático",
+   "page": "privacidad.html",
+   "area": "accesibilidad",
+   "status": "ok",
+   "msg": "todas las imágenes tienen alt"
+  },
+  {
+   "vp": "estático",
+   "page": "privacidad.html",
+   "area": "archivos",
+   "status": "ok",
+   "msg": "6 referencias (src/href/srcset) apuntan a archivos reales"
+  },
+  {
+   "vp": "estático",
+   "page": "404.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "declara idioma (lang)"
+  },
+  {
+   "vp": "estático",
+   "page": "404.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "tiene <title>"
+  },
+  {
+   "vp": "estático",
+   "page": "404.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "meta description ok"
+  },
+  {
+   "vp": "estático",
+   "page": "404.html",
+   "area": "móvil",
+   "status": "ok",
+   "msg": "tiene meta viewport"
+  },
+  {
+   "vp": "estático",
+   "page": "404.html",
+   "area": "seo",
+   "status": "ok",
+   "msg": "un solo <h1>"
+  },
+  {
+   "vp": "estático",
+   "page": "404.html",
+   "area": "ids",
+   "status": "ok",
+   "msg": "sin ids duplicados"
+  },
+  {
+   "vp": "estático",
+   "page": "404.html",
+   "area": "accesibilidad",
+   "status": "ok",
+   "msg": "todas las imágenes tienen alt"
+  },
+  {
+   "vp": "estático",
+   "page": "404.html",
+   "area": "archivos",
+   "status": "ok",
+   "msg": "6 referencias (src/href/srcset) apuntan a archivos reales"
+  },
+  {
+   "vp": "estático",
+   "page": "sitemap.xml",
+   "area": "seo",
+   "status": "ok",
+   "msg": "3 URLs del sitemap existen"
+  },
+  {
+   "vp": "estático",
+   "page": "site.webmanifest",
+   "area": "archivos",
+   "status": "ok",
+   "msg": "íconos del manifest existen"
+  },
+  {
+   "vp": "estático",
+   "page": "vehicles.json",
+   "area": "fotos",
+   "status": "ok",
+   "msg": "15 fotos/archivos de vehículos existen"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "carga",
+   "status": "ok",
+   "msg": "carga HTTP 200"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "imágenes",
+   "status": "ok",
+   "msg": "sin imágenes rotas"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "diseño",
+   "status": "ok",
+   "msg": "sin scroll horizontal"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "recursos",
+   "status": "ok",
+   "msg": "todos los archivos locales cargan"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#top existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#como-comprar existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#operaciones existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#preguntas existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Ubicación en Google Maps» → ficha oficial de Maps"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "redes",
+   "status": "ok",
+   "msg": "«Instagram» → Instagram"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "redes",
+   "status": "ok",
+   "msg": "«Facebook» → Facebook"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Escribinos» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#entregas existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#como-comprar existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#financiacion existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#guia existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#horarios existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#opiniones existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#operaciones existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#opiniones existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#busco existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«ESCRIBINOS» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultá por WhatsApp» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«ESCRIBINOS POR WHATSAPP» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#busco existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Escribinos por WhatsApp» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Cómo llegar» → ficha oficial de Maps"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "teléfono",
+   "status": "ok",
+   "msg": "«Llamar al 03442 44-2782» → tel:+543442442782"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Escribinos por WhatsApp» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«★ 4,7 en Google · 46 reseñas» → ficha oficial de Maps"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "redes",
+   "status": "ok",
+   "msg": "«Instagram @chita.automotores» → Instagram"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Abrir en Google Maps ↗» → ficha oficial de Maps"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Waze ↗» → Waze"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Ver opiniones en Google» → ficha oficial de Maps"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#financiacion existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "redes",
+   "status": "ok",
+   "msg": "«Mirá el reel en nuestras redes» → Instagram"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Financiación En cuotas fijas. Cuota fija Chita Cuo» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Tu usado Recibimos tu usado y lo evaluamos. Consul» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar condiciones ↗» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar financiación y tu usado» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Quiero comprar →» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Quiero vender →» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Quiero permutar →» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Quiero consignar →» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "privacidad.html#privacidad existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "reserva.html existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#operaciones existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«📍 Cómo llegar» → ficha oficial de Maps"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#opiniones existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#top existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#operaciones existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#guia existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#preguntas existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "reserva.html existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "privacidad.html existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "teléfono",
+   "status": "ok",
+   "msg": "«Tel. 03442 44-2782» → tel:+543442442782"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Cómo llegar en Google Maps» → ficha oficial de Maps"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "teléfono",
+   "status": "ok",
+   "msg": "«Llamar» → tel:+543442442782"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Saltar al contenido» → #unidades"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Chita Automotores, inicio» → #top"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Autos Autos» → #unidades"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Comprar Comprar» → #como-comprar"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Vender o permutar Vender o permutar» → #operaciones"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Dónde estamos Dónde estamos» → #contacto"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Preguntas Preguntas» → #preguntas"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Instagram» abre www.instagram.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Facebook» abre www.facebook.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Escribinos» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #unidades"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #como-comprar"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #contacto"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Vender o permutar mi auto» → #operaciones"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«¿BUSCÁS UN AUTO EN PARTICULAR? CONTANOS CUÁL →» → #busco"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«ESCRIBINOS» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultá por WhatsApp» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«ESCRIBINOS POR WHATSAPP» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«¿No ves el que buscás? Contanos cuál Escribinos →» → #busco"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Escribinos por WhatsApp» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Cómo llegar» abre www.google.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Escribinos por WhatsApp» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«★ 4,7 en Google · 46 reseñas» abre www.google.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Instagram @chita.automotores» abre www.instagram.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Abrir en Google Maps ↗» abre www.google.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Waze ↗» abre waze.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Apple Maps ↗» abre maps.apple.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Ver opiniones en Google» abre www.google.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Ver autos →» → #unidades"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <div.w>"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar →» → #contacto"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Mirá el reel en nuestras redes» abre www.instagram.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Financiación En cuotas fijas. Cuota fija Chita Cuo» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Tu usado Recibimos tu usado y lo evaluamos. Consul» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar condiciones ↗» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Quiero comprar →» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Quiero vender →» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Quiero permutar →» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Quiero consignar →» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Privacidad» → privacidad.html#privacidad"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Privacidad» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Elegir el día en pantalla completa ↗» → reserva.html"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Elegir el día en pantalla completa ↗» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Consultar» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #operaciones"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Volver a los autos» → #unidades"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Autos» → #unidades"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Vender o permutar» → #operaciones"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Guía para comprar o permutar» → #guia"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Preguntas» → #preguntas"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Elegir día y horario» → reserva.html"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Elegir día y horario» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Privacidad y avisos» → privacidad.html"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Privacidad y avisos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Cómo llegar en Google Maps» abre www.google.com"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Cómo llegar en Google Maps» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "60 enlaces únicos clickeados · 21 ocultos en este tamaño"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "botones",
+   "status": "ok",
+   "msg": "117/118 botones probados sin romper la página"
+  },
+  {
+   "vp": "desktop",
+   "page": "index.html",
+   "area": "errores JS",
+   "status": "ok",
+   "msg": "sin errores de JavaScript"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "carga",
+   "status": "ok",
+   "msg": "carga HTTP 200"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "imágenes",
+   "status": "ok",
+   "msg": "sin imágenes rotas"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "diseño",
+   "status": "ok",
+   "msg": "sin scroll horizontal"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "recursos",
+   "status": "ok",
+   "msg": "todos los archivos locales cargan"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "index.html existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Escribir por WhatsApp ↗» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Abrir Maps» → ficha oficial de Maps"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Volver a Chita Automotores» → index.html"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "1 enlaces únicos clickeados · 2 ocultos en este tamaño"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "paso «mes» entra en una pantalla"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "elige el día 10"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "paso «día» entra en una pantalla"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "paso «franja» entra en una pantalla"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "«Ver resumen» bloqueado hasta elegir franja"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "paso «resumen» entra en una pantalla"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "WhatsApp arma el mensaje con el día y la franja elegidos"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "el botón abre wa.me con el número correcto"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "tras enviar, el estado pasa a «pendiente de confirmación»"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "«Abrir Maps» → ficha oficial"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "«Atrás» vuelve a la franja"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "«Elegir otro momento» reinicia el calendario"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "flechas de mes funcionan"
+  },
+  {
+   "vp": "desktop",
+   "page": "reserva.html",
+   "area": "errores JS",
+   "status": "ok",
+   "msg": "sin errores de JavaScript"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "carga",
+   "status": "ok",
+   "msg": "carga HTTP 200"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "imágenes",
+   "status": "ok",
+   "msg": "sin imágenes rotas"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "diseño",
+   "status": "ok",
+   "msg": "sin scroll horizontal"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "recursos",
+   "status": "ok",
+   "msg": "todos los archivos locales cargan"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "./ existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "./ existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«ESCRIBIR POR WHATSAPP» → 5493442647442"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "teléfono",
+   "status": "ok",
+   "msg": "«LLAMAR» → tel:+543442442782"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "./ existe"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«← VOLVER AL INICIO» → ./"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Chita Automotores, inicio» → ./"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«ESCRIBIR POR WHATSAPP» abre wa.me"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«VOLVER AL INICIO» → ./"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "4 enlaces únicos clickeados"
+  },
+  {
+   "vp": "desktop",
+   "page": "privacidad.html",
+   "area": "errores JS",
+   "status": "ok",
+   "msg": "sin errores de JavaScript"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "carga",
+   "status": "ok",
+   "msg": "carga HTTP 200"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "imágenes",
+   "status": "ok",
+   "msg": "sin imágenes rotas"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "diseño",
+   "status": "ok",
+   "msg": "sin scroll horizontal"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "táctil",
+   "status": "warn",
+   "msg": "6 botón(es)/enlace(s) de menos de 32px, difíciles de tocar con el dedo: Ver: Autos de varias marcas | Ver: Multimarcas | Ver: Charla y autos a la vista | Ver: Un auto en detalle"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "recursos",
+   "status": "ok",
+   "msg": "todos los archivos locales cargan"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#top existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#como-comprar existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#operaciones existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#preguntas existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Ubicación en Google Maps» → ficha oficial de Maps"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "redes",
+   "status": "ok",
+   "msg": "«Instagram» → Instagram"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "redes",
+   "status": "ok",
+   "msg": "«Facebook» → Facebook"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Escribinos» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#entregas existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#como-comprar existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#financiacion existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#guia existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#horarios existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#opiniones existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#operaciones existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#opiniones existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#busco existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«ESCRIBINOS» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultá por WhatsApp» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«ESCRIBINOS POR WHATSAPP» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#busco existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Escribinos por WhatsApp» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Cómo llegar» → ficha oficial de Maps"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "teléfono",
+   "status": "ok",
+   "msg": "«Llamar al 03442 44-2782» → tel:+543442442782"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Escribinos por WhatsApp» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«★ 4,7 en Google · 46 reseñas» → ficha oficial de Maps"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "redes",
+   "status": "ok",
+   "msg": "«Instagram @chita.automotores» → Instagram"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Abrir en Google Maps ↗» → ficha oficial de Maps"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Waze ↗» → Waze"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Ver opiniones en Google» → ficha oficial de Maps"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#contacto existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#financiacion existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "redes",
+   "status": "ok",
+   "msg": "«Mirá el reel en nuestras redes» → Instagram"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Financiación En cuotas fijas. Cuota fija Chita Cuo» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Tu usado Recibimos tu usado y lo evaluamos. Consul» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar condiciones ↗» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar financiación y tu usado» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Quiero comprar →» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Quiero vender →» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Quiero permutar →» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Quiero consignar →» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "privacidad.html#privacidad existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "reserva.html existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Consultar» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#operaciones existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«📍 Cómo llegar» → ficha oficial de Maps"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#opiniones existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#top existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#unidades existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#visita existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#operaciones existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#guia existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "anclas",
+   "status": "ok",
+   "msg": "#preguntas existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "reserva.html existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "privacidad.html existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "teléfono",
+   "status": "ok",
+   "msg": "«Tel. 03442 44-2782» → tel:+543442442782"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Cómo llegar en Google Maps» → ficha oficial de Maps"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "teléfono",
+   "status": "ok",
+   "msg": "«Llamar» → tel:+543442442782"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Saltar al contenido» → #unidades"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Saltar al contenido» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Chita Automotores, inicio» → #top"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Autos Autos» → #unidades"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Autos Autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Comprar Comprar» → #como-comprar"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Vender o permutar Vender o permutar» → #operaciones"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Dónde estamos Dónde estamos» → #contacto"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Preguntas Preguntas» → #preguntas"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Instagram» abre www.instagram.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Facebook» abre www.facebook.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #unidades"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #como-comprar"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #guia"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.hx-btn>"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #contacto"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Ver autos» → #unidades"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Ver autos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <span.mo-i>"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Vender o permutar mi auto» → #operaciones"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«¿BUSCÁS UN AUTOEN PARTICULAR? CONTANOS CUÁL →» → #busco"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultá por WhatsApp» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«ESCRIBINOS POR WHATSAPP» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«¿No ves el que buscás? Contanos cuál Escribinos →» → #busco"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Escribinos por WhatsApp» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Cómo llegar» abre www.google.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Escribinos por WhatsApp» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«★ 4,7 en Google · 46 reseñas» abre www.google.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Instagram @chita.automotores» abre www.instagram.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Abrir en Google Maps ↗» abre www.google.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Waze ↗» abre waze.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Apple Maps ↗» abre maps.apple.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Ver opiniones en Google» abre www.google.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Ver autos →» → #unidades"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Ver autos →» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <a.mark>"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar →» → #contacto"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Mirá el reel en nuestras redes» abre www.instagram.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Financiación En cuotas fijas. Cuota fija Chita Cuo» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Tu usado Recibimos tu usado y lo evaluamos. Consul» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar condiciones ↗» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Quiero comprar →» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Quiero vender →» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Quiero permutar →» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Quiero consignar →» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Privacidad» → privacidad.html#privacidad"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Privacidad» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Elegir el día en pantalla completa ↗» → reserva.html"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Elegir el día en pantalla completa ↗» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Consultar» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Consultar» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«(icono)» → #operaciones"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«(icono)» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Volver a los autos» → #unidades"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Autos» → #unidades"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Vender o permutar» → #operaciones"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Guía para comprar o permutar» → #guia"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Preguntas» → #preguntas"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Elegir día y horario» → reserva.html"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Elegir día y horario» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona · lo tapa <video#reelv>"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Privacidad y avisos» → privacidad.html"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Privacidad y avisos» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Cómo llegar en Google Maps» abre www.google.com"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "warn",
+   "msg": "«Cómo llegar en Google Maps» no se pudo tocar con click real (tapado o fuera de pantalla); el destino sí funciona"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "60 enlaces únicos clickeados · 21 ocultos en este tamaño"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "botones",
+   "status": "ok",
+   "msg": "117/118 botones probados sin romper la página"
+  },
+  {
+   "vp": "móvil",
+   "page": "index.html",
+   "area": "errores JS",
+   "status": "ok",
+   "msg": "sin errores de JavaScript"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "carga",
+   "status": "ok",
+   "msg": "carga HTTP 200"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "imágenes",
+   "status": "ok",
+   "msg": "sin imágenes rotas"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "diseño",
+   "status": "ok",
+   "msg": "sin scroll horizontal"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "táctil",
+   "status": "ok",
+   "msg": "botones con tamaño cómodo para el dedo"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "recursos",
+   "status": "ok",
+   "msg": "todos los archivos locales cargan"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "index.html existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«Escribir por WhatsApp ↗» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "mapa",
+   "status": "ok",
+   "msg": "«Abrir Maps» → ficha oficial de Maps"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Volver a Chita Automotores» → index.html"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "1 enlaces únicos clickeados · 2 ocultos en este tamaño"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "paso «mes» entra en una pantalla"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "elige el día 10"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "paso «día» entra en una pantalla"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "paso «franja» entra en una pantalla"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "«Ver resumen» bloqueado hasta elegir franja"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "paso «resumen» entra en una pantalla"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "WhatsApp arma el mensaje con el día y la franja elegidos"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "el botón abre wa.me con el número correcto"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "tras enviar, el estado pasa a «pendiente de confirmación»"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "«Abrir Maps» → ficha oficial"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "«Atrás» vuelve a la franja"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "«Elegir otro momento» reinicia el calendario"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "reserva",
+   "status": "ok",
+   "msg": "flechas de mes funcionan"
+  },
+  {
+   "vp": "móvil",
+   "page": "reserva.html",
+   "area": "errores JS",
+   "status": "ok",
+   "msg": "sin errores de JavaScript"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "carga",
+   "status": "ok",
+   "msg": "carga HTTP 200"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "imágenes",
+   "status": "ok",
+   "msg": "sin imágenes rotas"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "diseño",
+   "status": "ok",
+   "msg": "sin scroll horizontal"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "táctil",
+   "status": "ok",
+   "msg": "botones con tamaño cómodo para el dedo"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "recursos",
+   "status": "ok",
+   "msg": "todos los archivos locales cargan"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "./ existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "./ existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "whatsapp",
+   "status": "ok",
+   "msg": "«ESCRIBIR POR WHATSAPP» → 5493442647442"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "teléfono",
+   "status": "ok",
+   "msg": "«LLAMAR» → tel:+543442442782"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "páginas",
+   "status": "ok",
+   "msg": "./ existe"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«← VOLVER AL INICIO» → ./"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«Chita Automotores, inicio» → ./"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«ESCRIBIR POR WHATSAPP» abre wa.me"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "«VOLVER AL INICIO» → ./"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "click",
+   "status": "ok",
+   "msg": "4 enlaces únicos clickeados"
+  },
+  {
+   "vp": "móvil",
+   "page": "privacidad.html",
+   "area": "errores JS",
+   "status": "ok",
+   "msg": "sin errores de JavaScript"
+  },
+  {
+   "vp": "desktop",
+   "page": "404",
+   "area": "carga",
+   "status": "ok",
+   "msg": "una URL inexistente muestra la página 404"
+  },
+  {
+   "vp": "red",
+   "page": "https://www.instagram.com/chita.automotores/",
+   "area": "externo",
+   "status": "ok",
+   "msg": "HTTP 200"
+  },
+  {
+   "vp": "red",
+   "page": "https://www.facebook.com/Chitaautomotores",
+   "area": "externo",
+   "status": "warn",
+   "msg": "pide iniciar sesión (normal en redes: abrir a mano)"
+  },
+  {
+   "vp": "red",
+   "page": "https://maps.apple.com/?daddr=-32.486865,-58.250318&q=Chita%20Automotores",
+   "area": "externo",
+   "status": "ok",
+   "msg": "HTTP 200"
+  }
+ ]
+}

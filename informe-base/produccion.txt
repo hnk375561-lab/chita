@@ -1,0 +1,30 @@
+
+> test:prod
+> node scripts/validate-dealership.mjs --prod
+
+Aviso: imagen de reserva sin usar: images/bg
+Aviso: imagen de reserva sin usar: images/bg-fin.webp
+Aviso: imagen de reserva sin usar: images/bg-guia.webp
+Aviso: imagen de reserva sin usar: images/bg-visita.webp
+Aviso: imagen de reserva sin usar: images/entrega-01.webp
+Aviso: imagen de reserva sin usar: images/entrega-02.webp
+Aviso: imagen de reserva sin usar: images/entrega-03.webp
+Aviso: imagen de reserva sin usar: images/entrega-04.webp
+Aviso: imagen de reserva sin usar: images/entrega-05.webp
+Aviso: imagen de reserva sin usar: images/entrega-06.webp
+Aviso: imagen de reserva sin usar: images/entrega-07.webp
+Aviso: imagen de reserva sin usar: images/entrega-08.webp
+Aviso: imagen de reserva sin usar: images/entrega-09.webp
+Aviso: imagen de reserva sin usar: images/entrega-10.webp
+Aviso: imagen de reserva sin usar: images/entrega-11.webp
+Aviso: imagen de reserva sin usar: images/entrega-12.webp
+Aviso: imagen de reserva sin usar: images/icon-512-maskable.png
+Aviso: imagen de reserva sin usar: images/icon-512.png
+Aviso: imagen de reserva sin usar: images/nuestro-logo.webp
+Aviso: 47 grupos de imágenes idénticas (47 archivos sobrantes)
+ERROR: publicacion.official debe ser true (modo producción)
+ERROR: index.html: lenguaje de demo/propuesta
+ERROR: PROD: publicacion.publicIndexing sigue en false
+ERROR: PROD: horarios sin confirmación del dueño (status: verified-google-maps-2026-10-08)
+ERROR: PROD: falta photos.authorized = true (autorización de fotos y videos)
+ERROR: PROD: quitar el aviso de demo del pie
