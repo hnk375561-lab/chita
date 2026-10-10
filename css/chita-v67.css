@@ -1,0 +1,374 @@
+/* CHITA · v67 — se carga el último.
+   Acabado «premium» de recuadros, tarjetas y botones de: Contanos qué auto buscás · Coordiná tu visita ·
+   Contanos tu auto (Vender o permutar) · Financiación / Tu usado · Horarios de atención.
+   NO cambia estructura, textos, datos ni JS. Para deshacerlo: quitar el <link> de este archivo en index.html.
+
+   Reglas de rendimiento (las del repo: ver PERF-CAMBIOS.md y chita-perf.css):
+   · sin clip-path nuevo, sin filter, sin backdrop-filter, sin sombras difusas grandes;
+   · todo lo que se mueve es transform/opacity de un pseudo-elemento chico, solo al pasar el mouse o enfocar;
+   · el resto son degradés estáticos y sombras internas (se pintan una vez, no por frame de scroll);
+   · con prefers-reduced-motion no hay transiciones.
+   Técnica: no se pisa ningún color existente, se SUPERPONEN capas translúcidas con background-image, así los estados
+   (hover, marcado, hoy, etc.) que ya funcionan siguen mandando. «§» = las cinco secciones (se expande abajo con mayor especificidad). */
+
+:root{--v67-rojo:#C1121F;--v67-azul:#0A2C8C;--v67-ink:#0A1020;--v67-ease:cubic-bezier(.2,.8,.2,1)}
+
+/* ═════════ 1 · BOTONES (todos los .btn de las cinco secciones) ═════════
+   metal rojo: luz arriba, filo oscuro abajo, hilo de brillo; destello diagonal y flecha al pasar el mouse */
+html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn{position:relative;overflow:hidden;isolation:isolate}
+html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn::before{
+  content:"";position:absolute;z-index:-1;top:0;bottom:0;left:0;width:34%;pointer-events:none;
+  background:linear-gradient(100deg,transparent 0,rgba(255,255,255,.34) 50%,transparent 100%);
+  transform:translateX(-130%) skewX(-22deg);opacity:0}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn::before{transition:transform .75s var(--v67-ease),opacity .2s}
+  html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn:hover::before,html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn:focus-visible::before{transform:translateX(420%) skewX(-22deg);opacity:1}
+}
+/* flecha que avanza (solo en los botones principales que no la traen en el texto) */
+html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn.p:not([data-wa$="→"])::after{
+  content:"→";display:inline-block;margin-left:.7em;font-weight:800;transition:transform .3s var(--v67-ease)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn.p:hover::after,html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn.p:focus-visible::after{transform:translateX(5px)}
+}
+/* primario: en reposo */
+html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn.p:not(:hover):not(:focus-visible){
+  background-image:
+    linear-gradient(180deg,rgba(255,255,255,.26) 0,rgba(255,255,255,.07) 46%,rgba(0,0,0,.10) 54%,rgba(0,0,0,.26) 100%)!important;
+  background-color:var(--v67-rojo)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(0,0,0,.30),inset 0 0 0 1px rgba(255,255,255,.10)!important;
+  text-shadow:0 1px 0 rgba(0,0,0,.28)}
+/* primario: hover/foco en preguntas, horarios y financiación → más luz (en visita se conserva el hover blanco que ya existe) */
+html body :is(#preguntas,#horarios,#financiacion,#operaciones):is(#preguntas,#horarios,#financiacion,#operaciones) .btn.p:is(:hover,:focus-visible){
+  background-image:linear-gradient(180deg,rgba(255,255,255,.34) 0,rgba(255,255,255,.10) 46%,rgba(0,0,0,.06) 54%,rgba(0,0,0,.22) 100%)!important;
+  background-color:#D81A29!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -3px 0 rgba(0,0,0,.30),inset 0 0 0 1px rgba(255,255,255,.14)!important}
+html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn.p:active{background-image:linear-gradient(180deg,rgba(0,0,0,.22),rgba(0,0,0,.06))!important;box-shadow:inset 0 3px 0 rgba(0,0,0,.34)!important}
+/* secundario («Cómo llegar»): vidrio claro sobre fondo oscuro, borde de 2 px que ya tenía */
+html body #horarios#horarios .hor-acts .btn:not(.p):not(:hover):not(:focus-visible){
+  background-image:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.03))!important;
+  box-shadow:inset 0 0 0 2px #fff,inset 0 1px 0 rgba(255,255,255,.4)!important}
+html body #horarios#horarios .hor-acts .btn:not(.p)::after{content:"↗";display:inline-block;margin-left:.6em;transition:transform .3s var(--v67-ease)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){html body #horarios#horarios .hor-acts .btn:not(.p):hover::after{transform:translate(3px,-3px)}}
+
+/* ═════════ 2 · CAMPOS DE FORMULARIO (buscás · visita · financiación) ═════════ */
+html body :is(#buscoForm,#visitaForm,.fin-ticket) :is(input[type="text"],select){
+  background-image:linear-gradient(180deg,#fff 0,#F4F7FB 100%);
+  box-shadow:inset 0 2px 0 rgba(10,16,32,.05);
+  transition:border-color .2s,box-shadow .2s,background-color .2s}
+html body #preguntas#preguntas #buscoForm :is(input[type="text"],select){
+  min-height:54px;padding-inline:16px;border:2px solid #C5CEDD;border-radius:0;color:var(--v67-ink);font-weight:600}
+html body #buscoForm :is(input,select):hover{border-color:#8FA0C0}
+html body :is(#buscoForm,#visitaForm,.fin-ticket) :is(input[type="text"],select):focus{
+  outline:0;border-color:var(--v67-azul)!important;
+  box-shadow:inset 0 -3px 0 var(--v67-rojo),0 0 0 4px rgba(10,44,140,.14)}
+html body #buscoForm input::placeholder,html body #visitaForm input::placeholder{color:#7A869C;font-weight:500}
+/* selector con flecha propia (la nativa cambia según el navegador) */
+html body :is(#preguntas#preguntas #buscoForm,#financiacion#financiacion .fin-ticket) select{
+  -webkit-appearance:none;appearance:none;cursor:pointer;padding-right:46px;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 9l7 7 7-7' fill='none' stroke='%23C1121F' stroke-width='3.2' stroke-linecap='square'/%3E%3C/svg%3E"),
+    linear-gradient(180deg,#fff 0,#F4F7FB 100%);
+  background-repeat:no-repeat,no-repeat;background-position:right 14px center,0 0;background-size:18px 18px,100% 100%}
+/* etiquetas */
+html body #preguntas#preguntas #buscoForm label{font-weight:700;font-size:13.5px;color:var(--v67-ink)}
+html body #preguntas#preguntas #buscoForm label i{font-style:normal;font-weight:600;color:#6B778E}
+
+/* ═════════ 3 · «CONTANOS QUÉ AUTO BUSCÁS» (#buscoForm) ═════════ */
+html body #preguntas#preguntas #buscoForm{
+  position:relative;
+  background-image:linear-gradient(180deg,#fff 0,#F7F9FC 100%);
+  box-shadow:inset 0 0 0 1px rgba(10,16,32,.08),inset 0 -4px 0 rgba(10,44,140,.10)}
+/* cinta tricolor en el borde superior, inclinada como la del sitio */
+html body #preguntas#preguntas #buscoForm::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:6px;pointer-events:none;
+  background:linear-gradient(110deg,var(--v67-rojo) 0 34%,#fff 34% 36%,var(--v67-azul) 36% 100%)}
+html body #preguntas#preguntas #buscoForm>h3{display:flex;align-items:center;gap:12px}
+html body #preguntas#preguntas #buscoForm>h3::before{
+  content:"";flex:none;width:12px;height:12px;background:linear-gradient(135deg,#E3202E,#9E0E19);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+html body #preguntas#preguntas #buscoForm>.btn{min-height:58px;display:flex;align-items:center;justify-content:center}
+html body #preguntas#preguntas #buscoForm .meta{font-size:13px;line-height:1.5;color:#5B677E}
+
+/* ═════════ 4 · «COORDINÁ TU VISITA» (#visitaForm) ═════════ */
+/* cabecera negra: filete tricolor abajo (borde recto: no choca con la esquina cortada de arriba) */
+html body #visita#visita .vx-top{position:relative}
+html body #visita#visita .vx-top::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:4px;pointer-events:none;
+  background:linear-gradient(110deg,var(--v67-rojo) 0 30%,#fff 30% 31.5%,var(--v67-azul) 31.5% 100%)}
+/* insignias 1·2·3 */
+html body #visita#visita .vx-sh i{
+  background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 50%,rgba(0,0,0,.22));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(0,0,0,.28)}
+/* autos para elegir: ficha con filo, y al marcarla se «enciende» en azul con tilde */
+html body #visita#visita .vx-card .ck{
+  background-image:linear-gradient(180deg,#fff 0,#EDF1F8 100%);
+  box-shadow:inset 0 -3px 0 rgba(10,16,32,.10);
+  transition:background-color .2s,border-color .2s,box-shadow .2s,color .2s}
+html body #visita#visita .vx-card .ck:hover{background-image:linear-gradient(180deg,#fff 0,#E4ECFF 100%);box-shadow:inset 0 -3px 0 var(--v67-azul)}
+html body #visita#visita .vx-card .ck:has(input:checked){
+  background-image:linear-gradient(180deg,rgba(255,255,255,.22) 0,rgba(255,255,255,.04) 48%,rgba(0,0,0,.24) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -3px 0 var(--v67-rojo)}
+html body #visita#visita .vx-card .ck span::before{transition:background-color .2s,border-color .2s;box-shadow:inset 0 2px 0 rgba(10,16,32,.10)}
+html body #visita#visita .vx-card .ck:has(input:checked) span::before{
+  border-color:#fff;box-shadow:none;background-color:var(--v67-rojo);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='square'/%3E%3C/svg%3E");
+  background-size:92% 92%;background-position:center;background-repeat:no-repeat}
+/* calendario */
+html body #visita#visita .vc-h{background-image:linear-gradient(180deg,#16224A 0,rgba(10,16,32,0) 100%);box-shadow:inset 0 -3px 0 var(--v67-rojo)}
+html body #visita#visita .vc-n{background-image:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0));box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+html body #visita#visita .vc-d:not(:disabled):not([aria-pressed="true"]){
+  background-image:linear-gradient(180deg,#fff 0,#F0F3F9 100%);box-shadow:inset 0 -2px 0 rgba(10,16,32,.08);
+  transition:background-color .15s,border-color .15s,box-shadow .15s}
+html body #visita#visita .vc-d:hover:not(:disabled):not([aria-pressed="true"]){box-shadow:inset 0 -3px 0 var(--v67-azul)}
+html body #visita#visita .vc-d[aria-pressed="true"]{
+  background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.04) 50%,rgba(0,0,0,.24));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -3px 0 rgba(0,0,0,.30);font-weight:800}
+html body #visita#visita .vc-f:not(:disabled):not([aria-pressed="true"]){
+  background-image:linear-gradient(180deg,#fff 0,#EEF2F8 100%);box-shadow:inset 0 -3px 0 rgba(10,16,32,.10)}
+html body #visita#visita .vc-f:hover:not(:disabled):not([aria-pressed="true"]){box-shadow:inset 0 -3px 0 var(--v67-azul)}
+html body #visita#visita .vc-f[aria-pressed="true"]{
+  background-image:linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,.03) 50%,rgba(0,0,0,.26));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -3px 0 var(--v67-rojo)}
+/* «Tu visita»: hilo de luz arriba y botón a todo el ancho */
+html body #visita#visita .vx-sum::after{
+  content:"";position:absolute;left:6px;right:46px;top:0;height:1px;pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,255,255,.55),rgba(255,255,255,0))}
+html body #visita#visita .vx-sum .btn.p{min-height:58px;display:flex;align-items:center;justify-content:center}
+html body #visita#visita .vx-sum .btn.p:is(:hover,:focus-visible){box-shadow:inset 0 -4px 0 var(--v67-rojo)!important;background-image:none!important}
+
+/* ═════════ 5 · «CONTANOS TU AUTO» (formulario de Vender o permutar) ═════════
+   (se arma por JS con las mismas clases .btn/.p, input y select; hereda 1 y 2; solo le agrego la tarjeta de «Tu consulta») */
+html body :is(#vender,#operaciones) form{position:relative}
+
+/* ═════════ 6 · OPERACIONES: tarjetas Comprar / Vender / Permutar / Consignar ═════════ */
+html body #operaciones#operaciones .oc{box-shadow:inset 0 0 0 1px rgba(10,16,32,.10),inset 0 -4px 0 rgba(10,16,32,.06)}
+html body #operaciones#operaciones .oc .ob{background-image:linear-gradient(180deg,#fff 0,#F5F7FB 100%)}
+/* filete tricolor que se dibuja de izquierda a derecha al pasar el mouse */
+html body #operaciones#operaciones .oc .ob::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:5px;pointer-events:none;
+  background:linear-gradient(110deg,var(--v67-rojo) 0 40%,#fff 40% 42%,var(--v67-azul) 42% 100%);
+  transform:scaleX(.18);transform-origin:left center;opacity:.9}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  html body #operaciones#operaciones .oc .ob::after{transition:transform .55s var(--v67-ease)}
+  html body #operaciones#operaciones .oc:hover .ob::after,html body #operaciones#operaciones .oc:focus-within .ob::after{transform:scaleX(1)}
+  html body #operaciones#operaciones .oc .oi svg.op-ic{transition:transform .8s var(--v67-ease)}
+  html body #operaciones#operaciones .oc:hover .oi svg.op-ic{transform:scale(1.045)}
+}
+html body #operaciones#operaciones .oc .ob a{
+  position:relative;overflow:hidden;isolation:isolate;
+  background-image:linear-gradient(180deg,rgba(255,255,255,.26) 0,rgba(255,255,255,.07) 46%,rgba(0,0,0,.10) 54%,rgba(0,0,0,.26) 100%)!important;
+  background-color:var(--v67-rojo)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -3px 0 rgba(0,0,0,.30)!important;text-shadow:0 1px 0 rgba(0,0,0,.28)}
+html body #operaciones#operaciones .oc .ob a::before{
+  content:"";position:absolute;z-index:-1;top:0;bottom:0;left:0;width:34%;pointer-events:none;
+  background:linear-gradient(100deg,transparent 0,rgba(255,255,255,.34) 50%,transparent 100%);
+  transform:translateX(-130%) skewX(-22deg);opacity:0}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  html body #operaciones#operaciones .oc .ob a::before{transition:transform .75s var(--v67-ease),opacity .2s}
+  html body #operaciones#operaciones .oc .ob a:hover::before,html body #operaciones#operaciones .oc .ob a:focus-visible::before{transform:translateX(420%) skewX(-22deg);opacity:1}
+}
+html body #operaciones#operaciones .oc .ob a:is(:hover,:focus-visible){
+  background-color:var(--v67-azul)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -3px 0 var(--v67-rojo)!important}
+
+/* ═════════ 7 · FINANCIACIÓN / TU USADO ═════════ */
+/* tarjetas oscuras: luz de esquina y rayado de taller (translúcidos: el azul del hover sigue mandando) */
+html body #financiacion#financiacion .pdg .pdc{
+  background-image:
+    linear-gradient(155deg,rgba(255,255,255,.10) 0,rgba(255,255,255,0) 42%),
+    repeating-linear-gradient(104deg,rgba(255,255,255,.04) 0 1px,transparent 1px 22px)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -4px 0 rgba(0,0,0,.35)!important}
+html body #financiacion#financiacion .pdg .pdc h3{text-shadow:0 2px 0 rgba(0,0,0,.35)}
+/* «Consultar →» de «Tu usado»: pasa a ser una pastilla con flecha que avanza */
+html body #financiacion#financiacion .pdc .pds{
+  display:inline-flex;align-items:center;gap:10px;padding:10px 16px 10px 14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),inset 0 1px 0 rgba(255,255,255,.3);
+  font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:12px}
+html body #financiacion#financiacion .pdc .pds::after{content:"→";transition:transform .3s var(--v67-ease)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){html body #financiacion#financiacion .pdc:hover .pds::after{transform:translateX(6px)}}
+/* cupones: papel con brillo, perforación roja y el último en rojo metal */
+html body #financiacion#financiacion .pdc .cup i{
+  background-image:linear-gradient(180deg,#fff 0,#E6EBF3 100%);
+  box-shadow:inset 0 1px 0 #fff,inset 0 -3px 0 rgba(10,16,32,.14)}
+html body #financiacion#financiacion .pdc .cup i.cup-d{
+  background-image:linear-gradient(180deg,rgba(255,255,255,.28) 0,rgba(255,255,255,.06) 46%,rgba(0,0,0,.26) 100%);
+  background-color:var(--v67-rojo);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -3px 0 rgba(0,0,0,.30)}
+/* «Consultar condiciones»: ficha con cinta tricolor arriba y filo abajo */
+html body #financiacion#financiacion .fin-ticket{
+  position:relative;
+  background-image:linear-gradient(180deg,#fff 0,rgba(255,255,255,0) 60%)!important;
+  box-shadow:inset 0 -4px 0 rgba(10,16,32,.14)!important;border-top-style:solid!important;border-top-width:0!important;padding-top:calc(clamp(18px,2vw,28px) + 6px)!important}
+html body #financiacion#financiacion .fin-ticket::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:6px;pointer-events:none;
+  background:linear-gradient(110deg,var(--v67-rojo) 0 34%,#fff 34% 36%,var(--v67-azul) 36% 100%)}
+html body #financiacion#financiacion .fin-ticket .fin-used input{width:20px;height:20px;cursor:pointer}
+html body #financiacion#financiacion .fin-ticket a.btn{min-height:50px;display:inline-flex;align-items:center}
+
+/* ═════════ 8 · HORARIOS ═════════ */
+/* sello: trama de rayas finas y resplandor del mismo color (rojo cerrado / verde abierto) */
+html body #horarios#horarios .hor-sello{
+  background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 8px);
+  box-shadow:0 0 22px color-mix(in srgb,var(--k) 30%,transparent),inset 0 0 16px color-mix(in srgb,var(--k) 18%,transparent)}
+html body #horarios#horarios .hor-plate b{text-shadow:0 3px 0 rgba(0,0,0,.35)}
+/* filas de la semana: resalte al pasar el mouse y «hoy» con brillo */
+@media(hover:hover){html body #horarios#horarios .hor-r:not(.is-hoy):not([data-closed]):hover{background-image:linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,0) 70%)}}
+html body #horarios#horarios .hor-r{transition:background-color .2s}
+html body #horarios#horarios .hor-r.is-hoy{
+  background-image:linear-gradient(90deg,rgba(255,255,255,.18) 0,rgba(255,255,255,0) 45%),linear-gradient(180deg,rgba(255,255,255,.14),rgba(0,0,0,.16));
+  box-shadow:inset 6px 0 0 #fff,inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.25)}
+html body #horarios#horarios .hor-lt{text-shadow:0 0 18px rgba(110,231,160,.35)}
+/* el botón de «Consultar condiciones» ya trae su flecha ↗ en el texto */
+html body #financiacion#financiacion .fin-ticket a.btn::after{content:none!important}
+
+/* ═════════ 9 · «CONTANOS TU AUTO» (#canjeForm): campos, tarjeta y vista previa del mensaje ═════════ */
+html body #operaciones#operaciones #canjeForm :is(input[type="text"],select){
+  min-height:54px;padding-inline:16px;border:2px solid #C5CEDD!important;border-radius:0;color:var(--v67-ink);font-weight:600;
+  background-image:linear-gradient(180deg,#fff 0,#F4F7FB 100%);box-shadow:inset 0 2px 0 rgba(10,16,32,.05)!important;
+  transition:border-color .2s,box-shadow .2s}
+html body #operaciones#operaciones #canjeForm :is(input,select):hover{border-color:#8FA0C0!important}
+html body #operaciones#operaciones #canjeForm :is(input[type="text"],select):focus{
+  outline:0;border-color:var(--v67-azul)!important;box-shadow:inset 0 -3px 0 var(--v67-rojo),0 0 0 4px rgba(10,44,140,.14)!important}
+html body #operaciones#operaciones #canjeForm select[name]{
+  -webkit-appearance:none;appearance:none;cursor:pointer;padding-right:46px;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 9l7 7 7-7' fill='none' stroke='%23C1121F' stroke-width='3.2' stroke-linecap='square'/%3E%3C/svg%3E"),
+    linear-gradient(180deg,#fff 0,#F4F7FB 100%);
+  background-repeat:no-repeat,no-repeat;background-position:right 14px center,0 0;background-size:18px 18px,100% 100%}
+html body #operaciones#operaciones #canjeForm label{font-weight:700;font-size:13.5px;color:var(--v67-ink)}
+html body #operaciones#operaciones #canjeForm label i{font-style:normal;font-weight:600;color:#6B778E}
+html body #operaciones#operaciones #canjeForm>.btn{min-height:58px;display:flex;align-items:center;justify-content:center}
+/* tarjeta: cinta tricolor arriba (reemplaza el renglón punteado) y filo azul abajo */
+html body #operaciones#operaciones .fr{position:relative;border-top-width:0!important;background-image:linear-gradient(180deg,#fff 0,rgba(255,255,255,0) 40%)!important}
+html body #operaciones#operaciones .fr::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:6px;z-index:1;pointer-events:none;
+  background:linear-gradient(110deg,var(--v67-rojo) 0 34%,#fff 34% 36%,var(--v67-azul) 36% 100%)}
+/* vista previa «Tu consulta»: fondo de chat con puntitos, globo verde con cola, pasos como fichas */
+html body #operaciones#operaciones #canjeForm .wp{
+  background-image:radial-gradient(rgba(10,16,32,.06) 1px,transparent 1.6px),linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));
+  background-size:14px 14px,100% 100%;border-radius:0;box-shadow:inset 0 0 0 1px rgba(10,16,32,.07),inset 0 -4px 0 rgba(10,16,32,.06)}
+html body #operaciones#operaciones #canjeForm .wp>small{font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:var(--v67-ink)}
+html body #operaciones#operaciones #canjeForm .wb{
+  position:relative;background-image:linear-gradient(180deg,#E6FBD3 0,#D3F5BC 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -2px 0 rgba(10,100,40,.14)}
+html body #operaciones#operaciones #canjeForm .wb::after{
+  content:"";position:absolute;right:-7px;top:0;width:0;height:0;border-style:solid;border-width:0 0 12px 9px;border-color:transparent transparent transparent #D9F7C4}
+html body #operaciones#operaciones #canjeForm .wk li{
+  background-image:linear-gradient(180deg,#fff 0,#F5F7FB 100%);
+  box-shadow:inset 0 0 0 1px rgba(10,16,32,.07),inset 0 -3px 0 rgba(10,16,32,.06),inset 4px 0 0 var(--v67-rojo)}
+html body #operaciones#operaciones #canjeForm .wk li b{font-weight:800}
+
+/* «¿Qué día te queda bien?»: la regla de la visita fuerza fondo blanco y sin sombra; se superpone el mismo acabado de los otros campos */
+html body #visita#visita #visitaForm .vx-free input{
+  background-image:linear-gradient(180deg,#fff 0,#F4F7FB 100%)!important;box-shadow:inset 0 2px 0 rgba(10,16,32,.05)!important;
+  transition:box-shadow .2s,border-color .2s}
+html body #visita#visita #visitaForm .vx-free input:focus{
+  outline:0!important;border-bottom-color:var(--v67-rojo)!important;box-shadow:inset 0 -3px 0 var(--v67-rojo),0 0 0 4px rgba(10,44,140,.14)!important}
+
+/* ═════════ 10 · REMATES ═════════ */
+/* placeholders con contraste suficiente (≥ 4,5:1 sobre blanco) */
+html body :is(#buscoForm,#canjeForm,#visitaForm) input::placeholder{color:#66728A;opacity:1}
+/* campo con error tras intentar enviar (:user-invalid solo marca después de que la persona tocó el campo) */
+html body #preguntas#preguntas #buscoForm :is(input,select):user-invalid,
+html body #operaciones#operaciones #canjeForm :is(input,select):user-invalid{
+  border-color:var(--v67-rojo)!important;background-color:#FFF6F6;box-shadow:inset 0 -3px 0 var(--v67-rojo)!important}
+/* sin cursor de toque azul sobre los controles */
+html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones) :is(.btn,.ck,.vc-d,.vc-f,.vc-n,.oc .ob a,a.pdc){-webkit-tap-highlight-color:transparent}
+/* presionado de fichas, días y franjas */
+html body #visita#visita :is(.ck,.vc-d:not(:disabled),.vc-f:not(:disabled)):active{box-shadow:inset 0 3px 0 rgba(10,16,32,.28)}
+/* en pantallas táctiles no hay hover: el filete tricolor de las tarjetas ya aparece completo */
+@media(hover:none){html body #operaciones#operaciones .oc .ob::after{transform:none}}
+/* navegadores sin color-mix: resplandor del sello en rojo */
+@supports not (color:color-mix(in srgb,red 30%,transparent)){
+  html body #horarios#horarios .hor-sello{box-shadow:0 0 22px rgba(255,90,100,.3),inset 0 0 16px rgba(255,90,100,.18)}
+}
+/* modo de alto contraste del sistema: se quitan las capas decorativas y quedan los bordes propios */
+@media(forced-colors:active){
+  html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn::before,
+  html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .oc .ob a::before,
+  html body #preguntas#preguntas #buscoForm::after,html body #operaciones#operaciones .fr::before,
+  html body #financiacion#financiacion .fin-ticket::before,html body #visita#visita .vx-top::after{display:none}
+  html body :is(#buscoForm,#canjeForm,.fin-ticket) :is(input,select){border:2px solid ButtonText!important}
+}
+
+/* ═════════ 11 · SUBIR EL VOLUMEN: profundidad y entradas ═════════
+   Todo con transform/opacity/scale (compositor) y, donde existe, ligado al scroll con animation-timeline:view()
+   (corre fuera del hilo principal; sin soporte queda el estado final, estático). Nada se repinta por frame. */
+
+/* tarjeta «Qué buscás»: bloque de sombra dura (no difusa) detrás, como ficha apoyada sobre el papel */
+@media(min-width:900px){
+  html body #preguntas#preguntas #buscoForm{
+    box-shadow:inset 0 0 0 1px rgba(10,16,32,.08),inset 0 -4px 0 rgba(10,44,140,.10),9px 9px 0 var(--v67-ink)}
+}
+/* campo ya completado: marca azul a la izquierda, se ve de un vistazo qué falta */
+html body #preguntas#preguntas #buscoForm input[type="text"]:not(:placeholder-shown):not(:focus):not(:user-invalid),
+html body #operaciones#operaciones #canjeForm input[type="text"]:not(:placeholder-shown):not(:focus):not(:user-invalid){
+  box-shadow:inset 5px 0 0 var(--v67-azul),inset 0 2px 0 rgba(10,16,32,.05)!important;padding-left:20px}
+/* tarjetas de financiación: al pasar el mouse se enciende un filo rojo arriba */
+@media(hover:hover){
+  html body #financiacion#financiacion .pdg .pdc{transition:background-color .2s,border-color .2s,box-shadow .25s}
+  html body #financiacion#financiacion .pdg .pdc:hover{
+    box-shadow:inset 0 4px 0 #fff,inset 0 1px 0 rgba(255,255,255,.14),inset 0 -4px 0 rgba(0,0,0,.35)!important}
+}
+/* cupones: un punto más grandes y legibles (siguen entrando en una línea) */
+html body #financiacion#financiacion .pdc .cup i{font-size:9.5px}
+
+@supports (animation-timeline:view()){
+@media(prefers-reduced-motion:no-preference){
+  @keyframes v67-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes v67-glint{from{transform:translateX(-130%) skewX(-22deg);opacity:1}to{transform:translateX(420%) skewX(-22deg);opacity:1}}
+  @keyframes v67-stamp{from{scale:1.35;opacity:0}60%{opacity:1}to{scale:1;opacity:1}}
+  @keyframes v67-sweep{from{background-position:-120% 0,0 0}to{background-position:220% 0,0 0}}
+
+  /* las cintas tricolor se dibujan de izquierda a derecha al entrar en pantalla */
+  html body #preguntas#preguntas #buscoForm::after,
+  html body #operaciones#operaciones .fr::before,
+  html body #financiacion#financiacion .fin-ticket::before,
+  html body #visita#visita .vx-top::after{
+    transform-origin:left center;animation:v67-draw linear both;animation-timeline:view();animation-range:entry 5% entry 75%}
+
+  /* el destello cruza los botones principales una vez, mientras entran */
+  html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones):is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn.p::before,
+  html body #operaciones#operaciones .oc .ob a::before{
+    animation:v67-glint linear;animation-timeline:view();animation-range:entry 45% entry 100%}
+
+  /* el sello CERRADO/ABIERTO «cae» sobre la tabla */
+  html body #horarios#horarios .hor-sello{animation:v67-stamp linear both;animation-timeline:view();animation-range:entry 10% entry 60%}
+}}
+
+/* ═════════ 12 · ÚLTIMA PASADA: coherencia y detalle ═════════ */
+/* tipografía: cifras alineadas (horarios, calendario, cuotas) y títulos de tarjeta bien partidos */
+html body :is(#horarios,#visita) :is(time,.vc-d,.vc-h b,.hor-lt,.hor-plate b){font-variant-numeric:tabular-nums lining-nums}
+html body #operaciones#operaciones .oc .ob h3,html body #financiacion#financiacion .pdc h3{text-wrap:balance}
+html body :is(#preguntas,#visita,#horarios,#financiacion,#operaciones) .btn{-webkit-font-smoothing:antialiased}
+
+/* casilla «Tengo un usado para evaluar»: mismo lenguaje que las fichas de la visita (cuadrada, roja al marcar, con tilde) */
+html body #financiacion#financiacion .fin-ticket .fin-used input{
+  -webkit-appearance:none;appearance:none;flex:none;width:22px;height:22px;margin:0;border:2px solid var(--v67-ink);border-radius:0;
+  background-color:#fff;background-image:linear-gradient(180deg,#fff,#EDF1F8);box-shadow:inset 0 2px 0 rgba(10,16,32,.08);
+  background-repeat:no-repeat;background-position:center;background-size:90% 90%;transition:background-color .2s,border-color .2s}
+html body #financiacion#financiacion .fin-ticket .fin-used input:checked{
+  background-color:var(--v67-rojo);border-color:var(--v67-ink);box-shadow:inset 0 -3px 0 rgba(0,0,0,.28);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='square'/%3E%3C/svg%3E")}
+html body #financiacion#financiacion .fin-ticket .fin-used input:focus-visible{outline:3px solid var(--v67-azul);outline-offset:3px}
+
+/* foco de teclado: anillo nítido y del color que contrasta con cada fondo */
+html body :is(#preguntas,#operaciones,#financiacion) .btn:focus-visible,
+html body #operaciones#operaciones .oc .ob a:focus-visible{outline:3px solid var(--v67-azul);outline-offset:4px}
+html body :is(#horarios,#visita .vx-sum) .btn:focus-visible{outline:3px solid #fff;outline-offset:4px}
+
+/* tarjetas de Operaciones: el título toma el rojo de la marca al apuntarlas */
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  html body #operaciones#operaciones .oc .ob h3{transition:color .25s}
+  html body #operaciones#operaciones .oc:hover .ob h3{color:var(--v67-rojo)}
+}
+/* enlaces dentro de los avisos: subrayado fino con aire, sin saltos de color bruscos */
+html body :is(#buscoForm,#canjeForm) .meta a{text-decoration-thickness:2px;text-underline-offset:4px;transition:color .2s}
+html body :is(#buscoForm,#canjeForm) .meta a:hover{color:var(--v67-azul)}
+/* aviso de estado (.fs): entra suave cuando aparece el mensaje */
+@media(prefers-reduced-motion:no-preference){
+  html body :is(#buscoForm,#canjeForm,#visitaForm) .fs:not(:empty){animation:v67-fs .35s var(--v67-ease) both}
+  @keyframes v67-fs{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+/* impresión: sin decoraciones ni sombras */
+@media print{html body :is(#buscoForm,#canjeForm,#visitaForm) {box-shadow:none!important}}
