@@ -10,7 +10,7 @@ if (!sec) return;
 sec.classList.add("is-js");   // las animaciones de entrada solo existen si hay JS: sin JS la regla se ve completa
 
 var DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]; // 1..7
-var AXIS_A = 8, AXIS_C = 18;                                                          // horas del eje de la regla
+var AXIS_A = 8, AXIS_C = 18, CELLS = (AXIS_C - AXIS_A) * 2;                                   // horas del eje de la regla y celdas de media hora
 
 function mins(h) { var p = h.split(":"); return +p[0] * 60 + +p[1]; }
 function pretty(h) { var p = h.split(":"); return +p[0] + ":" + p[1]; }
@@ -29,8 +29,25 @@ var week = {};
   if (week[d].a && week[d].c) {   // las barras salen de los mismos datos
     r.style.setProperty("--a", ((mins(week[d].a) / 60 - AXIS_A) / (AXIS_C - AXIS_A)).toFixed(4));
     r.style.setProperty("--c", ((mins(week[d].c) / 60 - AXIS_A) / (AXIS_C - AXIS_A)).toFixed(4));
+    buildCells(week[d]);
   }
 });
+
+/* La regla en celdas: una por cada media hora del eje (8 a 18 h = 20). Las que caen dentro del horario de ese día se encienden. */
+function buildCells(w) {
+  var tr = w.el.querySelector(".hor-tr");
+  if (!tr) return;
+  var a = mins(w.a), c = mins(w.c), frag = document.createDocumentFragment();
+  w.cells = [];
+  for (var i = 0; i < CELLS; i++) {
+    var s = AXIS_A * 60 + i * 30, e = s + 30, k = document.createElement("i");
+    k.className = "hor-c" + (e > a && s < c ? " on" : "");
+    k.style.setProperty("--k", i);
+    k._s = s; k._e = e;
+    frag.appendChild(k); w.cells.push(k);
+  }
+  tr.appendChild(frag);
+}
 
 /* Hora actual en Argentina */
 var fmt;
@@ -108,6 +125,15 @@ function paint() {
     var on = +k === n.d;
     week[k].el.classList.toggle("is-hoy", on);
     if (on) week[k].el.setAttribute("aria-current", "date"); else week[k].el.removeAttribute("aria-current");
+  });
+  Object.keys(week).forEach(function (k) {   // celdas de hoy: ya pasaron / ahora / faltan
+    var w = week[k];
+    if (!w.cells) return;
+    w.cells.forEach(function (c) {
+      var on = +k === n.d;
+      c.classList.toggle("is-past", on && c._e <= n.m);
+      c.classList.toggle("is-now", on && c._s <= n.m && n.m < c._e);
+    });
   });
   var rg = sec.querySelector(".hor-rg"), h = n.m / 60;
   if (rg) {
