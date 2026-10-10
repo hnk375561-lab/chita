@@ -372,3 +372,6 @@ html body :is(#buscoForm,#canjeForm) .meta a:hover{color:var(--v67-azul)}
 }
 /* impresión: sin decoraciones ni sombras */
 @media print{html body :is(#buscoForm,#canjeForm,#visitaForm) {box-shadow:none!important}}
+
+/* Aviso de demo (se elimina al pasar a producción) */
+.demo-note{margin:10px 0 0;font:600 12px/1.4 var(--font-body,system-ui);letter-spacing:.02em;opacity:.8}

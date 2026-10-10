@@ -1,7 +1,7 @@
 {
   "publicacion": {
-    "status": "official",
-    "official": true,
+    "status": "demo",
+    "official": false,
     "publicIndexing": false
   },
   "identity": {

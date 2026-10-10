@@ -6,15 +6,16 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const PROD = process.argv.includes('--prod'); // sin flag = modo DEMO (npm test); con --prod = puerta de salida
 const d = JSON.parse(fs.readFileSync(path.join(root, 'data/dealership.json'), 'utf8'));
 const errors = [];
-if (d.publicacion.official !== true) errors.push('publicacion.official debe ser true');
+if (PROD && d.publicacion.official !== true) errors.push('publicacion.official debe ser true (modo producción)');
 if (d.identity.cuit !== null) errors.push('CUIT debe ser null hasta confirmación');
 if (d.hours.display && d.hours.status === 'not-found') errors.push('hours.display cargado pero status sigue en not-found');
 for (const page of ['index.html', 'privacidad.html', 'reserva.html']) {
   const h = fs.readFileSync(path.join(root, page), 'utf8');
   if (d.publicacion.publicIndexing === false ? !/noindex/.test(h) : /noindex/.test(h)) errors.push(`${page}: ${d.publicacion.publicIndexing === false ? 'debe tener noindex (demo temporal, publicIndexing=false)' : 'no debe tener noindex'}`);
-  if (/\b(demo|propuesta|prototipo|preview)\b/i.test(h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|max-image-preview/g, ''))) errors.push(`${page}: lenguaje de demo/propuesta`);
+  if (PROD && /\b(demo|propuesta|prototipo|preview)\b/i.test(h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|max-image-preview/g, ''))) errors.push(`${page}: lenguaje de demo/propuesta`);
 }
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 // La lógica vive en js/app.js y los estilos en css/site.css; se valida junto con index.html como si fuera un solo documento.
@@ -97,6 +98,23 @@ if (d.publicacion.publicIndexing === false ? !robotsBlocks : robotsBlocks) error
   const grupos = [...byHash.values()].filter((g) => g.length > 1);
   for (const g of grupos) if (g.some((x) => /^assets\/w(480|800)\//.test(x)) && g.some((x) => !/^assets\/w(480|800)\//.test(x))) errors.push(`Imagen duplicada con nombre numerado: ${g.join(' = ')}`);
   if (grupos.length) console.warn(`Aviso: ${grupos.length} grupos de imágenes idénticas (${grupos.reduce((a, g) => a + g.length - 1, 0)} archivos sobrantes)`);
+}
+// Reseñas: todo "N reseñas" del HTML debe coincidir con data/dealership.json.
+{
+  const gCount = d.reputation && d.reputation.google && d.reputation.google.count;
+  for (const m of html.matchAll(/(?:<b>)?(\d+)(?:<\/b>)?\s+reseñas/g)) if (Number(m[1]) !== gCount) errors.push(`index.html dice ${m[1]} reseñas y data/dealership.json dice ${gCount}`);
+}
+// Aviso de demo: obligatorio en modo demo, prohibido en producción.
+if (!PROD && !/data-demo-note/.test(html)) errors.push('index.html: falta el aviso de demo (data-demo-note en el pie)');
+// Puerta de salida: node scripts/validate-dealership.mjs --prod
+if (PROD) {
+  const bare = indexHtml.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '');
+  if (d.publicacion.publicIndexing !== true) errors.push('PROD: publicacion.publicIndexing sigue en false');
+  if (!d.contact.whatsApp) errors.push('PROD: falta el WhatsApp');
+  if (/google-maps/.test(String(d.hours.status))) errors.push('PROD: horarios sin confirmación del dueño (status: ' + d.hours.status + ')');
+  if (!(d.photos && d.photos.authorized === true)) errors.push('PROD: falta photos.authorized = true (autorización de fotos y videos)');
+  if (/data-demo-note/.test(html)) errors.push('PROD: quitar el aviso de demo del pie');
+  if (/\bEJEMPLO\b/.test(bare) || /\b(a confirmar|a cargar)\b/i.test(bare)) errors.push('PROD: quedan textos "EJEMPLO / a confirmar / a cargar" en index.html');
 }
 if (errors.length) { console.error(errors.map((e) => 'ERROR: ' + e).join('\n')); process.exit(1); }
 console.log('Datos de Chita válidos y consistentes con index.html.');
