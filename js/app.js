@@ -108,8 +108,8 @@ var b=e.target.closest("[data-n]");if(b)open_(+b.getAttribute("data-n"),b.getAtt
 /* Hero v10: carrusel de unidades (portada de cada una, sin recorte ni zoom). motion.js solo anima la entrada.
    Cada unidad se presenta con la foto de portada que Chita rotuló: marca, modelo, año y km vienen impresos en la propia foto.
    Se vinculan por título; una unidad sin entrada usa su primera foto, y null la omite (misma unidad que otra ya presente). */
-var HCOVER={"Renault Clio Dynamique 1.2N":"assets/w800/8.webp","Chevrolet Tracker Premier 1.8N":"assets/w800/27.webp","Fiat Palio Attractive 1.4N":"assets/w800/22.webp","Renault Kangoo Comfort 1.6N":"assets/w800/41.webp","Renault Kangoo Authentique 1.6N":"assets/w800/47.webp","Kia K3 EX Cross 1.6N":"assets/w800/53.webp","Peugeot 301 Allure 1.6 HDI":"assets/w800/57.webp","Peugeot Partner Patagónica 1.4N":"assets/w800/61.webp","Chevrolet Tracker Premier 1.2T":"assets/tracker-2021-1.webp"};
-var HTHUMB={"assets/w800/8.webp":"assets/hero/t-8.webp","assets/w800/27.webp":"assets/hero/t-27.webp","assets/w800/22.webp":"assets/hero/t-22.webp","assets/w800/41.webp":"assets/hero/t-41.webp","assets/w800/47.webp":"assets/hero/t-47.webp","assets/w800/53.webp":"assets/hero/t-53.webp","assets/w800/57.webp":"assets/hero/t-57.webp","assets/w800/61.webp":"assets/hero/t-61.webp","assets/w800/9.webp":"assets/hero/t-9.webp"};
+var HCOVER={"Renault Clio Dynamique 1.2N":"assets/clio-2016-1-800.webp","Chevrolet Tracker Premier 1.8N":"assets/tracker-18n-2018-1-800.webp","Fiat Palio Attractive 1.4N":"assets/palio-2017-1-800.webp","Renault Kangoo Comfort 1.6N":"assets/kangoo-comfort-2022-1-800.webp","Renault Kangoo Authentique 1.6N":"assets/kangoo-authentique-2018-1-800.webp","Kia K3 EX Cross 1.6N":"assets/k3-2025-1-800.webp","Peugeot 301 Allure 1.6 HDI":"assets/w800/57.webp","Peugeot Partner Patagónica 1.4N":"assets/w800/61.webp","Chevrolet Tracker Premier 1.2T":"assets/tracker-2021-1.webp"};
+var HTHUMB={"assets/clio-2016-1-800.webp":"assets/hero/t-8.webp","assets/tracker-18n-2018-1-800.webp":"assets/hero/t-27.webp","assets/palio-2017-1-800.webp":"assets/hero/t-22.webp","assets/kangoo-comfort-2022-1-800.webp":"assets/hero/t-41.webp","assets/kangoo-authentique-2018-1-800.webp":"assets/hero/t-47.webp","assets/k3-2025-1-800.webp":"assets/hero/t-53.webp","assets/w800/57.webp":"assets/hero/t-57.webp","assets/w800/61.webp":"assets/hero/t-61.webp","assets/tracker-12t-2021-1-800.webp":"assets/hero/t-9.webp"};
 var HZ=$("hzs"),HN=$("hn"),HM=$("hm"),HW=$("hw"),HF=$("hf"),HC=$("hcount"),HR=$("hrail"),HV=$("hv"),HNAV=$("hnav"),hi=0,SL=[],hsl,hAnim=null;
 STOCK.forEach(function(c,ci){var s=Object.prototype.hasOwnProperty.call(HCOVER,c.titulo)?HCOVER[c.titulo]:ph(c)[0];if(s)SL.push({c:ci,src:s})});
 var hL=SL.length;
@@ -159,6 +159,7 @@ window.addEventListener("hashchange",fromHash);fromHash();
 var seen={},L=[];SL.forEach(function(o){if(!seen[o.src]){seen[o.src]=1;L.push(o.src)}});
 var N=L.length;if(!N)return;
 function sets(src){var m=/^assets\/w800\/(\d+)\.webp$/.exec(src);if(m)return "assets/w480/"+m[1]+".webp 480w, "+src+" 800w";
+ var q=/^(assets\/[a-z0-9-]+)-800\.webp$/.exec(src);if(q)return q[1]+"-480.webp 480w, "+src+" 800w";
  m=/^(.*)\.webp$/.exec(src);return m&&/-(480|800)\.webp$/.test(src)?"":m?m[1]+"-480.webp 480w, "+m[1]+"-800.webp 800w":""}
 function pn(src,i,clone){var f=document.createElement("figure");f.className="hx-pn";var im=new Image(),ss=sets(src);
  im.alt="";im.width=800;im.height=1000;im.decoding="async";im.draggable=false;im.loading=i<2?"eager":"lazy";

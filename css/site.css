@@ -645,8 +645,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 #financiacion.pp,#visita.pd{position:relative;isolation:isolate;overflow:hidden;color:#fff;background:var(--deep)}
 #financiacion.pp::before,#visita.pd::before{content:"";position:absolute;inset:0;z-index:-2;background-size:cover;background-repeat:no-repeat;transform:scale(1.03)}
 #financiacion.pp::before{background-image:url(../assets/w800/32.webp);background-position:50% 58%}
-#visita.pd::before{background-image:url(../assets/w800/6.webp);background-position:50% 55%}
-@media(min-width:801px){#financiacion.pp::before{background-image:url(../assets/w800/32.webp)}#visita.pd::before{background-image:url(../assets/w800/6.webp)}}
+#visita.pd::before{background-image:url(../assets/clio-2016-5-800.webp);background-position:50% 55%}
+@media(min-width:801px){#financiacion.pp::before{background-image:url(../assets/w800/32.webp)}#visita.pd::before{background-image:url(../assets/clio-2016-5-800.webp)}}
 #financiacion.pp::after,#visita.pd::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(70% 60% at 50% 45%,rgba(6,17,26,.5),rgba(6,17,26,.12) 100%),linear-gradient(180deg,rgba(6,17,26,.72),rgba(8,24,36,.4) 45%,rgba(6,17,26,.78))}
 #financiacion .pdt,#visita .pde{color:var(--luxl)}
 #financiacion .pdt{border-color:rgba(143,211,228,.6)}
@@ -700,8 +700,8 @@ section#financiacion.pp.pp.pp.pp .pdc{background:rgba(10,26,38,.8);border:1px so
 .mp iframe{opacity:0;transition:opacity .5s ease;will-change:auto}.mp.rd iframe{opacity:1}.mp.rd .mpf{display:none}
 /* ===== Guía general con interior de vehículo de fondo ===== */
 #guia.pd{position:relative;isolation:isolate;overflow:hidden;color:#fff;background:var(--deep)}
-#guia.pd::before{content:"";position:absolute;inset:0;z-index:-2;background:url(../assets/w800/48.webp) 50% 42%/cover no-repeat;transform:scale(1.03)}
-@media(min-width:801px){#guia.pd::before{background-image:url(../assets/w800/48.webp)}}
+#guia.pd::before{content:"";position:absolute;inset:0;z-index:-2;background:url(../assets/kangoo-authentique-2018-2-800.webp) 50% 42%/cover no-repeat;transform:scale(1.03)}
+@media(min-width:801px){#guia.pd::before{background-image:url(../assets/kangoo-authentique-2018-2-800.webp)}}
 #guia.pd::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(70% 60% at 50% 45%,rgba(6,17,26,.5),rgba(6,17,26,.12) 100%),linear-gradient(180deg,rgba(6,17,26,.8),rgba(8,24,36,.5) 45%,rgba(6,17,26,.86))}
 #guia .pde{display:inline-block;padding:6px 16px;border:1px solid rgba(143,211,228,.5);border-radius:999px;color:var(--luxl)}
 #guia h2{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
