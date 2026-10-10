@@ -42,7 +42,7 @@ clips.forEach(function(f){
 var s=document.getElementById("financiacion"),H=document.documentElement,K="bg-fin";if(!s||!("IntersectionObserver" in window)){H.classList.add(K);return}
 var nc=navigator.connection||{},lo=nc.saveData||/(^|-)2g$|3g/.test(nc.effectiveType||"");
 var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
-  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-fin.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"300px":innerWidth<900?"800px":"1600px")+" 0px"});
+  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-fin.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"0px":innerWidth<900?"800px":"1600px")+" 0px"});
 io.observe(s);
 })();
 
@@ -52,7 +52,7 @@ io.observe(s);
 var s=document.getElementById("visita"),H=document.documentElement,K="bg-visita";if(!s||!("IntersectionObserver" in window)){H.classList.add(K);return}
 var nc=navigator.connection||{},lo=nc.saveData||/(^|-)2g$|3g/.test(nc.effectiveType||"");
 var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
-  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-visita.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"300px":innerWidth<900?"800px":"1600px")+" 0px"});
+  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-visita.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"0px":innerWidth<900?"800px":"1600px")+" 0px"});
 io.observe(s);
 })();
 
@@ -61,7 +61,7 @@ io.observe(s);
 var s=document.getElementById("guia"),H=document.documentElement,K="bg-guia";if(!s||!("IntersectionObserver" in window)){H.classList.add(K);return}
 var nc=navigator.connection||{},lo=nc.saveData||/(^|-)2g$|3g/.test(nc.effectiveType||"");
 var io=new IntersectionObserver(function(e){if(!e.some(function(x){return x.isIntersecting}))return;io.disconnect();
-  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-guia.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"300px":innerWidth<900?"800px":"1600px")+" 0px"});
+  var im=new Image(),on=function(){H.classList.add(K)};im.decoding="async";im.src="images/bg-guia.webp";if(im.decode)im.decode().then(on,on);else im.onload=im.onerror=on},{rootMargin:(lo?"0px":innerWidth<900?"800px":"1600px")+" 0px"});
 io.observe(s);
 })();
 

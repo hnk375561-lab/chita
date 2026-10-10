@@ -371,11 +371,11 @@ function initHero() {
 
     /* Estado inicial. El CSS mantiene oculto el texto con .mh hasta este punto; la foto está pintada desde el
        primer frame (el telón la cubre), así que la imagen principal no espera al JS para empezar a descargarse. */
-    gsap.set(headerItems, { yPercent: -120, opacity: 0 });
+    if (headerItems.length) gsap.set(headerItems, { yPercent: -120, opacity: 0 });
     if (logo) gsap.set(logo, { opacity: 0, y: 12 });
-    gsap.set(words, { yPercent: 118, rotate: 4, transformOrigin: "0% 100%" });
-    gsap.set(lead, { opacity: 0, y: 18 });
-    gsap.set(goItems, { opacity: 0, y: 16 });
+    if (words.length) gsap.set(words, { yPercent: 118, rotate: 4, transformOrigin: "0% 100%" });
+    if (lead) gsap.set(lead, { opacity: 0, y: 18 });
+    if (goItems.length) gsap.set(goItems, { opacity: 0, y: 16 });
     if (infoItems.length) gsap.set(infoItems, { opacity: 0, y: 16 });
     if (veil) gsap.set(veil, { display: "block", yPercent: 0 });
     root.classList.remove("mh");
@@ -465,8 +465,8 @@ function initTypography({ desktop }, inertia) {
 
     /* Eyebrows: se destapan con un wipe horizontal (distinto al ascenso de los títulos). */
     const eyebrows = qsa("main section :is(.ey, .pde, .pdt, .xk)").filter((el) => !el.closest(".hero"));
-    gsap.set(eyebrows, { clipPath: "inset(0 100% 0 0)", x: -14 });
-    batch(eyebrows, (group) => gsap.to(group, { clipPath: "inset(0 0% 0 0)", x: 0, duration: 0.95, ease: EASE.mask, stagger: 0.08, clearProps: "clipPath,transform" }), { start: "top 94%" });
+    if (eyebrows.length) gsap.set(eyebrows, { clipPath: "inset(0 100% 0 0)", x: -14 });
+    if (eyebrows.length) batch(eyebrows, (group) => gsap.to(group, { clipPath: "inset(0 0% 0 0)", x: 0, duration: 0.95, ease: EASE.mask, stagger: 0.08, clearProps: "clipPath,transform" }), { start: "top 94%" });
   });
   return () => { undo.forEach((fn) => fn()); ctx.revert(); };
 }
@@ -707,8 +707,8 @@ function initReveals({ desktop }, inertia) {
 
     /* PRECIO Y PAGO · vienen «desde atrás» (escala). */
     const pay = qsa("#financiacion .pdc");
-    gsap.set(pay, { opacity: 0, scale: 0.86, y: 40 * d, transformOrigin: "50% 60%" });
-    batch(pay, (g) => gsap.to(g, { opacity: 1, scale: 1, y: 0, duration: 1.05, ease: "power3.out", stagger: 0.14, clearProps: "opacity,transform" }));
+    if (pay.length) gsap.set(pay, { opacity: 0, scale: 0.86, y: 40 * d, transformOrigin: "50% 60%" });
+    if (pay.length) batch(pay, (g) => gsap.to(g, { opacity: 1, scale: 1, y: 0, duration: 1.05, ease: "power3.out", stagger: 0.14, clearProps: "opacity,transform" }));
 
     /* CÓMO TRABAJAMOS / EQUIPO · pasos con marcador que «pega» un rebote. */
     [["#historia .hwl li", 0.16], ["#equipo .eqk li", 0.12]].forEach(([selector, gap]) => {

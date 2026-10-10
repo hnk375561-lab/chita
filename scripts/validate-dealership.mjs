@@ -1,5 +1,6 @@
 // Verifica que data/dealership.json y el bloque NEGOCIO de index.html no se contradigan
 // y que no se publiquen datos sin confirmar. Uso: node scripts/validate-dealership.mjs
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -86,5 +87,16 @@ for (const page of ['404.html', 'privacidad.html']) {
 if (!/<base href="https:\/\/[^"]+\/">/.test(fs.readFileSync(path.join(root, '404.html'), 'utf8'))) errors.push('404.html: falta <base href> absoluto');
 const robotsBlocks = /Disallow:\s*\/\s*$/m.test(fs.readFileSync(path.join(root, 'robots.txt'), 'utf8'));
 if (d.publicacion.publicIndexing === false ? !robotsBlocks : robotsBlocks) errors.push(d.publicacion.publicIndexing === false ? 'robots.txt debe tener Disallow: / (demo temporal, publicIndexing=false)' : 'robots.txt bloquea todo el sitio');
+// Duplicados por contenido: las copias numeradas de assets/w800|w480 no deben volver a existir (P0-1 de la auditoría).
+{
+  const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]);
+  const byHash = new Map();
+  for (const dir of ['assets', 'images']) if (fs.existsSync(path.join(root, dir))) for (const f of walk(path.join(root, dir)).filter((x) => x.endsWith('.webp'))) {
+    const h = crypto.createHash('md5').update(fs.readFileSync(f)).digest('hex'); (byHash.get(h) || byHash.set(h, []).get(h)).push(path.relative(root, f).split(path.sep).join('/'));
+  }
+  const grupos = [...byHash.values()].filter((g) => g.length > 1);
+  for (const g of grupos) if (g.some((x) => /^assets\/w(480|800)\//.test(x)) && g.some((x) => !/^assets\/w(480|800)\//.test(x))) errors.push(`Imagen duplicada con nombre numerado: ${g.join(' = ')}`);
+  if (grupos.length) console.warn(`Aviso: ${grupos.length} grupos de imágenes idénticas (${grupos.reduce((a, g) => a + g.length - 1, 0)} archivos sobrantes)`);
+}
 if (errors.length) { console.error(errors.map((e) => 'ERROR: ' + e).join('\n')); process.exit(1); }
 console.log('Datos de Chita válidos y consistentes con index.html.');
